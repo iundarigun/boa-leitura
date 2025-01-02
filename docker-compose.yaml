@@ -1,0 +1,10 @@
+services:
+  postgres:
+    container_name: boa-leitura-db
+    image: postgres
+    ports:
+      - "5001:5432"
+    environment:
+      POSTGRES_DB: "boa-leitura"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "password"

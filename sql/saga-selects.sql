@@ -22,7 +22,8 @@ select name from saga where
 /**
   Sagues principals no finalitzades
  */
-select name from saga where total_main_titles > (select count(*) from book where saga_id = saga.id and saga_main_title is true);
+select name from saga
+            where total_main_titles > (select count(*) from book where saga_id = saga.id and saga_main_title is true);
 
 /**
   Sagues iniciades el 2025

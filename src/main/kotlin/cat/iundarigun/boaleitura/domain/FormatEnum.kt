@@ -5,7 +5,8 @@ enum class FormatEnum {
     BIBLIO,
     UNLIMITED,
     FISIC,
-    SPARROW;
+    SPARROW,
+    AUDIOBOOK;
 
     companion object {
         fun findValue(bookshelf: List<String>): FormatEnum? =

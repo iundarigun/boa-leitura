@@ -4,37 +4,24 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
 @Entity
-data class Book(
+data class Saga(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L,
 
-    var goodreadsId: Long,
+    var name: String,
 
-    var title: String,
+    var totalMainTitles: Int = 0,
 
-    var numberOfPages: Int? = null,
+    var totalComplementaryTitles: Int = 0,
 
-    var publisherYear: Int,
-
-    var isbn: String? = null,
-
-    var isbn13: String? = null,
-
-    var originalLanguage: String? = null,
-
-    @ManyToOne
-    var author: Author,
-
-    @ManyToOne
-    var saga: Saga? = null,
+    var concluded: Boolean = false,
 
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),

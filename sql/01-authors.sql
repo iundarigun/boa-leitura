@@ -19,7 +19,6 @@ INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (39, 'Arthur Malvavisco', 'MALE', null, '2025-01-01 14:18:27.019946', '2025-01-01 14:18:27.019970', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (57, 'Eduardo Krauze', 'MALE', null, '2025-01-01 14:18:27.777140', '2025-01-01 14:18:27.777143', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (85, 'Juan Gómez-Jurado', 'MALE', null, '2025-01-01 14:18:28.400196', '2025-01-01 14:18:28.400198', 0);
-INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (68, 'Bruno More Eyes', 'MALE', null, '2025-01-01 14:18:27.945749', '2025-01-01 14:18:27.945750', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (6, 'M.P. Neves', 'MALE', null, '2025-01-01 14:18:26.463373', '2025-01-01 14:18:26.463382', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (86, 'Toni Hill', 'MALE', null, '2025-01-01 14:18:28.435719', '2025-01-01 14:18:28.435722', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (70, 'Robert Bryndza', 'MALE', null, '2025-01-01 14:18:27.986519', '2025-01-01 14:18:27.986522', 0);
@@ -44,7 +43,6 @@ INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (90, 'Sarah J. Maas', 'FEMALE', null, '2025-01-01 14:18:28.577866', '2025-01-01 14:18:28.577868', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (25, 'Laia Vilaseca', 'FEMALE', null, '2025-01-01 14:18:26.724592', '2025-01-01 14:18:26.724602', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (5, 'Susanna Clarke', 'FEMALE', null, '2025-01-01 14:18:26.454515', '2025-01-01 14:18:26.454524', 0);
-INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (11, 'Becky  Chambers', 'FEMALE', null, '2025-01-01 14:18:26.529706', '2025-01-01 14:18:26.529716', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (76, 'Suellen Gonçalves de Abreu Silva', 'FEMALE', null, '2025-01-01 14:18:28.168481', '2025-01-01 14:18:28.168484', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (10, 'Kerri Maniscalco', 'FEMALE', null, '2025-01-01 14:18:26.518917', '2025-01-01 14:18:26.518928', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (3, 'Taylor Jenkins Reid', 'FEMALE', null, '2025-01-01 14:18:26.432457', '2025-01-01 14:18:26.432467', 0);
@@ -90,3 +88,15 @@ INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (58, 'Oliver Kalhaan', 'MALE', null, '2025-01-01 14:18:27.797808', '2025-01-01 14:18:27.797811', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (75, 'Albert Llimós Bifet', 'MALE', null, '2025-01-01 14:18:28.128743', '2025-01-01 14:18:28.128745', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (77, 'Terry Goodkind', 'MALE', null, '2025-01-01 14:18:28.178245', '2025-01-01 14:18:28.178248', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (11, 'Becky Chambers', 'FEMALE', null, '2025-01-01 14:18:26.529706', '2025-01-01 14:18:26.529716', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (93, 'F M Wylde', 'FEMALE', null, '2025-06-28 12:52:54.314506', '2025-06-28 12:52:54.314516', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (94, 'Marcio Pacheco', 'MALE', null, '2025-06-28 12:52:54.323988', '2025-06-28 12:52:54.324001', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (97, 'Fernando Gamboa', 'MALE', null, '2025-06-28 12:52:54.381193', '2025-06-28 12:52:54.381204', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (95, 'Oriol Canals Vaquer', 'MALE', null, '2025-06-28 12:52:54.353219', '2025-06-28 12:52:54.353229', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (102, 'Raphael Montes', 'MALE', null, '2025-06-28 12:52:54.506000', '2025-06-28 12:52:54.506013', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (103, 'V.E. Schwab', 'FEMALE', null, '2025-06-28 12:52:54.538453', '2025-06-28 12:52:54.538459', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (101, 'Claire North', 'FEMALE', null, '2025-06-28 12:52:54.463863', '2025-06-28 12:52:54.463883', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (96, 'Xavier Álvarez Llaberia', 'MALE', null, '2025-06-28 12:52:54.361368', '2025-06-28 12:52:54.361378', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (100, 'Margaret Atwood', 'FEMALE', null, '2025-06-28 12:52:54.430769', '2025-06-28 12:52:54.430777', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (99, 'Toshikazu Kawaguchi', 'MALE', null, '2025-06-28 12:52:54.423368', '2025-06-28 12:52:54.423375', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (98, 'Rodrigo   Santos', 'MALE', null, '2025-06-28 12:52:54.405180', '2025-06-28 12:52:54.405187', 0);

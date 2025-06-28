@@ -21,7 +21,7 @@ select b.original_language = r.language, count(*)
 from book b
          inner join author a on a.id = b.author_id
          inner join reading r on b.id = r.book_id
-where date_part('year', date_read) = 2024
+where date_part('year', date_read) = 2025
 group by b.original_language = r.language;
 
 /* Traduits */
@@ -29,7 +29,7 @@ select r.language, count(*)
 from book b
          inner join author a on a.id = b.author_id
          inner join reading r on b.id = r.book_id
-where date_part('year', date_read) = 2024
+where date_part('year', date_read) = 2025
   and b.original_language != r.language
 group by r.language;
 
@@ -38,16 +38,24 @@ select r.language, count(*)
 from book b
          inner join author a on a.id = b.author_id
          inner join reading r on b.id = r.book_id
-where date_part('year', date_read) = 2024
+where date_part('year', date_read) = 2025
   and b.original_language = r.language
 group by r.language;
 
-/* Total */
+/* Total per idioma */
 select r.language, count(*)
 from book b
          inner join author a on a.id = b.author_id
          inner join reading r on b.id = r.book_id
-where date_part('year', date_read) = 2024
+where date_part('year', date_read) = 2025
+group by r.language;
+
+/* pagines per idioma */
+select r.language, sum(b.number_of_pages)
+from book b
+         inner join author a on a.id = b.author_id
+         inner join reading r on b.id = r.book_id
+where date_part('year', date_read) = 2025
 group by r.language;
 
 /***************************/
@@ -60,7 +68,7 @@ select a.name, count(*)
 from book b
          inner join author a on a.id = b.author_id
          inner join reading r on b.id = r.book_id
-where date_part('year', date_read) = 2024
+where date_part('year', date_read) = 2025
 group by a.name
 order by 2 desc;
 
@@ -70,12 +78,12 @@ select count(distinct a.name)
 from book b
          inner join author a on a.id = b.author_id
          inner join reading r on b.id = r.book_id
-where date_part('year', date_read) = 2024
+where date_part('year', date_read) = 2025
   and a.id not in (select a1.id
                    from author a1
                             inner join book b1 on b1.author_id = a1.id
                             inner join public.reading r1 on b1.id = r1.book_id
-                   where date_part('year', date_read) < 2024);
+                   where date_part('year', date_read) < 2025);
 
 
 /***************************/
@@ -87,7 +95,7 @@ select r.format, count(*)
 from book b
          inner join author a on a.id = b.author_id
          inner join reading r on b.id = r.book_id
-where date_part('year', date_read) = 2024
+where date_part('year', date_read) = 2025
 group by r.format;
 
 /***************************/
@@ -105,7 +113,7 @@ select CASE
 from book b
          inner join author a on a.id = b.author_id
          inner join reading r on b.id = r.book_id
-where date_part('year', date_read) = 2024
+where date_part('year', date_read) = 2025
 group by CASE
              WHEN b.number_of_pages < 150 THEN 'menys de 150 pàgines'
              WHEN b.number_of_pages >= 150 and b.number_of_pages <= 350 THEN 'entre 150 i 350 pàgines'

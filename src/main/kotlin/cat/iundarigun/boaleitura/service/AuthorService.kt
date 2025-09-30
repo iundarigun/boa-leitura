@@ -29,6 +29,21 @@ class AuthorService(private val authorRepository: AuthorRepository) {
             .orElseThrow { AuthorNotFoundException(id) }
             .toResponse()
 
+    @Transactional
+    fun update(id: Long, request: AuthorRequest): AuthorResponse {
+        val author = authorRepository.findById(id)
+            .orElseThrow { AuthorNotFoundException(id) }
+
+        return authorRepository.save(author.merge(request)).toResponse()
+    }
+
+}
+
+private fun Author.merge(request: AuthorRequest): Author {
+    name = request.name
+    gender = request.gender
+    nationality = request.nationality
+    return this
 }
 
 private fun AuthorRequest.toEntity(): Author =

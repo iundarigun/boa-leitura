@@ -3,6 +3,7 @@ package cat.iundarigun.boaleitura.service
 import cat.iundarigun.boaleitura.domain.entity.Author
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
+import cat.iundarigun.boaleitura.exception.AuthorNotFoundException
 import cat.iundarigun.boaleitura.repository.AuthorRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -21,6 +22,13 @@ class AuthorService(private val authorRepository: AuthorRepository) {
             authorRepository.save(Author(name = name))
         }
     }
+
+    @Transactional(readOnly = true)
+    fun retrieve(id: Long): AuthorResponse =
+        authorRepository.findById(id)
+            .orElseThrow { AuthorNotFoundException(id) }
+            .toResponse()
+
 }
 
 private fun AuthorRequest.toEntity(): Author =

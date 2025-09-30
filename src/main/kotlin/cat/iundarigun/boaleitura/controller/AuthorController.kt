@@ -2,6 +2,7 @@ package cat.iundarigun.boaleitura.controller
 
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
+import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.service.AuthorService
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -30,7 +31,7 @@ class AuthorController(private val authorService: AuthorService) {
     @ResponseStatus(HttpStatus.OK)
     fun getAuthor(@PathVariable id: Long): AuthorResponse {
         logger.info("getAuthor, id=$id")
-        return authorService.retrieve(id)
+        return authorService.findById(id)
     }
 
     @PutMapping("{id}")
@@ -40,4 +41,10 @@ class AuthorController(private val authorService: AuthorService) {
         return authorService.update(id, request)
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    fun getAuthors(): PageResponse<AuthorResponse> {
+        logger.info("getAuthors")
+        return authorService.find()
+    }
 }

@@ -3,6 +3,7 @@ package cat.iundarigun.boaleitura.service
 import cat.iundarigun.boaleitura.domain.entity.Author
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
+import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.exception.AuthorNotFoundException
 import cat.iundarigun.boaleitura.repository.AuthorRepository
 import org.springframework.stereotype.Service
@@ -24,7 +25,7 @@ class AuthorService(private val authorRepository: AuthorRepository) {
     }
 
     @Transactional(readOnly = true)
-    fun retrieve(id: Long): AuthorResponse =
+    fun findById(id: Long): AuthorResponse =
         authorRepository.findById(id)
             .orElseThrow { AuthorNotFoundException(id) }
             .toResponse()
@@ -35,6 +36,17 @@ class AuthorService(private val authorRepository: AuthorRepository) {
             .orElseThrow { AuthorNotFoundException(id) }
 
         return authorRepository.save(author.merge(request)).toResponse()
+    }
+
+    @Transactional(readOnly = true)
+    fun find(): PageResponse<AuthorResponse> {
+        val authors = authorRepository.findAll()
+            .map(Author::toResponse)
+        return PageResponse(
+            list = authors,
+            page = 1,
+            totalPages = 1
+        )
     }
 
 }

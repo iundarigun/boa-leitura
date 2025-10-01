@@ -43,7 +43,7 @@ class AuthorService(private val authorRepository: AuthorRepository) {
         val authors = authorRepository.findAll()
             .map(Author::toResponse)
         return PageResponse(
-            list = authors,
+            content = authors,
             page = 1,
             totalPages = 1
         )

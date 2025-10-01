@@ -1,7 +1,7 @@
 export default function AuthorList({ authors, onEdit, onDelete }) {
   return (
     <ul className="space-y-3">
-      {authors.list.map((author) => (
+      {authors && authors.content ? ( authors.content.map((author) => (
         <li
           key={author.id}
           className="flex justify-between items-center bg-gray-50 border rounded-lg p-4 shadow-sm hover:shadow-md transition"
@@ -22,7 +22,10 @@ export default function AuthorList({ authors, onEdit, onDelete }) {
             </button>
           </div>
         </li>
-      ))}
+      ))) : (
+        <p className="text-gray-500">Nenhum autor encontrado.</p>
+      )
+      }
     </ul>
   );
 }

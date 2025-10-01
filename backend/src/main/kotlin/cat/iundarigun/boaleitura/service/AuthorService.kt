@@ -25,10 +25,12 @@ class AuthorService(private val authorRepository: AuthorRepository) {
     }
 
     @Transactional(readOnly = true)
-    fun findById(id: Long): AuthorResponse =
-        authorRepository.findById(id)
+    fun findById(id: Long): AuthorResponse {
+        val author = authorRepository.findById(id)
             .orElseThrow { AuthorNotFoundException(id) }
-            .toResponse()
+
+        return author.toResponse()
+    }
 
     @Transactional
     fun update(id: Long, request: AuthorRequest): AuthorResponse {

@@ -1,22 +1,21 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import AuthorsPage from "./pages/AuthorsPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-export default function App() {
+import Layout from "./components/Layout";
+import AuthorsListPage from "./pages/AuthorsListPage";
+import AuthorFormPage from "./pages/AuthorFormPage";
+
+function App() {
   return (
-    <Router>
-      <div className="p-6 max-w-lg mx-auto">
-        {/* Menu de navegação */}
-        <nav className="flex gap-4 mb-6">
-          <Link to="/authors" className="text-blue-600 hover:underline">
-            Autores
-          </Link>
-        </nav>
-
-        {/* Definição das rotas */}
-        <Routes>
-          <Route path="/authors" element={<AuthorsPage />} />
-        </Routes>
-      </div>
-    </Router>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/authors" element={<AuthorsListPage />} />
+          <Route path="/authors/new" element={<AuthorFormPage />} />
+          <Route path="/authors/:id/edit" element={<AuthorFormPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
+
+export default App;

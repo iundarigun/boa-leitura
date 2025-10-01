@@ -1,31 +1,68 @@
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
 export default function AuthorList({ authors, onEdit, onDelete }) {
+  if (!authors || !authors.content) {
+    return <p className="text-gray-500 text-center">Nenhum autor encontrado.</p>;
+  }  
   return (
-    <ul className="space-y-3">
-      {authors && authors.content ? ( authors.content.map((author) => (
-        <li
+    <div className="grid gap-4">
+      {authors.content.map((author) => (
+        <Card
           key={author.id}
-          className="flex justify-between items-center bg-gray-50 border rounded-lg p-4 shadow-sm hover:shadow-md transition"
+          className="p-4 flex justify-between items-center"
         >
-          <span className="text-lg text-gray-700">{author.name}</span>
-          <div className="flex gap-2">
-            <button
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition"
-              onClick={() => onEdit(author)}
-            >
-              Editar
-            </button>
-            <button
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
-              onClick={() => onDelete(author.id)}
-            >
-              Deletar
-            </button>
+          {/* informações */}
+          <div>
+            <p className="font-bold text-lg">{author.name}</p>
+            <p className="text-sm text-gray-600">
+              Gênero: {author.gender} | Nacionalidade: {author.nationality}
+            </p>
           </div>
-        </li>
-      ))) : (
-        <p className="text-gray-500">Nenhum autor encontrado.</p>
-      )
-      }
-    </ul>
+
+          {/* ações */}
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => onEdit(author)}>
+              Editar
+            </Button>
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive">Deletar</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Tem certeza que deseja deletar <b>{author.name}</b>?  
+                    Esta ação não poderá ser desfeita.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-red-600 hover:bg-red-700"
+                    onClick={() => onDelete(author.id)}
+                  >
+                    Deletar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        </Card>
+      ))}
+    </div>
   );
 }

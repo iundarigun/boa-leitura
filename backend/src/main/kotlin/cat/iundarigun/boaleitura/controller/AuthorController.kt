@@ -6,6 +6,7 @@ import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.service.AuthorService
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -46,5 +47,12 @@ class AuthorController(private val authorService: AuthorService) {
     fun getAuthors(): PageResponse<AuthorResponse> {
         logger.info("getAuthors")
         return authorService.find()
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteAuthor(@PathVariable id: Long) {
+        logger.info("deleteAuthor, id=$id")
+        return authorService.delete(id)
     }
 }

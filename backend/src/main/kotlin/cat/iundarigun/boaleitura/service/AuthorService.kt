@@ -4,13 +4,17 @@ import cat.iundarigun.boaleitura.domain.entity.Author
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
+import cat.iundarigun.boaleitura.exception.AuthorDeleteException
 import cat.iundarigun.boaleitura.exception.AuthorNotFoundException
 import cat.iundarigun.boaleitura.repository.AuthorRepository
+import cat.iundarigun.boaleitura.repository.BookRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class AuthorService(private val authorRepository: AuthorRepository) {
+class AuthorService(
+    private val authorRepository: AuthorRepository,
+    private val bookRepository: BookRepository) {
 
     @Transactional
     fun create(authorRequest: AuthorRequest): AuthorResponse {
@@ -49,6 +53,17 @@ class AuthorService(private val authorRepository: AuthorRepository) {
             page = 1,
             totalPages = 1
         )
+    }
+
+    @Transactional
+    fun delete(id: Long) {
+        if (!authorRepository.existsById(id)) {
+            throw AuthorNotFoundException(id)
+        }
+        if (bookRepository.countByAuthorId(id) > 0) {
+            throw AuthorDeleteException(id)
+        }
+        authorRepository.deleteById(id)
     }
 
 }

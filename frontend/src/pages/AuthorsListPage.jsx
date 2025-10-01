@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import AuthorList from "../components/AuthorList";
+import FeedbackDialog from "../components/FeedbackDialog";
 
 const API_URL = "http://localhost:1980/authors";
 
@@ -11,6 +12,8 @@ export default function AuthorsListPage() {
   const [authors, setAuthors] = useState({"content": []});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState({ title: "", description: "" });
 
   useEffect(() => {
     fetchAuthors();
@@ -28,12 +31,21 @@ export default function AuthorsListPage() {
     }
   };
 
-  const deleteAuthor = async (id) => {
+  const handleDelete = async (id, name) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
-      fetchAuthors();
+      fetchAuthors()
+      setFeedbackMessage({
+        title: "Sucesso",
+        description: `Autor "${name}" foi deletado com sucesso.`,
+      });
     } catch (err) {
-      console.error("Erro ao deletar autor", err);
+      setFeedbackMessage({
+        title: "Erro",
+        description: `Não foi possível deletar o autor "${name}".`,
+      });
+    } finally {
+      setFeedbackOpen(true); // abre feedback
     }
   };
 
@@ -51,11 +63,17 @@ export default function AuthorsListPage() {
             <AuthorList
               authors={authors}
               onEdit={(author) => navigate(`/authors/${author.id}/edit`)}
-              onDelete={deleteAuthor}
+              onDelete={handleDelete}
             />
           )}
         </CardContent>
       </Card>
+      <FeedbackDialog
+        open={feedbackOpen}
+        onOpenChange={setFeedbackOpen}
+        title={feedbackMessage.title}
+        description={feedbackMessage.description}
+      />
     </div>
   );
 }

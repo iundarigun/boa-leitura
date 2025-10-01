@@ -6,4 +6,5 @@ import java.util.*
 
 interface BookRepository: CrudRepository<Book, Long> {
     fun findByGoodreadsId(bookId: Long): Optional<Book>
+    fun countByAuthorId(authorId: Long): Int
 }

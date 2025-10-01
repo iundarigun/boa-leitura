@@ -12,11 +12,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-export default function AuthorList({ authors, onEdit, onDelete }) {
+
+export default function AuthorList({ authors, onEdit, onDelete }) {;
   if (!authors || !authors.content) {
     return <p className="text-gray-500 text-center">Nenhum autor encontrado.</p>;
   }  
-  return (
+return (
     <div className="grid gap-4">
       {authors.content.map((author) => (
         <Card
@@ -53,7 +54,7 @@ export default function AuthorList({ authors, onEdit, onDelete }) {
                   <AlertDialogCancel>Cancelar</AlertDialogCancel>
                   <AlertDialogAction
                     className="bg-red-600 hover:bg-red-700"
-                    onClick={() => onDelete(author.id)}
+                    onClick={() => onDelete(author.id, author.name)}
                   >
                     Deletar
                   </AlertDialogAction>

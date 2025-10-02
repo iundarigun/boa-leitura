@@ -4,6 +4,7 @@ import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.service.AuthorService
+import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -23,7 +24,7 @@ class AuthorController(private val authorService: AuthorService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createAuthor(@RequestBody request: AuthorRequest): AuthorResponse {
+    fun createAuthor(@Valid @RequestBody request: AuthorRequest): AuthorResponse {
         logger.info("createAuthor, request=$request")
         return authorService.create(request)
     }

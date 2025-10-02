@@ -52,9 +52,13 @@ export default function AuthorFormPage() {
       }, 2000);
       return () => clearTimeout(timer);
     } catch (err) {
+      var description = `Não foi possível salvar o autor.`
+      if (err.response && err.response.data && err.response.data.message) {
+         description = err.response.data.message
+      }
       setDialogMessage({
         title: "Erro",
-        description: "Não foi possível salvar o autor.",
+        description: description,
       });
       setDialogOpen(true);
     }

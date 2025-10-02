@@ -40,9 +40,13 @@ export default function AuthorsListPage() {
         description: `Autor "${name}" foi deletado com sucesso.`,
       });
     } catch (err) {
+      var description = `Não foi possível deletar o autor "${name}".`
+      if (err.response && err.response.data && err.response.data.message) {
+         description = err.response.data.message
+      }
       setFeedbackMessage({
         title: "Erro",
-        description: `Não foi possível deletar o autor "${name}".`,
+        description: description,
       });
     } finally {
       setFeedbackOpen(true); // abre feedback

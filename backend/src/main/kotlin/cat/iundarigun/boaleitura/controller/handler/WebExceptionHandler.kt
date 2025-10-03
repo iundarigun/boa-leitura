@@ -9,6 +9,7 @@ import org.springframework.validation.FieldError
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 
 @ControllerAdvice
 class WebExceptionHandler {
@@ -41,6 +42,14 @@ class WebExceptionHandler {
             .status(HttpStatus.BAD_REQUEST)
             .body(ErrorResponse(HttpStatus.BAD_REQUEST.value(), message))
     }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException::class)
+    fun handlerMethodArgumentTypeMismatchException(
+        exception: MethodArgumentTypeMismatchException
+    ): ResponseEntity<ErrorResponse> =
+        ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(ErrorResponse(HttpStatus.BAD_REQUEST.value(), "${exception.propertyName}: ${exception.message}"))
 
     @ExceptionHandler(Exception::class)
     fun handlerException(exception: Exception): ResponseEntity<ErrorResponse> =

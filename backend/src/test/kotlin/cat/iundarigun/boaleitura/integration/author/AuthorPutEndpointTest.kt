@@ -62,6 +62,25 @@ class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : Te
     }
 
     @Test
+    fun `update author with id as string`() {
+        val request = AuthorRequestFactory.build()
+
+        val response = RestAssured.given()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(request)
+            .given()
+            .pathParam("id", FakerConfiguration.FAKER.name().firstName())
+            .`when`()
+            .put("/authors/{id}")
+            .then()
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .extract()
+            .`as`(ErrorResponse::class.java)
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), response.code)
+    }
+
+    @Test
     fun `update author without name`() {
         val author = authorRepository.save(AuthorFactory.build())
 
@@ -81,7 +100,7 @@ class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : Te
     }
 
     @Test
-    fun `create author with non-existing gender`() {
+    fun `update author with non-existing gender`() {
         val author = authorRepository.save(AuthorFactory.build())
 
         val response = RestAssured.given()
@@ -100,7 +119,7 @@ class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : Te
     }
 
     @Test
-    fun `create author with small name`() {
+    fun `update author with small name`() {
         val author = authorRepository.save(AuthorFactory.build())
         val request = AuthorRequestFactory.build().copy(name = "SM")
 

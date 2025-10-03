@@ -51,8 +51,6 @@ class AuthorGetEndpointTest(private val authorRepository: AuthorRepository) : Te
 
     @Test
     fun `get author with id as string`() {
-        val request = AuthorRequestFactory.build()
-
         val response = RestAssured.given()
             .given()
             .pathParam("id", FakerConfiguration.FAKER.name().firstName())

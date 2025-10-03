@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.integration
+package cat.iundarigun.boaleitura.integration.author
 
 import cat.iundarigun.boaleitura.factory.AuthorRequestFactory
 import cat.iundarigun.boaleitura.configuration.TestContainerBaseConfiguration
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 
-class AuthorEndpointTest(private val authorRepository: AuthorRepository) : TestContainerBaseConfiguration() {
+class AuthorPostEndpointTest(private val authorRepository: AuthorRepository) : TestContainerBaseConfiguration() {
 
     @Test
     fun `create author successfully`() {

@@ -42,6 +42,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [ ] Update Spring boot version
 [ ] Add github actions to build on PR and on merge
 [X] Move to Hexagonal
+[ ] ArchUnit tests
 
 ### Authors
 [X] Add integration tests
@@ -51,6 +52,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 ### Books
 [ ] Add genre
 [ ] Add endpoints to add books
+[ ] Languages for the title
 
 ### Genre
 [ ] Add CRUD for genre

@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.domain
+package cat.iundarigun.boaleitura.domain.enums
 
 enum class FormatEnum {
     KINDLE,

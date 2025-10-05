@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.controller.handler
+package cat.iundarigun.boaleitura.infrastructure.rest.controller.handler
 
 import cat.iundarigun.boaleitura.domain.response.ErrorResponse
 import cat.iundarigun.boaleitura.exception.BoaLeituraBusinessException

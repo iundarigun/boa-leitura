@@ -1,9 +1,9 @@
 package cat.iundarigun.boaleitura.factory
 
 import cat.iundarigun.boaleitura.configuration.FakerConfiguration
-import cat.iundarigun.boaleitura.infrastructure.database.entity.AuthorEntity
-import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
-import cat.iundarigun.boaleitura.infrastructure.database.entity.SagaEntity
+import cat.iundarigun.boaleitura.domain.entity.AuthorEntity
+import cat.iundarigun.boaleitura.domain.entity.BookEntity
+import cat.iundarigun.boaleitura.domain.entity.SagaEntity
 
 object BookEntityFactory {
     fun build(

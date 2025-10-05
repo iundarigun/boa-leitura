@@ -5,8 +5,8 @@ import cat.iundarigun.boaleitura.configuration.TestContainerBaseConfiguration
 import cat.iundarigun.boaleitura.domain.response.ErrorResponse
 import cat.iundarigun.boaleitura.factory.AuthorEntityFactory
 import cat.iundarigun.boaleitura.factory.BookEntityFactory
-import cat.iundarigun.boaleitura.repository.AuthorRepository
-import cat.iundarigun.boaleitura.repository.BookRepository
+import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
+import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import io.restassured.RestAssured
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test

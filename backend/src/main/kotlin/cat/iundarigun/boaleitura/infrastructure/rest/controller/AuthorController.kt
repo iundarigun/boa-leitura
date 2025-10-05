@@ -1,9 +1,10 @@
-package cat.iundarigun.boaleitura.controller
+package cat.iundarigun.boaleitura.infrastructure.rest.controller
 
+import cat.iundarigun.boaleitura.application.port.input.CreateAuthorUseCase
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
-import cat.iundarigun.boaleitura.service.AuthorService
+import cat.iundarigun.boaleitura.infrastructure.database.AuthorAdapter
 import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -19,14 +20,17 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/authors")
-class AuthorController(private val authorService: AuthorService) {
+class AuthorController(
+    private val createAuthorUseCase: CreateAuthorUseCase,
+    private val authorService: AuthorAdapter
+) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createAuthor(@Valid @RequestBody request: AuthorRequest): AuthorResponse {
         logger.info("createAuthor, request=$request")
-        return authorService.create(request)
+        return createAuthorUseCase.execute(request)
     }
 
     @GetMapping("{id}")

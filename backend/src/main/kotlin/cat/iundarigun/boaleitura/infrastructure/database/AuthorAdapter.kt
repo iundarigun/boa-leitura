@@ -1,28 +1,35 @@
-package cat.iundarigun.boaleitura.service
+package cat.iundarigun.boaleitura.infrastructure.database
 
-import cat.iundarigun.boaleitura.infrastructure.database.entity.AuthorEntity
-import cat.iundarigun.boaleitura.domain.extensions.merge
-import cat.iundarigun.boaleitura.domain.extensions.toEntity
-import cat.iundarigun.boaleitura.domain.extensions.toResponse
+import cat.iundarigun.boaleitura.application.port.output.AuthorPort
+import cat.iundarigun.boaleitura.domain.entity.AuthorEntity
+import cat.iundarigun.boaleitura.extensions.merge
+import cat.iundarigun.boaleitura.extensions.toEntity
+import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.exception.AuthorDeleteException
 import cat.iundarigun.boaleitura.exception.AuthorNotFoundException
-import cat.iundarigun.boaleitura.repository.AuthorRepository
-import cat.iundarigun.boaleitura.repository.BookRepository
+import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
+import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class AuthorService(
+class AuthorAdapter(
     private val authorRepository: AuthorRepository,
     private val bookRepository: BookRepository
-) {
+) : AuthorPort {
+    @Transactional
+    override fun existsByName(name: String): Boolean =
+        authorRepository.existsByName(name)
 
     @Transactional
-    fun create(authorRequest: AuthorRequest): AuthorResponse {
-        return authorRepository.save(authorRequest.toEntity()).toResponse()
+    override fun save(authorRequest: AuthorRequest, id: Long?): AuthorResponse {
+        if (id == null) {
+            return authorRepository.save(authorRequest.toEntity()).toResponse()
+        }
+        return update(id, authorRequest)
     }
 
     @Transactional
@@ -69,4 +76,5 @@ class AuthorService(
         }
         authorRepository.deleteById(id)
     }
+
 }

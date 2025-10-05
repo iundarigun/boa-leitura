@@ -1,7 +1,7 @@
 package cat.iundarigun.boaleitura.factory
 
 import cat.iundarigun.boaleitura.configuration.FakerConfiguration.FAKER
-import cat.iundarigun.boaleitura.domain.GenderType
+import cat.iundarigun.boaleitura.domain.enums.GenderType
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 
 object AuthorRequestFactory {

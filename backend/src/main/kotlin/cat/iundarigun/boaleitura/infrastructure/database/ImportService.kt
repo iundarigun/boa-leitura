@@ -1,7 +1,7 @@
-package cat.iundarigun.boaleitura.service
+package cat.iundarigun.boaleitura.infrastructure.database
 
-import cat.iundarigun.boaleitura.domain.FormatEnum
-import cat.iundarigun.boaleitura.domain.LanguageEnum
+import cat.iundarigun.boaleitura.domain.enums.FormatEnum
+import cat.iundarigun.boaleitura.domain.enums.LanguageEnum
 import cat.iundarigun.boaleitura.domain.request.BookRequest
 import cat.iundarigun.boaleitura.domain.request.GoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.ReadingRequest
@@ -14,7 +14,7 @@ import java.io.FileReader
 
 @Service
 class ImportService(
-    private val authorService: AuthorService,
+    private val authorService: AuthorAdapter,
     private val bookService: BookService,
     private val readingService: ReadingService
 ) {

@@ -1,9 +1,9 @@
-package cat.iundarigun.boaleitura.service
+package cat.iundarigun.boaleitura.infrastructure.database
 
-import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
-import cat.iundarigun.boaleitura.infrastructure.database.entity.ReadingEntity
+import cat.iundarigun.boaleitura.domain.entity.BookEntity
+import cat.iundarigun.boaleitura.domain.entity.ReadingEntity
 import cat.iundarigun.boaleitura.domain.request.ReadingRequest
-import cat.iundarigun.boaleitura.repository.ReadingRepository
+import cat.iundarigun.boaleitura.infrastructure.database.repository.ReadingRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

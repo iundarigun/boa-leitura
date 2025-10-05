@@ -1,6 +1,6 @@
-package cat.iundarigun.boaleitura.repository
+package cat.iundarigun.boaleitura.infrastructure.database.repository
 
-import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
+import cat.iundarigun.boaleitura.domain.entity.BookEntity
 import org.springframework.data.repository.CrudRepository
 import java.util.*
 

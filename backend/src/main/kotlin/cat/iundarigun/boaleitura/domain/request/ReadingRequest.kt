@@ -1,6 +1,6 @@
 package cat.iundarigun.boaleitura.domain.request
 
-import cat.iundarigun.boaleitura.domain.FormatEnum
+import cat.iundarigun.boaleitura.domain.enums.FormatEnum
 import java.time.LocalDate
 
 data class ReadingRequest(

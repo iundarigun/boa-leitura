@@ -1,6 +1,6 @@
 package cat.iundarigun.boaleitura.domain.request
 
-import cat.iundarigun.boaleitura.domain.GenderType
+import cat.iundarigun.boaleitura.domain.enums.GenderType
 import jakarta.validation.constraints.Size
 
 data class AuthorRequest(

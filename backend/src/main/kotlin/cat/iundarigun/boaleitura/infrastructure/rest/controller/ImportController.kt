@@ -1,6 +1,6 @@
-package cat.iundarigun.boaleitura.controller
+package cat.iundarigun.boaleitura.infrastructure.rest.controller
 
-import cat.iundarigun.boaleitura.service.ImportService
+import cat.iundarigun.boaleitura.infrastructure.database.ImportService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping

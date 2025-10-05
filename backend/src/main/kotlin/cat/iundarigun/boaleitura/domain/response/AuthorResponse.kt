@@ -1,6 +1,6 @@
 package cat.iundarigun.boaleitura.domain.response
 
-import cat.iundarigun.boaleitura.domain.GenderType
+import cat.iundarigun.boaleitura.domain.enums.GenderType
 
 data class AuthorResponse(
     val id: Long,

@@ -1,36 +1,27 @@
-package cat.iundarigun.boaleitura.infrastructure.database.entity
+package cat.iundarigun.boaleitura.domain.entity
 
-import cat.iundarigun.boaleitura.domain.FormatEnum
 import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
-import java.time.LocalDate
 import java.time.LocalDateTime
 
-@Entity(name = "Reading")
-data class ReadingEntity(
+@Entity(name = "Saga")
+data class SagaEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L,
 
-    var myRating: Int? = null,
+    var name: String,
 
-    var dateRead: LocalDate,
+    var totalMainTitles: Int = 0,
 
-    @ManyToOne
-    var book: BookEntity,
+    var totalComplementaryTitles: Int = 0,
 
-    @Enumerated(EnumType.STRING)
-    var format: FormatEnum? = null,
-
-    var language: String? = null,
+    var concluded: Boolean = false,
 
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),

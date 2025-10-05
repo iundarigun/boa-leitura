@@ -20,7 +20,7 @@ class AuthorAdapter(
     private val bookRepository: BookRepository
 ) : AuthorPort {
 
-    @Transactional
+    @Transactional(readOnly = true)
     override fun existsByName(name: String): Boolean =
         authorRepository.existsByName(name)
 

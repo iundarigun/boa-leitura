@@ -38,14 +38,14 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 ## TODO List
 
 ### Generic
-[ ] Add Kotlin checkstyle
+[X] Add Kotlin checkstyle
 [ ] Update Spring boot version
 [ ] Add github actions to build on PR and on merge
-[ ] Move to DDD
+[X] Move to Hexagonal
 
 ### Authors
 [X] Add integration tests
-[ ] Add pagination and search in find endpoint
+[ ] Add pagination, ordering and search in find endpoint
 [ ] Add param in getById to retrieve details (books or readers) 
 
 ### Books

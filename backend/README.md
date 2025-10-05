@@ -44,9 +44,20 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [ ] Move to DDD
 
 ### Authors
-[ ] Add integration tests
+[X] Add integration tests
 [ ] Add pagination and search in find endpoint
 [ ] Add param in getById to retrieve details (books or readers) 
 
 ### Books
 [ ] Add genre
+[ ] Add endpoints to add books
+
+### Genre
+[ ] Add CRUD for genre
+
+### TBR
+[ ] Add TBR list
+
+### Reading
+[ ] Add format and platform
+[ ] Add crud

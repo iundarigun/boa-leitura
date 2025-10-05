@@ -8,7 +8,7 @@ data class GoodreadsImporterRequest(
     val title: String,
     val author: String,
     val authorLF: String,
-    val AdditionalAuthors: String,
+    val additionalAuthors: String,
     val isbn: String,
     val isbn13: String,
     val myRating: Int? = null,
@@ -36,7 +36,7 @@ fun Array<String>.toGoodreadImporterRequest(): GoodreadsImporterRequest =
         title = this[1],
         author = this[2],
         authorLF = this[3],
-        AdditionalAuthors = this[4],
+        additionalAuthors = this[4],
         isbn = this[5],
         isbn13 = this[6],
         myRating = this[7].toIntOrNull(),
@@ -46,8 +46,23 @@ fun Array<String>.toGoodreadImporterRequest(): GoodreadsImporterRequest =
         numberOfPages = this[11].toIntOrNull(),
         yearPublished = this[12].toInt(),
         originalPublicationYear = this[13].toIntOrNull(),
-        dateRead = this[14].let { if (it.isBlank()) null else LocalDate.parse(it, DateTimeFormatter.ofPattern("yyyy/MM/dd")) },
-        dateAdded = this[15].let { if (it.isBlank()) null else LocalDate.parse(it, DateTimeFormatter.ofPattern("yyyy/MM/dd")) },
+        dateRead = this[14].let {
+            if (it.isBlank()) {
+                null
+            } else {
+                LocalDate.parse(it, DateTimeFormatter.ofPattern("yyyy/MM/dd"))
+            }
+        },
+        dateAdded = this[15].let {
+            if (it.isBlank()) {
+                null
+            } else {
+                LocalDate.parse(
+                    it,
+                    DateTimeFormatter.ofPattern("yyyy/MM/dd")
+                )
+            }
+        },
         bookshelves = this[16].split(",").map { it.trim() },
         bookshelvesWithPositions = this[17],
         exclusiveShelf = this[18],
@@ -57,4 +72,3 @@ fun Array<String>.toGoodreadImporterRequest(): GoodreadsImporterRequest =
         readCount = this[22],
         ownedCopies = this[23]
     )
-

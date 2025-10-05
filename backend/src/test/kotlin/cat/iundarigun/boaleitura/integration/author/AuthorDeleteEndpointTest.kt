@@ -14,7 +14,8 @@ import org.springframework.http.HttpStatus
 
 class AuthorDeleteEndpointTest(
     private val authorRepository: AuthorRepository,
-    private val bookRepository: BookRepository) : TestContainerBaseConfiguration() {
+    private val bookRepository: BookRepository
+) : TestContainerBaseConfiguration() {
 
     @Test
     fun `delete author by id successfully`() {
@@ -52,7 +53,6 @@ class AuthorDeleteEndpointTest(
         Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.code)
         Assertions.assertEquals(count, authorRepository.count())
     }
-
 
     @Test
     fun `delete author by id with id does not exist`() {

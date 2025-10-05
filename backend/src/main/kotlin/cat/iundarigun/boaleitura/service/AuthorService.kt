@@ -17,7 +17,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class AuthorService(
     private val authorRepository: AuthorRepository,
-    private val bookRepository: BookRepository) {
+    private val bookRepository: BookRepository
+) {
 
     @Transactional
     fun create(authorRequest: AuthorRequest): AuthorResponse {
@@ -68,5 +69,4 @@ class AuthorService(
         }
         authorRepository.deleteById(id)
     }
-
 }

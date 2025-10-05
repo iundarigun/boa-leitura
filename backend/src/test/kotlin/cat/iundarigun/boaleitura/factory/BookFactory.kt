@@ -21,5 +21,4 @@ object BookFactory {
             author = author,
             saga = saga
         )
-
 }

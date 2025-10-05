@@ -1,9 +1,10 @@
 plugins {
-	kotlin("jvm") version "1.9.25"
-	kotlin("plugin.spring") version "1.9.25"
+	kotlin("jvm") version "2.0.21"
+	kotlin("plugin.spring") version "2.0.21"
 	id("org.springframework.boot") version "3.3.3"
 	id("io.spring.dependency-management") version "1.1.6"
-	kotlin("plugin.jpa") version "1.9.25"
+	kotlin("plugin.jpa") version "2.0.21"
+	id("io.gitlab.arturbosch.detekt") version "1.23.8"
 }
 
 group = "cat.iundarigun.boaleitura"
@@ -22,6 +23,7 @@ repositories {
 val datafakerVersion = "2.3.1"
 val openCsvVersion = "5.9"
 val springdocOpenapiStarterWebmvcUIVersion = "2.6.0"
+val detektVersion = "1.23.8"
 
 dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -41,6 +43,8 @@ dependencies {
 
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springdocOpenapiStarterWebmvcUIVersion")
 
+	detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
+
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -57,6 +61,11 @@ kotlin {
 	compilerOptions {
 		freeCompilerArgs.addAll("-Xjsr305=strict")
 	}
+}
+
+detekt {
+	source = files("src/main/kotlin", "src/test/kotlin")
+	config = files("custom-detekt.yaml")
 }
 
 tasks.withType<Test> {

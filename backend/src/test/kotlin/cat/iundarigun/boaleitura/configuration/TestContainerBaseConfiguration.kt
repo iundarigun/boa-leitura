@@ -10,7 +10,6 @@ import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.lifecycle.Startables
 
-
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TestContainerBaseConfiguration {

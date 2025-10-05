@@ -4,4 +4,5 @@ import org.springframework.http.HttpStatus
 
 open class BoaLeituraBusinessException(
     val httpStatus: HttpStatus = HttpStatus.BAD_REQUEST,
-    message: String): RuntimeException(message)
+    message: String
+) : RuntimeException(message)

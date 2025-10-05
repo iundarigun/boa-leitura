@@ -6,6 +6,7 @@ import cat.iundarigun.boaleitura.domain.request.BookRequest
 import cat.iundarigun.boaleitura.domain.request.GoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.ReadingRequest
 import cat.iundarigun.boaleitura.domain.request.toGoodreadImporterRequest
+import cat.iundarigun.boaleitura.exception.GoodreadsImporterException
 import com.opencsv.CSVReader
 import org.springframework.stereotype.Service
 import java.io.File
@@ -50,7 +51,7 @@ private fun GoodreadsImporterRequest.toBookRequest(): BookRequest =
 private fun GoodreadsImporterRequest.toReadingRequest(): ReadingRequest =
     ReadingRequest(
         myRating = this.myRating,
-        dateRead = this.dateRead ?: throw RuntimeException("Date not found"),
+        dateRead = this.dateRead ?: throw GoodreadsImporterException("Date not found"),
         format = FormatEnum.findValue(this.bookshelves),
         language = LanguageEnum.findValue(this.bookshelves)?.label
     )

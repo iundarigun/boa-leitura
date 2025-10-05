@@ -21,7 +21,9 @@ class WebExceptionHandler {
             .body(ErrorResponse(exception.httpStatus.value(), exception.message))
 
     @ExceptionHandler(HttpMessageNotReadableException::class)
-    fun handleHttpMessageNotReadableException(exception: HttpMessageNotReadableException): ResponseEntity<ErrorResponse> =
+    fun handleHttpMessageNotReadableException(
+        exception: HttpMessageNotReadableException
+    ): ResponseEntity<ErrorResponse> =
         ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.message))
@@ -30,11 +32,10 @@ class WebExceptionHandler {
     fun handlerMethodArgumentNotValidException(
         exception: MethodArgumentNotValidException
     ): ResponseEntity<ErrorResponse> {
-        val message =  if (exception.bindingResult.allErrors.isNotEmpty()) {
+        val message = if (exception.bindingResult.allErrors.isNotEmpty()) {
             exception.bindingResult.allErrors.joinToString {
                 "${(it as FieldError).field}: ${it.defaultMessage}"
             }
-
         } else {
             exception.message
         }

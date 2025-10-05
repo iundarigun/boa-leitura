@@ -29,8 +29,15 @@ class AuthorAdapter(
         if (id == null) {
             return authorRepository.save(authorRequest.toEntity()).toResponse()
         }
-        return update(id, authorRequest)
+        val author = authorRepository.findById(id)
+            .orElseThrow { AuthorNotFoundException(id) }
+
+        return authorRepository.save(author.merge(authorRequest)).toResponse()
     }
+
+    @Transactional(readOnly = true)
+    override fun findByName(name: String): AuthorResponse? =
+        authorRepository.findByName(name).map { it.toResponse() }.orElse(null)
 
     @Transactional
     fun createIfNotExists(name: String): AuthorEntity {
@@ -45,14 +52,6 @@ class AuthorAdapter(
             .orElseThrow { AuthorNotFoundException(id) }
 
         return author.toResponse()
-    }
-
-    @Transactional
-    fun update(id: Long, request: AuthorRequest): AuthorResponse {
-        val author = authorRepository.findById(id)
-            .orElseThrow { AuthorNotFoundException(id) }
-
-        return authorRepository.save(author.merge(request)).toResponse()
     }
 
     @Transactional(readOnly = true)

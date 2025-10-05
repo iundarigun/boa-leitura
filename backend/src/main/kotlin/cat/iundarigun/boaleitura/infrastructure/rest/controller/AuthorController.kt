@@ -1,6 +1,7 @@
 package cat.iundarigun.boaleitura.infrastructure.rest.controller
 
 import cat.iundarigun.boaleitura.application.port.input.CreateAuthorUseCase
+import cat.iundarigun.boaleitura.application.port.input.UpdateAuthorUseCase
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/authors")
 class AuthorController(
     private val createAuthorUseCase: CreateAuthorUseCase,
+    private val updateAuthorUseCase: UpdateAuthorUseCase,
     private val authorService: AuthorAdapter
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -44,7 +46,7 @@ class AuthorController(
     @ResponseStatus(HttpStatus.OK)
     fun updateAuthor(@PathVariable id: Long, @Valid @RequestBody request: AuthorRequest): AuthorResponse {
         logger.info("updateAuthor, id=$id, request=$request")
-        return authorService.update(id, request)
+        return updateAuthorUseCase.execute(id, request)
     }
 
     @GetMapping

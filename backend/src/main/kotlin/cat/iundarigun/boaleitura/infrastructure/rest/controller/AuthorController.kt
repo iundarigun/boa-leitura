@@ -2,11 +2,12 @@ package cat.iundarigun.boaleitura.infrastructure.rest.controller
 
 import cat.iundarigun.boaleitura.application.port.input.CreateAuthorUseCase
 import cat.iundarigun.boaleitura.application.port.input.DeleteAuthorUseCase
+import cat.iundarigun.boaleitura.application.port.input.FindAuthorsUseCase
+import cat.iundarigun.boaleitura.application.port.input.GetAuthorByIdUseCase
 import cat.iundarigun.boaleitura.application.port.input.UpdateAuthorUseCase
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
-import cat.iundarigun.boaleitura.infrastructure.database.AuthorAdapter
 import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -26,7 +27,8 @@ class AuthorController(
     private val createAuthorUseCase: CreateAuthorUseCase,
     private val updateAuthorUseCase: UpdateAuthorUseCase,
     private val deleteAuthorUseCase: DeleteAuthorUseCase,
-    private val authorService: AuthorAdapter
+    private val getAuthorByIdUseCase: GetAuthorByIdUseCase,
+    private val findAuthorsUseCase: FindAuthorsUseCase
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -41,7 +43,7 @@ class AuthorController(
     @ResponseStatus(HttpStatus.OK)
     fun getAuthor(@PathVariable id: Long): AuthorResponse {
         logger.info("getAuthor, id=$id")
-        return authorService.findById(id)
+        return getAuthorByIdUseCase.execute(id)
     }
 
     @PutMapping("{id}")
@@ -55,7 +57,7 @@ class AuthorController(
     @ResponseStatus(HttpStatus.OK)
     fun getAuthors(): PageResponse<AuthorResponse> {
         logger.info("getAuthors")
-        return authorService.find()
+        return findAuthorsUseCase.execute()
     }
 
     @DeleteMapping("{id}")

@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @Component
-class DeleteAuthorUseCaseImpl(
-    private val authorPort: AuthorPort
-) : DeleteAuthorUseCase {
+class DeleteAuthorUseCaseImpl(private val authorPort: AuthorPort) : DeleteAuthorUseCase {
 
     @Transactional
     override fun execute(id: Long) {

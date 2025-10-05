@@ -9,9 +9,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @Component
-class CreateAuthorUseCaseImpl(
-    private val authorPort: AuthorPort
-) : CreateAuthorUseCase {
+class CreateAuthorUseCaseImpl(private val authorPort: AuthorPort) : CreateAuthorUseCase {
 
     @Transactional
     override fun execute(request: AuthorRequest): AuthorResponse {

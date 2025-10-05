@@ -19,6 +19,7 @@ class AuthorAdapter(
     private val authorRepository: AuthorRepository,
     private val bookRepository: BookRepository
 ) : AuthorPort {
+
     @Transactional
     override fun existsByName(name: String): Boolean =
         authorRepository.existsByName(name)
@@ -46,7 +47,7 @@ class AuthorAdapter(
     }
 
     @Transactional(readOnly = true)
-    fun findById(id: Long): AuthorResponse {
+    override fun findById(id: Long): AuthorResponse {
         val author = authorRepository.findById(id)
             .orElseThrow { AuthorNotFoundException(id) }
 
@@ -54,7 +55,7 @@ class AuthorAdapter(
     }
 
     @Transactional(readOnly = true)
-    fun find(): PageResponse<AuthorResponse> {
+    override fun find(): PageResponse<AuthorResponse> {
         val authors = authorRepository.findAll()
             .map(AuthorEntity::toResponse)
         return PageResponse(

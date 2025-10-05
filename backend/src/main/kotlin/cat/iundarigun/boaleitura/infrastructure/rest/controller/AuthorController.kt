@@ -1,6 +1,7 @@
 package cat.iundarigun.boaleitura.infrastructure.rest.controller
 
 import cat.iundarigun.boaleitura.application.port.input.CreateAuthorUseCase
+import cat.iundarigun.boaleitura.application.port.input.DeleteAuthorUseCase
 import cat.iundarigun.boaleitura.application.port.input.UpdateAuthorUseCase
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController
 class AuthorController(
     private val createAuthorUseCase: CreateAuthorUseCase,
     private val updateAuthorUseCase: UpdateAuthorUseCase,
+    private val deleteAuthorUseCase: DeleteAuthorUseCase,
     private val authorService: AuthorAdapter
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -60,6 +62,6 @@ class AuthorController(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteAuthor(@PathVariable id: Long) {
         logger.info("deleteAuthor, id=$id")
-        return authorService.delete(id)
+        return deleteAuthorUseCase.execute(id)
     }
 }

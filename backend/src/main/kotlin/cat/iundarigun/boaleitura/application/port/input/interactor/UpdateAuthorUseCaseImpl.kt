@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @Component
-class UpdateAuthorUseCaseImpl (private val authorPort: AuthorPort): UpdateAuthorUseCase {
+class UpdateAuthorUseCaseImpl(private val authorPort: AuthorPort) : UpdateAuthorUseCase {
     @Transactional
     override fun execute(id: Long, request: AuthorRequest): AuthorResponse {
         authorPort.findByName(request.name)?.let {

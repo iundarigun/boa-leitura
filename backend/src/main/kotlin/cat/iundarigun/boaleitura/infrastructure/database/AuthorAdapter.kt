@@ -2,14 +2,13 @@ package cat.iundarigun.boaleitura.infrastructure.database
 
 import cat.iundarigun.boaleitura.application.port.output.AuthorPort
 import cat.iundarigun.boaleitura.domain.entity.AuthorEntity
-import cat.iundarigun.boaleitura.extensions.merge
-import cat.iundarigun.boaleitura.extensions.toEntity
-import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
-import cat.iundarigun.boaleitura.exception.AuthorDeleteException
 import cat.iundarigun.boaleitura.exception.AuthorNotFoundException
+import cat.iundarigun.boaleitura.extensions.merge
+import cat.iundarigun.boaleitura.extensions.toEntity
+import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import org.springframework.stereotype.Service
@@ -65,15 +64,15 @@ class AuthorAdapter(
         )
     }
 
+    @Transactional(readOnly = true)
+    override fun authorBookCount(id: Long): Int =
+        bookRepository.countByAuthorId(id)
+
     @Transactional
-    fun delete(id: Long) {
+    override fun delete(id: Long) {
         if (!authorRepository.existsById(id)) {
             throw AuthorNotFoundException(id)
         }
-        if (bookRepository.countByAuthorId(id) > 0) {
-            throw AuthorDeleteException(id)
-        }
         authorRepository.deleteById(id)
     }
-
 }

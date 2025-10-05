@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 @Component
 class CreateAuthorUseCaseImpl(
     private val authorPort: AuthorPort
-): CreateAuthorUseCase {
+) : CreateAuthorUseCase {
 
     @Transactional
     override fun execute(request: AuthorRequest): AuthorResponse {

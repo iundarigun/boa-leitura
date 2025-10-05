@@ -1,6 +1,9 @@
 package cat.iundarigun.boaleitura.service
 
 import cat.iundarigun.boaleitura.domain.entity.Author
+import cat.iundarigun.boaleitura.domain.extensions.merge
+import cat.iundarigun.boaleitura.domain.extensions.toEntity
+import cat.iundarigun.boaleitura.domain.extensions.toResponse
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
@@ -67,25 +70,3 @@ class AuthorService(
     }
 
 }
-
-private fun Author.merge(request: AuthorRequest): Author {
-    name = request.name
-    gender = request.gender
-    nationality = request.nationality
-    return this
-}
-
-private fun AuthorRequest.toEntity(): Author =
-    Author(
-        name = this.name,
-        gender = this.gender,
-        nationality = this.nationality
-    )
-
-private fun Author.toResponse(): AuthorResponse =
-    AuthorResponse(
-        id = this.id,
-        name = this.name,
-        gender = this.gender,
-        nationality = this.nationality
-    )

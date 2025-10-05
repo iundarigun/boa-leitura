@@ -3,8 +3,8 @@ package cat.iundarigun.boaleitura.integration.author
 import cat.iundarigun.boaleitura.configuration.FakerConfiguration
 import cat.iundarigun.boaleitura.configuration.TestContainerBaseConfiguration
 import cat.iundarigun.boaleitura.domain.response.ErrorResponse
-import cat.iundarigun.boaleitura.factory.AuthorFactory
-import cat.iundarigun.boaleitura.factory.BookFactory
+import cat.iundarigun.boaleitura.factory.AuthorEntityFactory
+import cat.iundarigun.boaleitura.factory.BookEntityFactory
 import cat.iundarigun.boaleitura.repository.AuthorRepository
 import cat.iundarigun.boaleitura.repository.BookRepository
 import io.restassured.RestAssured
@@ -12,14 +12,14 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 
-class AuthorDeleteEndpointTest(
+class AuthorEntityDeleteEndpointTest(
     private val authorRepository: AuthorRepository,
     private val bookRepository: BookRepository
 ) : TestContainerBaseConfiguration() {
 
     @Test
     fun `delete author by id successfully`() {
-        val author = authorRepository.save(AuthorFactory.build())
+        val author = authorRepository.save(AuthorEntityFactory.build())
         val count = authorRepository.count()
 
         RestAssured.given()
@@ -35,8 +35,8 @@ class AuthorDeleteEndpointTest(
 
     @Test
     fun `delete author by id with books`() {
-        val author = authorRepository.save(AuthorFactory.build())
-        bookRepository.save(BookFactory.build(author = author))
+        val author = authorRepository.save(AuthorEntityFactory.build())
+        bookRepository.save(BookEntityFactory.build(author = author))
 
         val count = authorRepository.count()
 

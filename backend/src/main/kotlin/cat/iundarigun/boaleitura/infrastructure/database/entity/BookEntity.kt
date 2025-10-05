@@ -1,27 +1,40 @@
-package cat.iundarigun.boaleitura.domain.entity
+package cat.iundarigun.boaleitura.infrastructure.database.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
-@Entity
-data class Saga(
+@Entity(name = "Book")
+data class BookEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L,
 
-    var name: String,
+    var goodreadsId: Long,
 
-    var totalMainTitles: Int = 0,
+    var title: String,
 
-    var totalComplementaryTitles: Int = 0,
+    var numberOfPages: Int? = null,
 
-    var concluded: Boolean = false,
+    var publisherYear: Int,
+
+    var isbn: String? = null,
+
+    var isbn13: String? = null,
+
+    var originalLanguage: String? = null,
+
+    @ManyToOne
+    var author: AuthorEntity,
+
+    @ManyToOne
+    var saga: SagaEntity? = null,
 
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),

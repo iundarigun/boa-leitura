@@ -1,6 +1,6 @@
 package cat.iundarigun.boaleitura.service
 
-import cat.iundarigun.boaleitura.domain.entity.Author
+import cat.iundarigun.boaleitura.infrastructure.database.entity.AuthorEntity
 import cat.iundarigun.boaleitura.domain.extensions.merge
 import cat.iundarigun.boaleitura.domain.extensions.toEntity
 import cat.iundarigun.boaleitura.domain.extensions.toResponse
@@ -26,9 +26,9 @@ class AuthorService(
     }
 
     @Transactional
-    fun createIfNotExists(name: String): Author {
+    fun createIfNotExists(name: String): AuthorEntity {
         return authorRepository.findByName(name).orElseGet {
-            authorRepository.save(Author(name = name))
+            authorRepository.save(AuthorEntity(name = name))
         }
     }
 
@@ -51,7 +51,7 @@ class AuthorService(
     @Transactional(readOnly = true)
     fun find(): PageResponse<AuthorResponse> {
         val authors = authorRepository.findAll()
-            .map(Author::toResponse)
+            .map(AuthorEntity::toResponse)
         return PageResponse(
             content = authors,
             page = 1,

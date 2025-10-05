@@ -4,7 +4,7 @@ import cat.iundarigun.boaleitura.configuration.FakerConfiguration
 import cat.iundarigun.boaleitura.configuration.TestContainerBaseConfiguration
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.ErrorResponse
-import cat.iundarigun.boaleitura.factory.AuthorFactory
+import cat.iundarigun.boaleitura.factory.AuthorEntityFactory
 import cat.iundarigun.boaleitura.factory.AuthorRequestFactory
 import cat.iundarigun.boaleitura.repository.AuthorRepository
 import io.restassured.RestAssured
@@ -13,11 +13,11 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 
-class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : TestContainerBaseConfiguration() {
+class AuthorEntityPutEndpointTest(private val authorRepository: AuthorRepository) : TestContainerBaseConfiguration() {
 
     @Test
     fun `update author successfully`() {
-        val author = authorRepository.save(AuthorFactory.build())
+        val author = authorRepository.save(AuthorEntityFactory.build())
         val request = AuthorRequestFactory.build()
 
         val response = RestAssured.given()
@@ -82,7 +82,7 @@ class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : Te
 
     @Test
     fun `update author without name`() {
-        val author = authorRepository.save(AuthorFactory.build())
+        val author = authorRepository.save(AuthorEntityFactory.build())
 
         val response = RestAssured.given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -101,7 +101,7 @@ class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : Te
 
     @Test
     fun `update author with non-existing gender`() {
-        val author = authorRepository.save(AuthorFactory.build())
+        val author = authorRepository.save(AuthorEntityFactory.build())
 
         val response = RestAssured.given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -120,7 +120,7 @@ class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : Te
 
     @Test
     fun `update author with small name`() {
-        val author = authorRepository.save(AuthorFactory.build())
+        val author = authorRepository.save(AuthorEntityFactory.build())
         val request = AuthorRequestFactory.build().copy(name = "SM")
 
         val response = RestAssured.given()

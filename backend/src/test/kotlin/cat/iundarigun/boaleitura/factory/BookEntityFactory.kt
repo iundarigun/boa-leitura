@@ -1,16 +1,16 @@
 package cat.iundarigun.boaleitura.factory
 
 import cat.iundarigun.boaleitura.configuration.FakerConfiguration
-import cat.iundarigun.boaleitura.domain.entity.Author
-import cat.iundarigun.boaleitura.domain.entity.Book
-import cat.iundarigun.boaleitura.domain.entity.Saga
+import cat.iundarigun.boaleitura.infrastructure.database.entity.AuthorEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.SagaEntity
 
-object BookFactory {
+object BookEntityFactory {
     fun build(
-        author: Author = AuthorFactory.build(),
-        saga: Saga? = null
-    ): Book =
-        Book(
+        author: AuthorEntity = AuthorEntityFactory.build(),
+        saga: SagaEntity? = null
+    ): BookEntity =
+        BookEntity(
             goodreadsId = FakerConfiguration.FAKER.number().numberBetween(100_000L, 999_999L),
             title = FakerConfiguration.FAKER.book().title(),
             numberOfPages = FakerConfiguration.FAKER.number().numberBetween(50, 2_000),

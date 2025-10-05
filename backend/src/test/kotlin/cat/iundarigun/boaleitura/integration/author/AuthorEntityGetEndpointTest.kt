@@ -4,18 +4,18 @@ import cat.iundarigun.boaleitura.configuration.FakerConfiguration
 import cat.iundarigun.boaleitura.configuration.TestContainerBaseConfiguration
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.ErrorResponse
-import cat.iundarigun.boaleitura.factory.AuthorFactory
+import cat.iundarigun.boaleitura.factory.AuthorEntityFactory
 import cat.iundarigun.boaleitura.repository.AuthorRepository
 import io.restassured.RestAssured
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 
-class AuthorGetEndpointTest(private val authorRepository: AuthorRepository) : TestContainerBaseConfiguration() {
+class AuthorEntityGetEndpointTest(private val authorRepository: AuthorRepository) : TestContainerBaseConfiguration() {
 
     @Test
     fun `get author by id successfully`() {
-        val author = authorRepository.save(AuthorFactory.build())
+        val author = authorRepository.save(AuthorEntityFactory.build())
 
         val response = RestAssured.given()
             .given()

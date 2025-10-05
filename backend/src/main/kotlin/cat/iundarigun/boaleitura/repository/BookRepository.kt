@@ -1,10 +1,10 @@
 package cat.iundarigun.boaleitura.repository
 
-import cat.iundarigun.boaleitura.domain.entity.Book
+import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
 import org.springframework.data.repository.CrudRepository
 import java.util.*
 
-interface BookRepository : CrudRepository<Book, Long> {
-    fun findByGoodreadsId(bookId: Long): Optional<Book>
+interface BookRepository : CrudRepository<BookEntity, Long> {
+    fun findByGoodreadsId(bookId: Long): Optional<BookEntity>
     fun countByAuthorId(authorId: Long): Int
 }

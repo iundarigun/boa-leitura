@@ -1,7 +1,7 @@
 package cat.iundarigun.boaleitura.service
 
-import cat.iundarigun.boaleitura.domain.entity.Book
-import cat.iundarigun.boaleitura.domain.entity.Reading
+import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.ReadingEntity
 import cat.iundarigun.boaleitura.domain.request.ReadingRequest
 import cat.iundarigun.boaleitura.repository.ReadingRepository
 import org.springframework.stereotype.Service
@@ -11,14 +11,14 @@ import org.springframework.transaction.annotation.Transactional
 class ReadingService(private val readingRepository: ReadingRepository) {
 
     @Transactional
-    fun createIfNotExists(readingRequest: ReadingRequest, book: Book): Reading =
+    fun createIfNotExists(readingRequest: ReadingRequest, book: BookEntity): ReadingEntity =
         readingRepository.findByBookIdAndDateRead(book.id, readingRequest.dateRead).orElseGet {
             readingRepository.save(readingRequest.toReading(book))
         }
 }
 
-private fun ReadingRequest.toReading(book: Book): Reading =
-    Reading(
+private fun ReadingRequest.toReading(book: BookEntity): ReadingEntity =
+    ReadingEntity(
         myRating = this.myRating,
         dateRead = this.dateRead,
         book = book,

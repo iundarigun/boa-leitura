@@ -5,6 +5,7 @@ import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 
 interface AuthorPort {
+    fun find(): PageResponse<AuthorResponse>
     fun existsByName(name: String): Boolean
     fun findByName(name: String): AuthorResponse?
     fun findById(id: Long): AuthorResponse
@@ -12,5 +13,4 @@ interface AuthorPort {
 
     fun save(authorRequest: AuthorRequest, id: Long? = null): AuthorResponse
     fun delete(id: Long)
-    fun find(): PageResponse<AuthorResponse>
 }

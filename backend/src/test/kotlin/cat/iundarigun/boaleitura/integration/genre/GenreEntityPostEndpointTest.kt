@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.integration.author
+package cat.iundarigun.boaleitura.integration.genre
 
 import cat.iundarigun.boaleitura.configuration.FakerConfiguration
 import cat.iundarigun.boaleitura.configuration.TestContainerBaseConfiguration

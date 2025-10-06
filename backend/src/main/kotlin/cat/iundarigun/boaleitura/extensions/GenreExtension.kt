@@ -16,3 +16,9 @@ fun GenreRequest.toEntity(parent: GenreEntity? = null): GenreEntity =
         name = this.name,
         parent = parent
     )
+
+fun GenreEntity.merge(request: GenreRequest, parent: GenreEntity? = null): GenreEntity {
+    this.name = request.name
+    this.parent = parent
+    return this
+}

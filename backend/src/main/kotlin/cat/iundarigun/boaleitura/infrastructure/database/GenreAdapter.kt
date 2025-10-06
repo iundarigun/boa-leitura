@@ -6,6 +6,7 @@ import cat.iundarigun.boaleitura.domain.request.GenreRequest
 import cat.iundarigun.boaleitura.domain.response.GenreResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.exception.GenreNotFoundException
+import cat.iundarigun.boaleitura.extensions.merge
 import cat.iundarigun.boaleitura.extensions.toEntity
 import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.GenreRepository
@@ -37,10 +38,24 @@ class GenreAdapter(
     override fun existsById(id: Long): Boolean =
         genreRepository.existsById(id)
 
-    override fun save(request: GenreRequest): GenreResponse {
+    @Transactional(readOnly = true)
+    override fun findByName(name: String): GenreResponse? =
+        genreRepository.findByName(name)?.toResponse()
+
+    @Transactional(readOnly = true)
+    override fun existsParentIdInHierarchy(startId: Long, parentId: Long): Boolean =
+        genreRepository.existsParentIdInHierarchy(startId, parentId)
+
+    @Transactional
+    override fun save(request: GenreRequest, id: Long?): GenreResponse {
         val parent = request.parentGenreId?.let {
             genreRepository.findById(it).orElseThrow { GenreNotFoundException(it) }
         }
-        return genreRepository.save(request.toEntity(parent)).toResponse()
+        if (id == null) {
+            return genreRepository.save(request.toEntity(parent)).toResponse()
+        }
+        val genre = genreRepository.findById(id)
+            .orElseThrow { GenreNotFoundException(id) }
+        return genreRepository.save(genre.merge(request, parent)).toResponse()
     }
 }

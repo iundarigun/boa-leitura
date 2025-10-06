@@ -8,6 +8,8 @@ interface GenrePort {
     fun find(): PageResponse<GenreResponse>
     fun existsByName(name: String): Boolean
     fun existsById(id: Long): Boolean
+    fun findByName(name: String): GenreResponse?
+    fun existsParentIdInHierarchy(startId: Long, parentId: Long): Boolean
 
-    fun save(request: GenreRequest): GenreResponse
+    fun save(request: GenreRequest, id: Long? = null): GenreResponse
 }

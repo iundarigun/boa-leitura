@@ -9,6 +9,7 @@ import cat.iundarigun.boaleitura.exception.GenreNotFoundException
 import cat.iundarigun.boaleitura.extensions.merge
 import cat.iundarigun.boaleitura.extensions.toEntity
 import cat.iundarigun.boaleitura.extensions.toResponse
+import cat.iundarigun.boaleitura.extensions.toResponseWithSubGenders
 import cat.iundarigun.boaleitura.infrastructure.database.repository.GenreRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,9 +20,9 @@ class GenreAdapter(
 ) : GenrePort {
 
     @Transactional(readOnly = true)
-    override fun find(): PageResponse<GenreResponse> {
-        val genres = genreRepository.findAll()
-            .map(GenreEntity::toResponse)
+    override fun findLevelZero(): PageResponse<GenreResponse> {
+        val genres = genreRepository.findByParentNull()
+            .map(GenreEntity::toResponseWithSubGenders)
 
         return PageResponse(
             content = genres,

@@ -11,6 +11,13 @@ fun GenreEntity.toResponse(): GenreResponse =
         parent = this.parent?.toResponse()
     )
 
+fun GenreEntity.toResponseWithSubGenders(): GenreResponse =
+    GenreResponse(
+        id = this.id,
+        name = this.name,
+        subGenres = this.subGenres.map { it.toResponseWithSubGenders() }
+    )
+
 fun GenreRequest.toEntity(parent: GenreEntity? = null): GenreEntity =
     GenreEntity(
         name = this.name,

@@ -1,11 +1,13 @@
 package cat.iundarigun.boaleitura.domain.entity
 
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
@@ -22,6 +24,9 @@ data class GenreEntity(
     @ManyToOne
     @JoinColumn(name = "parent_genre_id")
     var parent: GenreEntity? = null,
+
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    var subGenres: List<GenreEntity> = listOf(),
 
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),

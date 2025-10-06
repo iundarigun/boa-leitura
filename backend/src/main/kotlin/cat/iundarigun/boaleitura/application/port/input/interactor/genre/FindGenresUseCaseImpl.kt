@@ -12,5 +12,5 @@ class FindGenresUseCaseImpl(val genrePort: GenrePort) : FindGenresUseCase {
 
     @Transactional(readOnly = true)
     override fun execute(): PageResponse<GenreResponse> =
-        genrePort.find()
+        genrePort.findLevelZero()
 }

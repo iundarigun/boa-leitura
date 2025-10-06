@@ -45,6 +45,6 @@ class GenreController(
     @ResponseStatus(HttpStatus.OK)
     fun updateGenre(@PathVariable id: Long, @Valid @RequestBody request: GenreRequest): GenreResponse {
         logger.info("updateGenre, id=$id, request=$request")
-        return createGenreUseCase.execute(request)
+        return updateGenreUseCase.execute(id, request)
     }
 }

@@ -23,4 +23,5 @@ interface GenreRepository : CrudRepository<GenreEntity, Long> {
     ) SELECT count(*) > 0 from genre_hierarchy where id = :parentId
     """, nativeQuery = true)
     fun existsParentIdInHierarchy(startId: Long, parentId: Long): Boolean
+    fun existsByParentId(id: Long): Boolean
 }

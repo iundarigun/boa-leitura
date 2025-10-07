@@ -10,13 +10,15 @@ import cat.iundarigun.boaleitura.extensions.merge
 import cat.iundarigun.boaleitura.extensions.toEntity
 import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.extensions.toResponseWithSubGenders
+import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.GenreRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class GenreAdapter(
-    private val genreRepository: GenreRepository
+    private val genreRepository: GenreRepository,
+    private val bookRepository: BookRepository
 ) : GenrePort {
 
     @Transactional(readOnly = true)
@@ -53,6 +55,14 @@ class GenreAdapter(
         return author.toResponse()
     }
 
+    @Transactional(readOnly = true)
+    override fun hasChildren(id: Long): Boolean =
+        genreRepository.existsByParentId(id)
+
+    @Transactional(readOnly = true)
+    override fun genreBookCount(id: Long): Int =
+        bookRepository.countByGenreId(id)
+
     @Transactional
     override fun save(request: GenreRequest, id: Long?): GenreResponse {
         val parent = request.parentGenreId?.let {
@@ -64,5 +74,13 @@ class GenreAdapter(
         val genre = genreRepository.findById(id)
             .orElseThrow { GenreNotFoundException(id) }
         return genreRepository.save(genre.merge(request, parent)).toResponse()
+    }
+
+    @Transactional
+    override fun delete(id: Long) {
+        if (!genreRepository.existsById(id)) {
+            throw GenreNotFoundException(id)
+        }
+        genreRepository.deleteById(id)
     }
 }

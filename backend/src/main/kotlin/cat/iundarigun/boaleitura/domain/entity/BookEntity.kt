@@ -36,6 +36,9 @@ data class BookEntity(
     @ManyToOne
     var saga: SagaEntity? = null,
 
+    @ManyToOne
+    var genre: GenreEntity? = null,
+
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),
 

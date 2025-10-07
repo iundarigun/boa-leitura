@@ -12,7 +12,7 @@ export default function AuthorFormPage() {
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-  const { showDialog } = useDialog();
+  const { showError, showSuccess } = useDialog();
 
   useEffect(() => {
     fechAuthor();
@@ -25,7 +25,7 @@ export default function AuthorFormPage() {
       if (res.data) {
         setEditingAuthor(res.data);
       } else {
-          showDialog("Error", "Not possible to load the author.");
+        showError("Not possible to load the author.");
       }
       setLoading(false);
     }
@@ -39,13 +39,13 @@ export default function AuthorFormPage() {
       res = await apiCall(() => api.post(API_URL, author));
     }
     if (res.data) {
-      showDialog("Sucess", `Author ${id? "updated": "created"} successfully!`);
+      showSuccess(`Author ${id? "updated": "created"} successfully!`);
       const timer = setTimeout(() => {
         navigate("/authors");
       }, 2000);
       return () => clearTimeout(timer);
    } else {
-      showDialog("Error", res.error);
+      showError(res.error);
     }
   };
 

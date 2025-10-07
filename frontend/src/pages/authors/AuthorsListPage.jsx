@@ -12,7 +12,7 @@ export default function AuthorsListPage() {
   const [authors, setAuthors] = useState({"content": []});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { showDialog } = useDialog();
+  const { showError, showSuccess } = useDialog();
 
   useEffect(() => {
     fetchAuthors();
@@ -33,10 +33,10 @@ export default function AuthorsListPage() {
     const res = await apiCall(() => api.delete(`${API_URL}/${id}`));
     if (!res.error) {
       fetchAuthors()
-      showDialog("Success", `Author "${name}" deleted successfully.`);
+      showSuccess(`Author "${name}" deleted successfully.`);
     }
     else {
-      showDialog("Error", res.error);
+      showError(res.error);
     }
   };
 

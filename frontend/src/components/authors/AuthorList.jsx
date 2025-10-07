@@ -15,7 +15,7 @@ import {
 
 export default function AuthorList({ authors, onEdit, onDelete }) {;
   if (!authors || !authors.content) {
-    return <p className="text-gray-500 text-center">Nenhum autor encontrado.</p>;
+    return <p className="text-gray-500 text-center">No author found.</p>;
   }  
 return (
     <div className="grid gap-4">
@@ -24,39 +24,39 @@ return (
           key={author.id}
           className="p-4 flex justify-between items-center"
         >
-          {/* informações */}
+          
           <div>
             <p className="font-bold text-lg">{author.name}</p>
             <p className="text-sm text-gray-600">
-              Gênero: {author.gender} | Nacionalidade: {author.nationality}
+              Gender: {author.gender} | Nationality: {author.nationality}
             </p>
           </div>
 
           {/* ações */}
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => onEdit(author)}>
-              Editar
+              Edit
             </Button>
 
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive">Deletar</Button>
+                <Button variant="destructive">Delete</Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+                  <AlertDialogTitle>Confirm delete</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Tem certeza que deseja deletar <b>{author.name}</b>?  
-                    Esta ação não poderá ser desfeita.
+                    Are you sure you want delete <b>{author.name}</b>?  
+                    This action can not be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <AlertDialogAction
                     className="bg-red-600 hover:bg-red-700"
                     onClick={() => onDelete(author.id, author.name)}
                   >
-                    Deletar
+                    Delete
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

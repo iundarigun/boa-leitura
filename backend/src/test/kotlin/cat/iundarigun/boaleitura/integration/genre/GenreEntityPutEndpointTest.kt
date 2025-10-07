@@ -19,7 +19,7 @@ class GenreEntityPutEndpointTest(private val genreRepository: GenreRepository) :
     @Test
     fun `update genre without parent successfully`() {
         val genre = genreRepository.save(GenreEntityFactory.build())
-        val request = GenreRequest(name = genre.name + FakerConfiguration.FAKER.number().randomNumber())
+        val request = GenreRequestFactory.build()
         val count = genreRepository.count()
 
         val response = RestAssured.given()

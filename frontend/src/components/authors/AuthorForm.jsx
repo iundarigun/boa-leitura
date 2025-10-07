@@ -10,16 +10,16 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
-export default function AuthorForm({ onSave, editingAuthor, onCancel }) {
+export default function AuthorForm({ onSave, editingAuthor, onCancel, loading }) {
   const [name, setName] = useState(null);
   const [gender, setGender] = useState("MALE");
   const [nationality, setNationality] = useState(null);
   
   useEffect(() => {
     if (editingAuthor) {
-      setName(editingAuthor.name || "");
+      setName(editingAuthor.name);
       setGender(editingAuthor.gender || "MALE");
-      setNationality(editingAuthor.nationality || "");
+      setNationality(editingAuthor.nationality);
     }
   }, [editingAuthor]);
 
@@ -69,7 +69,8 @@ export default function AuthorForm({ onSave, editingAuthor, onCancel }) {
       </div>
 
       <div className="flex gap-2">
-        <Button type="submit">{editingAuthor ? "Save" : "Add"}</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Saving..." : (editingAuthor ? "Save" : "Add")}</Button>
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
         </Button>

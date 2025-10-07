@@ -32,12 +32,10 @@ export default function AuthorFormPage() {
   }
 
   const handleSave = async (author) => {
-    var res = {};
-    if (id) {
-      res = await apiCall(() => api.put(`${API_URL}/${id}`, author));
-    } else {
-      res = await apiCall(() => api.post(API_URL, author));
-    }
+    const res = id
+     ? await apiCall(() => api.put(`${API_URL}/${id}`, author))
+     : await apiCall(() => api.post(API_URL, author));
+    
     if (res.data) {
       showSuccess(`Author ${id? "updated": "created"} successfully!`);
       const timer = setTimeout(() => {
@@ -65,6 +63,7 @@ export default function AuthorFormPage() {
             onSave={handleSave}
             editingAuthor={editingAuthor}
             onCancel={() => navigate("/authors")}
+            loading={loading}
           />
           )}
         </CardContent>

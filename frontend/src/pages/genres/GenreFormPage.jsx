@@ -38,7 +38,7 @@ export default function GenreFormPage() {
   const fetchAllGenres = async () => {
     const res = await apiCall(() => api.get(API_URL));
     if (res.data) {
-      setAllGenres(res.data.content);
+      setAllGenres(res.data);
     } else {
        showError(res.error);
     }

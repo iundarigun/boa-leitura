@@ -6,12 +6,12 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import GenreList from "./GenreList";
 
 export default function GenreForm({ onSave, editingGenre, onCancel, allGenres, loading }) {
   const [name, setName] = useState(null);
@@ -31,26 +31,6 @@ export default function GenreForm({ onSave, editingGenre, onCancel, allGenres, l
       name,
       parentGenreId: parent ? parent.id : null,
      });
-  };
-
-  const renderGenreOptions = (genres, level = 0) => {
-    return genres.map((g) => (
-      <div key={g.id}>
-        <div
-          className="p-2 border rounded cursor-pointer hover:bg-gray-100"
-          style={{ paddingLeft: `${level * 16}px` }}
-          onClick={() => {
-            setParent(g);
-            setDialogOpen(false);
-          }}
-        >
-          {g.name}
-        </div>
-        {g.subGenres && g.subGenres.length > 0 && (
-          <div>{renderGenreOptions(g.subGenres, level + 1)}</div>
-        )}
-      </div>
-    ));
   };
 
   return (
@@ -81,7 +61,13 @@ export default function GenreForm({ onSave, editingGenre, onCancel, allGenres, l
                 <AlertDialogTitle>Select Parent Genre</AlertDialogTitle>
               </AlertDialogHeader>
               <div className="space-y-2 max-h-64 overflow-y-auto">
-                {renderGenreOptions(allGenres)}
+              <GenreList
+                genres={allGenres}
+                onSelect={(g) => {
+                  setParent(g);
+                  setDialogOpen(false);
+                }}
+              />
               </div>
               <div className="pt-2">
                 <AlertDialogFooter>

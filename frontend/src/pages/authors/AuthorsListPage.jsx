@@ -24,7 +24,7 @@ export default function AuthorsListPage() {
     if (!res.error) {
       setAuthors(res.data);
     }else { 
-      console.error("Error retreiving authors", res.error);
+      showError(res.error);
     }
     setLoading(false);
   };
@@ -44,7 +44,7 @@ export default function AuthorsListPage() {
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
       <Card className="w-full max-w-6xl mx-auto p-8">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-3xl">✍️ Autores</CardTitle>
+          <CardTitle className="text-3xl">✍️ Authors</CardTitle>
           <Button onClick={() => navigate("/authors/new")}>+ New Author</Button>
         </CardHeader>
         <CardContent>

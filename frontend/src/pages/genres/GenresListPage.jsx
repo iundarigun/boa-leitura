@@ -5,15 +5,16 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import GenreList from "../../components/genres/GenreList";
 import FeedbackDialog from "../../components/FeedbackDialog";
+import { useDialog } from "../../context/DialogContext";
+import api, { apiCall } from "../../lib/api";
 
-const API_URL = "http://localhost:1980/genres";
+const API_URL = "/genres";
 
 export default function GenresListPage() {
   const [genres, setGenres] = useState({"content": []});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [feedbackOpen, setFeedbackOpen] = useState(false);
-  const [feedbackMessage, setFeedbackMessage] = useState({ title: "", description: "" });
+  const { showError, showSuccess } = useDialog();
 
   useEffect(() => {
     fetchGenres();
@@ -21,40 +22,23 @@ export default function GenresListPage() {
 
   const fetchGenres = async () => {
     setLoading(true);
-    try {
-      const res = await axios.get(API_URL);
+    const res = await apiCall(() => api.get(API_URL));
+    if (!res.error) {
       setGenres(res.data);
-    } catch (err) {
-      console.error("Erro ao buscar gêneros", err);
-      setFeedbackMessage({
-        title: "Erro",
-        description: "Não foi possível carregar os gêneros."
-      });
-      setFeedbackOpen(true);
-    } finally {
-      setLoading(false);
+    } else {
+      showError(res.error);
     }
+    setLoading(false);
   };
 
   const handleDelete = async (id, name) => {
-    try {
-      await axios.delete(`${API_URL}/${id}`);
-      fetchGenres();
-      setFeedbackMessage({
-        title: "Sucesso",
-        description: `Gênero "${name}" foi deletado com sucesso.`,
-      });
-    } catch (err) {
-      let description = `Não foi possível deletar o gênero "${name}".`;
-      if (err.response?.data?.message) {
-        description = err.response.data.message;
-      }
-      setFeedbackMessage({
-        title: "Erro",
-        description,
-      });
-    } finally {
-      setFeedbackOpen(true);
+    const res = await apiCall(() => api.delete(`${API_URL}/${id}`));
+    if (!res.error) {
+      fetchGenres()
+      showSuccess(`Genre "${name}" deleted successfully.`);
+    }
+    else {
+      showError(res.error);
     }
   };
 
@@ -62,12 +46,12 @@ export default function GenresListPage() {
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
       <Card className="w-full max-w-6xl mx-auto p-8">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-3xl">📚 Gêneros</CardTitle>
-          <Button onClick={() => navigate("/genres/new")}>+ Novo Gênero</Button>
+          <CardTitle className="text-3xl">📚 Genres</CardTitle>
+          <Button onClick={() => navigate("/genres/new")}>+ New genre</Button>
         </CardHeader>
         <CardContent>
           {loading ? (
-            <p className="text-center text-gray-500">Carregando gêneros...</p>
+            <p className="text-center text-gray-500">Loading genres...</p>
           ) : (
             <GenreList
               genres={genres}
@@ -76,13 +60,7 @@ export default function GenresListPage() {
             />
           )}
         </CardContent>
-      </Card>
-      <FeedbackDialog
-        open={feedbackOpen}
-        onOpenChange={setFeedbackOpen}
-        title={feedbackMessage.title}
-        description={feedbackMessage.description}
-      />
+      </Card>      
     </div>
   );
 }

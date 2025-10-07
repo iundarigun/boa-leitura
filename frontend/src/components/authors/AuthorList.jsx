@@ -24,7 +24,7 @@ return (
           key={author.id}
           className="p-4 flex justify-between items-center"
         >
-          {/* informações */}
+          
           <div>
             <p className="font-bold text-lg">{author.name}</p>
             <p className="text-sm text-gray-600">

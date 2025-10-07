@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.application.port.input.interactor
+package cat.iundarigun.boaleitura.application.port.input.interactor.author
 
 import cat.iundarigun.boaleitura.application.port.input.DeleteAuthorUseCase
 import cat.iundarigun.boaleitura.application.port.output.AuthorPort

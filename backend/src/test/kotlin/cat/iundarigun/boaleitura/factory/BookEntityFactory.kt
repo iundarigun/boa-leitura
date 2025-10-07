@@ -3,12 +3,14 @@ package cat.iundarigun.boaleitura.factory
 import cat.iundarigun.boaleitura.configuration.FakerConfiguration
 import cat.iundarigun.boaleitura.domain.entity.AuthorEntity
 import cat.iundarigun.boaleitura.domain.entity.BookEntity
+import cat.iundarigun.boaleitura.domain.entity.GenreEntity
 import cat.iundarigun.boaleitura.domain.entity.SagaEntity
 
 object BookEntityFactory {
     fun build(
         author: AuthorEntity = AuthorEntityFactory.build(),
-        saga: SagaEntity? = null
+        saga: SagaEntity? = null,
+        genre: GenreEntity? = null
     ): BookEntity =
         BookEntity(
             goodreadsId = FakerConfiguration.FAKER.number().numberBetween(100_000L, 999_999L),
@@ -19,6 +21,7 @@ object BookEntityFactory {
             isbn13 = FakerConfiguration.FAKER.internet().uuid(),
             originalLanguage = FakerConfiguration.FAKER.languageCode().iso639(),
             author = author,
-            saga = saga
+            saga = saga,
+            genre = genre,
         )
 }

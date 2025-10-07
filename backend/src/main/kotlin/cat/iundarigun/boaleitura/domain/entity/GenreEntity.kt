@@ -1,43 +1,32 @@
 package cat.iundarigun.boaleitura.domain.entity
 
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
-@Entity(name = "Book")
-data class BookEntity(
+@Entity(name = "Genre")
+data class GenreEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L,
 
-    var goodreadsId: Long,
-
-    var title: String,
-
-    var numberOfPages: Int? = null,
-
-    var publisherYear: Int,
-
-    var isbn: String? = null,
-
-    var isbn13: String? = null,
-
-    var originalLanguage: String? = null,
+    var name: String,
 
     @ManyToOne
-    var author: AuthorEntity,
+    @JoinColumn(name = "parent_genre_id")
+    var parent: GenreEntity? = null,
 
-    @ManyToOne
-    var saga: SagaEntity? = null,
-
-    @ManyToOne
-    var genre: GenreEntity? = null,
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    var subGenres: List<GenreEntity> = listOf(),
 
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),

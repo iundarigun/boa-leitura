@@ -50,12 +50,12 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [ ] Add param in getById to retrieve details (books or readers) 
 
 ### Books
-[ ] Add genre
+[X] Add genre
 [ ] Add endpoints to add books
 [ ] Languages for the title
 
 ### Genre
-[ ] Add CRUD for genre
+[X] Add CRUD for genre
 
 ### TBR
 [ ] Add TBR list

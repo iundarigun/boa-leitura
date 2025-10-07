@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import AuthorsListPage from "./pages/authors/AuthorsListPage";
 import AuthorFormPage from "./pages/authors/AuthorFormPage";
+import GenresListPage from "./pages/genres/GenresListPage";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/authors" element={<AuthorsListPage />} />
+          <Route path="/genres" element={<GenresListPage />} />
           <Route path="/authors/new" element={<AuthorFormPage />} />
           <Route path="/authors/:id/edit" element={<AuthorFormPage />} />
         </Route>

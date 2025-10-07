@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import AuthorList from "../../components/authors/AuthorList";
-import FeedbackDialog from "../../components/FeedbackDialog";
+import { useDialog } from "../../context/DialogContext";
+import api, { apiCall } from "../../lib/api";
 
-const API_URL = "http://localhost:1980/authors";
+const API_URL = "/authors";
 
 export default function AuthorsListPage() {
   const [authors, setAuthors] = useState({"content": []});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [feedbackOpen, setFeedbackOpen] = useState(false);
-  const [feedbackMessage, setFeedbackMessage] = useState({ title: "", description: "" });
+  const { showDialog } = useDialog();
 
   useEffect(() => {
     fetchAuthors();
@@ -21,35 +20,23 @@ export default function AuthorsListPage() {
 
   const fetchAuthors = async () => {
     setLoading(true);
-    try {
-      const res = await axios.get(API_URL);
+    const res = await apiCall(() => api.get(API_URL));
+    if (!res.error) {
       setAuthors(res.data);
-    } catch (err) {
-      console.error("Erro ao buscar autores", err);
-    } finally {
-      setLoading(false);
+    }else { 
+      console.error("Error retreiving authors", res.error);
     }
+    setLoading(false);
   };
 
   const handleDelete = async (id, name) => {
-    try {
-      await axios.delete(`${API_URL}/${id}`);
+    const res = await apiCall(() => api.delete(`${API_URL}/${id}`));
+    if (!res.error) {
       fetchAuthors()
-      setFeedbackMessage({
-        title: "Sucesso",
-        description: `Autor "${name}" foi deletado com sucesso.`,
-      });
-    } catch (err) {
-      var description = `Não foi possível deletar o autor "${name}".`
-      if (err.response && err.response.data && err.response.data.message) {
-         description = err.response.data.message
-      }
-      setFeedbackMessage({
-        title: "Erro",
-        description: description,
-      });
-    } finally {
-      setFeedbackOpen(true); // abre feedback
+      showDialog("Success", `Author "${name}" deleted successfully.`);
+    }
+    else {
+      showDialog("Error", res.error);
     }
   };
 
@@ -58,11 +45,11 @@ export default function AuthorsListPage() {
       <Card className="w-full max-w-6xl mx-auto p-8">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-3xl">✍️ Autores</CardTitle>
-          <Button onClick={() => navigate("/authors/new")}>+ Novo Autor</Button>
+          <Button onClick={() => navigate("/authors/new")}>+ New Author</Button>
         </CardHeader>
         <CardContent>
           {loading ? (
-            <p className="text-center text-gray-500">Carregando autores...</p>
+            <p className="text-center text-gray-500">Loading authors...</p>
           ) : (
             <AuthorList
               authors={authors}
@@ -72,12 +59,6 @@ export default function AuthorsListPage() {
           )}
         </CardContent>
       </Card>
-      <FeedbackDialog
-        open={feedbackOpen}
-        onOpenChange={setFeedbackOpen}
-        title={feedbackMessage.title}
-        description={feedbackMessage.description}
-      />
     </div>
   );
 }

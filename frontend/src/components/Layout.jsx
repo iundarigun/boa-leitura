@@ -18,6 +18,12 @@ export default function Layout() {
             >
               <Link to="/authors">Authors</Link>
             </Button>
+            <Button
+              variant={location.pathname.startsWith("/genres") ? "default" : "outline"}
+              asChild
+            >
+              <Link to="/genres">Genres</Link>
+            </Button>
           </nav>
         </div>
       </header>

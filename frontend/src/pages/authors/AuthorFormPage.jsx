@@ -1,66 +1,51 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import AuthorForm from "../../components/authors/AuthorForm";
-import FeedbackDialog from "../../components/FeedbackDialog";
+import { useDialog } from "../../context/DialogContext";
+import api, { apiCall } from "../../lib/api";
 
-const API_URL = "http://localhost:1980/authors";
+const API_URL = "/authors";
 
 export default function AuthorFormPage() {
   const [editingAuthor, setEditingAuthor] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogMessage, setDialogMessage] = useState({ title: "", description: "" });
+  const { showDialog } = useDialog();
 
   useEffect(() => {
-    if (id) {
-      axios
-        .get(`${API_URL}/${id}`)
-        .then((res) => setEditingAuthor(res.data))
-        .catch(() => {
-          setDialogMessage({
-            title: "Erro",
-            description: "Não foi possível carregar o autor.",
-          });
-          setDialogOpen(true);
-        });
-    }
+    fechAuthor();
   }, [id]);
 
-  const handleSave = async (author) => {
-    try{
-      if (id) {
-        await axios.put(`${API_URL}/${id}`, author);
-        setDialogMessage({
-            title: "Sucesso",
-            description: "Autor atualizado com sucesso!",
-            });
+  const fechAuthor = async () => {
+    if (id) {
+      setLoading(true);
+      const res = await apiCall(() => api.get(`${API_URL}/${id}`));
+      if (res.data) {
+        setEditingAuthor(res.data);
       } else {
-        await axios.post(API_URL, author);
-        setDialogMessage({
-            title: "Sucesso",
-            description: "Autor criado com sucesso!",
-            });
+          showDialog("Error", "Not possible to load the author.");
       }
-      setDialogOpen(true);
+      setLoading(false);
+    }
+  }
 
+  const handleSave = async (author) => {
+    var res = {};
+    if (id) {
+      res = await apiCall(() => api.put(`${API_URL}/${id}`, author));
+    } else {
+      res = await apiCall(() => api.post(API_URL, author));
+    }
+    if (res.data) {
+      showDialog("Sucess", `Author ${id? "updated": "created"} successfully!`);
       const timer = setTimeout(() => {
         navigate("/authors");
       }, 2000);
       return () => clearTimeout(timer);
-    } catch (err) {
-      var description = `Não foi possível salvar o autor.`
-      if (err.response && err.response.data && err.response.data.message) {
-         description = err.response.data.message
-      }
-      setDialogMessage({
-        title: "Erro",
-        description: description,
-      });
-      setDialogOpen(true);
+   } else {
+      showDialog("Error", res.error);
     }
   };
 
@@ -69,24 +54,21 @@ export default function AuthorFormPage() {
       <Card className="w-full max-w-lg mx-auto p-8">
         <CardHeader>
           <CardTitle className="text-2xl">
-            {id ? "✏️ Editar Autor" : "➕ Novo Autor"}
+            {id ? "✏️ Edit Author" : "➕ New Author"}
           </CardTitle>
         </CardHeader>
         <CardContent>
+          {loading ? (
+            <p className="text-center text-gray-500">Loading author...</p>
+          ) : (
           <AuthorForm
             onSave={handleSave}
             editingAuthor={editingAuthor}
             onCancel={() => navigate("/authors")}
           />
+          )}
         </CardContent>
       </Card>
-
-      <FeedbackDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        title={dialogMessage.title}
-        description={dialogMessage.description}
-      />
     </div>
   );
 }

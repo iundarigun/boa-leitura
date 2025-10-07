@@ -37,41 +37,41 @@ export default function AuthorForm({ onSave, editingAuthor, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <Label>Nome</Label>
+        <Label>Name</Label>
         <Input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Nome do autor"
+          placeholder="Author's name"
         />
       </div>
 
       <div>
-        <Label>Gênero</Label>
+        <Label>Gender</Label>
         <Select value={gender} onValueChange={setGender}>
           <SelectTrigger>
-            <SelectValue placeholder="Selecione o gênero" />
+            <SelectValue placeholder="Select gender" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="MALE">Masculino</SelectItem>
-            <SelectItem value="FEMALE">Feminino</SelectItem>
-            <SelectItem value="COUPLE">Casal</SelectItem>
+            <SelectItem value="MALE">Male</SelectItem>
+            <SelectItem value="FEMALE">Female</SelectItem>
+            <SelectItem value="COUPLE">Multiple authors</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div>
-        <Label>Nacionalidade</Label>
+        <Label>Nationality</Label>
         <Input
           value={nationality}
           onChange={(e) => setNationality(e.target.value)}
-          placeholder="Ex: Brasileiro"
+          placeholder="Ex: Brazil"
         />
       </div>
 
       <div className="flex gap-2">
-        <Button type="submit">{editingAuthor ? "Salvar" : "Adicionar"}</Button>
+        <Button type="submit">{editingAuthor ? "Save" : "Add"}</Button>
         <Button type="button" variant="outline" onClick={onCancel}>
-          Cancelar
+          Cancel
         </Button>
       </div>
     </form>

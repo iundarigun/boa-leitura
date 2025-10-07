@@ -2,6 +2,7 @@ package cat.iundarigun.boaleitura.infrastructure.rest.controller
 
 import cat.iundarigun.boaleitura.application.port.input.CreateGenreUseCase
 import cat.iundarigun.boaleitura.application.port.input.FindGenresUseCase
+import cat.iundarigun.boaleitura.application.port.input.GetGenreByIdUseCase
 import cat.iundarigun.boaleitura.application.port.input.UpdateGenreUseCase
 import cat.iundarigun.boaleitura.domain.request.GenreRequest
 import cat.iundarigun.boaleitura.domain.response.GenreResponse
@@ -23,7 +24,8 @@ import org.springframework.web.bind.annotation.RestController
 class GenreController(
     private val findGenreUseCase: FindGenresUseCase,
     private val createGenreUseCase: CreateGenreUseCase,
-    private val updateGenreUseCase: UpdateGenreUseCase
+    private val updateGenreUseCase: UpdateGenreUseCase,
+    private val getGenreByIdUseCase: GetGenreByIdUseCase
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -32,6 +34,13 @@ class GenreController(
     fun getGenres(): PageResponse<GenreResponse> {
         logger.info("getGenres")
         return findGenreUseCase.execute()
+    }
+
+    @GetMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun getGenreById(@PathVariable id: Long): GenreResponse {
+        logger.info("getGenreById, id=$id")
+        return getGenreByIdUseCase.execute(id)
     }
 
     @PostMapping

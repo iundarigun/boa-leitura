@@ -47,6 +47,12 @@ class GenreAdapter(
     override fun existsParentIdInHierarchy(startId: Long, parentId: Long): Boolean =
         genreRepository.existsParentIdInHierarchy(startId, parentId)
 
+    @Transactional(readOnly = true)
+    override fun findById(id: Long): GenreResponse {
+        val author = genreRepository.findById(id).orElseThrow { GenreNotFoundException(id) }
+        return author.toResponse()
+    }
+
     @Transactional
     override fun save(request: GenreRequest, id: Long?): GenreResponse {
         val parent = request.parentGenreId?.let {

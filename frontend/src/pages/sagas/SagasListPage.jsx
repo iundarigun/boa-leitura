@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import SagaList from "../../components/sagas/SagaList";
+import SagaDetails from "../../components/sagas/SagaDetails";
 
 import { useDialog } from "../../context/DialogContext";
 import api, { apiCall } from "../../lib/api";
@@ -13,7 +14,7 @@ export default function SagasListPage() {
   const [sagas, setSagas] = useState({"content": []});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { showError, showSuccess } = useDialog();
+  const { showError, showSuccess, showDialog } = useDialog();
 
   useEffect(() => {
     fetchSagas();
@@ -41,6 +42,15 @@ export default function SagasListPage() {
     }
   };
 
+  const handleView = async (saga) => {
+    const res = await apiCall(() => api.get(`${API_URL}/${saga.id}`));
+    if (res.error) {
+      showError(res.error);
+      return;
+    }
+    showDialog("Details", <SagaDetails saga={res.data} />)
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
       <Card className="w-full max-w-6xl mx-auto p-8">
@@ -56,6 +66,7 @@ export default function SagasListPage() {
               sagas={sagas}
               onEdit={(saga) => navigate(`/sagas/${saga.id}/edit`)}
               onDelete={handleDelete}
+              onView={handleView}
             />
           )}
         </CardContent>

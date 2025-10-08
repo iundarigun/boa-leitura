@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import SagaDetails from "@/components/sagas/SagaDetails";
 
 export default function SagaForm({ onSave, editingSaga, onCancel, loading }) {
   const [name, setName] = useState(null);
@@ -79,6 +80,9 @@ export default function SagaForm({ onSave, editingSaga, onCancel, loading }) {
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
         </Button>
+      </div>
+      <div>
+        <SagaDetails saga={editingSaga} />
       </div>
     </form>
   );

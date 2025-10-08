@@ -45,7 +45,7 @@ export default function GenreFormPage() {
   };
 
   const handleSave = async (genre) => {
-    if (!genre.name && !genre.name.trim()) {
+    if (!genre.name || !genre.name.trim()) {
       showError("Genre name is required.");
       return;
     }

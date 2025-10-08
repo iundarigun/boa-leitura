@@ -3,11 +3,8 @@ package cat.iundarigun.boaleitura.integration.genre
 import cat.iundarigun.boaleitura.configuration.FakerConfiguration
 import cat.iundarigun.boaleitura.configuration.TestContainerBaseConfiguration
 import cat.iundarigun.boaleitura.domain.response.ErrorResponse
-import cat.iundarigun.boaleitura.factory.AuthorEntityFactory
 import cat.iundarigun.boaleitura.factory.BookEntityFactory
 import cat.iundarigun.boaleitura.factory.GenreEntityFactory
-import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
-import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.GenreRepository
 import io.restassured.RestAssured
 import org.junit.jupiter.api.Assertions
@@ -16,8 +13,7 @@ import org.springframework.http.HttpStatus
 
 class GenreEntityDeleteEndpointTest(
     private val genreRepository: GenreRepository,
-    private val bookRepository: BookRepository,
-    private val authorRepository: AuthorRepository
+    private val bookEntityFactory: BookEntityFactory
 ) : TestContainerBaseConfiguration() {
 
     @Test
@@ -60,12 +56,7 @@ class GenreEntityDeleteEndpointTest(
     @Test
     fun `delete genre by id with books`() {
         val genre = genreRepository.save(GenreEntityFactory.build())
-        bookRepository.save(
-            BookEntityFactory.build(
-                author = authorRepository.save(AuthorEntityFactory.build()),
-                genre = genre
-            )
-        )
+        bookEntityFactory.buildAndSave(genre = genre)
 
         val count = genreRepository.count()
 

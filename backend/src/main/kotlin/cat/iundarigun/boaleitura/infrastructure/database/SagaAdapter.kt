@@ -28,9 +28,9 @@ class SagaAdapter(
     override fun findByName(name: String): SagaResponse? =
         sagaRepository.findByName(name)?.toResponse()
 
-    override fun findById(id: Long): SagaResponse {
-        TODO("Not yet implemented")
-    }
+    @Transactional(readOnly = true)
+    override fun findById(id: Long): SagaResponse =
+        sagaRepository.findByIdOrderByBooksSagaOrder(id)?.toResponse(true) ?: throw SagaNotFoundException(id)
 
     override fun sagaBookCount(id: Long): Int {
         TODO("Not yet implemented")

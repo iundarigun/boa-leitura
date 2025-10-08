@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class GetSagaByIdUseCaseImpl(private val sagaPort: SagaPort) : GetSagaByIdUseCase {
-    override fun execute(id: Long): SagaResponse {
-        TODO()
-    }
+    override fun execute(id: Long): SagaResponse =
+        sagaPort.findById(id)
 }

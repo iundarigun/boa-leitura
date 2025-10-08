@@ -12,14 +12,27 @@ fun SagaRequest.toEntity(): SagaEntity =
         concluded = this.concluded
     )
 
-fun SagaEntity.toResponse(): SagaResponse =
-    SagaResponse(
+fun SagaEntity.toResponse(processBooks: Boolean = false): SagaResponse {
+    val mainTitles = if (processBooks) {
+        this.books.filter { it.sagaMainTitle ?: false }.map { it.title }
+    } else {
+        null
+    }
+    val complementaryTitles = if (processBooks) {
+        this.books.filter { it.sagaMainTitle?.not() ?: false }.map { it.title }
+    } else {
+        null
+    }
+    return SagaResponse(
         id = this.id,
         name = this.name,
         totalMainTitles = this.totalMainTitles,
         totalComplementaryTitles = this.totalComplementaryTitles,
-        concluded = this.concluded
+        concluded = this.concluded,
+        mainTitles = mainTitles,
+        complementaryTitles = complementaryTitles
     )
+}
 
 fun SagaEntity.merge(request: SagaRequest): SagaEntity {
     name = request.name

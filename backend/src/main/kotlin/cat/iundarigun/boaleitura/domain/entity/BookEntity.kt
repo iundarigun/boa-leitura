@@ -36,6 +36,10 @@ data class BookEntity(
     @ManyToOne
     var saga: SagaEntity? = null,
 
+    var sagaOrder: Double? = null,
+
+    var sagaMainTitle: Boolean? = null,
+
     @ManyToOne
     var genre: GenreEntity? = null,
 

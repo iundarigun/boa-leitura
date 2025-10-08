@@ -6,7 +6,6 @@ import cat.iundarigun.boaleitura.domain.response.ErrorResponse
 import cat.iundarigun.boaleitura.factory.AuthorEntityFactory
 import cat.iundarigun.boaleitura.factory.BookEntityFactory
 import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
-import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import io.restassured.RestAssured
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -14,7 +13,7 @@ import org.springframework.http.HttpStatus
 
 class AuthorEntityDeleteEndpointTest(
     private val authorRepository: AuthorRepository,
-    private val bookRepository: BookRepository
+    private val bookEntityFactory: BookEntityFactory,
 ) : TestContainerBaseConfiguration() {
 
     @Test
@@ -36,7 +35,7 @@ class AuthorEntityDeleteEndpointTest(
     @Test
     fun `delete author by id with books`() {
         val author = authorRepository.save(AuthorEntityFactory.build())
-        bookRepository.save(BookEntityFactory.build(author = author))
+        bookEntityFactory.buildAndSave(author = author)
 
         val count = authorRepository.count()
 

@@ -7,12 +7,10 @@ import cat.iundarigun.boaleitura.domain.response.GenreResponse
 import cat.iundarigun.boaleitura.exception.GenreAlreadyExistsException
 import cat.iundarigun.boaleitura.exception.GenreParentNotFoundException
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 
 @Component
 class CreateGenreUseCaseImpl(val genrePort: GenrePort) : CreateGenreUseCase {
 
-    @Transactional
     override fun execute(request: GenreRequest): GenreResponse {
         if (genrePort.existsByName(request.name)) {
             throw GenreAlreadyExistsException(request.name)

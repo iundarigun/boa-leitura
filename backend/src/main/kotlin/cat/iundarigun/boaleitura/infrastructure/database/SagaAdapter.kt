@@ -8,16 +8,26 @@ import cat.iundarigun.boaleitura.exception.SagaNotFoundException
 import cat.iundarigun.boaleitura.extensions.merge
 import cat.iundarigun.boaleitura.extensions.toEntity
 import cat.iundarigun.boaleitura.extensions.toResponse
+import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.SagaRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class SagaAdapter(
-    private val sagaRepository: SagaRepository
+    private val sagaRepository: SagaRepository,
+    private val bookRepository: BookRepository,
 ) : SagaPort {
+
+    @Transactional(readOnly = true)
     override fun find(): PageResponse<SagaResponse> {
-        TODO("Not yet implemented")
+        val sagas = sagaRepository.findAll()
+            .map { it.toResponse() }
+        return PageResponse(
+            content = sagas,
+            page = 1,
+            totalPages = 1
+        )
     }
 
     @Transactional(readOnly = true)
@@ -32,9 +42,9 @@ class SagaAdapter(
     override fun findById(id: Long): SagaResponse =
         sagaRepository.findByIdOrderByBooksSagaOrder(id)?.toResponse(true) ?: throw SagaNotFoundException(id)
 
-    override fun sagaBookCount(id: Long): Int {
-        TODO("Not yet implemented")
-    }
+    @Transactional(readOnly = true)
+    override fun sagaBookCount(id: Long): Int =
+        bookRepository.countBySagaId(id)
 
     @Transactional
     override fun save(request: SagaRequest, id: Long?): SagaResponse {
@@ -47,7 +57,11 @@ class SagaAdapter(
         return sagaRepository.save(saga.merge(request)).toResponse()
     }
 
+    @Transactional
     override fun delete(id: Long) {
-        TODO("Not yet implemented")
+        if (!sagaRepository.existsById(id)) {
+            throw SagaNotFoundException(id)
+        }
+        sagaRepository.deleteById(id)
     }
 }

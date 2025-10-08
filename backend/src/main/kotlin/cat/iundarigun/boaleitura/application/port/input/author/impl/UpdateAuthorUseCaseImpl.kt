@@ -6,12 +6,10 @@ import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.exception.AuthorAlreadyExistsException
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 
 @Component
 class UpdateAuthorUseCaseImpl(private val authorPort: AuthorPort) : UpdateAuthorUseCase {
 
-    @Transactional
     override fun execute(id: Long, request: AuthorRequest): AuthorResponse {
         authorPort.findByName(request.name)?.let {
             if (it.id != id) {

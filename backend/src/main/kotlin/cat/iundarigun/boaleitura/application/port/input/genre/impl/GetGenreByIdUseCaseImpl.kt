@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class GetGenreByIdUseCaseImpl(private val genrePort: GenrePort) : GetGenreByIdUseCase {
+
     override fun execute(id: Long): GenreResponse =
         genrePort.findById(id)
 }

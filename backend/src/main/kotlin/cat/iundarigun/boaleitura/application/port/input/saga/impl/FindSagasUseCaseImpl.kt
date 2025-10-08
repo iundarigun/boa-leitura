@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class FindSagasUseCaseImpl(private val sagaPort: SagaPort) : FindSagasUseCase {
-    override fun execute(): PageResponse<SagaResponse> {
-        TODO()
-    }
+
+    override fun execute(): PageResponse<SagaResponse> =
+        sagaPort.find()
 }

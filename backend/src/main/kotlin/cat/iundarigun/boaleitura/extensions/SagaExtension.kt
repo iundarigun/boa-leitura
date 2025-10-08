@@ -20,3 +20,11 @@ fun SagaEntity.toResponse(): SagaResponse =
         totalComplementaryTitles = this.totalComplementaryTitles,
         concluded = this.concluded
     )
+
+fun SagaEntity.merge(request: SagaRequest): SagaEntity {
+    name = request.name
+    totalMainTitles = request.totalMainTitles
+    totalComplementaryTitles = request.totalComplementaryTitles
+    concluded = request.concluded
+    return this
+}

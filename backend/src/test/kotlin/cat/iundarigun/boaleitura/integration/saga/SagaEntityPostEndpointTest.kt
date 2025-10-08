@@ -108,5 +108,4 @@ class SagaEntityPostEndpointTest(private val sagaRepository: SagaRepository) : T
         Assertions.assertEquals(count, sagaRepository.count())
         Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), response.code)
     }
-
 }

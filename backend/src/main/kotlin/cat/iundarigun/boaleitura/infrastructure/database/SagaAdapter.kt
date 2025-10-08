@@ -4,6 +4,8 @@ import cat.iundarigun.boaleitura.application.port.output.SagaPort
 import cat.iundarigun.boaleitura.domain.request.SagaRequest
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.domain.response.SagaResponse
+import cat.iundarigun.boaleitura.exception.SagaNotFoundException
+import cat.iundarigun.boaleitura.extensions.merge
 import cat.iundarigun.boaleitura.extensions.toEntity
 import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.SagaRepository
@@ -22,9 +24,9 @@ class SagaAdapter(
     override fun existsByName(name: String): Boolean =
         sagaRepository.existsByName(name)
 
-    override fun findByName(name: String): SagaResponse? {
-        TODO("Not yet implemented")
-    }
+    @Transactional(readOnly = true)
+    override fun findByName(name: String): SagaResponse? =
+        sagaRepository.findByName(name)?.toResponse()
 
     override fun findById(id: Long): SagaResponse {
         TODO("Not yet implemented")
@@ -39,7 +41,10 @@ class SagaAdapter(
         if (id == null) {
             return sagaRepository.save(request.toEntity()).toResponse()
         }
-        TODO()
+        val saga = sagaRepository.findById(id)
+            .orElseThrow { SagaNotFoundException(id) }
+
+        return sagaRepository.save(saga.merge(request)).toResponse()
     }
 
     override fun delete(id: Long) {

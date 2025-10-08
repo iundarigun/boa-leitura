@@ -9,7 +9,7 @@ export default function Layout() {
       {/* Navbar */}
       <header className="bg-white border-b shadow-sm">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <h1 className="text-xl font-bold text-gray-700">📚 Boa Leitura</h1>
+          <h1 className="text-xl font-bold text-gray-700">📖 Boa Leitura</h1>
 
           <nav className="flex gap-4">
             <Button
@@ -23,6 +23,12 @@ export default function Layout() {
               asChild
             >
               <Link to="/genres">Genres</Link>
+            </Button>
+            <Button
+              variant={location.pathname.startsWith("/sagas") ? "default" : "outline"}
+              asChild
+            >
+              <Link to="/sagas">Sagas</Link>
             </Button>
           </nav>
         </div>

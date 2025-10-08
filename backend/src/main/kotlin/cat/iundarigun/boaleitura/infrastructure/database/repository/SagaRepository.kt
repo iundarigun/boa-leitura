@@ -1,0 +1,9 @@
+package cat.iundarigun.boaleitura.infrastructure.database.repository
+
+import cat.iundarigun.boaleitura.domain.entity.SagaEntity
+import org.springframework.data.repository.CrudRepository
+
+interface SagaRepository : CrudRepository<SagaEntity, Long> {
+    fun findByName(name: String): SagaEntity?
+    fun existsByName(name: String): Boolean
+}

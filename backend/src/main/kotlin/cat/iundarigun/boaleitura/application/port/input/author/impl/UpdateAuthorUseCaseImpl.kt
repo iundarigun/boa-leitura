@@ -1,6 +1,6 @@
-package cat.iundarigun.boaleitura.application.port.input.interactor.author
+package cat.iundarigun.boaleitura.application.port.input.author.impl
 
-import cat.iundarigun.boaleitura.application.port.input.UpdateAuthorUseCase
+import cat.iundarigun.boaleitura.application.port.input.author.UpdateAuthorUseCase
 import cat.iundarigun.boaleitura.application.port.output.AuthorPort
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse

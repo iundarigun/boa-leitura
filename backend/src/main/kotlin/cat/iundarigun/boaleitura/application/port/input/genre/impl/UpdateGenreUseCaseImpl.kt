@@ -1,6 +1,6 @@
-package cat.iundarigun.boaleitura.application.port.input.interactor.genre
+package cat.iundarigun.boaleitura.application.port.input.genre.impl
 
-import cat.iundarigun.boaleitura.application.port.input.UpdateGenreUseCase
+import cat.iundarigun.boaleitura.application.port.input.genre.UpdateGenreUseCase
 import cat.iundarigun.boaleitura.application.port.output.GenrePort
 import cat.iundarigun.boaleitura.domain.request.GenreRequest
 import cat.iundarigun.boaleitura.domain.response.GenreResponse

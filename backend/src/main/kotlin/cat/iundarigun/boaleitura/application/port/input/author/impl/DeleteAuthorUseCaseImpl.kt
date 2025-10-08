@@ -1,6 +1,6 @@
-package cat.iundarigun.boaleitura.application.port.input.interactor.author
+package cat.iundarigun.boaleitura.application.port.input.author.impl
 
-import cat.iundarigun.boaleitura.application.port.input.DeleteAuthorUseCase
+import cat.iundarigun.boaleitura.application.port.input.author.DeleteAuthorUseCase
 import cat.iundarigun.boaleitura.application.port.output.AuthorPort
 import cat.iundarigun.boaleitura.exception.AuthorDeleteException
 import org.springframework.stereotype.Component

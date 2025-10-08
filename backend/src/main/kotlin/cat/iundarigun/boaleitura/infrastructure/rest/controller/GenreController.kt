@@ -1,10 +1,10 @@
 package cat.iundarigun.boaleitura.infrastructure.rest.controller
 
-import cat.iundarigun.boaleitura.application.port.input.CreateGenreUseCase
-import cat.iundarigun.boaleitura.application.port.input.DeleteGenreUseCase
-import cat.iundarigun.boaleitura.application.port.input.FindGenresUseCase
-import cat.iundarigun.boaleitura.application.port.input.GetGenreByIdUseCase
-import cat.iundarigun.boaleitura.application.port.input.UpdateGenreUseCase
+import cat.iundarigun.boaleitura.application.port.input.genre.CreateGenreUseCase
+import cat.iundarigun.boaleitura.application.port.input.genre.DeleteGenreUseCase
+import cat.iundarigun.boaleitura.application.port.input.genre.FindGenresUseCase
+import cat.iundarigun.boaleitura.application.port.input.genre.GetGenreByIdUseCase
+import cat.iundarigun.boaleitura.application.port.input.genre.UpdateGenreUseCase
 import cat.iundarigun.boaleitura.domain.request.GenreRequest
 import cat.iundarigun.boaleitura.domain.response.GenreResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse

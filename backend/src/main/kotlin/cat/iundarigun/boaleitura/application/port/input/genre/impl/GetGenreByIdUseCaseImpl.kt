@@ -1,6 +1,6 @@
-package cat.iundarigun.boaleitura.application.port.input.interactor.genre
+package cat.iundarigun.boaleitura.application.port.input.genre.impl
 
-import cat.iundarigun.boaleitura.application.port.input.GetGenreByIdUseCase
+import cat.iundarigun.boaleitura.application.port.input.genre.GetGenreByIdUseCase
 import cat.iundarigun.boaleitura.application.port.output.GenrePort
 import cat.iundarigun.boaleitura.domain.response.GenreResponse
 import org.springframework.stereotype.Component

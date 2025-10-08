@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.application.port.input
+package cat.iundarigun.boaleitura.application.port.input.author
 
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 

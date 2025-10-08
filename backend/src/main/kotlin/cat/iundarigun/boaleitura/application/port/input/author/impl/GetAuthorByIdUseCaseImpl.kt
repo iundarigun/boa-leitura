@@ -1,6 +1,6 @@
-package cat.iundarigun.boaleitura.application.port.input.interactor.author
+package cat.iundarigun.boaleitura.application.port.input.author.impl
 
-import cat.iundarigun.boaleitura.application.port.input.GetAuthorByIdUseCase
+import cat.iundarigun.boaleitura.application.port.input.author.GetAuthorByIdUseCase
 import cat.iundarigun.boaleitura.application.port.output.AuthorPort
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import org.springframework.stereotype.Component

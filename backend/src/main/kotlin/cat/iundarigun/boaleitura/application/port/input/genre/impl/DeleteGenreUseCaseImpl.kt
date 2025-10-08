@@ -1,6 +1,6 @@
-package cat.iundarigun.boaleitura.application.port.input.interactor.genre
+package cat.iundarigun.boaleitura.application.port.input.genre.impl
 
-import cat.iundarigun.boaleitura.application.port.input.DeleteGenreUseCase
+import cat.iundarigun.boaleitura.application.port.input.genre.DeleteGenreUseCase
 import cat.iundarigun.boaleitura.application.port.output.GenrePort
 import cat.iundarigun.boaleitura.exception.GenreDeleteException
 import org.springframework.stereotype.Component

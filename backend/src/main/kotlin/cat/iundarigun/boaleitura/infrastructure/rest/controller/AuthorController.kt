@@ -1,10 +1,10 @@
 package cat.iundarigun.boaleitura.infrastructure.rest.controller
 
-import cat.iundarigun.boaleitura.application.port.input.CreateAuthorUseCase
-import cat.iundarigun.boaleitura.application.port.input.DeleteAuthorUseCase
-import cat.iundarigun.boaleitura.application.port.input.FindAuthorsUseCase
-import cat.iundarigun.boaleitura.application.port.input.GetAuthorByIdUseCase
-import cat.iundarigun.boaleitura.application.port.input.UpdateAuthorUseCase
+import cat.iundarigun.boaleitura.application.port.input.author.CreateAuthorUseCase
+import cat.iundarigun.boaleitura.application.port.input.author.DeleteAuthorUseCase
+import cat.iundarigun.boaleitura.application.port.input.author.FindAuthorsUseCase
+import cat.iundarigun.boaleitura.application.port.input.author.GetAuthorByIdUseCase
+import cat.iundarigun.boaleitura.application.port.input.author.UpdateAuthorUseCase
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse

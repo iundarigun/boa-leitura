@@ -43,6 +43,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [ ] Add github actions to build on PR and on merge
 [X] Move to Hexagonal
 [ ] ArchUnit tests
+[ ] Verify error message
 
 ### Authors
 [X] Add integration tests
@@ -53,6 +54,10 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Add genre
 [ ] Add endpoints to add books
 [ ] Languages for the title
+
+### Sagas
+[X] Crud Sagas
+[X] Move status to out of Saga entity
 
 ### Genre
 [X] Add CRUD for genre

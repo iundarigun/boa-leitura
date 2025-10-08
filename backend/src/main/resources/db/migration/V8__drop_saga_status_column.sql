@@ -1,0 +1,2 @@
+ALTER TABLE saga
+DROP COLUMN status;

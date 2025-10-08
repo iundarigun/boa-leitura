@@ -56,8 +56,8 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [ ] Languages for the title
 
 ### Sagas
-[ ] Crud Sagas
-[ ] Move status to out of Saga entity
+[X] Crud Sagas
+[X] Move status to out of Saga entity
 
 ### Genre
 [X] Add CRUD for genre

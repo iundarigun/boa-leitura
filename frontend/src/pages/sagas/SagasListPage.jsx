@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import SagaList from "../../components/sagas/SagaList";
+import Pagination from "../../components/Pagination";
 import SagaDetails from "../../components/sagas/SagaDetails";
 
 import { useDialog } from "../../context/DialogContext";
@@ -12,19 +13,23 @@ const API_URL = "/sagas";
 
 export default function SagasListPage() {
   const [sagas, setSagas] = useState({"content": []});
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { showError, showSuccess, showDialog } = useDialog();
 
   useEffect(() => {
     fetchSagas();
-  }, []);
+  }, [page]);
 
   const fetchSagas = async () => {
     setLoading(true);
-    const res = await apiCall(() => api.get(API_URL));
+    const res = await apiCall(() => api.get(`${API_URL}?page=${page}`));
     if (!res.error) {
       setSagas(res.data);
+      setPage(res.data.page);
+      setTotalPages(res.data.totalPages);
     } else {
       showError(res.error);
     }
@@ -58,6 +63,11 @@ export default function SagasListPage() {
           <CardTitle className="text-3xl">📚 Sagas</CardTitle>
           <Button onClick={() => navigate("/sagas/new")}>+ New saga</Button>
         </CardHeader>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          />
         <CardContent>
           {loading ? (
             <p className="text-center text-gray-500">Loading sagas...</p>
@@ -70,6 +80,11 @@ export default function SagasListPage() {
             />
           )}
         </CardContent>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          />
       </Card>      
     </div>
   );

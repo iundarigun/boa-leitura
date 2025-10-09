@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import GenreList from "../../components/genres/GenreList";
+import Pagination from "../../components/Pagination";
 import { useDialog } from "../../context/DialogContext";
 import api, { apiCall } from "../../lib/api";
 
@@ -11,18 +12,22 @@ const API_URL = "/genres";
 export default function GenresListPage() {
   const [genres, setGenres] = useState({"content": []});
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
   const { showError, showSuccess } = useDialog();
 
   useEffect(() => {
     fetchGenres();
-  }, []);
+  }, [page]);
 
   const fetchGenres = async () => {
     setLoading(true);
-    const res = await apiCall(() => api.get(API_URL));
+    const res = await apiCall(() => api.get(`${API_URL}?page=${page}`));
     if (!res.error) {
       setGenres(res.data);
+      setPage(res.data.page);
+      setTotalPages(res.data.totalPages);      
     } else {
       showError(res.error);
     }
@@ -47,6 +52,11 @@ export default function GenresListPage() {
           <CardTitle className="text-3xl">🐉 Genres</CardTitle>
           <Button onClick={() => navigate("/genres/new")}>+ New genre</Button>
         </CardHeader>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          />
         <CardContent>
           {loading ? (
             <p className="text-center text-gray-500">Loading genres...</p>
@@ -58,6 +68,11 @@ export default function GenresListPage() {
             />
           )}
         </CardContent>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          />
       </Card>      
     </div>
   );

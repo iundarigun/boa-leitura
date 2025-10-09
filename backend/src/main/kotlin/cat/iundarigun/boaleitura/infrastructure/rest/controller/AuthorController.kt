@@ -6,6 +6,7 @@ import cat.iundarigun.boaleitura.application.port.input.author.FindAuthorsUseCas
 import cat.iundarigun.boaleitura.application.port.input.author.GetAuthorByIdUseCase
 import cat.iundarigun.boaleitura.application.port.input.author.UpdateAuthorUseCase
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
+import cat.iundarigun.boaleitura.domain.request.SearchAuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import jakarta.validation.Valid
@@ -55,9 +56,9 @@ class AuthorController(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun getAuthors(): PageResponse<AuthorResponse> {
-        logger.info("getAuthors")
-        return findAuthorsUseCase.execute()
+    fun getAuthors(request: SearchAuthorRequest): PageResponse<AuthorResponse> {
+        logger.info("getAuthors, request=$request")
+        return findAuthorsUseCase.execute(request)
     }
 
     @DeleteMapping("{id}")

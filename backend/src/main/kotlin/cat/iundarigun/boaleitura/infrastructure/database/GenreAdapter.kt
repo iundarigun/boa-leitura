@@ -1,13 +1,15 @@
 package cat.iundarigun.boaleitura.infrastructure.database
 
 import cat.iundarigun.boaleitura.application.port.output.GenrePort
-import cat.iundarigun.boaleitura.domain.entity.GenreEntity
 import cat.iundarigun.boaleitura.domain.request.GenreRequest
+import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.response.GenreResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.exception.GenreNotFoundException
 import cat.iundarigun.boaleitura.extensions.merge
 import cat.iundarigun.boaleitura.extensions.toEntity
+import cat.iundarigun.boaleitura.extensions.toPageResponse
+import cat.iundarigun.boaleitura.extensions.toPageable
 import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.extensions.toResponseWithSubGenders
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
@@ -22,16 +24,10 @@ class GenreAdapter(
 ) : GenrePort {
 
     @Transactional(readOnly = true)
-    override fun findLevelZero(): PageResponse<GenreResponse> {
-        val genres = genreRepository.findByParentNull()
-            .map(GenreEntity::toResponseWithSubGenders)
-
-        return PageResponse(
-            content = genres,
-            page = 1,
-            totalPages = 1
-        )
-    }
+    override fun findLevelZero(name: String?, pageRequest: PageRequest): PageResponse<GenreResponse> =
+        genreRepository.findAllBy(name, pageRequest.toPageable())
+            .map { it.toResponseWithSubGenders() }
+            .toPageResponse()
 
     @Transactional(readOnly = true)
     override fun existsByName(name: String): Boolean =

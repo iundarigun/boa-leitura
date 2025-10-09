@@ -1,12 +1,15 @@
 package cat.iundarigun.boaleitura.infrastructure.database
 
 import cat.iundarigun.boaleitura.application.port.output.SagaPort
+import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.request.SagaRequest
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.domain.response.SagaResponse
 import cat.iundarigun.boaleitura.exception.SagaNotFoundException
 import cat.iundarigun.boaleitura.extensions.merge
 import cat.iundarigun.boaleitura.extensions.toEntity
+import cat.iundarigun.boaleitura.extensions.toPageResponse
+import cat.iundarigun.boaleitura.extensions.toPageable
 import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.SagaRepository
@@ -20,15 +23,10 @@ class SagaAdapter(
 ) : SagaPort {
 
     @Transactional(readOnly = true)
-    override fun find(): PageResponse<SagaResponse> {
-        val sagas = sagaRepository.findAll()
+    override fun find(name: String?, pageRequest: PageRequest): PageResponse<SagaResponse> =
+        sagaRepository.findAllBy(name, pageRequest.toPageable())
             .map { it.toResponse() }
-        return PageResponse(
-            content = sagas,
-            page = 1,
-            totalPages = 1
-        )
-    }
+            .toPageResponse()
 
     @Transactional(readOnly = true)
     override fun existsByName(name: String): Boolean =

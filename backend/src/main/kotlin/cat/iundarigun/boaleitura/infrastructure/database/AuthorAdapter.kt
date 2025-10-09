@@ -3,11 +3,14 @@ package cat.iundarigun.boaleitura.infrastructure.database
 import cat.iundarigun.boaleitura.application.port.output.AuthorPort
 import cat.iundarigun.boaleitura.domain.entity.AuthorEntity
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
+import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.exception.AuthorNotFoundException
 import cat.iundarigun.boaleitura.extensions.merge
 import cat.iundarigun.boaleitura.extensions.toEntity
+import cat.iundarigun.boaleitura.extensions.toPageResponse
+import cat.iundarigun.boaleitura.extensions.toPageable
 import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
@@ -53,15 +56,10 @@ class AuthorAdapter(
     }
 
     @Transactional(readOnly = true)
-    override fun find(): PageResponse<AuthorResponse> {
-        val authors = authorRepository.findAll()
-            .map(AuthorEntity::toResponse)
-        return PageResponse(
-            content = authors,
-            page = 1,
-            totalPages = 1
-        )
-    }
+    override fun find(name: String?, pageRequest: PageRequest): PageResponse<AuthorResponse> =
+        authorRepository.findAllBy(name, pageRequest.toPageable())
+                .map(AuthorEntity::toResponse)
+                .toPageResponse()
 
     @Transactional(readOnly = true)
     override fun authorBookCount(id: Long): Int =

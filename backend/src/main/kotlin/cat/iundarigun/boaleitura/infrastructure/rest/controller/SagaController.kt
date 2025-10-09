@@ -6,6 +6,7 @@ import cat.iundarigun.boaleitura.application.port.input.saga.FindSagasUseCase
 import cat.iundarigun.boaleitura.application.port.input.saga.GetSagaByIdUseCase
 import cat.iundarigun.boaleitura.application.port.input.saga.UpdateSagaUseCase
 import cat.iundarigun.boaleitura.domain.request.SagaRequest
+import cat.iundarigun.boaleitura.domain.request.SearchSagaRequest
 import cat.iundarigun.boaleitura.domain.response.SagaResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import jakarta.validation.Valid
@@ -34,9 +35,9 @@ class SagaController(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun getSagas(): PageResponse<SagaResponse> {
-        logger.info("getSagas")
-        return findSagaUseCase.execute()
+    fun getSagas(request: SearchSagaRequest): PageResponse<SagaResponse> {
+        logger.info("getSagas, request=$request")
+        return findSagaUseCase.execute(request)
     }
 
     @GetMapping("{id}")

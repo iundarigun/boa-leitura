@@ -12,8 +12,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-
-export default function SagaList({ sagas, onEdit, onDelete }) {;
+export default function SagaList({ sagas, onEdit, onDelete, onView }) {;
   if (!sagas || !sagas.content) {
     return <p className="text-gray-500 text-center">No saga found.</p>;
   }  
@@ -34,6 +33,9 @@ return (
 
           {/* ações */}
           <div className="flex gap-2">
+            <Button variant="outline" onClick={() => onView(saga)}>
+              Details
+            </Button>
             <Button variant="outline" onClick={() => onEdit(saga)}>
               Edit
             </Button>

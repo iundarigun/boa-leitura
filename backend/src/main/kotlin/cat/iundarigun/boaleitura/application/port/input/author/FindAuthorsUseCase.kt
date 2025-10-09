@@ -5,5 +5,5 @@ import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 
 interface FindAuthorsUseCase {
-    fun execute(request:SearchAuthorRequest): PageResponse<AuthorResponse>
+    fun execute(request: SearchAuthorRequest): PageResponse<AuthorResponse>
 }

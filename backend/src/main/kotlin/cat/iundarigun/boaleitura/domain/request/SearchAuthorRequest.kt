@@ -10,11 +10,9 @@ data class SearchAuthorRequest(
         ID("id"),
         NAME("name"),
         NATIONALITY("nationality"),
-        GENDER("gender");
+        GENDER("gender")
     }
 
     fun toPageRequest(): PageRequest =
         PageRequest(page, size, order.fieldName)
 }
-
-

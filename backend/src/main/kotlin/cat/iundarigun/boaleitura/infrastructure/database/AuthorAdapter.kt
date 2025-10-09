@@ -14,9 +14,6 @@ import cat.iundarigun.boaleitura.extensions.toPageable
 import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
-import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Sort
-import org.springframework.data.domain.Sort.Order
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -59,7 +56,7 @@ class AuthorAdapter(
     }
 
     @Transactional(readOnly = true)
-    override fun find(name:String?, pageRequest: PageRequest): PageResponse<AuthorResponse> {
+    override fun find(name: String?, pageRequest: PageRequest): PageResponse<AuthorResponse> {
         val authors = authorRepository.findAll(pageRequest.toPageable())
             .map(AuthorEntity::toResponse)
         return authors.toPageResponse()

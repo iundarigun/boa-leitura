@@ -6,6 +6,7 @@ import cat.iundarigun.boaleitura.application.port.input.genre.FindGenresUseCase
 import cat.iundarigun.boaleitura.application.port.input.genre.GetGenreByIdUseCase
 import cat.iundarigun.boaleitura.application.port.input.genre.UpdateGenreUseCase
 import cat.iundarigun.boaleitura.domain.request.GenreRequest
+import cat.iundarigun.boaleitura.domain.request.SearchGenreRequest
 import cat.iundarigun.boaleitura.domain.response.GenreResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import jakarta.validation.Valid
@@ -34,9 +35,9 @@ class GenreController(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun getGenres(): PageResponse<GenreResponse> {
-        logger.info("getGenres")
-        return findGenreUseCase.execute()
+    fun getGenres(request: SearchGenreRequest): PageResponse<GenreResponse> {
+        logger.info("getGenres, request=$request")
+        return findGenreUseCase.execute(request)
     }
 
     @GetMapping("{id}")

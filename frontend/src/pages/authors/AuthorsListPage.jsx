@@ -18,12 +18,12 @@ export default function AuthorsListPage() {
   const { showError, showSuccess } = useDialog();
 
   useEffect(() => {
-    fetchAuthors(page);
+    fetchAuthors();
   }, [page]);
 
-  const fetchAuthors = async (pageNum = 1) => {
+  const fetchAuthors = async () => {
     setLoading(true);
-    const res = await apiCall(() => api.get(`${API_URL}?page=${pageNum}`));
+    const res = await apiCall(() => api.get(`${API_URL}?page=${page}`));
     if (!res.error) {
       setAuthors(res.data);
       setPage(res.data.page);

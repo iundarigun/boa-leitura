@@ -56,19 +56,10 @@ class AuthorAdapter(
     }
 
     @Transactional(readOnly = true)
-    override fun find(name: String?, pageRequest: PageRequest): PageResponse<AuthorResponse> {
-        val pageable = pageRequest.toPageable()
-
-        if (name.isNullOrBlank()) {
-            return authorRepository.findAll(pageable)
+    override fun find(name: String?, pageRequest: PageRequest): PageResponse<AuthorResponse> =
+        authorRepository.findAllBy(name, pageRequest.toPageable())
                 .map(AuthorEntity::toResponse)
                 .toPageResponse()
-        }
-
-        return authorRepository.findByNameIsContainingIgnoreCase(name, pageable)
-            .map(AuthorEntity::toResponse)
-            .toPageResponse()
-    }
 
     @Transactional(readOnly = true)
     override fun authorBookCount(id: Long): Int =

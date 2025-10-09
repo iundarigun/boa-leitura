@@ -1,11 +1,12 @@
 package cat.iundarigun.boaleitura.application.port.output
 
+import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.request.SagaRequest
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.domain.response.SagaResponse
 
 interface SagaPort {
-    fun find(): PageResponse<SagaResponse>
+    fun find(name: String?, pageRequest: PageRequest): PageResponse<SagaResponse>
     fun existsByName(name: String): Boolean
     fun findByName(name: String): SagaResponse?
     fun findById(id: Long): SagaResponse

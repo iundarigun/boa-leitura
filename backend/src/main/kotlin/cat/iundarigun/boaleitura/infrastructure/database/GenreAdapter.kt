@@ -1,7 +1,6 @@
 package cat.iundarigun.boaleitura.infrastructure.database
 
 import cat.iundarigun.boaleitura.application.port.output.GenrePort
-import cat.iundarigun.boaleitura.domain.entity.GenreEntity
 import cat.iundarigun.boaleitura.domain.request.GenreRequest
 import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.response.GenreResponse
@@ -25,16 +24,10 @@ class GenreAdapter(
 ) : GenrePort {
 
     @Transactional(readOnly = true)
-    override fun findLevelZero(name: String?, pageRequest: PageRequest): PageResponse<GenreResponse> {
-        if (name.isNullOrBlank()) {
-            return genreRepository.findByParentNull(pageRequest.toPageable())
-                .map(GenreEntity::toResponseWithSubGenders)
-                .toPageResponse()
-        }
-        return genreRepository.findFirstLevelByNameLike(name, pageRequest.toPageable())
-            .map(GenreEntity::toResponseWithSubGenders)
+    override fun findLevelZero(name: String?, pageRequest: PageRequest): PageResponse<GenreResponse> =
+        genreRepository.findAllBy(name, pageRequest.toPageable())
+            .map { it.toResponseWithSubGenders() }
             .toPageResponse()
-    }
 
     @Transactional(readOnly = true)
     override fun existsByName(name: String): Boolean =

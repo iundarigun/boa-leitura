@@ -8,5 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface AuthorRepository : JpaRepository<AuthorEntity, Long> {
     fun findByName(name: String): AuthorEntity?
     fun existsByName(name: String): Boolean
-    fun findByNameIsContainingIgnoreCase(name: String, pageable: Pageable): Page<AuthorEntity>
+    fun findAllByNameIsContainingIgnoreCase(name: String, pageable: Pageable): Page<AuthorEntity>
+
+    fun findAllBy(name: String?, pageable: Pageable): Page<AuthorEntity> {
+        return if (name.isNullOrBlank()) {
+            findAll(pageable)
+        } else {
+            findAllByNameIsContainingIgnoreCase(name, pageable)
+        }
+    }
 }

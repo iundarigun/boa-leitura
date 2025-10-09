@@ -23,7 +23,7 @@ export default function GenresListPage() {
 
   const fetchGenres = async () => {
     setLoading(true);
-    const res = await apiCall(() => api.get(`${API_URL}?page=${page}`));
+    const res = await apiCall(() => api.get(`${API_URL}?page=${page}&size=2`));
     if (!res.error) {
       setGenres(res.data);
       setPage(res.data.page);

@@ -3,14 +3,20 @@ package cat.iundarigun.boaleitura.infrastructure.database
 import cat.iundarigun.boaleitura.application.port.output.AuthorPort
 import cat.iundarigun.boaleitura.domain.entity.AuthorEntity
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
+import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.exception.AuthorNotFoundException
 import cat.iundarigun.boaleitura.extensions.merge
 import cat.iundarigun.boaleitura.extensions.toEntity
+import cat.iundarigun.boaleitura.extensions.toPageResponse
+import cat.iundarigun.boaleitura.extensions.toPageable
 import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.domain.Sort.Order
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -53,14 +59,10 @@ class AuthorAdapter(
     }
 
     @Transactional(readOnly = true)
-    override fun find(): PageResponse<AuthorResponse> {
-        val authors = authorRepository.findAll()
+    override fun find(name:String?, pageRequest: PageRequest): PageResponse<AuthorResponse> {
+        val authors = authorRepository.findAll(pageRequest.toPageable())
             .map(AuthorEntity::toResponse)
-        return PageResponse(
-            content = authors,
-            page = 1,
-            totalPages = 1
-        )
+        return authors.toPageResponse()
     }
 
     @Transactional(readOnly = true)

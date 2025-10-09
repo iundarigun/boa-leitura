@@ -6,6 +6,8 @@ import cat.iundarigun.boaleitura.application.port.input.author.FindAuthorsUseCas
 import cat.iundarigun.boaleitura.application.port.input.author.GetAuthorByIdUseCase
 import cat.iundarigun.boaleitura.application.port.input.author.UpdateAuthorUseCase
 import cat.iundarigun.boaleitura.domain.request.AuthorRequest
+import cat.iundarigun.boaleitura.domain.request.PageRequest
+import cat.iundarigun.boaleitura.domain.request.SearchAuthorRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import jakarta.validation.Valid
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
@@ -55,9 +58,9 @@ class AuthorController(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun getAuthors(): PageResponse<AuthorResponse> {
-        logger.info("getAuthors")
-        return findAuthorsUseCase.execute()
+    fun getAuthors(request: SearchAuthorRequest): PageResponse<AuthorResponse> {
+        logger.info("getAuthors, request=$request")
+        return findAuthorsUseCase.execute(request)
     }
 
     @DeleteMapping("{id}")

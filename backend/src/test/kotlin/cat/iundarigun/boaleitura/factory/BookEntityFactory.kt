@@ -28,7 +28,6 @@ class BookEntityFactory(
                 numberOfPages = FakerConfiguration.FAKER.number().numberBetween(50, 2_000),
                 publisherYear = FakerConfiguration.FAKER.number().numberBetween(1_800, 2_025),
                 isbn = FakerConfiguration.FAKER.internet().uuid(),
-                isbn13 = FakerConfiguration.FAKER.internet().uuid(),
                 originalLanguage = FakerConfiguration.FAKER.languageCode().iso639(),
                 author = author,
                 saga = saga,

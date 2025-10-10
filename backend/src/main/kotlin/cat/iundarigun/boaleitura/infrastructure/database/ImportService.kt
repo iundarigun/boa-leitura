@@ -2,7 +2,7 @@ package cat.iundarigun.boaleitura.infrastructure.database
 
 import cat.iundarigun.boaleitura.domain.enums.FormatEnum
 import cat.iundarigun.boaleitura.domain.enums.LanguageEnum
-import cat.iundarigun.boaleitura.domain.request.BookRequest
+import cat.iundarigun.boaleitura.domain.request.BookGoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.GoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.ReadingRequest
 import cat.iundarigun.boaleitura.domain.request.toGoodreadImporterRequest
@@ -38,14 +38,17 @@ class ImportService(
     }
 }
 
-private fun GoodreadsImporterRequest.toBookRequest(): BookRequest =
-    BookRequest(
+private fun GoodreadsImporterRequest.toBookRequest(): BookGoodreadsImporterRequest =
+    BookGoodreadsImporterRequest(
         goodreadsId = this.bookId,
         title = this.title,
         numberOfPages = this.numberOfPages,
         publisherYear = this.yearPublished,
-        isbn = this.isbn,
-        isbn13 = this.isbn13
+        isbn = if (this.isbn13 == "=\"\"") {
+            null
+        } else {
+            (this.isbn13.replace("=\"(.*)\"".toRegex(), "$1"))
+        },
     )
 
 private fun GoodreadsImporterRequest.toReadingRequest(): ReadingRequest =

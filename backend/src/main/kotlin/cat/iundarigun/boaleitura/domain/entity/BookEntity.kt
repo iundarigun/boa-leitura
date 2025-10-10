@@ -16,9 +16,11 @@ data class BookEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L,
 
-    var goodreadsId: Long,
+    var goodreadsId: Long? = null,
 
     var title: String,
+
+    var originalTitle: String? = null,
 
     var numberOfPages: Int? = null,
 
@@ -26,7 +28,7 @@ data class BookEntity(
 
     var isbn: String? = null,
 
-    var isbn13: String? = null,
+    var language: String? = null,
 
     var originalLanguage: String? = null,
 
@@ -42,6 +44,10 @@ data class BookEntity(
 
     @ManyToOne
     var genre: GenreEntity? = null,
+
+    var urlImage: String? = null,
+
+    var urlImageSmall: String? = null,
 
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),

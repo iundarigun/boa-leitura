@@ -4,9 +4,12 @@ import cat.iundarigun.boaleitura.configuration.FakerConfiguration
 import cat.iundarigun.boaleitura.domain.entity.GenreEntity
 
 object GenreEntityFactory {
-    fun build(parent: GenreEntity? = null): GenreEntity =
+    fun build(
+        parent: GenreEntity? = null,
+        name: String = FakerConfiguration.FAKER.lorem().characters(10, 100)
+    ): GenreEntity =
         GenreEntity(
-            name = FakerConfiguration.FAKER.lorem().characters(10, 100),
+            name = name,
             parent = parent
         )
 }

@@ -8,6 +8,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
+import jakarta.persistence.OrderBy
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
@@ -25,6 +26,7 @@ data class GenreEntity(
     @JoinColumn(name = "parent_genre_id")
     var parent: GenreEntity? = null,
 
+    @OrderBy("name")
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     var subGenres: List<GenreEntity> = listOf(),
 

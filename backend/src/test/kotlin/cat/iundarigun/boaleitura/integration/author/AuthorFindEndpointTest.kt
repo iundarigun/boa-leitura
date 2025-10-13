@@ -55,8 +55,8 @@ class AuthorFindEndpointTest(private val authorRepository: AuthorRepository) : T
         Assertions.assertEquals(1, response.page)
         Assertions.assertEquals(1, response.totalPages)
         Assertions.assertEquals(10, response.content.size)
-        names().sorted().forEachIndexed { index, name ->
-            Assertions.assertEquals(name, response.content[9 - index].name)
+        names().sorted().reversed().forEachIndexed { index, name ->
+            Assertions.assertEquals(name, response.content[index].name)
         }
     }
 
@@ -74,7 +74,7 @@ class AuthorFindEndpointTest(private val authorRepository: AuthorRepository) : T
         Assertions.assertEquals(1, response.page)
         Assertions.assertEquals(1, response.totalPages)
         Assertions.assertEquals(3, response.content.size)
-        names().filter { it.contains("xtpo", true) }
+        names().filter { it.contains("xpto", true) }
             .sorted()
             .forEachIndexed { index, name ->
                 Assertions.assertEquals(name, response.content[index].name)

@@ -42,6 +42,25 @@ class AuthorFindEndpointTest(private val authorRepository: AuthorRepository) : T
     }
 
     @Test
+    fun `get all authors descendent successfully`() {
+        val response = RestAssured.given()
+            .queryParam("directionAsc", false)
+            .`when`()
+            .get("/authors")
+            .then()
+            .statusCode(HttpStatus.OK.value())
+            .extract()
+            .`as`(object : TypeRef<PageResponse<AuthorResponse>>() {})
+
+        Assertions.assertEquals(1, response.page)
+        Assertions.assertEquals(1, response.totalPages)
+        Assertions.assertEquals(10, response.content.size)
+        names().sorted().forEachIndexed { index, name ->
+            Assertions.assertEquals(name, response.content[9 - index].name)
+        }
+    }
+
+    @Test
     fun `get authors filtering by name successfully`() {
         val response = RestAssured.given()
             .queryParam("name", "xpto")

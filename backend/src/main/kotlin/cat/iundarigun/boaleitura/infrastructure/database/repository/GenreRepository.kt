@@ -1,25 +1,13 @@
 package cat.iundarigun.boaleitura.infrastructure.database.repository
 
 import cat.iundarigun.boaleitura.domain.entity.GenreEntity
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
-import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
 
-interface GenreRepository : JpaRepository<GenreEntity, Long> {
+interface GenreRepository : JpaRepository<GenreEntity, Long>, JpaSpecificationExecutor<GenreEntity> {
     fun existsByName(name: String): Boolean
     fun findByName(name: String): GenreEntity?
-    fun findAllBy(name: String?, pageable: Pageable): Page<GenreEntity> {
-        return if (name.isNullOrBlank()) {
-            findByParentNull(pageable)
-        } else {
-            findFirstLevelByNameLike(name, pageable)
-        }
-    }
-
-    @EntityGraph(attributePaths = ["subGenres"])
-    fun findByParentNull(pageable: Pageable): Page<GenreEntity>
     fun existsByParentId(id: Long): Boolean
 
     @Query(
@@ -36,15 +24,4 @@ interface GenreRepository : JpaRepository<GenreEntity, Long> {
     """, nativeQuery = true
     )
     fun existsParentIdInHierarchy(startId: Long, parentId: Long): Boolean
-
-    @Query(
-        """
-        select g from Genre g
-        left join g.subGenres sg
-        where g.parent is null and 
-        (upper(g.name) like '%' || upper(:name) || '%' or
-        upper(sg.name) like '%' || upper(:name) || '%')
-        """
-    )
-    fun findFirstLevelByNameLike(name: String, pageable: Pageable): Page<GenreEntity>
 }

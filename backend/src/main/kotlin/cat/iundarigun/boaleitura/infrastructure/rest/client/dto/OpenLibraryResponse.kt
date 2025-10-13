@@ -15,7 +15,27 @@ data class OpenLibraryResponse(
     val publishers: List<OpenLibraryPublisherResponse>,
     val publishDate: String?,
     val cover: OpenLibraryCoverResponse?
-)
+) {
+    fun isMissingInformation(): Boolean =
+        authors.isEmpty() ||
+                numberOfPages == null ||
+                numberOfPages == 0 ||
+                publishDate == null ||
+                cover == null ||
+                cover.small == null ||
+                cover.large == null
+
+    fun getIsbn(): String? =
+        if (this.identifiers?.isbn13.isNullOrEmpty()) {
+            null
+        } else {
+            this.identifiers!!.isbn13!![0]
+        }
+
+    @Suppress("MagicNumber")
+    fun getPublisherYear(): Int? =
+        this.publishDate?.substring(this.publishDate.length - 4)?.toIntOrNull()
+}
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class OpenLibraryAuthorResponse(

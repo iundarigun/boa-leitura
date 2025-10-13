@@ -3,28 +3,18 @@ package cat.iundarigun.boaleitura.extensions
 import cat.iundarigun.boaleitura.domain.BookInformation
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.BookInformationResponse
+import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.GoogleApiItemResponse
 import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.OpenLibraryResponse
 
-@Suppress("MagicNumber")
-fun OpenLibraryResponse.toBookInformation(): BookInformation =
+fun OpenLibraryResponse.toBookInformation(googleApiItem: GoogleApiItemResponse? = null): BookInformation =
     BookInformation(
         title = this.title,
-        isbn = if (this.identifiers?.isbn13.isNullOrEmpty()) {
-            null
-        } else {
-            this.identifiers!!.isbn13!![0]
-        },
-        author = if (this.authors.isEmpty()) {
-            null
-        } else {
-            this.authors[0].name
-        },
-        numberOfPages = this.numberOfPages,
-        publisherYear = runCatching {
-            this.publishDate?.substring(this.publishDate.length - 4)?.toInt()
-        }.getOrNull(),
-        urlImage = this.cover?.large,
-        urlImageSmall = this.cover?.small
+        isbn = this.getIsbn() ?: googleApiItem?.getIsbn(),
+        author = this.authors.firstOrNull()?.name ?: googleApiItem?.volumeInfo?.authors?.firstOrNull(),
+        numberOfPages = if ((this.numberOfPages ?: 0) > 0) this.numberOfPages else googleApiItem?.volumeInfo?.pageCount,
+        publisherYear = this.getPublisherYear() ?: googleApiItem?.getPublisherYear(),
+        urlImage = this.cover?.large ?: googleApiItem?.volumeInfo?.imageLinks?.thumbnail,
+        urlImageSmall = this.cover?.small ?: googleApiItem?.volumeInfo?.imageLinks?.smallThumbnail
     )
 
 fun BookInformation.toBookInformationResponse(authorResponse: AuthorResponse?): BookInformationResponse =
@@ -36,4 +26,15 @@ fun BookInformation.toBookInformationResponse(authorResponse: AuthorResponse?): 
         urlImage = this.urlImage,
         urlImageSmall = this.urlImageSmall,
         publisherYear = this.publisherYear
+    )
+
+fun GoogleApiItemResponse.toBookInformation(): BookInformation =
+    BookInformation(
+        title = this.volumeInfo.title,
+        author = this.volumeInfo.authors.firstOrNull(),
+        numberOfPages = this.volumeInfo.pageCount,
+        isbn = this.getIsbn(),
+        publisherYear = this.getPublisherYear(),
+        urlImage = this.volumeInfo.imageLinks?.thumbnail,
+        urlImageSmall = this.volumeInfo.imageLinks?.smallThumbnail
     )

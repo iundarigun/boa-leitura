@@ -7,6 +7,7 @@ import cat.iundarigun.boaleitura.domain.request.SearchBookRequest
 import cat.iundarigun.boaleitura.domain.response.BookInformationResponse
 import cat.iundarigun.boaleitura.domain.response.BookSummaryResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
+import cat.iundarigun.boaleitura.infrastructure.rest.client.spec.GoogleApiClient
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/books")
 class BookController(
     private val findBooksUseCase: FindBooksUseCase,
-    private val bookInformationUseCase: FindBookInformationUseCase
+    private val bookInformationUseCase: FindBookInformationUseCase,
+    private val googleApiClient: GoogleApiClient
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 

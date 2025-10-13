@@ -17,7 +17,9 @@ spring:
 
 restClient:
   openLibrary:
-      baseUrl: https://openlibrary.org/api/
+    baseUrl: https://openlibrary.org/api/
+  googleApi:
+    baseUrl: https://www.googleapis.com/
 
 server:
   port: 1980

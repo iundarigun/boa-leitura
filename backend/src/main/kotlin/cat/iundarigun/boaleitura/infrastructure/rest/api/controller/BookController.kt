@@ -1,7 +1,10 @@
-package cat.iundarigun.boaleitura.infrastructure.rest.controller
+package cat.iundarigun.boaleitura.infrastructure.rest.api.controller
 
+import cat.iundarigun.boaleitura.application.port.input.book.FindBookInformationUseCase
 import cat.iundarigun.boaleitura.application.port.input.book.FindBooksUseCase
+import cat.iundarigun.boaleitura.domain.request.BookInformationRequest
 import cat.iundarigun.boaleitura.domain.request.SearchBookRequest
+import cat.iundarigun.boaleitura.domain.response.BookInformationResponse
 import cat.iundarigun.boaleitura.domain.response.BookSummaryResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import org.slf4j.LoggerFactory
@@ -14,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/books")
 class BookController(
-    private val findBooksUseCase: FindBooksUseCase
+    private val findBooksUseCase: FindBooksUseCase,
+    private val bookInformationUseCase: FindBookInformationUseCase
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -23,5 +27,11 @@ class BookController(
     fun getBooks(request: SearchBookRequest): PageResponse<BookSummaryResponse> {
         logger.info("getBooks, request=$request")
         return findBooksUseCase.execute(request)
+    }
+
+    @GetMapping("/information")
+    fun getBookInformation(request: BookInformationRequest): List<BookInformationResponse> {
+        logger.info("getBookInformation, request=$request")
+        return bookInformationUseCase.execute(request)
     }
 }

@@ -15,5 +15,9 @@ spring:
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
 
+restClient:
+  openLibrary:
+      baseUrl: https://openlibrary.org/api/
+
 server:
   port: 1980

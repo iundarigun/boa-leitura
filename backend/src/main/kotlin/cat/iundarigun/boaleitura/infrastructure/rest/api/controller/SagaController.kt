@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.infrastructure.rest.controller
+package cat.iundarigun.boaleitura.infrastructure.rest.api.controller
 
 import cat.iundarigun.boaleitura.application.port.input.saga.CreateSagaUseCase
 import cat.iundarigun.boaleitura.application.port.input.saga.DeleteSagaUseCase

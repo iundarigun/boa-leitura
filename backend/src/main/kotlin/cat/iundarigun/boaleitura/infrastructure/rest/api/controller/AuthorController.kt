@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.infrastructure.rest.controller
+package cat.iundarigun.boaleitura.infrastructure.rest.api.controller
 
 import cat.iundarigun.boaleitura.application.port.input.author.CreateAuthorUseCase
 import cat.iundarigun.boaleitura.application.port.input.author.DeleteAuthorUseCase

@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.infrastructure.rest.configuration
+package cat.iundarigun.boaleitura.infrastructure.rest.api.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

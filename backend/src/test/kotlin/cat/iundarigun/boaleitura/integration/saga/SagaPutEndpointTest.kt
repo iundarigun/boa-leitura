@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 
-class SagaEntityPutEndpointTest(private val sagaRepository: SagaRepository) : TestContainerBaseConfiguration() {
+class SagaPutEndpointTest(private val sagaRepository: SagaRepository) : TestContainerBaseConfiguration() {
 
     @Test
     fun `update saga successfully`() {

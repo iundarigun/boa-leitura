@@ -12,7 +12,10 @@ object ReadingEntityFactory {
     fun build(book: BookEntity): ReadingEntity =
         ReadingEntity(
             myRating = FakerConfiguration.FAKER.number().numberBetween(1, 5),
-            dateRead = LocalDate.ofInstant(FakerConfiguration.FAKER.timeAndDate().past(365 * 5, TimeUnit.DAYS), ZoneOffset.UTC),
+            dateRead = LocalDate.ofInstant(
+                FakerConfiguration.FAKER.timeAndDate().past(365 * 5, TimeUnit.DAYS),
+                ZoneOffset.UTC
+            ),
             book = book,
             format = FakerConfiguration.FAKER.options().option(FormatEnum::class.java),
             language = FakerConfiguration.FAKER.languageCode().iso639()

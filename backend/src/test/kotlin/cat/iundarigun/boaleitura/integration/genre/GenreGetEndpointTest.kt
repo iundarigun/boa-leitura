@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 
-class GenreEntityGetEndpointTest(private val genreRepository: GenreRepository) : TestContainerBaseConfiguration() {
+class GenreGetEndpointTest(private val genreRepository: GenreRepository) : TestContainerBaseConfiguration() {
 
     @Test
     fun `get genre by id successfully`() {

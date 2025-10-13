@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 
-class GenreEntityPutEndpointTest(private val genreRepository: GenreRepository) : TestContainerBaseConfiguration() {
+class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestContainerBaseConfiguration() {
 
     @Test
     fun `update genre without parent successfully`() {

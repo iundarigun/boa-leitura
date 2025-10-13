@@ -6,14 +6,16 @@ import cat.iundarigun.boaleitura.domain.response.BookResponse
 import cat.iundarigun.boaleitura.domain.response.ErrorResponse
 import cat.iundarigun.boaleitura.factory.BookEntityFactory
 import cat.iundarigun.boaleitura.factory.ReadingEntityFactory
-import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.ReadingRepository
 import io.restassured.RestAssured
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 
-class BookEntityGetEndpointTest(private val bookEntityFactory: BookEntityFactory, private val readingRepository: ReadingRepository) : TestContainerBaseConfiguration() {
+class BookGetEndpointTest(
+    private val bookEntityFactory: BookEntityFactory,
+    private val readingRepository: ReadingRepository
+) : TestContainerBaseConfiguration() {
 
     @Test
     fun `get complete book by id successfully`() {
@@ -51,7 +53,6 @@ class BookEntityGetEndpointTest(private val bookEntityFactory: BookEntityFactory
         Assertions.assertEquals(book.urlImageSmall, response.urlImageSmall)
         Assertions.assertEquals(book.urlImage, response.urlImage)
         Assertions.assertTrue(response.read)
-
     }
 
     @Test

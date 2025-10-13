@@ -6,7 +6,7 @@ import cat.iundarigun.boaleitura.domain.request.GenreRequest
 object GenreRequestFactory {
     fun build(parentGenreId: Long? = null): GenreRequest =
         GenreRequest(
-            name = FakerConfiguration.FAKER.book().genre(),
+            name = FakerConfiguration.FAKER.lorem().characters(10, 100),
             parentGenreId = parentGenreId
         )
 }

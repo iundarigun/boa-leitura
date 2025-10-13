@@ -15,6 +15,7 @@ data class BookResponse(
     val isbn: String? = null,
     val urlImage: String? = null,
     val urlImageSmall: String? = null,
+    val read: Boolean
 )
 
 data class SagaBookResponse(

@@ -33,7 +33,8 @@ fun BookEntity.toResponse() =
         saga = this.toSagaBookResponse(),
         isbn = this.isbn,
         urlImage = this.urlImage,
-        urlImageSmall = this.urlImageSmall
+        urlImageSmall = this.urlImageSmall,
+        read = this.readings.isNotEmpty()
     )
 
 fun BookEntity.toOriginalEditionModel(): BookOriginalEditionModel? {

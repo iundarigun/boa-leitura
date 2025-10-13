@@ -4,9 +4,10 @@ import cat.iundarigun.boaleitura.domain.model.BookOriginalEditionModel
 
 data class BookResponse(
     val id: Long,
+    val title: String,
     val author: AuthorResponse,
     val genre: GenreResponse? = null,
-    val language: String,
+    val language: String?,
     val numberOfPages: Int,
     val publisherYear: Int? = null,
     val originalEdition: BookOriginalEditionModel? = null,
@@ -19,5 +20,5 @@ data class BookResponse(
 data class SagaBookResponse(
     val saga: SagaResponse,
     val order: Double,
-    val mainTitle: String,
+    val mainTitle: Boolean,
 )

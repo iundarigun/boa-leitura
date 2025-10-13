@@ -44,16 +44,20 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Move to Hexagonal
 [ ] ArchUnit tests
 [ ] Verify error message
+[ ] Use specifications for all finds
 
 ### Authors
 [X] Add integration tests
-[ ] Add pagination, ordering and search in find endpoint
+[X] Add pagination, ordering and search in find endpoint
 [ ] Add param in getById to retrieve details (books or readers) 
 
 ### Books
 [X] Add genre
+[ ] Order by asc/desc
 [ ] Add endpoints to add books
 [ ] Languages for the title
+[ ] Job to retrieve images
+[ ] Search images by title
 
 ### Sagas
 [X] Crud Sagas

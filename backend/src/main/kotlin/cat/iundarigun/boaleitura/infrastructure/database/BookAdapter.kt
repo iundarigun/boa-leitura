@@ -5,18 +5,22 @@ import cat.iundarigun.boaleitura.domain.entity.AuthorEntity
 import cat.iundarigun.boaleitura.domain.entity.BookEntity
 import cat.iundarigun.boaleitura.domain.request.BookGoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.PageRequest
+import cat.iundarigun.boaleitura.domain.response.BookResponse
 import cat.iundarigun.boaleitura.domain.response.BookSummaryResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
-import cat.iundarigun.boaleitura.extensions.toBookSummaryResponse
+import cat.iundarigun.boaleitura.exception.BookNotFoundException
+import cat.iundarigun.boaleitura.extensions.toBookEntity
+import cat.iundarigun.boaleitura.extensions.toSummaryResponse
 import cat.iundarigun.boaleitura.extensions.toPageResponse
 import cat.iundarigun.boaleitura.extensions.toPageable
+import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class BookService(private val bookRepository: BookRepository) : BookPort {
+class BookAdapter(private val bookRepository: BookRepository) : BookPort {
 
     @Transactional(readOnly = true)
     override fun find(title: String?, read: Boolean?, pageRequest: PageRequest): PageResponse<BookSummaryResponse> {
@@ -26,24 +30,20 @@ class BookService(private val bookRepository: BookRepository) : BookPort {
         )
 
         return bookRepository.findAll(specification, pageRequest.toPageable())
-            .map { it.toBookSummaryResponse() }
+            .map { it.toSummaryResponse() }
             .toPageResponse()
+    }
+
+    @Transactional(readOnly = true)
+    override fun findById(id: Long): BookResponse {
+        val book = bookRepository.findById(id)
+            .orElseThrow { BookNotFoundException(id) }
+        return book.toResponse()
     }
 
     @Transactional
     fun createIfNotExists(bookRequest: BookGoodreadsImporterRequest, author: AuthorEntity): BookEntity =
         bookRepository.findByGoodreadsId(bookRequest.goodreadsId).orElseGet {
-            bookRepository.save(bookRequest.toBook(author))
+            bookRepository.save(bookRequest.toBookEntity(author))
         }
 }
-
-private fun BookGoodreadsImporterRequest.toBook(author: AuthorEntity): BookEntity =
-    BookEntity(
-        goodreadsId = this.goodreadsId,
-        title = this.title,
-        publisherYear = this.publisherYear,
-        numberOfPages = this.numberOfPages,
-        isbn = this.isbn,
-        originalLanguage = this.originalLanguage,
-        author = author
-    )

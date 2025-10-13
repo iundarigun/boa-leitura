@@ -15,7 +15,7 @@ import java.io.FileReader
 @Service
 class ImportService(
     private val authorService: AuthorAdapter,
-    private val bookService: BookService,
+    private val bookService: BookAdapter,
     private val readingService: ReadingService
 ) {
 

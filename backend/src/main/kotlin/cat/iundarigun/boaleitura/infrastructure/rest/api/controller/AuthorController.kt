@@ -42,8 +42,8 @@ class AuthorController(
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun getAuthor(@PathVariable id: Long): AuthorResponse {
-        logger.info("getAuthor, id=$id")
+    fun getAuthorById(@PathVariable id: Long): AuthorResponse {
+        logger.info("getAuthorById, id=$id")
         return getAuthorByIdUseCase.execute(id)
     }
 

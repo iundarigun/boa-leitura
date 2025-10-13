@@ -4,9 +4,6 @@ import jakarta.persistence.criteria.Join
 import jakarta.persistence.criteria.JoinType
 import org.springframework.data.jpa.domain.Specification
 
-/**
- * Not used right now, but let it here because we provably used in the feature
- */
 fun <T> specLike(value: String?, fieldName: String) = Specification<T> { root, _, criteriaBuilder ->
     if (value.isNullOrBlank().not()) {
         criteriaBuilder.and(

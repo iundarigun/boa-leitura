@@ -47,7 +47,7 @@ class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestC
         val parent = genreRepository.save(GenreEntityFactory.build())
         val genre = genreRepository.save(GenreEntityFactory.build(parent))
         val request = GenreRequest(
-            name = genre.name + FakerConfiguration.FAKER.number().randomNumber(),
+            name = FakerConfiguration.FAKER.lorem().characters(10, 100),
             parentGenreId = parent.id)
         val count = genreRepository.count()
 

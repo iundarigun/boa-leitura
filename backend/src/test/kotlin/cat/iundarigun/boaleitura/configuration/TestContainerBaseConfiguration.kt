@@ -1,7 +1,9 @@
 package cat.iundarigun.boaleitura.configuration
 
+import cat.iundarigun.boaleitura.factory.DataFactory
 import io.restassured.RestAssured
 import org.junit.jupiter.api.BeforeEach
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.test.context.ActiveProfiles
@@ -15,6 +17,9 @@ import org.testcontainers.lifecycle.Startables
 class TestContainerBaseConfiguration {
     @LocalServerPort
     lateinit var port: Integer
+
+    @Autowired
+    lateinit var dataFactory: DataFactory
 
     companion object {
         val POSTGRESQL_CONTAINER = PostgreSQLContainer("postgres")
@@ -38,5 +43,9 @@ class TestContainerBaseConfiguration {
     @BeforeEach
     fun before() {
         RestAssured.port = this.port.toInt()
+    }
+
+    fun clearData() {
+        dataFactory.clean()
     }
 }

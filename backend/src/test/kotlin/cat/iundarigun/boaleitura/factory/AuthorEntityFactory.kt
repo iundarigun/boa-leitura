@@ -5,9 +5,9 @@ import cat.iundarigun.boaleitura.domain.enums.GenderType
 import cat.iundarigun.boaleitura.domain.entity.AuthorEntity
 
 object AuthorEntityFactory {
-    fun build(): AuthorEntity =
+    fun build(name: String = FAKER.name().fullName()): AuthorEntity =
         AuthorEntity(
-            name = FAKER.name().fullName(),
+            name = name,
             gender = FAKER.options().option(GenderType::class.java),
             nationality = FAKER.nation().nationality()
         )

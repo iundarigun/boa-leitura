@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.infrastructure.rest.controller
+package cat.iundarigun.boaleitura.infrastructure.rest.api.controller
 
 import cat.iundarigun.boaleitura.application.port.input.author.CreateAuthorUseCase
 import cat.iundarigun.boaleitura.application.port.input.author.DeleteAuthorUseCase
@@ -42,8 +42,8 @@ class AuthorController(
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun getAuthor(@PathVariable id: Long): AuthorResponse {
-        logger.info("getAuthor, id=$id")
+    fun getAuthorById(@PathVariable id: Long): AuthorResponse {
+        logger.info("getAuthorById, id=$id")
         return getAuthorByIdUseCase.execute(id)
     }
 

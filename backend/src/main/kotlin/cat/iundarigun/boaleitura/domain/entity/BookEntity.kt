@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
@@ -16,9 +17,11 @@ data class BookEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L,
 
-    var goodreadsId: Long,
+    var goodreadsId: Long? = null,
 
     var title: String,
+
+    var originalTitle: String? = null,
 
     var numberOfPages: Int? = null,
 
@@ -26,12 +29,15 @@ data class BookEntity(
 
     var isbn: String? = null,
 
-    var isbn13: String? = null,
+    var language: String? = null,
 
     var originalLanguage: String? = null,
 
     @ManyToOne
     var author: AuthorEntity,
+
+    @OneToMany(mappedBy = "book")
+    var readings: List<ReadingEntity> = emptyList(),
 
     @ManyToOne
     var saga: SagaEntity? = null,
@@ -42,6 +48,10 @@ data class BookEntity(
 
     @ManyToOne
     var genre: GenreEntity? = null,
+
+    var urlImage: String? = null,
+
+    var urlImageSmall: String? = null,
 
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),

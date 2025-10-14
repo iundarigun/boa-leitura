@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 
-class GenreEntityDeleteEndpointTest(
+class GenreDeleteEndpointTest(
     private val genreRepository: GenreRepository,
     private val bookEntityFactory: BookEntityFactory
 ) : TestContainerBaseConfiguration() {

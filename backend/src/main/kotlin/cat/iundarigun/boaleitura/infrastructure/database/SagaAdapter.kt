@@ -24,7 +24,7 @@ class SagaAdapter(
 
     @Transactional(readOnly = true)
     override fun find(name: String?, pageRequest: PageRequest): PageResponse<SagaResponse> =
-        sagaRepository.findAllBy(name, pageRequest.toPageable())
+        sagaRepository.findAll(specLike(name, "name"), pageRequest.toPageable())
             .map { it.toResponse() }
             .toPageResponse()
 

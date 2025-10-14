@@ -4,9 +4,9 @@ import cat.iundarigun.boaleitura.configuration.FakerConfiguration.FAKER
 import cat.iundarigun.boaleitura.domain.entity.SagaEntity
 
 object SagaEntityFactory {
-    fun build(): SagaEntity =
+    fun build(name: String = FAKER.name().fullName()): SagaEntity =
         SagaEntity(
-            name = FAKER.name().fullName(),
+            name = name,
             totalMainTitles = FAKER.number().numberBetween(2, 20),
             totalComplementaryTitles = FAKER.number().numberBetween(0, 10),
             concluded = FAKER.bool().bool()

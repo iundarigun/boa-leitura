@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 
-class GenreEntityPostEndpointTest(private val genreRepository: GenreRepository) : TestContainerBaseConfiguration() {
+class GenrePostEndpointTest(private val genreRepository: GenreRepository) : TestContainerBaseConfiguration() {
 
     @Test
     fun `create genre successfully`() {

@@ -35,7 +35,7 @@ class GenreController(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun getGenres(request: SearchGenreRequest): PageResponse<GenreResponse> {
+    fun getGenres(@Valid request: SearchGenreRequest): PageResponse<GenreResponse> {
         logger.info("getGenres, request=$request")
         return findGenreUseCase.execute(request)
     }

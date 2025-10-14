@@ -57,7 +57,7 @@ class AuthorAdapter(
 
     @Transactional(readOnly = true)
     override fun find(name: String?, pageRequest: PageRequest): PageResponse<AuthorResponse> =
-        authorRepository.findAllBy(name, pageRequest.toPageable())
+        authorRepository.findAll(specLike(name, "name"), pageRequest.toPageable())
                 .map(AuthorEntity::toResponse)
                 .toPageResponse()
 

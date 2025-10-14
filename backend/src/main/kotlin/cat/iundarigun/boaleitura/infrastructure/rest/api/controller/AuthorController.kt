@@ -56,7 +56,7 @@ class AuthorController(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun getAuthors(request: SearchAuthorRequest): PageResponse<AuthorResponse> {
+    fun getAuthors(@Valid request: SearchAuthorRequest): PageResponse<AuthorResponse> {
         logger.info("getAuthors, request=$request")
         return findAuthorsUseCase.execute(request)
     }

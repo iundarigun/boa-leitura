@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 
-class GenreEntityPutEndpointTest(private val genreRepository: GenreRepository) : TestContainerBaseConfiguration() {
+class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestContainerBaseConfiguration() {
 
     @Test
     fun `update genre without parent successfully`() {
@@ -47,7 +47,7 @@ class GenreEntityPutEndpointTest(private val genreRepository: GenreRepository) :
         val parent = genreRepository.save(GenreEntityFactory.build())
         val genre = genreRepository.save(GenreEntityFactory.build(parent))
         val request = GenreRequest(
-            name = genre.name + FakerConfiguration.FAKER.number().randomNumber(),
+            name = FakerConfiguration.FAKER.lorem().characters(10, 100),
             parentGenreId = parent.id)
         val count = genreRepository.count()
 
@@ -78,9 +78,7 @@ class GenreEntityPutEndpointTest(private val genreRepository: GenreRepository) :
         val currentParent = genreRepository.save(GenreEntityFactory.build())
         val genre = genreRepository.save(GenreEntityFactory.build(currentParent))
         val newParent = genreRepository.save(GenreEntityFactory.build())
-        val request = GenreRequest(
-            name = genre.name + FakerConfiguration.FAKER.number().randomNumber(),
-            parentGenreId = newParent.id)
+        val request = GenreRequestFactory.build(parentGenreId = newParent.id)
         val count = genreRepository.count()
 
         val response = RestAssured.given()

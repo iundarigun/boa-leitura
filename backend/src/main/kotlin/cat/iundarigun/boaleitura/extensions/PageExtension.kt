@@ -11,7 +11,7 @@ fun PageRequest.toPageable() =
     DataPageRequest.of(
         this.page - 1,
         this.size,
-        Sort.by(Order.asc(this.order)),
+        Sort.by(if (directionAsc) Order.asc(this.order) else Order.desc(this.order)),
     )
 
 fun <T> Page<T>.toPageResponse(): PageResponse<T> =

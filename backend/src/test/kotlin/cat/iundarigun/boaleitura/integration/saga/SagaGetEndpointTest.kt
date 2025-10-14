@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 
-class SagaEntityGetEndpointTest(
+class SagaGetEndpointTest(
     private val sagaRepository: SagaRepository,
     private val bookEntityFactory: BookEntityFactory
 ) : TestContainerBaseConfiguration() {

@@ -44,7 +44,8 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Move to Hexagonal
 [ ] ArchUnit tests
 [ ] Verify error message
-[ ] Use specifications for all finds
+[X] Use specifications for all finds
+[ ] Pull request template
 
 ### Authors
 [X] Add integration tests
@@ -53,9 +54,9 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 
 ### Books
 [X] Add genre
-[ ] Order by asc/desc
+[X] Order by asc/desc
 [ ] Add endpoints to add books
-[ ] Languages for the title
+[X] Languages for the title
 [ ] Job to retrieve images
 [ ] Search images by title
 

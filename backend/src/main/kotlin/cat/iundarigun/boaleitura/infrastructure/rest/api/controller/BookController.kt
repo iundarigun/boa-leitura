@@ -9,6 +9,7 @@ import cat.iundarigun.boaleitura.domain.response.BookInformationResponse
 import cat.iundarigun.boaleitura.domain.response.BookResponse
 import cat.iundarigun.boaleitura.domain.response.BookSummaryResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
+import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
@@ -28,7 +29,7 @@ class BookController(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun getBooks(request: SearchBookRequest): PageResponse<BookSummaryResponse> {
+    fun getBooks(@Valid request: SearchBookRequest): PageResponse<BookSummaryResponse> {
         logger.info("getBooks, request=$request")
         return findBooksUseCase.execute(request)
     }

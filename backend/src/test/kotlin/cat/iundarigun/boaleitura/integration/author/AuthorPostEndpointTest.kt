@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 
-class AuthorEntityPostEndpointTest(private val authorRepository: AuthorRepository) : TestContainerBaseConfiguration() {
+class AuthorPostEndpointTest(private val authorRepository: AuthorRepository) : TestContainerBaseConfiguration() {
 
     @Test
     fun `create author successfully`() {

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 
-class AuthorEntityPutEndpointTest(private val authorRepository: AuthorRepository) : TestContainerBaseConfiguration() {
+class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : TestContainerBaseConfiguration() {
 
     @Test
     fun `update author successfully`() {

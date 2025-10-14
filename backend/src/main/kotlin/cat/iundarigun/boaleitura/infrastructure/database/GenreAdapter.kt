@@ -1,6 +1,7 @@
 package cat.iundarigun.boaleitura.infrastructure.database
 
 import cat.iundarigun.boaleitura.application.port.output.GenrePort
+import cat.iundarigun.boaleitura.domain.entity.GenreEntity
 import cat.iundarigun.boaleitura.domain.request.GenreRequest
 import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.response.GenreResponse
@@ -14,6 +15,7 @@ import cat.iundarigun.boaleitura.extensions.toResponse
 import cat.iundarigun.boaleitura.extensions.toResponseWithSubGenders
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.GenreRepository
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -24,10 +26,16 @@ class GenreAdapter(
 ) : GenrePort {
 
     @Transactional(readOnly = true)
-    override fun findLevelZero(name: String?, pageRequest: PageRequest): PageResponse<GenreResponse> =
-        genreRepository.findAllBy(name, pageRequest.toPageable())
+    override fun findLevelZero(name: String?, pageRequest: PageRequest): PageResponse<GenreResponse> {
+
+        val specifications = Specification.allOf<GenreEntity>(
+            specIsNull("parent"),
+            specLikeWithOrFields(name, "name", "subGenres.name")
+        )
+        return genreRepository.findAll(specifications, pageRequest.toPageable())
             .map { it.toResponseWithSubGenders() }
             .toPageResponse()
+    }
 
     @Transactional(readOnly = true)
     override fun existsByName(name: String): Boolean =

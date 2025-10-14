@@ -9,5 +9,5 @@ open class EntityNotFoundException(
 ) :
     BoaLeituraBusinessException(
         httpStatus = httpStatus,
-        message = "$entity ${id?.let { "with id $it" }} not found"
+        message = "$entity ${id?.let { "with id $it" } ?: ""} not found"
     )

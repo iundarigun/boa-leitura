@@ -24,6 +24,7 @@ val datafakerVersion = "2.3.1"
 val openCsvVersion = "5.9"
 val springdocOpenapiStarterWebmvcUIVersion = "2.6.0"
 val detektVersion = "1.23.8"
+val jobrunrVersion = "8.1.0"
 
 dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -38,6 +39,8 @@ dependencies {
 
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.flywaydb:flyway-database-postgresql")
+
+	implementation("org.jobrunr:jobrunr-spring-boot-3-starter:$jobrunrVersion")
 
 	implementation("com.opencsv:opencsv:$openCsvVersion")
 

@@ -26,15 +26,15 @@ data class GoogleApiItemResponse(
 
 data class GoogleApiVolumeInfoResponse(
     val title: String,
-    val authors: List<String>,
+    val authors: List<String> = emptyList(),
     val publisher: String?,
     val publishedDate: String?,
     val description: String?,
-    val industryIdentifiers: List<GoogleApiIndustryIdentifierResponse>,
+    val industryIdentifiers: List<GoogleApiIndustryIdentifierResponse> = emptyList(),
     val readingModes: GoogleApiReadingModeResponse?,
     val pageCount: Int?,
     val printType: String?,
-    val categories: List<String>,
+    val categories: List<String> = emptyList(),
     val averageRating: Double?,
     val ratingsCount: Int?,
     val maturityRating: String?,

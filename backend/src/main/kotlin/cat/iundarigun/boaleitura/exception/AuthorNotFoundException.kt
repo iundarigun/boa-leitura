@@ -1,3 +1,6 @@
 package cat.iundarigun.boaleitura.exception
 
-class AuthorNotFoundException(id: Long) : EntityNotFoundException("Author", id)
+import org.springframework.http.HttpStatus
+
+class AuthorNotFoundException(id: Long, httpStatus: HttpStatus = HttpStatus.NOT_FOUND) :
+    EntityNotFoundException("Author", id, httpStatus)

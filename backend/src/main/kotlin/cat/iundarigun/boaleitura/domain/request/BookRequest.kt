@@ -8,10 +8,10 @@ data class BookRequest(
     val genreId: Long,
     val language: String,
     val numberOfPages: Int,
-    val publisherYear: Int? = null,
+    val publisherYear: Int,
     val originalEdition: BookOriginalEditionModel? = null,
     val saga: BookSagaRequest? = null,
-    val isbn: String? = null,
+    val isbn: String,
     val urlImage: String? = null,
     val urlImageSmall: String? = null,
 )

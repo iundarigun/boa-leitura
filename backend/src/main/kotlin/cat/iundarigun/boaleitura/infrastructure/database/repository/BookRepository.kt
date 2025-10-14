@@ -17,4 +17,6 @@ interface BookRepository : JpaRepository<BookEntity, Long>, JpaSpecificationExec
     fun countBySagaId(id: Long): Int
     @EntityGraph(attributePaths = ["author", "saga", "genre", "readings"])
     override fun findAll(@Nullable specification: Specification<BookEntity>?, pageable: Pageable): Page<BookEntity>
+    fun existsByIsbn(isbn: String): Boolean
+    fun findByIsbn(isbn: String): BookEntity?
 }

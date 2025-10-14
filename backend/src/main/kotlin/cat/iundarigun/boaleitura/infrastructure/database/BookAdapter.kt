@@ -95,6 +95,24 @@ class BookAdapter(
         bookRepository.deleteById(id)
     }
 
+    @Transactional(readOnly = true)
+    override fun findIsbnMissingImages(): List<String> {
+        val specification = Specification.allOf<BookEntity>(
+            specIsNull("urlImage"),
+            specIsNotNull("isbn")
+        )
+        return bookRepository.findAll(specification).map { it.isbn!! }
+    }
+
+    @Transactional
+    override fun updateUrlImages(id: Long, urlImage: String, urlImageSmall: String?) {
+        val book = bookRepository.findById(id)
+            .orElseThrow { BookNotFoundException(id) }
+        book.urlImage = urlImage
+        book.urlImageSmall = urlImageSmall
+        bookRepository.save(book)
+    }
+
     @Transactional
     fun createIfNotExists(bookRequest: BookGoodreadsImporterRequest, author: AuthorEntity): BookEntity =
         bookRepository.findByGoodreadsId(bookRequest.goodreadsId).orElseGet {

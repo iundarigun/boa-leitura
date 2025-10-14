@@ -61,3 +61,8 @@ fun <T> specIsNull(fieldName: String) =
     Specification<T> { root, _, criteriaBuilder ->
         criteriaBuilder.and(criteriaBuilder.isNull(root.get<Any>(fieldName)))
     }
+
+fun <T> specIsNotNull(fieldName: String) =
+    Specification<T> { root, _, criteriaBuilder ->
+        criteriaBuilder.and(criteriaBuilder.isNotNull(root.get<Any>(fieldName)))
+    }

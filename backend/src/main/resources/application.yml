@@ -21,5 +21,21 @@ restClient:
   googleApi:
     baseUrl: https://www.googleapis.com/
 
+jobrunr:
+  background-job-server:
+    enabled: true
+    poll-interval-in-seconds: 15
+    worker-count: 4
+  dashboard:
+    enabled: false
+  job-scheduler:
+    enabled: true
+  database:
+    skip-create: true
+  jobs:
+    default-number-of-retries: 5
+    metrics:
+      enabled: true
+
 server:
   port: 1980

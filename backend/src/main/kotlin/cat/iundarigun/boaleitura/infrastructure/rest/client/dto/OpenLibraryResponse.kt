@@ -9,10 +9,10 @@ data class OpenLibraryResponse(
     val url: String?,
     val key: String?,
     val title: String?,
-    val authors: List<OpenLibraryAuthorResponse>,
+    val authors: List<OpenLibraryAuthorResponse> = emptyList(),
     val numberOfPages: Int?,
     val identifiers: OpenLibraryIdentifierResponse?,
-    val publishers: List<OpenLibraryPublisherResponse>,
+    val publishers: List<OpenLibraryPublisherResponse> = emptyList(),
     val publishDate: String?,
     val cover: OpenLibraryCoverResponse?
 ) {

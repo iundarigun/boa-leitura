@@ -57,7 +57,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Order by asc/desc
 [X] Add endpoints to add books
 [X] Languages for the title
-[ ] Job to retrieve images
+[X] Job to retrieve images
 [ ] Search images by title
 
 ### Sagas

@@ -2,8 +2,11 @@ package cat.iundarigun.boaleitura.extensions
 
 import cat.iundarigun.boaleitura.domain.entity.AuthorEntity
 import cat.iundarigun.boaleitura.domain.entity.BookEntity
+import cat.iundarigun.boaleitura.domain.entity.GenreEntity
+import cat.iundarigun.boaleitura.domain.entity.SagaEntity
 import cat.iundarigun.boaleitura.domain.model.BookOriginalEditionModel
 import cat.iundarigun.boaleitura.domain.request.BookGoodreadsImporterRequest
+import cat.iundarigun.boaleitura.domain.request.BookRequest
 import cat.iundarigun.boaleitura.domain.response.BookResponse
 import cat.iundarigun.boaleitura.domain.response.BookSummaryResponse
 import cat.iundarigun.boaleitura.domain.response.SagaBookResponse
@@ -56,6 +59,46 @@ fun BookEntity.toSagaBookResponse(): SagaBookResponse? {
         order = this.sagaOrder ?: 1.0,
         mainTitle = this.sagaMainTitle ?: true
     )
+}
+
+fun BookRequest.toEntity(
+    author: AuthorEntity,
+    genre: GenreEntity,
+    saga: SagaEntity?
+): BookEntity =
+    BookEntity(
+        title = this.title,
+        author = author,
+        genre = genre,
+        language = this.language,
+        numberOfPages = this.numberOfPages,
+        publisherYear = this.publisherYear,
+        originalTitle = this.originalEdition?.title,
+        originalLanguage = this.originalEdition?.language,
+        saga = saga,
+        sagaOrder = this.saga?.order,
+        sagaMainTitle = this.saga?.mainTitle,
+        isbn = this.isbn,
+        urlImage = this.urlImage,
+        urlImageSmall = this.urlImageSmall
+    )
+
+fun BookEntity.merge(request: BookRequest, author: AuthorEntity, genre: GenreEntity, saga: SagaEntity?): BookEntity {
+    this.title = request.title
+    this.author = author
+    this.genre = genre
+    this.language = request.language
+    this.numberOfPages = request.numberOfPages
+    this.publisherYear = request.publisherYear
+    this.originalTitle = request.originalEdition?.title
+    this.originalLanguage = request.originalEdition?.language
+    this.saga = saga
+    this.sagaOrder = request.saga?.order
+    this.sagaMainTitle = request.saga?.mainTitle
+    this.isbn = request.isbn
+    this.urlImage = request.urlImage
+    this.urlImageSmall = request.urlImageSmall
+    return this
 }
 
 fun BookGoodreadsImporterRequest.toBookEntity(author: AuthorEntity): BookEntity =

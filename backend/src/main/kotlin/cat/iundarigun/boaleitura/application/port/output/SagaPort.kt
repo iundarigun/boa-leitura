@@ -11,6 +11,7 @@ interface SagaPort {
     fun findByName(name: String): SagaResponse?
     fun findById(id: Long): SagaResponse
     fun sagaBookCount(id: Long): Int
+    fun existsById(id: Long): Boolean
 
     fun save(request: SagaRequest, id: Long? = null): SagaResponse
     fun delete(id: Long)

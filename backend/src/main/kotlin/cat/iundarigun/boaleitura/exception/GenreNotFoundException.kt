@@ -1,3 +1,6 @@
 package cat.iundarigun.boaleitura.exception
 
-class GenreNotFoundException(id: Long) : EntityNotFoundException("Genre", id)
+import org.springframework.http.HttpStatus
+
+class GenreNotFoundException(id: Long, httpStatus: HttpStatus = HttpStatus.NOT_FOUND) :
+    EntityNotFoundException("Genre", id, httpStatus)

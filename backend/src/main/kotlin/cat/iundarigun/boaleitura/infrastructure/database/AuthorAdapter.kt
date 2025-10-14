@@ -56,6 +56,10 @@ class AuthorAdapter(
     }
 
     @Transactional(readOnly = true)
+    override fun existsById(id: Long): Boolean =
+        authorRepository.existsById(id)
+
+    @Transactional(readOnly = true)
     override fun find(name: String?, pageRequest: PageRequest): PageResponse<AuthorResponse> =
         authorRepository.findAll(specLike(name, "name"), pageRequest.toPageable())
                 .map(AuthorEntity::toResponse)

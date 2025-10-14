@@ -41,6 +41,10 @@ class SagaAdapter(
         sagaRepository.findByIdOrderByBooksSagaOrder(id)?.toResponse(true) ?: throw SagaNotFoundException(id)
 
     @Transactional(readOnly = true)
+    override fun existsById(id: Long): Boolean =
+        sagaRepository.existsById(id)
+
+    @Transactional(readOnly = true)
     override fun sagaBookCount(id: Long): Int =
         bookRepository.countBySagaId(id)
 

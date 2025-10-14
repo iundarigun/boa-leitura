@@ -1,3 +1,6 @@
 package cat.iundarigun.boaleitura.exception
 
-class SagaNotFoundException(id: Long) : EntityNotFoundException("Saga", id)
+import org.springframework.http.HttpStatus
+
+class SagaNotFoundException(id: Long, httpStatus: HttpStatus = HttpStatus.NOT_FOUND) :
+    EntityNotFoundException("Saga", id, httpStatus)

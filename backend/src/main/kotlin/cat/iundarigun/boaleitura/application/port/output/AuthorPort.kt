@@ -11,6 +11,7 @@ interface AuthorPort {
     fun findByName(name: String): AuthorResponse?
     fun findById(id: Long): AuthorResponse
     fun authorBookCount(id: Long): Int
+    fun existsById(id: Long): Boolean
 
     fun save(authorRequest: AuthorRequest, id: Long? = null): AuthorResponse
     fun delete(id: Long)

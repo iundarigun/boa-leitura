@@ -23,6 +23,7 @@ import cat.iundarigun.boaleitura.extensions.toSummaryResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.GenreRepository
+import cat.iundarigun.boaleitura.infrastructure.database.repository.ReadingRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.SagaRepository
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
@@ -33,7 +34,8 @@ class BookAdapter(
     private val bookRepository: BookRepository,
     private val authorRepository: AuthorRepository,
     private val sagaRepository: SagaRepository,
-    private val genreRepository: GenreRepository
+    private val genreRepository: GenreRepository,
+    private val readingRepository: ReadingRepository
 ) : BookPort {
 
     @Transactional(readOnly = true)
@@ -79,6 +81,18 @@ class BookAdapter(
         val book = bookRepository.findById(id)
             .orElseThrow { BookNotFoundException(id) }
         return bookRepository.save(book.merge(request, author, genre, saga)).toResponse()
+    }
+
+    @Transactional(readOnly = true)
+    override fun readingCount(id: Long): Int =
+        readingRepository.countByBookId(id)
+
+    @Transactional
+    override fun delete(id: Long) {
+        if (!bookRepository.existsById(id)) {
+            throw BookNotFoundException(id)
+        }
+        bookRepository.deleteById(id)
     }
 
     @Transactional

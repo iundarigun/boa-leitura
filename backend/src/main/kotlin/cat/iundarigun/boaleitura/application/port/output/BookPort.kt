@@ -12,4 +12,6 @@ interface BookPort {
     fun existsByIsbn(isbn: String): Boolean
     fun findByIsbn(isbn: String): BookResponse?
     fun save(request: BookRequest, id: Long? = null): BookResponse
+    fun readingCount(id: Long): Int
+    fun delete(id: Long)
 }

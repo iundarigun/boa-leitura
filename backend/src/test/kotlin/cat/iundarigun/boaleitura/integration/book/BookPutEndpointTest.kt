@@ -91,7 +91,7 @@ class BookPutEndpointTest(
     }
 
     @Test
-    fun `update book without name`() {
+    fun `update book with existing isbn`() {
         val book = bookEntityFactory.buildAllAndSave()
         val book2 = bookEntityFactory.buildAllAndSave()
         val request = bookRequestFactory.build(isbn = book2.isbn!!)
@@ -104,11 +104,11 @@ class BookPutEndpointTest(
             .`when`()
             .put("/books/{id}")
             .then()
-            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
             .extract()
             .`as`(ErrorResponse::class.java)
 
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), response.code)
-        Assertions.assertEquals("Book ${request.isbn} already exists!", response.message)
+        Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.code)
+        Assertions.assertEquals("The Book ${request.isbn} already exists!", response.message)
     }
 }

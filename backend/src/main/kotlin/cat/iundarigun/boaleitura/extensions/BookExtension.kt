@@ -83,6 +83,24 @@ fun BookRequest.toEntity(
         urlImageSmall = this.urlImageSmall
     )
 
+fun BookEntity.merge(request: BookRequest, author: AuthorEntity, genre: GenreEntity, saga: SagaEntity?): BookEntity {
+    this.title = request.title
+    this.author = author
+    this.genre = genre
+    this.language = request.language
+    this.numberOfPages = request.numberOfPages
+    this.publisherYear = request.publisherYear
+    this.originalTitle = request.originalEdition?.title
+    this.originalLanguage = request.originalEdition?.language
+    this.saga = saga
+    this.sagaOrder = request.saga?.order
+    this.sagaMainTitle = request.saga?.mainTitle
+    this.isbn = request.isbn
+    this.urlImage = request.urlImage
+    this.urlImageSmall = request.urlImageSmall
+    return this
+}
+
 fun BookGoodreadsImporterRequest.toBookEntity(author: AuthorEntity): BookEntity =
     BookEntity(
         goodreadsId = this.goodreadsId,

@@ -13,6 +13,7 @@ import cat.iundarigun.boaleitura.exception.AuthorNotFoundException
 import cat.iundarigun.boaleitura.exception.BookNotFoundException
 import cat.iundarigun.boaleitura.exception.GenreNotFoundException
 import cat.iundarigun.boaleitura.exception.SagaNotFoundException
+import cat.iundarigun.boaleitura.extensions.merge
 import cat.iundarigun.boaleitura.extensions.toBookEntity
 import cat.iundarigun.boaleitura.extensions.toEntity
 import cat.iundarigun.boaleitura.extensions.toPageResponse
@@ -72,7 +73,12 @@ class BookAdapter(
             sagaRepository.findById(sagaRequest.id)
                 .orElseThrow { throw SagaNotFoundException(sagaRequest.id) }
         }
-        return bookRepository.save(request.toEntity(author, genre, saga)).toResponse()
+        if (id == null) {
+            return bookRepository.save(request.toEntity(author, genre, saga)).toResponse()
+        }
+        val book = bookRepository.findById(id)
+            .orElseThrow { BookNotFoundException(id) }
+        return bookRepository.save(book.merge(request, author, genre, saga)).toResponse()
     }
 
     @Transactional

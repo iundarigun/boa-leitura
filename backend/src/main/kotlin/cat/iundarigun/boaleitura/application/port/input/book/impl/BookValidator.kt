@@ -21,7 +21,7 @@ class BookValidator(
 ) {
     fun validate(request: BookRequest, id: Long? = null) {
         if (id == null) {
-            if (!bookPort.existsByIsbn(request.isbn)) {
+            if (bookPort.existsByIsbn(request.isbn)) {
                 throw BookAlreadyExistsException(request.isbn)
             }
         } else {

@@ -74,6 +74,8 @@ complexity:
     functionThreshold: 6
     constructorThreshold: 6
     ignoreDefaultParameters: false
+    excludes:
+      - "**/test/**/*Factory.kt"
   MethodOverloading:
     active: false
     threshold: 6

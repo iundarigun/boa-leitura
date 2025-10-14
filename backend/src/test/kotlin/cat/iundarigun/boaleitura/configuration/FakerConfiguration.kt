@@ -10,4 +10,7 @@ object FakerConfiguration {
         log.info("seed for FAKER $it")
         Faker(Random(it))
     }
+
+    fun Faker.randomId(): Long =
+        this.number().numberBetween(100_000L, 1_000_000L)
 }

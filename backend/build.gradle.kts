@@ -25,6 +25,7 @@ val openCsvVersion = "5.9"
 val springdocOpenapiStarterWebmvcUIVersion = "2.6.0"
 val detektVersion = "1.23.8"
 val jobrunrVersion = "8.1.0"
+val archUnitVersion = "1.4.1"
 
 dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -58,6 +59,7 @@ dependencies {
 	testImplementation("org.testcontainers:postgresql")
 
 	testImplementation("io.rest-assured:rest-assured")
+	testImplementation("com.tngtech.archunit:archunit:$archUnitVersion")
 }
 
 kotlin {

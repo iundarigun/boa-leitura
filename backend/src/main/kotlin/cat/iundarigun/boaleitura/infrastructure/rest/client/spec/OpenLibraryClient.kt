@@ -1,16 +1,29 @@
 package cat.iundarigun.boaleitura.infrastructure.rest.client.spec
 
-import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.OpenLibraryResponse
+import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.openlibrary.BookResponse
+import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.openlibrary.SearchResponse
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.service.annotation.HttpExchange
 
 interface OpenLibraryClient {
     @HttpExchange(
         method = "GET",
-        value = "books?bibkeys=ISBN:{isbn}&format=json&jscmd=data",
+        value = "api/books",
         accept = [MediaType.APPLICATION_JSON_VALUE],
         contentType = MediaType.APPLICATION_JSON_VALUE
     )
-    fun searchByIsbn(@PathVariable isbn: String): Map<String, OpenLibraryResponse>
+    fun searchByKey(
+        @RequestParam("bibkeys") key: String,
+        @RequestParam("format") format: String = "json",
+        @RequestParam("jscmd") jscmd: String = "data"
+    ): Map<String, BookResponse>
+
+    @HttpExchange(
+        method = "GET",
+        value = "search.json",
+        accept = [MediaType.APPLICATION_JSON_VALUE],
+        contentType = MediaType.APPLICATION_JSON_VALUE
+    )
+    fun searchByTitle(@RequestParam("title") title: String): SearchResponse
 }

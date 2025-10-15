@@ -15,7 +15,7 @@ class FindBookInformationUseCaseImpl(
     private val authorPort: AuthorPort
 ) : FindBookInformationUseCase {
     override fun execute(request: BookInformationRequest): List<BookInformationResponse> {
-        val searchResult = bookInformationPort.search(request)
+        val searchResult = bookInformationPort.searchByIsbn(request)
         return searchResult.map {
             val authorResponse = it.author?.let { author ->
                 authorPort.find(author, PageRequest()).content.firstOrNull()

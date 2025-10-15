@@ -12,11 +12,11 @@ data class SearchBookRequest(
     @field:Min(1)
     @field:Max(250)
     val size: Int = 50,
-    val order: OrderAuthorField = OrderAuthorField.TITLE,
+    val order: OrderBookField = OrderBookField.TITLE,
     val directionAsc: Boolean = true,
 
-) {
-    enum class OrderAuthorField(val fieldName: String) {
+    ) {
+    enum class OrderBookField(val fieldName: String) {
         ID("id"),
         TITLE("title"),
         AUTHOR("author.name"),

@@ -14,6 +14,6 @@ interface BookPort {
     fun save(request: BookRequest, id: Long? = null): BookResponse
     fun readingCount(id: Long): Int
     fun delete(id: Long)
-    fun findIsbnMissingImages(): List<String>
+    fun findMissingImages(): List<BookResponse>
     fun updateUrlImages(id: Long, urlImage: String, urlImageSmall: String?)
 }

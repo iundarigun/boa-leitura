@@ -3,10 +3,10 @@ package cat.iundarigun.boaleitura.extensions
 import cat.iundarigun.boaleitura.domain.BookInformation
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.BookInformationResponse
-import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.GoogleApiItemResponse
-import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.OpenLibraryResponse
+import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.googleapi.GoogleApiItemResponse
+import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.openlibrary.BookResponse
 
-fun OpenLibraryResponse.toBookInformation(googleApiItem: GoogleApiItemResponse? = null): BookInformation =
+fun BookResponse.toBookInformation(googleApiItem: GoogleApiItemResponse? = null): BookInformation =
     BookInformation(
         title = this.title,
         isbn = this.getIsbn() ?: googleApiItem?.getIsbn(),
@@ -30,7 +30,7 @@ fun BookInformation.toBookInformationResponse(authorResponse: AuthorResponse?): 
 
 fun GoogleApiItemResponse.toBookInformation(): BookInformation =
     BookInformation(
-        title = this.volumeInfo.title,
+        title = this.volumeInfo.getFullTitle(),
         author = this.volumeInfo.authors.firstOrNull(),
         numberOfPages = this.volumeInfo.pageCount,
         isbn = this.getIsbn(),

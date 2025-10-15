@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.infrastructure.rest.client.dto
+package cat.iundarigun.boaleitura.infrastructure.rest.client.dto.googleapi
 
 data class GoogleApiResponse(
     val kind: String?,
@@ -26,6 +26,7 @@ data class GoogleApiItemResponse(
 
 data class GoogleApiVolumeInfoResponse(
     val title: String,
+    val subtitle: String? = null,
     val authors: List<String> = emptyList(),
     val publisher: String?,
     val publishedDate: String?,
@@ -46,7 +47,10 @@ data class GoogleApiVolumeInfoResponse(
     val previewLink: String?,
     val infoLink: String?,
     val cononicalVolumeLink: String?,
-)
+) {
+    fun getFullTitle(): String =
+        this.title + (this.subtitle?.let { " $it" } ?: "")
+}
 
 data class GoogleApiIndustryIdentifierResponse(
     val type: String,

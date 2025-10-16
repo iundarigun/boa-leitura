@@ -1,6 +1,6 @@
 package cat.iundarigun.boaleitura.infrastructure.database.repository
 
-import cat.iundarigun.boaleitura.domain.entity.BookEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification

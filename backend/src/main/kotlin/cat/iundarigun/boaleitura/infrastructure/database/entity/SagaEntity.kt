@@ -1,29 +1,32 @@
-package cat.iundarigun.boaleitura.domain.entity
+package cat.iundarigun.boaleitura.infrastructure.database.entity
 
-import cat.iundarigun.boaleitura.domain.enums.GenderType
 import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
+import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
-@Entity(name = "Author")
-data class AuthorEntity(
+@Entity(name = "Saga")
+data class SagaEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L,
 
     var name: String,
 
-    @Enumerated(EnumType.STRING)
-    var gender: GenderType? = null,
+    var totalMainTitles: Int = 0,
 
-    var nationality: String? = null,
+    var totalComplementaryTitles: Int = 0,
+
+    var concluded: Boolean = false,
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "saga")
+    var books: List<BookEntity> = ArrayList(),
 
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),

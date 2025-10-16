@@ -1,8 +1,8 @@
 package cat.iundarigun.boaleitura.factory
 
 import cat.iundarigun.boaleitura.configuration.FakerConfiguration
-import cat.iundarigun.boaleitura.domain.entity.BookEntity
-import cat.iundarigun.boaleitura.domain.entity.ReadingEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.ReadingEntity
 import cat.iundarigun.boaleitura.domain.enums.FormatEnum
 import java.time.LocalDate
 import java.time.ZoneOffset

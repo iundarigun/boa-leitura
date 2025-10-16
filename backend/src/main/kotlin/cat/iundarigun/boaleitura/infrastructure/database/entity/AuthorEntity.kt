@@ -1,34 +1,29 @@
-package cat.iundarigun.boaleitura.domain.entity
+package cat.iundarigun.boaleitura.infrastructure.database.entity
 
+import cat.iundarigun.boaleitura.domain.enums.GenderType
 import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.OneToMany
-import jakarta.persistence.OrderBy
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
-@Entity(name = "Genre")
-data class GenreEntity(
+@Entity(name = "Author")
+data class AuthorEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L,
 
     var name: String,
 
-    @ManyToOne
-    @JoinColumn(name = "parent_genre_id")
-    var parent: GenreEntity? = null,
+    @Enumerated(EnumType.STRING)
+    var gender: GenderType? = null,
 
-    @OrderBy("name")
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-    var subGenres: List<GenreEntity> = listOf(),
+    var nationality: String? = null,
 
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),

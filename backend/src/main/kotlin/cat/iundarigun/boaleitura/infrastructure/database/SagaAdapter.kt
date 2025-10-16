@@ -6,13 +6,14 @@ import cat.iundarigun.boaleitura.domain.request.SagaRequest
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.domain.response.SagaResponse
 import cat.iundarigun.boaleitura.exception.SagaNotFoundException
-import cat.iundarigun.boaleitura.extensions.merge
-import cat.iundarigun.boaleitura.extensions.toEntity
-import cat.iundarigun.boaleitura.extensions.toPageResponse
-import cat.iundarigun.boaleitura.extensions.toPageable
-import cat.iundarigun.boaleitura.extensions.toResponse
+import cat.iundarigun.boaleitura.infrastructure.database.extensions.merge
+import cat.iundarigun.boaleitura.infrastructure.database.extensions.toEntity
+import cat.iundarigun.boaleitura.infrastructure.database.extensions.toPageResponse
+import cat.iundarigun.boaleitura.infrastructure.database.extensions.toPageable
+import cat.iundarigun.boaleitura.infrastructure.database.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.SagaRepository
+import cat.iundarigun.boaleitura.infrastructure.database.utils.specLike
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

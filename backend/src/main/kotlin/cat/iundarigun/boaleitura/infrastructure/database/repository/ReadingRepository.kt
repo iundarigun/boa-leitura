@@ -1,6 +1,6 @@
 package cat.iundarigun.boaleitura.infrastructure.database.repository
 
-import cat.iundarigun.boaleitura.domain.entity.ReadingEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.ReadingEntity
 import org.springframework.data.repository.CrudRepository
 import java.time.LocalDate
 import java.util.*

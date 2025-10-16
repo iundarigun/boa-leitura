@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.domain
+package cat.iundarigun.boaleitura.domain.model
 
 data class BookInformation(
     val title: String?,

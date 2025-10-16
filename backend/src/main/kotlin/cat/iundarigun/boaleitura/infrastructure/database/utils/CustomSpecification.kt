@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.infrastructure.database
+package cat.iundarigun.boaleitura.infrastructure.database.utils
 
 import jakarta.persistence.criteria.Join
 import jakarta.persistence.criteria.JoinType

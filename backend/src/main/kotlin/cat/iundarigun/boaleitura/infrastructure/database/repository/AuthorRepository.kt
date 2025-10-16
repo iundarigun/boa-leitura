@@ -1,6 +1,6 @@
 package cat.iundarigun.boaleitura.infrastructure.database.repository
 
-import cat.iundarigun.boaleitura.domain.entity.AuthorEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.AuthorEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 

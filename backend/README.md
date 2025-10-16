@@ -74,6 +74,10 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [ ] Add format and platform
 [ ] Add crud
 
+### Import
+[ ] Review import mechanism
+[ ] Adapt current importation
+
 ### Best of
 [ ] Add mechanism to choose the best x year
 

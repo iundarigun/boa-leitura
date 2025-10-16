@@ -30,10 +30,12 @@ export default function SagaTable({
           <tr>
             <th className="p-3 border border-gray-200">Name</th>
             <th className="p-3 border border-gray-200 text-center">Main Titles</th>
-            <th className="p-3 border border-gray-200 text-center">Other Titles</th>
-            <th className="p-3 border border-gray-200 text-center">Concluded</th>
             { !selectable ? (
+              <>
+              <th className="p-3 border border-gray-200 text-center">Other Titles</th>
+              <th className="p-3 border border-gray-200 text-center">Concluded</th>
               <th className="p-3 border border-gray-200 text-center">Actions</th>
+              </>
             ) : (
               <></>
             )}
@@ -44,9 +46,10 @@ export default function SagaTable({
             <tr key={saga.id} className="hover:bg-gray-50">
               <td className="p-3 border border-gray-200">{saga.name}</td>
               <td className="p-3 border border-gray-200 text-center">{saga.totalMainTitles ?? "-"}</td>
-              <td className="p-3 border border-gray-200 text-center">{saga.totalComplementaryTitles ?? "-"}</td>
-              <td className="p-3 border border-gray-200 text-center"> {saga.concluded ? "✅" : "❌"}</td>
               {!selectable ? (
+                <>
+                <td className="p-3 border border-gray-200 text-center">{saga.totalComplementaryTitles ?? "-"}</td>
+                <td className="p-3 border border-gray-200 text-center"> {saga.concluded ? "✅" : "❌"}</td>
                 <td className="p-3 border border-gray-200 text-center">
                   <div className="flex justify-center gap-2">
                     {onView && (
@@ -90,6 +93,7 @@ export default function SagaTable({
                     )}
                   </div>
                 </td>
+                </>
               ) :(
                 <td className="p-3 border border-gray-200 text-center">
                   <Button size="sm" onClick={() => onSelect(saga)}>Select</Button>

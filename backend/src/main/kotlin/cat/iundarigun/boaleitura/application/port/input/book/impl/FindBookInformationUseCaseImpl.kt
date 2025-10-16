@@ -3,10 +3,10 @@ package cat.iundarigun.boaleitura.application.port.input.book.impl
 import cat.iundarigun.boaleitura.application.port.input.book.FindBookInformationUseCase
 import cat.iundarigun.boaleitura.application.port.output.AuthorPort
 import cat.iundarigun.boaleitura.application.port.output.BookInformationPort
+import cat.iundarigun.boaleitura.domain.extensions.toBookInformationResponse
 import cat.iundarigun.boaleitura.domain.request.BookInformationRequest
 import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.response.BookInformationResponse
-import cat.iundarigun.boaleitura.extensions.toBookInformationResponse
 import org.springframework.stereotype.Component
 
 @Component

@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.extensions
+package cat.iundarigun.boaleitura.domain.extensions
 
 import cat.iundarigun.boaleitura.domain.entity.SagaEntity
 import cat.iundarigun.boaleitura.domain.request.SagaRequest

@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.extensions
+package cat.iundarigun.boaleitura.infrastructure.rest.client.dto
 
 import cat.iundarigun.boaleitura.domain.BookInformation
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
@@ -15,17 +15,6 @@ fun BookResponse.toBookInformation(googleApiItem: GoogleApiItemResponse? = null)
         publisherYear = this.getPublisherYear() ?: googleApiItem?.getPublisherYear(),
         urlImage = this.cover?.large ?: googleApiItem?.volumeInfo?.imageLinks?.thumbnail,
         urlImageSmall = this.cover?.small ?: googleApiItem?.volumeInfo?.imageLinks?.smallThumbnail
-    )
-
-fun BookInformation.toBookInformationResponse(authorResponse: AuthorResponse?): BookInformationResponse =
-    BookInformationResponse(
-        title = this.title,
-        isbn = this.isbn,
-        author = authorResponse,
-        numberOfPages = this.numberOfPages,
-        urlImage = this.urlImage,
-        urlImageSmall = this.urlImageSmall,
-        publisherYear = this.publisherYear
     )
 
 fun GoogleApiItemResponse.toBookInformation(): BookInformation =

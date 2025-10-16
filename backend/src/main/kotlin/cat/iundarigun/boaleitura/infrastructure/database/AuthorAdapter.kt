@@ -7,11 +7,11 @@ import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.exception.AuthorNotFoundException
-import cat.iundarigun.boaleitura.extensions.merge
-import cat.iundarigun.boaleitura.extensions.toEntity
-import cat.iundarigun.boaleitura.extensions.toPageResponse
-import cat.iundarigun.boaleitura.extensions.toPageable
-import cat.iundarigun.boaleitura.extensions.toResponse
+import cat.iundarigun.boaleitura.domain.extensions.merge
+import cat.iundarigun.boaleitura.domain.extensions.toEntity
+import cat.iundarigun.boaleitura.domain.extensions.toPageResponse
+import cat.iundarigun.boaleitura.domain.extensions.toPageable
+import cat.iundarigun.boaleitura.domain.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import org.springframework.stereotype.Service

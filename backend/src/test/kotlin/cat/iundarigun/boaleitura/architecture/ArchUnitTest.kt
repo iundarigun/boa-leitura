@@ -34,12 +34,11 @@ class ArchUnitTest {
             .layer("Database").definedBy("$basePackage.infrastructure.database..")
             .layer("RestClient").definedBy("$basePackage.infrastructure.rest.client..")
             .layer("RestApi").definedBy("$basePackage.infrastructure.rest.api..")
-            .layer("Extensions").definedBy("$basePackage.extensions..")
-            .whereLayer("RestClient").mayOnlyBeAccessedByLayers("Extensions")
-            .whereLayer("RestApi").mayOnlyBeAccessedByLayers("Extensions")
-            .whereLayer("Database").mayOnlyBeAccessedByLayers("Extensions")
+            .whereLayer("RestClient").mayNotBeAccessedByAnyLayer()
+            .whereLayer("RestApi").mayNotBeAccessedByAnyLayer()
+            .whereLayer("Database").mayNotBeAccessedByAnyLayer()
             .whereLayer("Application").mayOnlyBeAccessedByLayers("Infrastructure")
-            .whereLayer("Domain").mayOnlyBeAccessedByLayers( "Extensions", "Application", "Infrastructure")
+            .whereLayer("Domain").mayOnlyBeAccessedByLayers( "Application", "Infrastructure")
             .check(importedClasses
                 .that(not(equivalentTo(ImportService::class.java))))
     }

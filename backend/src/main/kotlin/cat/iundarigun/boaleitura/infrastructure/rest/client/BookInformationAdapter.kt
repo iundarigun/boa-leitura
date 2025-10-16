@@ -3,7 +3,7 @@ package cat.iundarigun.boaleitura.infrastructure.rest.client
 import cat.iundarigun.boaleitura.application.port.output.BookInformationPort
 import cat.iundarigun.boaleitura.domain.BookInformation
 import cat.iundarigun.boaleitura.domain.request.BookInformationRequest
-import cat.iundarigun.boaleitura.extensions.toBookInformation
+import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.toBookInformation
 import cat.iundarigun.boaleitura.infrastructure.rest.client.spec.GoogleApiClient
 import cat.iundarigun.boaleitura.infrastructure.rest.client.spec.OpenLibraryClient
 import org.apache.commons.text.similarity.JaroWinklerSimilarity

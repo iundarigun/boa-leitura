@@ -1,7 +1,7 @@
 package cat.iundarigun.boaleitura.factory
 
 import cat.iundarigun.boaleitura.configuration.FakerConfiguration
-import cat.iundarigun.boaleitura.domain.entity.GenreEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.GenreEntity
 
 object GenreEntityFactory {
     fun build(

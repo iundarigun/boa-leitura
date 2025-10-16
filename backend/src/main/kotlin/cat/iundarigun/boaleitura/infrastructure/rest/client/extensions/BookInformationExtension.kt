@@ -1,8 +1,6 @@
-package cat.iundarigun.boaleitura.infrastructure.rest.client.dto
+package cat.iundarigun.boaleitura.infrastructure.rest.client.extensions
 
-import cat.iundarigun.boaleitura.domain.BookInformation
-import cat.iundarigun.boaleitura.domain.response.AuthorResponse
-import cat.iundarigun.boaleitura.domain.response.BookInformationResponse
+import cat.iundarigun.boaleitura.domain.model.BookInformation
 import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.googleapi.GoogleApiItemResponse
 import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.openlibrary.BookResponse
 

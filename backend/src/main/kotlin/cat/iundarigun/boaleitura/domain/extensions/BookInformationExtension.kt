@@ -1,6 +1,6 @@
 package cat.iundarigun.boaleitura.domain.extensions
 
-import cat.iundarigun.boaleitura.domain.BookInformation
+import cat.iundarigun.boaleitura.domain.model.BookInformation
 import cat.iundarigun.boaleitura.domain.response.AuthorResponse
 import cat.iundarigun.boaleitura.domain.response.BookInformationResponse
 

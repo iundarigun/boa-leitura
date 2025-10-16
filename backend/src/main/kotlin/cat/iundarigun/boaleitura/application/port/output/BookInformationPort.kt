@@ -1,6 +1,6 @@
 package cat.iundarigun.boaleitura.application.port.output
 
-import cat.iundarigun.boaleitura.domain.BookInformation
+import cat.iundarigun.boaleitura.domain.model.BookInformation
 import cat.iundarigun.boaleitura.domain.request.BookInformationRequest
 
 interface BookInformationPort {

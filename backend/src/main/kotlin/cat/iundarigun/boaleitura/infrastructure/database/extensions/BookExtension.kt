@@ -1,9 +1,9 @@
-package cat.iundarigun.boaleitura.domain.extensions
+package cat.iundarigun.boaleitura.infrastructure.database.extensions
 
-import cat.iundarigun.boaleitura.domain.entity.AuthorEntity
-import cat.iundarigun.boaleitura.domain.entity.BookEntity
-import cat.iundarigun.boaleitura.domain.entity.GenreEntity
-import cat.iundarigun.boaleitura.domain.entity.SagaEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.AuthorEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.GenreEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.SagaEntity
 import cat.iundarigun.boaleitura.domain.model.BookOriginalEditionModel
 import cat.iundarigun.boaleitura.domain.request.BookGoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.BookRequest

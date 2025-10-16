@@ -1,10 +1,10 @@
 package cat.iundarigun.boaleitura.factory
 
 import cat.iundarigun.boaleitura.configuration.FakerConfiguration
-import cat.iundarigun.boaleitura.domain.entity.AuthorEntity
-import cat.iundarigun.boaleitura.domain.entity.BookEntity
-import cat.iundarigun.boaleitura.domain.entity.GenreEntity
-import cat.iundarigun.boaleitura.domain.entity.SagaEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.AuthorEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.GenreEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.SagaEntity
 import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.GenreRepository

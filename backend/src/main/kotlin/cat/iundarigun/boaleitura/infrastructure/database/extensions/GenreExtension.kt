@@ -1,6 +1,6 @@
-package cat.iundarigun.boaleitura.domain.extensions
+package cat.iundarigun.boaleitura.infrastructure.database.extensions
 
-import cat.iundarigun.boaleitura.domain.entity.GenreEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.GenreEntity
 import cat.iundarigun.boaleitura.domain.request.GenreRequest
 import cat.iundarigun.boaleitura.domain.response.GenreResponse
 

@@ -1,7 +1,7 @@
 package cat.iundarigun.boaleitura.integration.book
 
 import cat.iundarigun.boaleitura.configuration.TestContainerBaseConfiguration
-import cat.iundarigun.boaleitura.domain.entity.BookEntity
+import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
 import cat.iundarigun.boaleitura.domain.response.BookSummaryResponse
 import cat.iundarigun.boaleitura.domain.response.ErrorResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse

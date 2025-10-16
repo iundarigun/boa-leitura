@@ -1,4 +1,4 @@
-package cat.iundarigun.boaleitura.domain.entity
+package cat.iundarigun.boaleitura.infrastructure.database.entity
 
 import cat.iundarigun.boaleitura.domain.enums.FormatEnum
 import jakarta.persistence.Entity

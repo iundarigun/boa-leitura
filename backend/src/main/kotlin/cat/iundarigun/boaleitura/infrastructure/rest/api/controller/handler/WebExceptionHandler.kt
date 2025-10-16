@@ -2,6 +2,7 @@ package cat.iundarigun.boaleitura.infrastructure.rest.api.controller.handler
 
 import cat.iundarigun.boaleitura.domain.response.ErrorResponse
 import cat.iundarigun.boaleitura.exception.BoaLeituraBusinessException
+import jakarta.servlet.ServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -63,7 +64,7 @@ class WebExceptionHandler {
     }
 
     @ExceptionHandler(Exception::class)
-    fun handlerException(exception: Exception): ResponseEntity<ErrorResponse> {
+    fun handlerException(request: ServletRequest, exception: Exception): ResponseEntity<ErrorResponse> {
         logger.warn("handlerException, message={}", exception.message, exception)
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)

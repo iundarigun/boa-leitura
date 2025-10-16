@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import ImagePreviewButton from "@/components/ImagePreview";
 import { useDialog } from "@/context/DialogContext";
 import api, { apiCall } from "../../lib/api";
@@ -105,7 +111,22 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label>Language</Label>
-            <Input value={language} onChange={(e) => setLanguage(e.target.value)} placeholder="Language" />
+            <Select
+                value={language}
+                onValueChange={setLanguage}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select language" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="en">English</SelectItem>
+                <SelectItem value="es">Español</SelectItem>
+                <SelectItem value="ca">Català</SelectItem>
+                <SelectItem value="pt">Português</SelectItem>
+                <SelectItem value="fr">Français</SelectItem>
+                <SelectItem value="ru">Russian</SelectItem>
+                <SelectItem value="ja">Japanese</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div>
@@ -142,7 +163,6 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
         </div>
 
         <div className="pt-2">
-          <p className="text-sm font-medium mb-1">Original edition (optional)</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label>Original Title</Label>
@@ -150,7 +170,22 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
             </div>
             <div>
               <Label>Original Language</Label>
-              <Input value={origLanguage} onChange={(e) => setOrigLanguage(e.target.value)} placeholder="Original language" />
+              <Select
+                value={origLanguage}
+                onValueChange={setOrigLanguage}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select language" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="en">English</SelectItem>
+                  <SelectItem value="es">Español</SelectItem>
+                  <SelectItem value="ca">Català</SelectItem>
+                  <SelectItem value="pt">Português</SelectItem>
+                  <SelectItem value="fr">Français</SelectItem>
+                  <SelectItem value="ru">Russian</SelectItem>
+                  <SelectItem value="ja">Japanese</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </div>

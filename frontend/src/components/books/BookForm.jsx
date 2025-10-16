@@ -2,18 +2,12 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
 import ImagePreviewButton from "@/components/ImagePreview";
 import { useDialog } from "@/context/DialogContext";
 import api, { apiCall } from "../../lib/api";
 import SelectGenreButton from "../genres/SelectGenreButton";
 import SelectAuthorButton from "../authors/SelectAuthorButton";
+import LanguageSelect from "../LanguageSelect";
 
 export default function BookForm({ initialData = null, onSubmit, onCancel, loading = false }) {
   const [title, setTitle] = useState("");
@@ -112,22 +106,9 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label>Language</Label>
-            <Select
-                value={language}
-                onValueChange={setLanguage}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select language" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="en">English</SelectItem>
-                <SelectItem value="es">Español</SelectItem>
-                <SelectItem value="ca">Català</SelectItem>
-                <SelectItem value="pt">Português</SelectItem>
-                <SelectItem value="fr">Français</SelectItem>
-                <SelectItem value="ru">Russian</SelectItem>
-                <SelectItem value="ja">Japanese</SelectItem>
-              </SelectContent>
-            </Select>
+            <LanguageSelect
+                language={language}
+                setLanguage={setLanguage}/>
           </div>
 
           <div>
@@ -171,22 +152,9 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
             </div>
             <div>
               <Label>Original Language</Label>
-              <Select
-                value={origLanguage}
-                onValueChange={setOrigLanguage}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select language" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="es">Español</SelectItem>
-                  <SelectItem value="ca">Català</SelectItem>
-                  <SelectItem value="pt">Português</SelectItem>
-                  <SelectItem value="fr">Français</SelectItem>
-                  <SelectItem value="ru">Russian</SelectItem>
-                  <SelectItem value="ja">Japanese</SelectItem>
-                </SelectContent>
-              </Select>
+              <LanguageSelect
+                language={origLanguage}
+                setLanguage={setOrigLanguage}/>
             </div>
           </div>
         </div>

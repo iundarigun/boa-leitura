@@ -7,6 +7,7 @@ import ImagePreviewButton from "@/components/ImagePreview";
 import { useDialog } from "@/context/DialogContext";
 import api, { apiCall } from "../../lib/api";
 import SelectGenreButton from "../genres/SelectGenreButton";
+import SelectAuthorButton from "../authors/SelectAuthorButton";
 
 export default function BookForm({ initialData = null, onSubmit, onCancel, loading = false }) {
   const [title, setTitle] = useState("");
@@ -19,6 +20,7 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
   const [urlImage, setUrlImage] = useState("");
   const [urlImageSmall, setUrlImageSmall] = useState("");
   const [genre, setGenre] = useState(null);
+  const [author, setAuthor] = useState(null);
   const [fetching, setFetching] = useState(false);
 
   const { showError, showSuccess } = useDialog();
@@ -34,7 +36,6 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
       setIsbn(initialData.isbn || "");
       setUrlImage(initialData.urlImage || "");
       setUrlImageSmall(initialData.urlImageSmall || "");
-      setPreviewUrl(initialData.urlImageSmall || "");
       setGenre(initialData?.genre || null);
     }
   }, [initialData]);
@@ -87,7 +88,8 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
       isbn: isbn.trim() || null,
       urlImage: urlImage.trim() || null,
       urlImageSmall: urlImageSmall.trim() || null,
-      genreId: genre?.id ?? null,
+      genreId: genre?.id || null,
+      authorId: author?.id || null,
     };
 
     onSubmit && onSubmit(payload);
@@ -153,7 +155,10 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex gap-2 items-end">
+          <div className="flex gap-2 items-end"> 
+            <SelectAuthorButton selectedAuthor={author} onSelect={setAuthor}/>
+          </div>
+          <div className="flex gap-2 items-end"> 
               <SelectGenreButton selectedGenre={genre} onSelect={setGenre} />
           </div>
         </div>

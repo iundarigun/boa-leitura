@@ -8,7 +8,7 @@ const api = axios.create({
 });
 
 export async function apiCall(apiFunc) {
-  try {
+try {
     const res = await apiFunc();
     return { data: res.data, error: null };
   } catch (err) {

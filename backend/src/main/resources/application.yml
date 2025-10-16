@@ -17,7 +17,7 @@ spring:
 
 restClient:
   openLibrary:
-    baseUrl: https://openlibrary.org/api/
+    baseUrl: https://openlibrary.org/
   googleApi:
     baseUrl: https://www.googleapis.com/
 

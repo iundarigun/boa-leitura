@@ -96,12 +96,11 @@ class BookAdapter(
     }
 
     @Transactional(readOnly = true)
-    override fun findIsbnMissingImages(): List<String> {
+    override fun findMissingImages(): List<BookResponse> {
         val specification = Specification.allOf<BookEntity>(
-            specIsNull("urlImage"),
-            specIsNotNull("isbn")
+            specIsNull("urlImage")
         )
-        return bookRepository.findAll(specification).map { it.isbn!! }
+        return bookRepository.findAll(specification).map { it.toResponse() }
     }
 
     @Transactional

@@ -4,5 +4,6 @@ import cat.iundarigun.boaleitura.domain.BookInformation
 import cat.iundarigun.boaleitura.domain.request.BookInformationRequest
 
 interface BookInformationPort {
-    fun search(request: BookInformationRequest): List<BookInformation>
+    fun searchByIsbn(request: BookInformationRequest): List<BookInformation>
+    fun searchByTitle(title: String, author: String): List<BookInformation>
 }

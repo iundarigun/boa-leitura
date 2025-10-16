@@ -1,20 +1,20 @@
-package cat.iundarigun.boaleitura.infrastructure.rest.client.dto
+package cat.iundarigun.boaleitura.infrastructure.rest.client.dto.openlibrary
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
-data class OpenLibraryResponse(
+data class BookResponse(
     val url: String?,
     val key: String?,
     val title: String?,
-    val authors: List<OpenLibraryAuthorResponse> = emptyList(),
+    val authors: List<AuthorResponse> = emptyList(),
     val numberOfPages: Int?,
-    val identifiers: OpenLibraryIdentifierResponse?,
-    val publishers: List<OpenLibraryPublisherResponse> = emptyList(),
+    val identifiers: IdentifierResponse?,
+    val publishers: List<PublisherResponse> = emptyList(),
     val publishDate: String?,
-    val cover: OpenLibraryCoverResponse?
+    val cover: CoverResponse?
 ) {
     fun isMissingInformation(): Boolean =
         authors.isEmpty() ||
@@ -38,13 +38,13 @@ data class OpenLibraryResponse(
 }
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
-data class OpenLibraryAuthorResponse(
+data class AuthorResponse(
     val name: String?,
     val url: String?
 )
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
-data class OpenLibraryIdentifierResponse(
+data class IdentifierResponse(
     @field:JsonProperty("isbn_10")
     val isbn10: List<String>?,
     @field:JsonProperty("isbn_13")
@@ -53,12 +53,12 @@ data class OpenLibraryIdentifierResponse(
 )
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
-data class OpenLibraryPublisherResponse(
+data class PublisherResponse(
     val name: String?
 )
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
-data class OpenLibraryCoverResponse(
+data class CoverResponse(
     val small: String?,
     val medium: String?,
     val large: String?,

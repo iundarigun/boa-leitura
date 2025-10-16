@@ -7,6 +7,8 @@ import GenresListPage from "./pages/genres/GenresListPage";
 import GenreFormPage from "./pages/genres/GenreFormPage";
 import SagasListPage from "./pages/sagas/SagasListPage";
 import SagaFormPage from "./pages/sagas/SagaFormPage";
+import BooksListPage from "./pages/books/BookListPage";
+import BookFormPage from "./pages/books/BookFormPage";
 
 function App() {
   return (
@@ -22,6 +24,9 @@ function App() {
           <Route path="/sagas" element={<SagasListPage />} />
           <Route path="/sagas/new" element={<SagaFormPage />} />
           <Route path="/sagas/:id/edit" element={<SagaFormPage />} />
+          <Route path="/books" element={<BooksListPage />} />
+          <Route path="/books/new" element={<BookFormPage />} />
+          <Route path="/books/:id/edit" element={<BookFormPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

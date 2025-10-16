@@ -58,7 +58,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Add endpoints to add books
 [X] Languages for the title
 [X] Job to retrieve images
-[ ] Search images by title
+[X] Search images by title
 
 ### Sagas
 [X] Crud Sagas
@@ -73,3 +73,8 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 ### Reading
 [ ] Add format and platform
 [ ] Add crud
+
+### Best of
+[ ] Add mechanism to choose the best x year
+
+### Statistics

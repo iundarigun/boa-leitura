@@ -2,15 +2,14 @@ package cat.iundarigun.boaleitura.architecture
 
 import cat.iundarigun.boaleitura.BoaLeituraApplication
 import cat.iundarigun.boaleitura.infrastructure.database.ImportService
-import cat.iundarigun.boaleitura.infrastructure.rest.api.controller.ImportController
 import com.tngtech.archunit.base.DescribedPredicate
 import com.tngtech.archunit.base.DescribedPredicate.not
 import com.tngtech.archunit.core.domain.JavaClass
 import com.tngtech.archunit.core.domain.JavaClass.Predicates.equivalentTo
-import com.tngtech.archunit.core.domain.JavaClass.Predicates.simpleNameEndingWith
+import com.tngtech.archunit.core.domain.properties.HasName
 import com.tngtech.archunit.core.importer.ClassFileImporter
 import com.tngtech.archunit.core.importer.ImportOption
-import com.tngtech.archunit.lang.conditions.ArchConditions
+import com.tngtech.archunit.lang.syntax.ArchRuleDefinition
 import com.tngtech.archunit.library.Architectures
 import org.junit.jupiter.api.Test
 
@@ -20,7 +19,6 @@ class ArchUnitTest {
         val importedClasses = ClassFileImporter()
             .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
             .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_JARS)
-//            .withImportOption { !it.contains("extensions") }
             .importPackages(basePackage)
     }
 
@@ -41,5 +39,54 @@ class ArchUnitTest {
             .whereLayer("Domain").mayOnlyBeAccessedByLayers( "Application", "Infrastructure")
             .check(importedClasses
                 .that(not(equivalentTo(ImportService::class.java))))
+    }
+
+    @Test
+    fun useCase_implement() {
+        val ruleName = ArchRuleDefinition.classes().that()
+            .resideInAnyPackage("$basePackage.application.port.input..")
+            .and()
+            .resideOutsideOfPackages("..impl")
+            .and()
+            .areNotMemberClasses()
+            .should()
+            .haveSimpleNameEndingWith("UseCase")
+
+        ruleName.check(importedClasses)
+
+        val ruleImplemented = ArchRuleDefinition.classes().that()
+            .implement(
+                DescribedPredicate.and(
+                    HasName.Predicates.nameEndingWith("UseCase"),
+                    JavaClass.Predicates.resideInAPackage("$basePackage.application.port.input..")
+                )
+            )
+            .should().haveSimpleNameEndingWith("UseCaseImpl")
+            .andShould().resideInAPackage("..impl")
+
+        ruleImplemented.check(importedClasses)
+    }
+
+    @Test
+    fun port_implement() {
+        val ruleName = ArchRuleDefinition.classes().that()
+            .resideInAnyPackage("$basePackage.application.port.output")
+            .and()
+            .areNotMemberClasses()
+            .should()
+            .haveSimpleNameEndingWith("Port")
+
+        ruleName.check(importedClasses)
+
+        val ruleImplementedPort = ArchRuleDefinition.classes().that()
+            .implement(
+                DescribedPredicate.and(
+                    HasName.Predicates.nameEndingWith("Port"),
+                    JavaClass.Predicates.resideInAPackage("$basePackage.application.port.output")
+                )
+            )
+            .should().haveSimpleNameEndingWith("Adapter")
+
+        ruleImplementedPort.check(importedClasses)
     }
 }

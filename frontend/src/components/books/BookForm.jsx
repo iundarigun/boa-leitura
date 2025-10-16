@@ -87,6 +87,7 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
       isbn: isbn.trim() || null,
       urlImage: urlImage.trim() || null,
       urlImageSmall: urlImageSmall.trim() || null,
+      genreId: genre?.id ?? null,
     };
 
     onSubmit && onSubmit(payload);

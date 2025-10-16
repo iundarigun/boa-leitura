@@ -1,31 +1,37 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import SagaList from "../../components/sagas/SagaList";
+import SagaTable from "../../components/sagas/SagaTable";
 import Pagination from "../../components/Pagination";
 import SagaDetails from "../../components/sagas/SagaDetails";
-
 import { useDialog } from "../../context/DialogContext";
 import api, { apiCall } from "../../lib/api";
 
 const API_URL = "/sagas";
 
 export default function SagasListPage() {
-  const [sagas, setSagas] = useState({"content": []});
+  const [sagas, setSagas] = useState({ content: [] });
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [searchApplied, setSearchApplied] = useState("");
+
   const navigate = useNavigate();
   const { showError, showSuccess, showDialog } = useDialog();
 
   useEffect(() => {
     fetchSagas();
-  }, [page]);
+  }, [page, searchApplied]);
 
   const fetchSagas = async () => {
     setLoading(true);
-    const res = await apiCall(() => api.get(`${API_URL}?page=${page}`));
+    const res = await apiCall(() =>
+      api.get(`${API_URL}?page=${page}&name=${encodeURIComponent(searchApplied)}`)
+    );
     if (!res.error) {
       setSagas(res.data);
       setPage(res.data.page);
@@ -39,10 +45,9 @@ export default function SagasListPage() {
   const handleDelete = async (id, name) => {
     const res = await apiCall(() => api.delete(`${API_URL}/${id}`));
     if (!res.error) {
-      fetchSagas()
+      fetchSagas();
       showSuccess(`Saga "${name}" deleted successfully.`);
-    }
-    else {
+    } else {
       showError(res.error);
     }
   };
@@ -53,39 +58,57 @@ export default function SagasListPage() {
       showError(res.error);
       return;
     }
-    showDialog("Details", <SagaDetails saga={res.data} />)
+    showDialog("Details", <SagaDetails saga={res.data} />);
+  };
+
+  const handleSearch = () => {
+    setPage(1);
+    setSearchApplied(search);
   };
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
       <Card className="w-full max-w-6xl mx-auto p-8">
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row items-center justify-between mb-4">
           <CardTitle className="text-3xl">📚 Sagas</CardTitle>
           <Button onClick={() => navigate("/sagas/new")}>+ New saga</Button>
         </CardHeader>
-        <Pagination
-          page={page}
-          setPage={setPage}
-          totalPages={totalPages}
+
+        {/* 🔍 Pesquisa */}
+        <div className="flex items-center gap-2 mb-4">
+          <Label htmlFor="search" className="text-sm font-medium">
+            Name
+          </Label>
+          <Input
+            id="search"
+            className="max-w-xs"
+            placeholder="Search by name"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
+          <Button onClick={handleSearch}>Search</Button>
+        </div>
+
+        {/* 📖 Paginação topo */}
+        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+
         <CardContent>
           {loading ? (
             <p className="text-center text-gray-500">Loading sagas...</p>
           ) : (
-            <SagaList
-              sagas={sagas}
+            <SagaTable
+              sagas={sagas.content}
+              onView={handleView}
               onEdit={(saga) => navigate(`/sagas/${saga.id}/edit`)}
               onDelete={handleDelete}
-              onView={handleView}
             />
           )}
         </CardContent>
-        <Pagination
-          page={page}
-          setPage={setPage}
-          totalPages={totalPages}
-          />
-      </Card>      
+
+        {/* 📖 Paginação base */}
+        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+      </Card>
     </div>
   );
 }

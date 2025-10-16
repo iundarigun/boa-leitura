@@ -43,6 +43,7 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
       setUrlImage(initialData.urlImage || "");
       setUrlImageSmall(initialData.urlImageSmall || "");
       setGenre(initialData?.genre || null);
+      setAuthor(initialData?.author || null);
     }
   }, [initialData]);
 

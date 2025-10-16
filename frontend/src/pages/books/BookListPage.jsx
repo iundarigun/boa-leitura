@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectTrigger,
@@ -8,6 +10,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import Pagination from "../../components/Pagination";
 import BookTable from "../../components/books/BookTable";
 import BookDetailsDialog from "../../components/books/BookDetailsDialog";
 import { useDialog } from "../../context/DialogContext";
@@ -30,7 +33,8 @@ export default function BooksListPage() {
   
   const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
-
+  
+  const navigate = useNavigate();
   const { showError, showSuccess } = useDialog();
 
   const loadBooks = async () => {
@@ -100,10 +104,13 @@ export default function BooksListPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">📚 Books</h1>
-
-      <div className="flex flex-wrap gap-3 items-center">
+    <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
+      <Card className="w-full max-w-6xl mx-auto p-8">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="text-3xl">📕 Books</CardTitle>
+          <Button onClick={() => navigate("/books/new")}>+ New Book</Button>
+        </CardHeader>
+        <div className="flex flex-wrap gap-3 items-center">
         <Input
           placeholder="Search by title..."
           value={search}
@@ -122,64 +129,37 @@ export default function BooksListPage() {
           </SelectContent>
         </Select>
         <Button onClick={handleSearch}>Search</Button>
-      </div>
+        </div>
 
-      <div className="flex justify-center items-center gap-2">
-        <Button
-          variant="outline"
-          onClick={() => setPage((p) => Math.max(p - 1, 1))}
-          disabled={page <= 1}
-        >
-          Previous
-        </Button>
-        <span>
-          Page {page} of {totalPages}
-        </span>
-        <Button
-          variant="outline"
-          onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-          disabled={page >= totalPages}
-        >
-          Next
-        </Button>
-      </div>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          />
 
-      <BookTable
-        books={books}
-        loading={loading}
-        sortField={sortField}
-        sortDir={sortDir}
-        onSort={handleSort}
-        onView={(book) => handleView(book.id)}
-      />
+        <BookTable
+          books={books}
+          loading={loading}
+          sortField={sortField}
+          sortDir={sortDir}
+          onSort={handleSort}
+          onView={(book) => handleView(book.id)}
+        />
 
-      <div className="flex justify-center items-center gap-2">
-        <Button
-          variant="outline"
-          onClick={() => setPage((p) => Math.max(p - 1, 1))}
-          disabled={page <= 1}
-        >
-          Previous
-        </Button>
-        <span>
-          Page {page} of {totalPages}
-        </span>
-        <Button
-          variant="outline"
-          onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-          disabled={page >= totalPages}
-        >
-          Next
-        </Button>
-      </div>
-      
-      <BookDetailsDialog
-        open={bookDetailsOpen}
-        onClose={setBookDetailsOpen}
-        book={selectedBook}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          />
+        
+        <BookDetailsDialog
+          open={bookDetailsOpen}
+          onClose={setBookDetailsOpen}
+          book={selectedBook}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      </Card>
     </div>
   );
 }

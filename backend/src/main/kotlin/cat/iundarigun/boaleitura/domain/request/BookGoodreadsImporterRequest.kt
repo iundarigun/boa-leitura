@@ -6,5 +6,6 @@ data class BookGoodreadsImporterRequest(
     val numberOfPages: Int? = null,
     val publisherYear: Int,
     val isbn: String? = null,
-    val originalLanguage: String? = null
+    val language: String? = null,
+    val authorId: Long? = null,
 )

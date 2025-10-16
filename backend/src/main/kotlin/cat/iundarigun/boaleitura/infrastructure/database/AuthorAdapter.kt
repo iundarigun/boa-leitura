@@ -44,8 +44,9 @@ class AuthorAdapter(
         authorRepository.findByName(name)?.toResponse()
 
     @Transactional
-    fun createIfNotExists(name: String): AuthorEntity {
-        return authorRepository.findByName(name) ?: authorRepository.save(AuthorEntity(name = name))
+    override fun createIfNotExists(name: String): AuthorResponse {
+        val author = authorRepository.findByName(name) ?: authorRepository.save(AuthorEntity(name = name))
+        return author.toResponse()
     }
 
     @Transactional(readOnly = true)

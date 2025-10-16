@@ -1,11 +1,8 @@
 package cat.iundarigun.boaleitura.architecture
 
 import cat.iundarigun.boaleitura.BoaLeituraApplication
-import cat.iundarigun.boaleitura.infrastructure.database.ImportService
 import com.tngtech.archunit.base.DescribedPredicate
-import com.tngtech.archunit.base.DescribedPredicate.not
 import com.tngtech.archunit.core.domain.JavaClass
-import com.tngtech.archunit.core.domain.JavaClass.Predicates.equivalentTo
 import com.tngtech.archunit.core.domain.properties.HasName
 import com.tngtech.archunit.core.importer.ClassFileImporter
 import com.tngtech.archunit.core.importer.ImportOption
@@ -36,9 +33,8 @@ class ArchUnitTest {
             .whereLayer("RestApi").mayNotBeAccessedByAnyLayer()
             .whereLayer("Database").mayNotBeAccessedByAnyLayer()
             .whereLayer("Application").mayOnlyBeAccessedByLayers("Infrastructure")
-            .whereLayer("Domain").mayOnlyBeAccessedByLayers( "Application", "Infrastructure")
-            .check(importedClasses
-                .that(not(equivalentTo(ImportService::class.java))))
+            .whereLayer("Domain").mayOnlyBeAccessedByLayers("Application", "Infrastructure")
+            .check(importedClasses)
     }
 
     @Test

@@ -108,6 +108,6 @@ fun BookGoodreadsImporterRequest.toBookEntity(author: AuthorEntity): BookEntity 
         publisherYear = this.publisherYear,
         numberOfPages = this.numberOfPages,
         isbn = this.isbn,
-        originalLanguage = this.originalLanguage,
+        language = this.language,
         author = author
     )

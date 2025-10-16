@@ -4,6 +4,7 @@ import cat.iundarigun.boaleitura.domain.enums.FormatEnum
 import java.time.LocalDate
 
 data class ReadingRequest(
+    val bookId: Long,
     val myRating: Int? = null,
     val dateRead: LocalDate,
     val format: FormatEnum? = null,

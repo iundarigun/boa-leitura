@@ -11,7 +11,7 @@ import org.springframework.lang.Nullable
 import java.util.*
 
 interface BookRepository : JpaRepository<BookEntity, Long>, JpaSpecificationExecutor<BookEntity> {
-    fun findByGoodreadsId(bookId: Long): Optional<BookEntity>
+    fun findByGoodreadsId(bookId: Long): BookEntity?
     fun countByAuthorId(authorId: Long): Int
     fun countByGenreId(id: Long): Int
     fun countBySagaId(id: Long): Int

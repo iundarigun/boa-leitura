@@ -12,5 +12,6 @@ fun BookInformation.toBookInformationResponse(authorResponse: AuthorResponse?): 
         numberOfPages = this.numberOfPages,
         urlImage = this.urlImage,
         urlImageSmall = this.urlImageSmall,
-        publisherYear = this.publisherYear
+        publisherYear = this.publisherYear,
+        language = this.language,
     )

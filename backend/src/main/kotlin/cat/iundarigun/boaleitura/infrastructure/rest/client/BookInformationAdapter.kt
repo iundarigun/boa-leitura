@@ -58,7 +58,7 @@ class BookInformationAdapter(
     private fun searchByKey(key: String): List<BookInformation> {
         val searchByIsbn = openLibraryClient.searchByKey(key)
         return searchByIsbn.values.map {
-            if (it.isMissingInformation() && it.getIsbn() != null) {
+            if (it.getIsbn() != null) {
                 val googleApiResponse = googleApiClient.searchByIsbn(it.getIsbn()!!)
                     .items.firstOrNull()
                 it.toBookInformation(googleApiResponse)

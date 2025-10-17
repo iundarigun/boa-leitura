@@ -12,7 +12,8 @@ fun BookResponse.toBookInformation(googleApiItem: GoogleApiItemResponse? = null)
         numberOfPages = if ((this.numberOfPages ?: 0) > 0) this.numberOfPages else googleApiItem?.volumeInfo?.pageCount,
         publisherYear = this.getPublisherYear() ?: googleApiItem?.getPublisherYear(),
         urlImage = this.cover?.large ?: googleApiItem?.volumeInfo?.imageLinks?.thumbnail,
-        urlImageSmall = this.cover?.small ?: googleApiItem?.volumeInfo?.imageLinks?.smallThumbnail
+        urlImageSmall = this.cover?.small ?: googleApiItem?.volumeInfo?.imageLinks?.smallThumbnail,
+        language = googleApiItem?.volumeInfo?.language
     )
 
 fun GoogleApiItemResponse.toBookInformation(): BookInformation =
@@ -23,5 +24,6 @@ fun GoogleApiItemResponse.toBookInformation(): BookInformation =
         isbn = this.getIsbn(),
         publisherYear = this.getPublisherYear(),
         urlImage = this.volumeInfo.imageLinks?.thumbnail,
-        urlImageSmall = this.volumeInfo.imageLinks?.smallThumbnail
+        urlImageSmall = this.volumeInfo.imageLinks?.smallThumbnail,
+        language = this.volumeInfo.language
     )

@@ -73,6 +73,7 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
     setUrlImage(book.urlImage || "");
     setUrlImageSmall(book.urlImageSmall || "");
     setAuthor(book.author || author);
+    setLanguage(book.language || "");
   };
 
   const handleSubmit = (e) => {

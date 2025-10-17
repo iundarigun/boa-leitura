@@ -21,7 +21,7 @@ class ImageMissingUseCaseImpl(
     override fun execute() {
         val list = bookPort.findMissingImages()
         list.forEachIndexed { index, book ->
-            jobScheduler.schedule(LocalDateTime.now().plusSeconds(index.toLong() * Companion.MULTIPLIER)) {
+            jobScheduler.schedule(LocalDateTime.now().plusSeconds(index.toLong() * MULTIPLIER)) {
                 tryToFillUrlImage(book)
             }
         }

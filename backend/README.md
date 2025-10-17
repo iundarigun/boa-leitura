@@ -51,6 +51,8 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Add integration tests
 [X] Add pagination, ordering and search in find endpoint
 [ ] Add param in getById to retrieve details (books or readers) 
+[ ] Show gender in PascalCase
+[ ] Show Nationality in a Select searchable
 
 ### Books
 [X] Add genre
@@ -59,6 +61,8 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Languages for the title
 [X] Job to retrieve images
 [X] Search images by title
+[ ] Add language in the searchBy isbn/title
+[ ] Popup selection by title
 
 ### Sagas
 [X] Crud Sagas

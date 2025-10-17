@@ -1,0 +1,15 @@
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (1, 'Fantasy', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (2, 'Epic fantasy', 1, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (6, 'Grimdark', 1, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (5, 'Fiction', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (3, 'Historical fiction', 5, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (7, 'Sport romance', 5, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (8, 'Romantasy', 1, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (9, 'Non-fiction', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (4, 'Thriller', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (10, 'Horror', 4, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (11, 'Sci-fi', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (12, 'Dystopia', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (13, 'Magic realism', 5, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (14, 'Adventure', 5, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (15, 'Space opera', 11, '2025-10-07 17:24:53.149673', '2025-10-07 17:52:03.560790', 1);

@@ -1,8 +1,6 @@
 package cat.iundarigun.boaleitura.infrastructure.database
 
 import cat.iundarigun.boaleitura.application.port.output.BookPort
-import cat.iundarigun.boaleitura.infrastructure.database.entity.AuthorEntity
-import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
 import cat.iundarigun.boaleitura.domain.request.BookGoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.BookRequest
 import cat.iundarigun.boaleitura.domain.request.PageRequest
@@ -13,6 +11,7 @@ import cat.iundarigun.boaleitura.exception.AuthorNotFoundException
 import cat.iundarigun.boaleitura.exception.BookNotFoundException
 import cat.iundarigun.boaleitura.exception.GenreNotFoundException
 import cat.iundarigun.boaleitura.exception.SagaNotFoundException
+import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.merge
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toBookEntity
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toEntity
@@ -31,8 +30,10 @@ import cat.iundarigun.boaleitura.infrastructure.database.utils.specLikeWithOrFie
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import kotlin.jvm.optionals.getOrNull
 
 @Service
+@Suppress("TooManyFunctions")
 class BookAdapter(
     private val bookRepository: BookRepository,
     private val authorRepository: AuthorRepository,
@@ -115,9 +116,16 @@ class BookAdapter(
         bookRepository.save(book)
     }
 
-    @Transactional
-    fun createIfNotExists(bookRequest: BookGoodreadsImporterRequest, author: AuthorEntity): BookEntity =
-        bookRepository.findByGoodreadsId(bookRequest.goodreadsId).orElseGet {
-            bookRepository.save(bookRequest.toBookEntity(author))
-        }
+    @Transactional(readOnly = true)
+    override fun findByGoodreadsId(goodreadsId: Long): BookResponse? =
+        bookRepository.findByGoodreadsId(goodreadsId)?.toResponse()
+
+    override fun save(request: BookGoodreadsImporterRequest): BookResponse {
+        val author = request.authorId?.let {
+            authorRepository.findById(request.authorId)
+                    .getOrNull() }
+            ?: throw AuthorNotFoundException(request.authorId)
+
+        return bookRepository.save(request.toBookEntity(author)).toResponse()
+    }
 }

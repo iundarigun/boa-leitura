@@ -15,4 +15,5 @@ interface AuthorPort {
 
     fun save(authorRequest: AuthorRequest, id: Long? = null): AuthorResponse
     fun delete(id: Long)
+    fun createIfNotExists(name: String): AuthorResponse
 }

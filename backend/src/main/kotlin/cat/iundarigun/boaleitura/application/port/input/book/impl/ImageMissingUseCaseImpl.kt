@@ -31,7 +31,7 @@ class ImageMissingUseCaseImpl(
         logger.info("Trying to fill image for isbn ${book.isbn}, title ${book.title}, author ${book.author.name}")
         var updated = false
         if (!book.isbn.isNullOrBlank()) {
-            bookInformationPort.searchByIsbn(BookInformationRequest(book.isbn))
+            bookInformationPort.searchByIsbn(book.isbn)
                 .firstOrNull { it.urlImage != null }?.let {
                     bookPort.updateUrlImages(book.id, it.urlImage!!, it.urlImageSmall)
                     updated = true

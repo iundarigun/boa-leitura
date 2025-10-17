@@ -61,6 +61,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Languages for the title
 [X] Job to retrieve images
 [X] Search images by title
+[ ] Add language in the searchBy isbn/title
 [ ] Popup selection by title
 
 ### Sagas

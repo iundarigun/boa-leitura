@@ -13,8 +13,8 @@ import com.opencsv.CSVReader
 import org.jobrunr.scheduling.JobScheduler
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
-import java.io.File
-import java.io.FileReader
+import java.io.InputStream
+import java.io.InputStreamReader
 
 @Component
 class GoodreadsImportUseCaseImpl(
@@ -26,8 +26,9 @@ class GoodreadsImportUseCaseImpl(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    override fun execute(file: String): List<GoodreadsImporterRequest> {
-        val records = CSVReader(FileReader(File(file))).readAll()
+    override fun execute(file: InputStream): List<GoodreadsImporterRequest> {
+        val records = CSVReader(InputStreamReader(file)).readAll()
+        logger.info("Found ${records.size} records")
 
         val goodreadsList = records.subList(1, records.size).map { it ->
             it.toGoodreadImporterRequest()

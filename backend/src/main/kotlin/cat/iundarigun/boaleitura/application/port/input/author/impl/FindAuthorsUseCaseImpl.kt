@@ -12,6 +12,6 @@ class FindAuthorsUseCaseImpl(private val authorPort: AuthorPort) : FindAuthorsUs
 
     override fun execute(request: SearchAuthorRequest): PageResponse<AuthorResponse> {
 
-        return authorPort.find(request.name, request.toPageRequest())
+        return authorPort.find(name = request.name, pageRequest = request.toPageRequest())
     }
 }

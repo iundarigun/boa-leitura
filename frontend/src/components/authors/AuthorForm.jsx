@@ -9,6 +9,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import CountrySelect from "./CountrySelect";
 
 export default function AuthorForm({ onSave, editingAuthor, onCancel, loading }) {
   const [name, setName] = useState(null);
@@ -19,7 +20,7 @@ export default function AuthorForm({ onSave, editingAuthor, onCancel, loading })
     if (editingAuthor) {
       setName(editingAuthor.name);
       setGender(editingAuthor.gender || "MALE");
-      setNationality(editingAuthor.nationality);
+      setNationality(editingAuthor.nationality || null);
     }
   }, [editingAuthor]);
 
@@ -28,9 +29,9 @@ export default function AuthorForm({ onSave, editingAuthor, onCancel, loading })
     if (name && !name.trim()) return;
     
     onSave({
-      name,
+      name: name.trim(),
       gender,
-      nationality,
+      nationality: nationality || null,
     });
   };
 
@@ -61,11 +62,7 @@ export default function AuthorForm({ onSave, editingAuthor, onCancel, loading })
 
       <div>
         <Label>Nationality</Label>
-        <Input
-          value={nationality}
-          onChange={(e) => setNationality(e.target.value)}
-          placeholder="Ex: Brazil"
-        />
+        <CountrySelect value={nationality} onChange={setNationality} />
       </div>
 
       <div className="flex gap-2">

@@ -2,6 +2,7 @@ package cat.iundarigun.boaleitura.infrastructure.rest.api.controller
 
 import cat.iundarigun.boaleitura.application.port.input.author.CreateAuthorUseCase
 import cat.iundarigun.boaleitura.application.port.input.author.DeleteAuthorUseCase
+import cat.iundarigun.boaleitura.application.port.input.author.DeleteOrphanAuthorsUseCase
 import cat.iundarigun.boaleitura.application.port.input.author.FindAuthorsUseCase
 import cat.iundarigun.boaleitura.application.port.input.author.GetAuthorByIdUseCase
 import cat.iundarigun.boaleitura.application.port.input.author.UpdateAuthorUseCase
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
+@Suppress("LongParameterList")
 @RestController
 @RequestMapping("/authors")
 class AuthorController(
@@ -29,7 +31,8 @@ class AuthorController(
     private val updateAuthorUseCase: UpdateAuthorUseCase,
     private val deleteAuthorUseCase: DeleteAuthorUseCase,
     private val getAuthorByIdUseCase: GetAuthorByIdUseCase,
-    private val findAuthorsUseCase: FindAuthorsUseCase
+    private val findAuthorsUseCase: FindAuthorsUseCase,
+    private val deleteOrphanAuthorsUseCase: DeleteOrphanAuthorsUseCase
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -66,5 +69,12 @@ class AuthorController(
     fun deleteAuthor(@PathVariable id: Long) {
         logger.info("deleteAuthor, id=$id")
         return deleteAuthorUseCase.execute(id)
+    }
+
+    @DeleteMapping("orphans")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteOrphanAuthor() {
+        logger.info("deleteOrphanAuthor")
+        return deleteOrphanAuthorsUseCase.execute()
     }
 }

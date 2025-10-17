@@ -8,4 +8,5 @@ data class BookInformation(
     val publisherYear: Int?,
     val urlImage: String? = null,
     val urlImageSmall: String? = null,
+    val language: String? = null,
 )

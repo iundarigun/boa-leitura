@@ -3,7 +3,6 @@ package cat.iundarigun.boaleitura.application.port.input.book.impl
 import cat.iundarigun.boaleitura.application.port.input.book.ImageMissingUseCase
 import cat.iundarigun.boaleitura.application.port.output.BookInformationPort
 import cat.iundarigun.boaleitura.application.port.output.BookPort
-import cat.iundarigun.boaleitura.domain.request.BookInformationRequest
 import cat.iundarigun.boaleitura.domain.response.BookResponse
 import org.jobrunr.scheduling.JobScheduler
 import org.slf4j.LoggerFactory
@@ -31,7 +30,7 @@ class ImageMissingUseCaseImpl(
         logger.info("Trying to fill image for isbn ${book.isbn}, title ${book.title}, author ${book.author.name}")
         var updated = false
         if (!book.isbn.isNullOrBlank()) {
-            bookInformationPort.searchByIsbn(BookInformationRequest(book.isbn))
+            bookInformationPort.searchByIsbn(book.isbn)
                 .firstOrNull { it.urlImage != null }?.let {
                     bookPort.updateUrlImages(book.id, it.urlImage!!, it.urlImageSmall)
                     updated = true

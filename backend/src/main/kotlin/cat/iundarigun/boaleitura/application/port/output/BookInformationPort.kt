@@ -1,9 +1,8 @@
 package cat.iundarigun.boaleitura.application.port.output
 
 import cat.iundarigun.boaleitura.domain.model.BookInformation
-import cat.iundarigun.boaleitura.domain.request.BookInformationRequest
 
 interface BookInformationPort {
-    fun searchByIsbn(request: BookInformationRequest): List<BookInformation>
-    fun searchByTitle(title: String, author: String): List<BookInformation>
+    fun searchByIsbn(isbn: String): List<BookInformation>
+    fun searchByTitle(title: String, author: String?): List<BookInformation>
 }

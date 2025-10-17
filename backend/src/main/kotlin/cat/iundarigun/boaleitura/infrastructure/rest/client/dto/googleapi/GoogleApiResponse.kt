@@ -1,8 +1,8 @@
 package cat.iundarigun.boaleitura.infrastructure.rest.client.dto.googleapi
 
 data class GoogleApiResponse(
-    val kind: String?,
-    val totalItems: Int?,
+    val kind: String? = null,
+    val totalItems: Int? = null,
     val items: List<GoogleApiItemResponse> = emptyList()
 )
 

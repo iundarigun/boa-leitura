@@ -5,7 +5,6 @@ import cat.iundarigun.boaleitura.application.port.output.AuthorPort
 import cat.iundarigun.boaleitura.application.port.output.BookInformationPort
 import cat.iundarigun.boaleitura.domain.extensions.toBookInformationResponse
 import cat.iundarigun.boaleitura.domain.request.BookInformationRequest
-import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.response.BookInformationResponse
 import org.springframework.stereotype.Component
 
@@ -15,10 +14,30 @@ class FindBookInformationUseCaseImpl(
     private val authorPort: AuthorPort
 ) : FindBookInformationUseCase {
     override fun execute(request: BookInformationRequest): List<BookInformationResponse> {
-        val searchResult = bookInformationPort.searchByIsbn(request)
+        request.isbn?.let {
+            return searchByIsbn(request.isbn)
+        }
+        request.title?.let {
+            return searchByTitleAndAuthor(request.title, request.author)
+        }
+        return emptyList()
+    }
+
+    private fun searchByIsbn(isbn: String): List<BookInformationResponse> {
+        val searchResult = bookInformationPort.searchByIsbn(isbn)
         return searchResult.map {
             val authorResponse = it.author?.let { author ->
-                authorPort.find(author, PageRequest()).content.firstOrNull()
+                authorPort.createIfNotExists(author)
+            }
+            it.toBookInformationResponse(authorResponse)
+        }
+    }
+
+    private fun searchByTitleAndAuthor(title: String, author: String?): List<BookInformationResponse> {
+        val searchResult = bookInformationPort.searchByTitle(title, author)
+        return searchResult.map {
+            val authorResponse = it.author?.let { author ->
+                authorPort.createIfNotExists(author)
             }
             it.toBookInformationResponse(authorResponse)
         }

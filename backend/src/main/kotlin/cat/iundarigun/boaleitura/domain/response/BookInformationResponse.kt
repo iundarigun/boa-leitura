@@ -8,4 +8,5 @@ data class BookInformationResponse(
     val urlImage: String? = null,
     val urlImageSmall: String? = null,
     val publisherYear: Int? = null,
+    val language: String? = null,
 )

@@ -4,6 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogFooter,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 import ImagePreviewButton from "@/components/ImagePreview";
 import { useDialog } from "@/context/DialogContext";
 import api, { apiCall } from "../../lib/api";
@@ -28,6 +36,10 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
   const [sagaOrder, setSagaOrder] = useState("");
   const [sagaMainTitle, setSagaMainTitle] = useState(false);
   const [fetching, setFetching] = useState(false);
+
+  const [searchResults, setSearchResults] = useState([]);
+  const [openResultsDialog, setOpenResultsDialog] = useState(false);
+  const [fetchingByName, setFetchingByName] = useState(false);
 
   const { showError, showSuccess } = useDialog();
   
@@ -73,6 +85,44 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
     setUrlImage(book.urlImage || "");
     setUrlImageSmall(book.urlImageSmall || "");
     setAuthor(book.author || author);
+    setLanguage(book.language || "");
+  };
+
+  const fetchByTitle = async () => {
+    if (!title.trim()) return;
+    setFetchingByName(true);
+    const query = new URLSearchParams({
+      title: title.trim()
+    });
+    if (author?.name) query.append("author", author.name.trim());
+
+    const res = await apiCall(() => api.get(`/book-information?${query.toString()}`));
+    setFetchingByName(false);
+
+    if (res.error) {
+      showError(res.error);
+      return;
+    }
+
+    if (!res.data || res.data.length === 0) {
+      showError("No book found for this title");
+      return;
+    }
+
+    setSearchResults(res.data);
+    setOpenResultsDialog(true);
+  };
+
+  const handleSelectBookResult = (book) => {
+    setTitle(book.title || "");
+    setNumberOfPages(book.numberOfPages ?? "");
+    setPublisherYear(book.publisherYear ?? "");
+    setUrlImage(book.urlImage || "");
+    setUrlImageSmall(book.urlImageSmall || "");
+    setAuthor(book.author || author);
+    setLanguage(book.language || "");
+    setIsbn(book.isbn || "");
+    setOpenResultsDialog(false);
   };
 
   const handleSubmit = (e) => {
@@ -109,11 +159,15 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
 
   return (
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <Label>Title</Label>
-          <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Book title" />
+        <div className="flex gap-2 items-end">
+          <div className="flex-1">
+            <Label>Title</Label>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Book title" />
+          </div>
+          <Button type="button" onClick={fetchByTitle} disabled={fetchingByName || !title.trim()}>
+            {fetchingByName ? "Searching..." : "Search by Title"}
+          </Button>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex gap-2 items-end">
             <div className="flex-1">
@@ -236,6 +290,60 @@ export default function BookForm({ initialData = null, onSubmit, onCancel, loadi
             Cancel
           </Button>
         </div>
+
+        {openResultsDialog && (
+          <AlertDialog open={openResultsDialog} onOpenChange={setOpenResultsDialog}>
+            <AlertDialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+              <AlertDialogHeader>
+                <AlertDialogTitle>Select Book Information</AlertDialogTitle>
+              </AlertDialogHeader>
+
+              <div className="space-y-3">
+                {searchResults.map((book, idx) => (
+                  <Card
+                    key={idx}
+                    className="p-3 flex items-center gap-4 cursor-pointer hover:bg-gray-100 transition"
+                    onClick={() => handleSelectBookResult(book)}
+                  >
+                    {/* Miniatura da capa */}
+                    {book.urlImageSmall ? (
+                      <img
+                        src={book.urlImageSmall}
+                        alt={book.title}
+                        className="w-16 h-24 object-cover rounded-md border shadow-sm"
+                      />
+                    ) : (
+                      <div className="w-16 h-24 bg-gray-200 flex items-center justify-center rounded-md text-gray-500 text-xs">
+                        No Image
+                      </div>
+                    )}
+
+                    {/* Informações do livro */}
+                    <div className="flex-1">
+                      <p className="font-bold text-lg">{book.title}</p>
+                      <p className="text-sm text-gray-600">
+                        {book.author?.name ? `Author: ${book.author.name}` : "Author: Unknown"}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        ISBN: {book.isbn || "-"} | Pages: {book.numberOfPages ?? "-"} | Year:{" "}
+                        {book.publisherYear ?? "-"}
+                      </p>
+                    </div>
+                  </Card>
+                ))}
+
+                {searchResults.length === 0 && (
+                  <p className="text-center text-gray-500 py-4">No books found.</p>
+                )}
+              </div>
+
+              <AlertDialogFooter>
+                <AlertDialogCancel>Close</AlertDialogCancel>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
+
       </form>
   );
 }

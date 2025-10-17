@@ -21,7 +21,7 @@ data class ReadingEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L,
 
-    var myRating: Int? = null,
+    var myRating: Double? = null,
 
     var dateRead: LocalDate,
 

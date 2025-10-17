@@ -11,7 +11,7 @@ import cat.iundarigun.boaleitura.domain.response.BookResponse
 import cat.iundarigun.boaleitura.domain.response.BookSummaryResponse
 import cat.iundarigun.boaleitura.domain.response.SagaBookResponse
 
-fun BookEntity.toSummaryResponse() =
+fun BookEntity.toSummaryResponse(read: Boolean? = null) =
     BookSummaryResponse(
         id = this.id,
         title = this.title,
@@ -20,7 +20,7 @@ fun BookEntity.toSummaryResponse() =
         saga = this.saga?.name,
         urlImageSmall = this.urlImageSmall,
         createdAt = this.createdAt,
-        read = this.readings.isNotEmpty()
+        read = read ?: this.readings.isNotEmpty()
     )
 
 fun BookEntity.toResponse() =

@@ -2,6 +2,7 @@ package cat.iundarigun.boaleitura.infrastructure.database.utils
 
 import jakarta.persistence.criteria.Join
 import jakarta.persistence.criteria.JoinType
+import jakarta.persistence.criteria.Root
 import org.springframework.data.jpa.domain.Specification
 
 fun <T> specLike(value: String?, fieldName: String) = Specification<T> { root, _, criteriaBuilder ->
@@ -21,16 +22,17 @@ fun <T> specLikeWithOrFields(value: String?, vararg fieldNames: String): Specifi
             throw IllegalArgumentException("At least 2 fields must be specified")
         }
         if (value.isNullOrBlank().not()) {
-            val joinMap = fieldNames.filter { it.contains(".") }
-                .map { it.split(".").first() }
-                .toSet()
-                .associateWith { root.join<T, Any>(it, JoinType.LEFT) }
+            val joinMap = joinMap(root, fieldNames)
 
             val predicateList = fieldNames.map {
                 if (it.contains(".")) {
-                    val join = joinMap[it.split(".").first()]
-                    criteriaBuilder.like(criteriaBuilder.upper(join?.get(it.split(".").last())),
-                        "%${value?.uppercase()}%")
+                    val decomposedField = it.split(".")
+                    val joinName = decomposedField.subList(0, decomposedField.lastIndex).joinToString(".")
+                    val join = joinMap[joinName]
+                    criteriaBuilder.like(
+                        criteriaBuilder.upper(join?.get(decomposedField.last())),
+                        "%${value?.uppercase()}%"
+                    )
                 } else {
                     criteriaBuilder.like(
                         criteriaBuilder.upper(root.get(it)),
@@ -66,3 +68,38 @@ fun <T> specIsNotNull(fieldName: String) =
     Specification<T> { root, _, criteriaBuilder ->
         criteriaBuilder.and(criteriaBuilder.isNotNull(root.get<Any>(fieldName)))
     }
+
+fun <T, V : Comparable<V>> specGreaterOrEqualsThan(fieldName: String, value: V?) =
+    Specification<T> { root, _, criteriaBuilder ->
+        value?.let {
+            criteriaBuilder.and(
+                criteriaBuilder.greaterThanOrEqualTo(root.get(fieldName), value)
+            )
+        } ?: criteriaBuilder.and()
+    }
+
+fun <T, V : Comparable<V>> specLessOrEqualsThan(fieldName: String, value: V?) =
+    Specification<T> { root, _, criteriaBuilder ->
+        value?.let {
+            criteriaBuilder.and(
+                criteriaBuilder.lessThanOrEqualTo(root.get(fieldName), value)
+            )
+        } ?: criteriaBuilder.and()
+    }
+
+@Suppress("MagicNumber")
+private fun <T> joinMap(root: Root<T>, fieldNames: Array<out String>): Map<String, Join<out Any?, Any>?> {
+    val joinMapFirstLevel = fieldNames.filter { it.contains(".") }
+        .map { it.split(".").first() }
+        .toSet()
+        .associateWith { root.join<T, Any>(it, JoinType.LEFT) }
+
+    val joinMapSecondLevel = fieldNames.filter { it.split(".").size == 3 }
+        .map { Pair(it.split(".").first(), it.split(".")[1]) }
+        .toSet().associate {
+            "${it.first}.${it.second}" to
+                    joinMapFirstLevel[it.first]?.join<Any, Any>(it.second, JoinType.LEFT)
+        }
+
+    return joinMapFirstLevel.plus(joinMapSecondLevel)
+}

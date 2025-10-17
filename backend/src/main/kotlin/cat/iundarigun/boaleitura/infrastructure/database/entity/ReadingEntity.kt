@@ -1,6 +1,7 @@
 package cat.iundarigun.boaleitura.infrastructure.database.entity
 
 import cat.iundarigun.boaleitura.domain.enums.FormatEnum
+import cat.iundarigun.boaleitura.domain.enums.PlatformEnum
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
@@ -29,6 +30,9 @@ data class ReadingEntity(
 
     @Enumerated(EnumType.STRING)
     var format: FormatEnum? = null,
+
+    @Enumerated(EnumType.STRING)
+    var platform: PlatformEnum? = null,
 
     var language: String? = null,
 

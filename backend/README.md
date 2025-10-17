@@ -42,7 +42,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [ ] Update Spring boot version
 [ ] Add github actions to build on PR and on merge
 [X] Move to Hexagonal
-[ ] ArchUnit tests
+[x] ArchUnit tests
 [ ] Verify error message
 [X] Use specifications for all finds
 [ ] Pull request template
@@ -51,8 +51,8 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Add integration tests
 [X] Add pagination, ordering and search in find endpoint
 [ ] Add param in getById to retrieve details (books or readers) 
-[ ] Show gender in PascalCase
-[ ] Show Nationality in a Select searchable
+[x] Show gender in PascalCase
+[x] Show Nationality in a Select searchable
 
 ### Books
 [X] Add genre
@@ -61,8 +61,8 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Languages for the title
 [X] Job to retrieve images
 [X] Search images by title
-[ ] Add language in the searchBy isbn/title
-[ ] Popup selection by title
+[X] Add language in the searchBy isbn/title
+[X] Popup selection by title
 
 ### Sagas
 [X] Crud Sagas
@@ -77,6 +77,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 ### Reading
 [ ] Add format and platform
 [ ] Add crud
+[ ] Change rating to double
 
 ### Import
 [X] Review import mechanism

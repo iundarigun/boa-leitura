@@ -3,7 +3,7 @@ package cat.iundarigun.boaleitura.factory
 import cat.iundarigun.boaleitura.configuration.FakerConfiguration
 import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
 import cat.iundarigun.boaleitura.infrastructure.database.entity.ReadingEntity
-import cat.iundarigun.boaleitura.domain.enums.FormatEnum
+import cat.iundarigun.boaleitura.domain.enums.TagEnum
 import java.time.LocalDate
 import java.time.ZoneOffset
 import java.util.concurrent.TimeUnit
@@ -17,7 +17,7 @@ object ReadingEntityFactory {
                 ZoneOffset.UTC
             ),
             book = book,
-            format = FakerConfiguration.FAKER.options().option(FormatEnum::class.java),
+            format = FakerConfiguration.FAKER.options().option(TagEnum::class.java),
             language = FakerConfiguration.FAKER.languageCode().iso639()
         )
 }

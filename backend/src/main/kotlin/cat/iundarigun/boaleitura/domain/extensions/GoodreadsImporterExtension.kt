@@ -1,6 +1,6 @@
 package cat.iundarigun.boaleitura.domain.extensions
 
-import cat.iundarigun.boaleitura.domain.enums.FormatEnum
+import cat.iundarigun.boaleitura.domain.enums.TagEnum
 import cat.iundarigun.boaleitura.domain.enums.LanguageEnum
 import cat.iundarigun.boaleitura.domain.request.BookGoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.GoodreadsImporterRequest
@@ -26,6 +26,6 @@ fun GoodreadsImporterRequest.toReadingRequest(bookId: Long): ReadingRequest =
         bookId = bookId,
         myRating = this.myRating,
         dateRead = this.dateRead ?: throw GoodreadsImporterException("Date not found"),
-        format = FormatEnum.findValue(this.bookshelves),
+        format = TagEnum.findValue(this.bookshelves),
         language = LanguageEnum.findValue(this.bookshelves)?.value
     )

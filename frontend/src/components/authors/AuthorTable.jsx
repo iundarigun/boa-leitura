@@ -10,8 +10,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { getCountryDisplay } from "../../lib/countries";
 
 export default function AuthorTable({ authors, onEdit, onDelete, onSelect, selectable = false }) {
+  const convertGender = (gender) => {
+    switch (gender) {
+      case "MALE": return "Male";
+      case "FEMALE": return "Female";
+      case "COUPLE": return "Multiple authors";
+      default: return "-"
+    }
+  };
+
   if (!authors?.content?.length) {
     return <p className="text-gray-500 text-center py-4">No authors found.</p>;
   }
@@ -41,8 +51,8 @@ export default function AuthorTable({ authors, onEdit, onDelete, onSelect, selec
 
               {!selectable ? (
                 <>
-                <td className="p-3 border border-gray-200">{author.gender}</td>
-                <td className="p-3 border border-gray-200">{author.nationality || "-"}</td>
+                <td className="p-3 border border-gray-200">{convertGender(author.gender)}</td>
+                <td className="p-3 border border-gray-200">{getCountryDisplay(author.nationality) || "-"}</td>
                 <td className="p-3 border border-gray-200 text-center">
                   <div className="flex justify-center gap-2">
                     <Button variant="outline" size="sm" onClick={() => onEdit(author)}>

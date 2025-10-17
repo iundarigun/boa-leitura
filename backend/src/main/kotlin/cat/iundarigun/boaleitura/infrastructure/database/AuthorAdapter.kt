@@ -14,7 +14,9 @@ import cat.iundarigun.boaleitura.infrastructure.database.extensions.toPageable
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
+import cat.iundarigun.boaleitura.infrastructure.database.utils.specExistsOrNot
 import cat.iundarigun.boaleitura.infrastructure.database.utils.specLike
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -62,10 +64,15 @@ class AuthorAdapter(
         authorRepository.existsById(id)
 
     @Transactional(readOnly = true)
-    override fun find(name: String?, pageRequest: PageRequest): PageResponse<AuthorResponse> =
-        authorRepository.findAll(specLike(name, "name"), pageRequest.toPageable())
-                .map(AuthorEntity::toResponse)
-                .toPageResponse()
+    override fun find(name: String?, orphan: Boolean?, pageRequest: PageRequest): PageResponse<AuthorResponse> {
+        val specifications = Specification.allOf<AuthorEntity>(
+            specLike(name, "name"),
+            specExistsOrNot(orphan?.not(), "books")
+        )
+        return authorRepository.findAll(specifications, pageRequest.toPageable())
+            .map(AuthorEntity::toResponse)
+            .toPageResponse()
+    }
 
     @Transactional(readOnly = true)
     override fun authorBookCount(id: Long): Int =

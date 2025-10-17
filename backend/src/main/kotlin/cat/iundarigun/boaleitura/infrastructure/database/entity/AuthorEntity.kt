@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
@@ -24,6 +25,9 @@ data class AuthorEntity(
     var gender: GenderType? = null,
 
     var nationality: String? = null,
+
+    @OneToMany(mappedBy = "author")
+    var books: List<BookEntity> = listOf(),
 
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),

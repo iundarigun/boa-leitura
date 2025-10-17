@@ -3,7 +3,6 @@ package cat.iundarigun.boaleitura.application.port.input.book.impl
 import cat.iundarigun.boaleitura.application.port.input.book.ImageMissingUseCase
 import cat.iundarigun.boaleitura.application.port.output.BookInformationPort
 import cat.iundarigun.boaleitura.application.port.output.BookPort
-import cat.iundarigun.boaleitura.domain.request.BookInformationRequest
 import cat.iundarigun.boaleitura.domain.response.BookResponse
 import org.jobrunr.scheduling.JobScheduler
 import org.slf4j.LoggerFactory

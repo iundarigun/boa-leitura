@@ -33,6 +33,18 @@ class BookInformationAdapter(
 
     private fun searchByCleanTitle(title: String, author: String?): List<BookInformation> {
         logger.info("SearchByTitle for title: $title, author: $author")
+        val openLibraryResults = searchByTitleUsingOpenLibrary(title, author)
+        val isbnList = openLibraryResults.mapNotNull { it.isbn }
+        val googleApiResults = searchByUsingGoogleApi(title, author, isbnList)
+
+        return openLibraryResults.plus(googleApiResults)
+            .sortedBy { title.similarityRatio(it.title) * (author?.similarityRatio(it.author) ?: 1.0) }
+    }
+
+    private fun searchByTitleUsingOpenLibrary(
+        title: String,
+        author: String?
+    ): List<BookInformation> {
         val searchByTitle = openLibraryClient.searchByTitle(title)
             .also {
                 logger.info("openLibrary find ${it.docs.size} docs")
@@ -46,13 +58,7 @@ class BookInformationAdapter(
             }.also {
                 logger.info("openLibrary filterSimilarity ${it.size} docs")
             }
-        if (filteredDocs.isNotEmpty()) {
-            return filteredDocs
-                .map { searchByKey(it.coverEditionKey!!) }
-                .flatten()
-                .sortedBy { title.similarityRatio(it.title) * (author?.similarityRatio(it.author) ?: 1.0) }
-        }
-        return searchByTitleFallback(title, author)
+        return filteredDocs.map { searchByKey(it.coverEditionKey!!) }.flatten()
     }
 
     private fun searchByKey(key: String): List<BookInformation> {
@@ -68,19 +74,26 @@ class BookInformationAdapter(
         }
     }
 
-    private fun searchByTitleFallback(title: String, author: String?): List<BookInformation> {
+    private fun searchByUsingGoogleApi(
+        title: String,
+        author: String?,
+        isbnList: List<String> = emptyList()
+    ): List<BookInformation> {
         logger.info("SearchByTitleFallback for author: $title, author: $author")
         val searchByTitle = googleApiClient.searchByTitle(title)
             .also { logger.info("googleApi find ${it.items.size} items") }
         return searchByTitle.items
+            .filter { item -> item.getIsbn().isNullOrBlank() || !isbnList.contains(item.getIsbn()) }
             .filter { item ->
-                max(title.similarityRatio(item.volumeInfo.getFullTitle()),
-                    title.similarityRatio(item.volumeInfo.title)) > RATIO_THRESHOLD &&
+                max(
+                    title.similarityRatio(item.volumeInfo.getFullTitle()),
+                    title.similarityRatio(item.volumeInfo.title)
+                ) > RATIO_THRESHOLD &&
                         (author.isNullOrBlank() ||
                                 item.volumeInfo.authors.any { author.similarityRatio(it) > RATIO_THRESHOLD })
             }
             .map { it.toBookInformation() }
-            .sortedBy { title.similarityRatio(it.title) * author.similarityRatio(it.author) }
+//            .sortedBy { title.similarityRatio(it.title) * author.similarityRatio(it.author) }
     }
 
     companion object {

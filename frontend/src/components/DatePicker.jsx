@@ -28,7 +28,11 @@ export default function DatePicker({ label, date, setDate }) {
             onSelect={setDate}
             initialFocus
           />
+          <div class="border text-center overflow-hidden shadow-sm cursor-pointer" onClick={() => setDate("")}>
+            clear
+          </div>
         </PopoverContent>
+
       </Popover>  
     </div>
   );

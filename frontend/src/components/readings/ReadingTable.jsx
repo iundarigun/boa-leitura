@@ -68,7 +68,7 @@ export default function ReadingTable({ readings, loading, sortField, sortDir, on
             ) : readings.length > 0 ? (
               readings.map((reading) => (
                 <tr key={reading.id} 
-                  className="border-t hover:bg-gray-50">
+                  className="bhover:bg-gray-50order-t ">
                   <td className="p-3">
                     {reading.book.urlImageSmall ? (
                       <img

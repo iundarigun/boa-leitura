@@ -27,8 +27,8 @@ export default function BooksListPage() {
 
   const [search, setSearch] = useState("");
   const [filterRead, setFilterRead] = useState("both");
-  const [sortField, setSortField] = useState(null);
-  const [sortDir, setSortDir] = useState(null);
+  const [sortField, setSortField] = useState("CREATED_AT");
+  const [sortDir, setSortDir] = useState("desc");
   const [searchApplied, setSearchApplied] = useState("");
   
   const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
@@ -79,12 +79,7 @@ export default function BooksListPage() {
   };
 
   const handleView = async (bookId) => {
-    const res = await apiCall(() => api.get(`${API_URL}/${bookId}`));
-    if (res.error) {
-      showError(res.error);
-      return;
-    }
-    setSelectedBook(res.data);
+    setSelectedBook(bookId);
     setBookDetailsOpen(true);
   };
 
@@ -155,7 +150,7 @@ export default function BooksListPage() {
         <BookDetailsDialog
           open={bookDetailsOpen}
           onClose={setBookDetailsOpen}
-          book={selectedBook}
+          bookId={selectedBook}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

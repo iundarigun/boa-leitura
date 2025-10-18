@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { getLanguageDisplay } from "../../lib/languages";
 import BookDetailsDialog from "../books/BookDetailsDialog";
-import api, { apiCall } from "../../lib/api";
 import { useDialog } from "../../context/DialogContext";
 
 export default function ReadingTable({ readings, loading, sortField, sortDir, onSort }) {
@@ -16,13 +15,8 @@ export default function ReadingTable({ readings, loading, sortField, sortDir, on
     return sortDir === "asc" ? "▲" : "▼";
   };
 
-  const handleBookView = async (bookId) => {
-    const res = await apiCall(() => api.get(`books/${bookId}`));
-    if (res.error) {
-      showError(res.error);
-      return;
-    }
-    setSelectedBook(res.data);
+  const handleBookView = (bookId) => {
+    setSelectedBook(bookId);
     setBookDetailsOpen(true);
   };
 
@@ -105,7 +99,7 @@ export default function ReadingTable({ readings, loading, sortField, sortDir, on
       <BookDetailsDialog
         open={bookDetailsOpen}
         onClose={setBookDetailsOpen}
-        book={selectedBook}
+        bookId={selectedBook}
       />
     </>
   );

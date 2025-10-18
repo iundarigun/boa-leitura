@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -11,9 +12,52 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import api, { apiCall } from "../../lib/api";
+import { useDialog } from "../../context/DialogContext";
 
-export default function BookDetailsDialog({ open, onClose, book, onEdit, onDelete }) {
-  if (!book) return null;
+const API_URL = "/books";
+
+export default function BookDetailsDialog({ open, onClose, bookId, onEdit, onDelete }) {
+  const { showError } = useDialog();
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!bookId) return;
+
+    const fetchBook = async () => {
+      setLoading(true);
+      const res = await apiCall(() => api.get(`${API_URL}/${bookId}`));
+      setLoading(false);
+
+      if (res.error) {
+        showError(res.error);
+        return;
+      }
+
+      setBook(res.data);
+    };
+
+    fetchBook();
+  }, [bookId, showError]);
+
+  if (!open || !bookId) return null;
+
+  if (loading) {
+    return (
+      <div className="p-4 text-center text-gray-500">
+        Loading book details...
+      </div>
+    );
+  }
+
+  if (!book) {
+    return (
+      <div className="p-4 text-center text-gray-500">
+        No book data available.
+      </div>
+    );
+  }
 
   const {
     title,

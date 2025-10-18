@@ -110,12 +110,14 @@ export default function BookDetailsDialog({ open, onClose, book, onEdit, onDelet
         </div>
 
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
-          <AlertDialogCancel asChild>
+
+          {onEdit && <AlertDialogCancel asChild>
             <Button variant="outline" onClick={() => onEdit(book)}>
               Edit
             </Button>
           </AlertDialogCancel>
-          <AlertDialog>
+          }
+          {onDelete && <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="destructive">Delete</Button>
             </AlertDialogTrigger>
@@ -138,6 +140,7 @@ export default function BookDetailsDialog({ open, onClose, book, onEdit, onDelet
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
+          }
           <AlertDialogCancel>Close</AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>

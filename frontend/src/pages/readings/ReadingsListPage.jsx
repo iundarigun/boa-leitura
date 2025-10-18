@@ -15,7 +15,8 @@ import ReadingTable from "../../components/readings/ReadingTable";
 import BookDetailsDialog from "../../components/books/BookDetailsDialog";
 import { useDialog } from "../../context/DialogContext";
 import api, { apiCall } from "../../lib/api";
-
+import DatePicker from "../../components/DatePicker";
+import { format } from "date-fns";
 
 const API_URL = "/readings";
 
@@ -32,9 +33,6 @@ export default function ReadingsListPage() {
   const [sortDir, setSortDir] = useState("desc");
   const [searchApplied, setSearchApplied] = useState("");
   
-  // const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
-  // const [selectedBook, setSelectedBook] = useState(null);
-  
   const navigate = useNavigate();
   const { showError, showSuccess } = useDialog();
 
@@ -47,8 +45,8 @@ export default function ReadingsListPage() {
     if (sortField) query.append("order", sortField);
     if (sortDir) query.append("directionAsc", sortDir === "asc")
     if (filterKeyword) query.append("keyword", filterKeyword);
-    if (filterDateFrom) query.append("dateFrom", filterDateFrom);
-    if (filterDateTo) query.append("dateTo", filterDateTo);
+    if (filterDateFrom) query.append("dateFrom", format(filterDateFrom, "yyyy-MM-dd"));
+    if (filterDateTo) query.append("dateTo", format(filterDateTo, "yyyy-MM-dd"));
 
     const res = await apiCall(() => api.get(`${API_URL}?${query.toString()}`));
 
@@ -80,16 +78,6 @@ export default function ReadingsListPage() {
     }
   };
 
-  // const handleView = async (bookId) => {
-  //   const res = await apiCall(() => api.get(`${API_URL}/${bookId}`));
-  //   if (res.error) {
-  //     showError(res.error);
-  //     return;
-  //   }
-  //   setSelectedBook(res.data);
-  //   setBookDetailsOpen(true);
-  // };
-
   const handleEdit = (reading) => {
     window.location.href = `/readings/${reading.id}/edit`;
   };
@@ -119,6 +107,8 @@ export default function ReadingsListPage() {
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           className="w-64"
         />
+        <p>From:</p><DatePicker date={filterDateFrom} setDate={setFilterDateFrom} />
+        <p>To:</p><DatePicker date={filterDateTo} setDate={setFilterDateTo} />
         <Button onClick={handleSearch}>Search</Button>
         </div>
 

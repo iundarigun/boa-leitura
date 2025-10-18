@@ -52,15 +52,6 @@ export default function SagasListPage() {
     }
   };
 
-  const handleView = async (saga) => {
-    const res = await apiCall(() => api.get(`${API_URL}/${saga.id}`));
-    if (res.error) {
-      showError(res.error);
-      return;
-    }
-    showDialog("Details", <SagaDetails saga={res.data} />);
-  };
-
   const handleSearch = () => {
     setPage(1);
     setSearchApplied(search);
@@ -99,7 +90,6 @@ export default function SagasListPage() {
           ) : (
             <SagaTable
               sagas={sagas.content}
-              onView={handleView}
               onEdit={(saga) => navigate(`/sagas/${saga.id}/edit`)}
               onDelete={handleDelete}
             />

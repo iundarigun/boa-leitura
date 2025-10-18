@@ -17,7 +17,6 @@ export default function SagaTable({
   sagas = [],
   onSelect,
   onEdit,
-  onView,
   onDelete,
   selectable = false,
 }) {
@@ -61,7 +60,8 @@ export default function SagaTable({
                 <td className="p-3 border border-gray-200 text-center"> {saga.concluded ? "✅" : "❌"}</td>
                 <td className="p-3 border border-gray-200 text-center">
                   <div className="flex justify-center gap-2">
-                    {onView && (
+                    {onEdit && (
+                      <>
                       <Button
                         size="sm"
                         variant="outline"
@@ -69,13 +69,9 @@ export default function SagaTable({
                       >
                         Details
                       </Button>
-                    )}
-                    {onEdit && (
                       <Button size="sm" variant="outline" onClick={() => onEdit(saga)}>
                         Edit
                       </Button>
-                    )}
-                    {onEdit && (
                       <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="destructive" size="sm">Delete</Button>
@@ -99,6 +95,7 @@ export default function SagaTable({
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
+                    </>
                     )}
                   </div>
                 </td>

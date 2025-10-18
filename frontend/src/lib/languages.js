@@ -7,3 +7,9 @@ export const LANGUAGES = [
   { code: "ru", label: "Russian" },
   { code: "ja", label: "Japanese" },
 ];
+
+export function getLanguageDisplay(code) {
+  if (!code) return "-";
+  const found = LANGUAGES.find((c) => c.code === code);
+  return found ? `${found.label}` : code;
+}

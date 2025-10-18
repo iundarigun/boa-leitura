@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Positive
 import java.time.LocalDate
 
 data class SearchReadingRequest(
-    val keyWord: String? = null,
+    val keyword: String? = null,
     @field:PastOrPresent
     val dateFrom: LocalDate? = null,
     @field:PastOrPresent

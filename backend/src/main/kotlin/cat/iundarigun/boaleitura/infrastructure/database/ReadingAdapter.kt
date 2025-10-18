@@ -37,13 +37,13 @@ class ReadingAdapter(
     }
 
     override fun find(
-        keyWord: String?,
+        keyword: String?,
         dateFrom: LocalDate?,
         dateTo: LocalDate?,
         pageRequest: PageRequest
     ): PageResponse<ReadingResponse> {
         val specifications = Specification.allOf<ReadingEntity>(
-            specLikeWithOrFields(keyWord, "book.title",
+            specLikeWithOrFields(keyword, "book.title",
                 "book.originalTitle",
                 "book.author.name",
                 "book.saga.name"),

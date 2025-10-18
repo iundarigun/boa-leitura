@@ -1,6 +1,6 @@
 package cat.iundarigun.boaleitura.infrastructure.rest.api.controller
 
-import cat.iundarigun.boaleitura.application.port.input.reading.FindReadingUseCase
+import cat.iundarigun.boaleitura.application.port.input.reading.FindReadingsUseCase
 import cat.iundarigun.boaleitura.domain.request.SearchReadingRequest
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.domain.response.ReadingResponse
@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/reading")
+@RequestMapping("/readings")
 class ReadingController(
-    private val findReadingUseCase: FindReadingUseCase,
+    private val findReadingsUseCase: FindReadingsUseCase,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun getReading(@Valid request: SearchReadingRequest): PageResponse<ReadingResponse> {
+    fun getReadings(@Valid request: SearchReadingRequest): PageResponse<ReadingResponse> {
         logger.info("getReading, request=$request")
-        return findReadingUseCase.execute(request)
+        return findReadingsUseCase.execute(request)
     }
 }

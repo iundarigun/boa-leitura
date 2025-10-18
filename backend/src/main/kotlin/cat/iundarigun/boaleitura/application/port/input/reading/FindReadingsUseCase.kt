@@ -4,6 +4,6 @@ import cat.iundarigun.boaleitura.domain.request.SearchReadingRequest
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.domain.response.ReadingResponse
 
-interface FindReadingUseCase {
+interface FindReadingsUseCase {
     fun execute(request: SearchReadingRequest): PageResponse<ReadingResponse>
 }

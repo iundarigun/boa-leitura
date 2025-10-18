@@ -1,0 +1,20 @@
+import { Star, StarHalf, StarOff } from "lucide-react";
+
+export default function StarRating({ value, max = 5, size = 20 }) {
+  const stars = [];
+  if (value > 0.0) {
+    for (let i = 1; i <= max; i++) {
+      if (value >= i) {
+        // estrela cheia
+        stars.push(<Star key={i} fill="gold" stroke="gold" size={size} />);
+      } else if (value >= i - 0.5) {
+        // meia estrela
+        stars.push(<StarHalf key={i} fill="gold" stroke="gold" size={size} />);
+      } else {
+        // estrela vazia
+        stars.push(<StarOff key={i} stroke="gold" size={size} />);
+      }
+    }
+  }
+  return <div className="flex items-center gap-1">{stars}</div>;
+}

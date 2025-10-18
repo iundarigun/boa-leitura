@@ -4,6 +4,7 @@ import { getLanguageDisplay } from "../../lib/languages";
 import BookDetailsDialog from "../books/BookDetailsDialog";
 import SagaDetailsDialog from "../sagas/SagaDetailsDialog";
 import { useDialog } from "../../context/DialogContext";
+import StarRating from "../StarRating";
 
 export default function ReadingTable({ readings, loading, sortField, sortDir, onSort }) {
   const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
@@ -89,7 +90,7 @@ export default function ReadingTable({ readings, loading, sortField, sortDir, on
                       onClick={() => handleSagaView(reading.book.saga.id)}>
                         {reading.book.saga?.name || "-"}</td>
                   <td className="p-3">{reading.book.genre || "-"}</td>
-                  <td className="p-3">{reading.myRating || "-"}</td>
+                  <td className="p-3"><StarRating value={reading.myRating} /></td>
                   <td className="p-3">{getLanguageDisplay(reading.language) || "-"}</td>
                   <td className="p-3">
                     {new Date(reading.dateRead).toLocaleDateString()}

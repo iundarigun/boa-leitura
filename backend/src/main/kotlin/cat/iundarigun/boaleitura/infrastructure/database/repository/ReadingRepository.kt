@@ -15,7 +15,7 @@ interface ReadingRepository : JpaRepository<ReadingEntity, Long>, JpaSpecificati
     fun findByBookIdAndDateRead(bookId: Long, dateRead: LocalDate): Optional<ReadingEntity>
     fun countByBookId(id: Long): Int
 
-    @EntityGraph(attributePaths = ["book", "book.author", "book.saga", "book.genre", "readings"])
+    @EntityGraph(attributePaths = ["book", "book.author", "book.saga", "book.genre"])
     override fun findAll(
         @Nullable specification: Specification<ReadingEntity>?,
         pageable: Pageable

@@ -111,7 +111,7 @@ class BookFindEndpointTest(
             // using sortedWith to specify locale
             .sortedWith { a, b -> Collator.getInstance(Locale.US).compare(a, b) }
             .reversed().forEachIndexed { index, name ->
-            Assertions.assertEquals(name, response.content[index].saga)
+            Assertions.assertEquals(name, response.content[index].saga?.name)
         }
     }
 

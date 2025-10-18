@@ -2,11 +2,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { getLanguageDisplay } from "../../lib/languages";
 import BookDetailsDialog from "../books/BookDetailsDialog";
+import SagaDetailsDialog from "../sagas/SagaDetailsDialog";
 import { useDialog } from "../../context/DialogContext";
 
 export default function ReadingTable({ readings, loading, sortField, sortDir, onSort }) {
   const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [sagaDetailsOpen, setSagaDetailsOpen] = useState(false);
+  const [selectedSaga, setSelectedSaga] = useState(null);
   
   const { showError, showSuccess } = useDialog();
 
@@ -18,6 +21,11 @@ export default function ReadingTable({ readings, loading, sortField, sortDir, on
   const handleBookView = (bookId) => {
     setSelectedBook(bookId);
     setBookDetailsOpen(true);
+  };
+
+  const handleSagaView = (sagaId) => {
+    setSelectedSaga(sagaId);
+    setSagaDetailsOpen(true);
   };
 
   return (
@@ -77,7 +85,9 @@ export default function ReadingTable({ readings, loading, sortField, sortDir, on
                     {reading.book.title}
                   </td>
                   <td className="p-3">{reading.book.author}</td>
-                  <td className="p-3">{reading.book.saga || "-"}</td>
+                  <td className="p-3 cursor-pointer" 
+                      onClick={() => handleSagaView(reading.book.saga.id)}>
+                        {reading.book.saga?.name || "-"}</td>
                   <td className="p-3">{reading.book.genre || "-"}</td>
                   <td className="p-3">{reading.myRating || "-"}</td>
                   <td className="p-3">{getLanguageDisplay(reading.language) || "-"}</td>
@@ -101,6 +111,11 @@ export default function ReadingTable({ readings, loading, sortField, sortDir, on
         onClose={setBookDetailsOpen}
         bookId={selectedBook}
       />
+      <SagaDetailsDialog
+          open={sagaDetailsOpen}
+          onClose={setSagaDetailsOpen}
+          sagaId={selectedSaga}
+        />
     </>
   );
 }

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -10,6 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import SagaDetailsDialog from "./SagaDetailsDialog";
 
 export default function SagaTable({
   sagas = [],
@@ -19,25 +21,32 @@ export default function SagaTable({
   onDelete,
   selectable = false,
 }) {
+  const [sagaDetailsOpen, setSagaDetailsOpen] = useState(false);
+  const [selectedSaga, setSelectedSaga] = useState(null);
+
+  const handleSagaView = (sagaId) => {
+    setSelectedSaga(sagaId);
+    setSagaDetailsOpen(true);
+  };
+  
   if (!sagas || sagas.length === 0) {
     return <p className="text-gray-500 text-center py-4">No sagas found.</p>;
   }
 
   return (
+    <>
     <div className="overflow-x-auto">
       <table className="w-full border-collapse border border-gray-200">
         <thead className="bg-gray-100 text-left">
           <tr>
             <th className="p-3 border border-gray-200">Name</th>
             <th className="p-3 border border-gray-200 text-center">Main Titles</th>
-            { !selectable ? (
+            { !selectable && (
               <>
               <th className="p-3 border border-gray-200 text-center">Other Titles</th>
               <th className="p-3 border border-gray-200 text-center">Concluded</th>
               <th className="p-3 border border-gray-200 text-center">Actions</th>
               </>
-            ) : (
-              <></>
             )}
           </tr>
         </thead>
@@ -56,7 +65,7 @@ export default function SagaTable({
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => onView(saga)}
+                        onClick={() => handleSagaView(saga.id)}
                       >
                         Details
                       </Button>
@@ -105,5 +114,11 @@ export default function SagaTable({
         </tbody>
       </table>
     </div>
+    <SagaDetailsDialog
+        open={sagaDetailsOpen}
+        onClose={setSagaDetailsOpen}
+        sagaId={selectedSaga}
+      />
+    </>
   );
 }

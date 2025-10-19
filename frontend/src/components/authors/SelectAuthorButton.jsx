@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import AuthorTable from "./AuthorTable"; // nossa tabela reutilizável
+import AuthorTable from "./AuthorTable"; 
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -11,6 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useDialog } from "@/context/DialogContext";
 import api, { apiCall } from "../../lib/api";
 
 export default function SelectAuthorButton({ selectedAuthor, onSelect }) {
@@ -19,13 +20,15 @@ export default function SelectAuthorButton({ selectedAuthor, onSelect }) {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const { showError } = useDialog();
+
   const fetchAuthors = async (query = "") => {
     setLoading(true);
     const res = await apiCall(() => api.get(`/authors?page=1&name=${query}`));
     if (res.data) {
       setAuthors(res.data);
     } else {
-      console.error(res.error);
+      showError(res.error);
     }
     setLoading(false);
   };

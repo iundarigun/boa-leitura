@@ -17,7 +17,7 @@ import { useDialog } from "../../context/DialogContext";
 
 const API_URL = "/books";
 
-export default function BookDetailsDialog({ open, onClose, bookId, onEdit, onDelete }) {
+export default function BookDetailsDialog({ open, onClose, bookId, onEdit, onDelete, onNewReading }) {
   const { showError } = useDialog();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -154,7 +154,13 @@ export default function BookDetailsDialog({ open, onClose, bookId, onEdit, onDel
         </div>
 
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
-
+          {onNewReading &&
+          <AlertDialogCancel asChild>
+            <Button variant="outline" onClick={() => onNewReading(book)}>
+              New reading
+            </Button>
+          </AlertDialogCancel>
+          }
           {onEdit && <AlertDialogCancel asChild>
             <Button variant="outline" onClick={() => onEdit(book)}>
               Edit

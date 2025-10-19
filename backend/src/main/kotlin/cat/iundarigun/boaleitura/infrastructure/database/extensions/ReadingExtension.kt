@@ -21,7 +21,9 @@ fun ReadingEntity.toResponse(): ReadingResponse =
         book = this.book.toResponse(),
         myRating = this.myRating,
         language = this.language,
-        dateRead = this.dateRead
+        dateRead = this.dateRead,
+        format = this.format,
+        platform = this.platform
     )
 
 fun ReadingRequest.toReading(book: BookEntity): ReadingEntity =

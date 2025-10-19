@@ -84,8 +84,11 @@ export default function BooksListPage() {
   };
 
   const handleEdit = (book) => {
-    // navega para página de edição
     window.location.href = `/books/${book.id}/edit`;
+  };
+
+  const handleNewReading = (book) => {
+    window.location.href = `/readings/new/${book.id}`;
   };
 
   const handleDelete = async (book) => {
@@ -153,6 +156,7 @@ export default function BooksListPage() {
           bookId={selectedBook}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onNewReading={handleNewReading}
         />
       </Card>
     </div>

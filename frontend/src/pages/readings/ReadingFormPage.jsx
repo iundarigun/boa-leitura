@@ -10,16 +10,15 @@ const API_URL = "/readings";
 export default function ReadingFormPage() {
   const [editingReading, setEditingReading] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
-  const { bookId } = useParams();
+  const {id, bookId} = useParams();
   const navigate = useNavigate();
   const { showError, showSuccess } = useDialog();
 
   useEffect(() => {
-    fechReading();
+    fetchReading();
   }, [id, bookId]);
 
-  const fechReading = async () => {
+  const fetchReading = async () => {
     setLoading(true);
     if (id) {
       const res = await apiCall(() => api.get(`${API_URL}/${id}`));
@@ -53,7 +52,7 @@ export default function ReadingFormPage() {
     if (res.data) {
       showSuccess(`Reading ${id? "updated": "created"} successfully!`);
       const timer = setTimeout(() => {
-        navigate("/reading");
+        navigate("/readings");
       }, 2000);
       return () => clearTimeout(timer);
    } else {
@@ -70,11 +69,12 @@ export default function ReadingFormPage() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {loading || !editingReading ? (
+          {(loading || !editingReading) ? (
             <p className="text-center text-gray-500">Loading reading...</p>
           ) : (
             <>
             <ReadingForm
+              key={editingReading.id || editingReading.book?.id}
               onSubmit={handleSave}
               editingReading={editingReading}
               onCancel={() => navigate("/readings")}

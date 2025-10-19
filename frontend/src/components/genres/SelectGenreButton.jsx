@@ -13,11 +13,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useDialog } from "@/context/DialogContext";
 import api, { apiCall } from "../../lib/api";
 
 export default function SelectGenreButton({ selectedGenre, onSelect }) {
   const [open, setOpen] = useState(false);
   const [allGenres, setAllGenres] = useState([])
+  
+  const { showError } = useDialog();
 
   const handleSelect = (genre) => {
     onSelect(genre);
@@ -29,7 +32,7 @@ export default function SelectGenreButton({ selectedGenre, onSelect }) {
     if (res.data) {
       setAllGenres(res.data);
     } else {
-       console.log(res.error);
+      showError(res.error);
     }
     setOpen(true);
   };

@@ -121,6 +121,8 @@ export default function ReadingsListPage() {
         <ReadingTable
           readings={readings}
           loading={loading}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
           sortField={sortField}
           sortDir={sortDir}
           onSort={handleSort}
@@ -131,14 +133,6 @@ export default function ReadingsListPage() {
           setPage={setPage}
           totalPages={totalPages}
           />
-        
-        {/* <BookDetailsDialog
-          open={bookDetailsOpen}
-          onClose={setBookDetailsOpen}
-          book={selectedBook}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        /> */}
       </Card>
     </div>
   );

@@ -11,6 +11,7 @@ export default function LanguageSelect({ language, setLanguage }) {
 
   return (
     <Select
+      key={language}
       value={language}
       onValueChange={setLanguage}>
       <SelectTrigger>

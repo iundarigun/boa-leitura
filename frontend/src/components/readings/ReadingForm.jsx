@@ -18,7 +18,7 @@ import StarRatingInput from "../StarRatingInput";
 import { READING_PLATFORMS } from "../../lib/platform";
 import { READING_FORMATS } from "../../lib/format";
 
-export default function ReadingForm({ editingReading, onSubmit, onCancel, loading = false }) {
+export default function ReadingForm({ editingReading = null, onSubmit, onCancel, loading = false }) {
   const [myRating, setMyRating] = useState("");
   const [language, setLanguage] = useState("");
   const [platform, setPlatform] = useState("");
@@ -56,9 +56,8 @@ export default function ReadingForm({ editingReading, onSubmit, onCancel, loadin
     onSubmit && onSubmit(payload);
   }
 
-return (
+  return (
   <div className="flex flex-col md:flex-row gap-6 mt-4 w-full max-w-5xl mx-auto">
-    {/* Coluna da esquerda — imagem e infos */}
     <div className="flex flex-col items-center md:items-start min-w-[200px] md:w-1/3 lg:w-1/4">
       {book?.urlImage ? (
         <img
@@ -75,7 +74,6 @@ return (
       </div>
     </div>
 
-    {/* Coluna da direita — formulário */}
     <div className="flex-1">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="flex flex-col md:flex-row gap-2 items-end">
@@ -96,7 +94,7 @@ return (
         <div className="flex flex-col md:flex-row gap-2 items-end">
           <div className="flex-1">
             <Label>Format</Label>
-            <Select value={format} onValueChange={setFormat}>
+            <Select key={format} value={format} onValueChange={setFormat}>
               <SelectTrigger>
                 <SelectValue placeholder="Select Format" />
               </SelectTrigger>
@@ -112,7 +110,7 @@ return (
 
           <div className="flex-1">
             <Label>Platform</Label>
-            <Select value={platform} onValueChange={setPlatform}>
+            <Select key={platform} value={platform} onValueChange={setPlatform}>
               <SelectTrigger>
                 <SelectValue placeholder="Select Platform" />
               </SelectTrigger>

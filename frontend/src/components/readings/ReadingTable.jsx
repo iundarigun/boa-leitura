@@ -1,12 +1,24 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
+
 import { getLanguageDisplay } from "../../lib/languages";
 import BookDetailsDialog from "../books/BookDetailsDialog";
 import SagaDetailsDialog from "../sagas/SagaDetailsDialog";
 import { useDialog } from "../../context/DialogContext";
 import StarRating from "../StarRating";
 
-export default function ReadingTable({ readings, loading, sortField, sortDir, onSort }) {
+export default function ReadingTable({ readings, loading, onEdit, onDelete, sortField, sortDir, onSort }) {
   const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [sagaDetailsOpen, setSagaDetailsOpen] = useState(false);
@@ -57,6 +69,7 @@ export default function ReadingTable({ readings, loading, sortField, sortDir, on
               <th className="p-3 cursor-pointer" onClick={() => onSort("DATE_READ")}>
                 Date Read <SortIcon field="DATE_READ" />
               </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -69,7 +82,7 @@ export default function ReadingTable({ readings, loading, sortField, sortDir, on
             ) : readings.length > 0 ? (
               readings.map((reading) => (
                 <tr key={reading.id} 
-                  className="bhover:bg-gray-50order-t ">
+                  className="border-t hover:bg-gray-50">
                   <td className="p-3">
                     {reading.book.urlImageSmall ? (
                       <img
@@ -95,6 +108,36 @@ export default function ReadingTable({ readings, loading, sortField, sortDir, on
                   <td className="p-3">
                     {new Date(reading.dateRead).toLocaleDateString()}
                   </td>
+                  <td className="p-3 text-center">
+                    <div className="flex justify-center gap-2">
+                      <Button variant="outline" size="sm" onClick={() => onEdit(reading)}>
+                        Edit
+                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="destructive" size="sm">Delete</Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Confirm delete</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete <b>{reading.book?.title} on {reading.dateRead}</b>?  
+                              This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              className="bg-red-600 hover:bg-red-700"
+                              onClick={() => onDelete(reading)}
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                  </td>                  
                 </tr>
               ))
             ) : (

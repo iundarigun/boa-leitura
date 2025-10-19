@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import SagaTable from "./SagaTable"; // nossa tabela reutilizável
+import SagaTable from "./SagaTable";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -11,6 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useDialog } from "@/context/DialogContext";
 import api, { apiCall } from "../../lib/api";
 
 export default function SelectSagaButton({ selectedSaga, onSelect }) {
@@ -18,14 +19,16 @@ export default function SelectSagaButton({ selectedSaga, onSelect }) {
   const [sagas, setSagas] = useState({ content: [] });
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
-
+  
+  const { showError } = useDialog();
+  
   const fetchSagas = async (query = "") => {
     setLoading(true);
     const res = await apiCall(() => api.get(`/sagas?page=1&name=${query}`));
     if (res.data) {
       setSagas(res.data.content);
     } else {
-      console.error(res.error);
+      showError(res.error);
     }
     setLoading(false);
   };

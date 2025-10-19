@@ -25,8 +25,6 @@ export default function BookFormPage() {
     setLoading(true);
     const { data, error } = await apiCall(() => api.get(`${API_URL}/${id}`));
     if (data) {
-      // map API shape to the form's initialData expected structure
-      // keep originalEdition etc.
       setInitialData(data);
     }
     if (error) showError("Could not load the book.");

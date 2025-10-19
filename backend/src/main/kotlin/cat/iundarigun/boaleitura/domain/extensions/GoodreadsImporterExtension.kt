@@ -26,7 +26,7 @@ fun GoodreadsImporterRequest.toBookRequest(): BookGoodreadsImporterRequest =
 fun GoodreadsImporterRequest.toReadingRequest(bookId: Long): ReadingRequest =
     ReadingRequest(
         bookId = bookId,
-        myRating = this.myRating,
+        myRating = this.myRating?.toDouble(),
         dateRead = this.dateRead ?: throw GoodreadsImporterException("Date not found"),
         format = this.toFormat(),
         platform = this.toPlatform(),

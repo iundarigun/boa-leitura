@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
@@ -9,7 +10,7 @@ export default function DatePicker({ label, date, setDate }) {
   return (
     <div className="flex flex-col space-y-2">
       {label && (
-        <label className="text-sm font-medium">{label}</label>
+        <Label>{label}</Label>
       )}
       <Popover>
         <PopoverTrigger asChild>

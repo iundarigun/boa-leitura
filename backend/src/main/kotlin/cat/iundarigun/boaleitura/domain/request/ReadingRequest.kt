@@ -6,7 +6,7 @@ import java.time.LocalDate
 
 data class ReadingRequest(
     val bookId: Long,
-    val myRating: Int? = null,
+    val myRating: Double? = null,
     val dateRead: LocalDate,
     val format: FormatEnum? = null,
     val platform: PlatformEnum? = null,

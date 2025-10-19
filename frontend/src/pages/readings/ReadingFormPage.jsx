@@ -63,7 +63,7 @@ export default function ReadingFormPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
-      <Card className="w-full max-w-lg mx-auto p-8">
+      <Card className="w-full max-w-3xl mx-auto p-8">
         <CardHeader>
           <CardTitle className="text-2xl">
             {id ? "✏️ Edit Reading" : "➕ New Reading"}

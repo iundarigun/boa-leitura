@@ -56,61 +56,63 @@ export default function ReadingForm({ editingReading, onSubmit, onCancel, loadin
     onSubmit && onSubmit(payload);
   }
 
-  return (
-    <>
-    <div className="flex flex-col md:flex-row gap-4 mt-4">
-      <div>
-        {book?.urlImage? (
+return (
+  <div className="flex flex-col md:flex-row gap-6 mt-4 w-full max-w-5xl mx-auto">
+    {/* Coluna da esquerda — imagem e infos */}
+    <div className="flex flex-col items-center md:items-start min-w-[200px] md:w-1/3 lg:w-1/4">
+      {book?.urlImage ? (
         <img
           src={book.urlImage}
           alt={book.title}
           className="w-40 h-56 object-cover rounded shadow"
         />
-        ): (
-          <div className="w-40 h-56 bg-gray-200 rounded" />
-        )}
-        <p><strong>Title:</strong> {book?.title}</p>
-        <p><strong>Author:</strong> {book?.author?.name}</p>
+      ) : (
+        <div className="w-40 h-56 bg-gray-200 rounded" />
+      )}
+      <div className="mt-3 text-center md:text-left">
+        <p className="font-semibold text-base">{book?.title}</p>
+        <p className="text-gray-600 text-sm">{book?.author?.name}</p>
       </div>
-      <div className="flex-1 space-y-2 text-sm">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex gap-2 items-end">
-              <div className="flex-1">
-                <DatePicker label="Read Date" date={dateRead} setDate={setDateRead} />
-              </div>
-              <div className="flex-1">
-                <Label>Language</Label>
-                <LanguageSelect
-                    language={language}
-                    setLanguage={setLanguage}/>
-              </div>
+    </div>
+
+    {/* Coluna da direita — formulário */}
+    <div className="flex-1">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex flex-col md:flex-row gap-2 items-end">
+          <div className="flex-1">
+            <DatePicker label="Read Date" date={dateRead} setDate={setDateRead} />
           </div>
           <div className="flex-1">
-            <Label>My rating</Label>
-            <StarRatingInput value={myRating} onChange={setMyRating} />
+            <Label>Language</Label>
+            <LanguageSelect language={language} setLanguage={setLanguage} />
           </div>
+        </div>
+
+        <div>
+          <Label>My rating</Label>
+          <StarRatingInput value={myRating} onChange={setMyRating} />
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-2 items-end">
           <div className="flex-1">
             <Label>Format</Label>
-            <Select
-              value={format}
-              onValueChange={setFormat}>
+            <Select value={format} onValueChange={setFormat}>
               <SelectTrigger>
                 <SelectValue placeholder="Select Format" />
               </SelectTrigger>
               <SelectContent>
-                {READING_FORMATS.map((plat) => (
-                  <SelectItem key={plat.code} value={plat.code}>
-                    {plat.label}
+                {READING_FORMATS.map((fmt) => (
+                  <SelectItem key={fmt.code} value={fmt.code}>
+                    {fmt.label}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
+
           <div className="flex-1">
             <Label>Platform</Label>
-            <Select
-              value={platform}
-              onValueChange={setPlatform}>
+            <Select value={platform} onValueChange={setPlatform}>
               <SelectTrigger>
                 <SelectValue placeholder="Select Platform" />
               </SelectTrigger>
@@ -123,18 +125,18 @@ export default function ReadingForm({ editingReading, onSubmit, onCancel, loadin
               </SelectContent>
             </Select>
           </div>
-           <div className="flex gap-2">
-              <Button type="submit" disabled={loading}>
-                {loading ? "Saving..." : "Save"}
-              </Button>
-              <Button type="button" variant="outline" onClick={onCancel}>
-                Cancel
-              </Button>
-           </div>
-        </form>
-      </div>
+        </div>
+        <div className="flex gap-2 pt-2">
+          <Button type="submit" disabled={loading}>
+            {loading ? "Saving..." : "Save"}
+          </Button>
+          <Button type="button" variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+        </div>
+      </form>
     </div>
-    </>
-  );
+  </div>
+);
 
 }

@@ -4,7 +4,7 @@ import cat.iundarigun.boaleitura.application.port.input.genre.UpdateGenreUseCase
 import cat.iundarigun.boaleitura.application.port.output.GenrePort
 import cat.iundarigun.boaleitura.domain.request.GenreRequest
 import cat.iundarigun.boaleitura.domain.response.GenreResponse
-import cat.iundarigun.boaleitura.exception.AuthorAlreadyExistsException
+import cat.iundarigun.boaleitura.exception.GenreAlreadyExistsException
 import cat.iundarigun.boaleitura.exception.GenreCircularReferenceException
 import cat.iundarigun.boaleitura.exception.GenreParentNotFoundException
 import org.springframework.stereotype.Component
@@ -15,7 +15,7 @@ class UpdateGenreUseCaseImpl(private val genrePort: GenrePort) : UpdateGenreUseC
     override fun execute(id: Long, request: GenreRequest): GenreResponse {
         genrePort.findByName(request.name)?.let {
             if (it.id != id) {
-                throw AuthorAlreadyExistsException(request.name)
+                throw GenreAlreadyExistsException(request.name)
             }
         }
         request.parentGenreId?.let {

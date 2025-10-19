@@ -33,3 +33,12 @@ fun ReadingRequest.toReading(book: BookEntity): ReadingEntity =
         platform = this.platform,
         language = this.language
     )
+
+fun ReadingEntity.merge(request: ReadingRequest): ReadingEntity {
+    this.dateRead = request.dateRead
+    this.myRating = request.myRating
+    this.language = request.language
+    this.format = request.format
+    this.platform = request.platform
+    return this
+}

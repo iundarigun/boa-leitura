@@ -20,4 +20,6 @@ interface ReadingRepository : JpaRepository<ReadingEntity, Long>, JpaSpecificati
         @Nullable specification: Specification<ReadingEntity>?,
         pageable: Pageable
     ): Page<ReadingEntity>
+
+    fun existsByBookIdAndDateRead(bookId: Long, dateRead: LocalDate): Boolean
 }

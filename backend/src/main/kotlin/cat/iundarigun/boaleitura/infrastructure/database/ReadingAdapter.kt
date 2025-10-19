@@ -7,8 +7,11 @@ import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.domain.response.ReadingResponse
 import cat.iundarigun.boaleitura.domain.response.ReadingSummaryResponse
 import cat.iundarigun.boaleitura.exception.AuthorNotFoundException
+import cat.iundarigun.boaleitura.exception.BookNotFoundException
 import cat.iundarigun.boaleitura.exception.GenreNotFoundException
+import cat.iundarigun.boaleitura.exception.ReadingNotFoundException
 import cat.iundarigun.boaleitura.infrastructure.database.entity.ReadingEntity
+import cat.iundarigun.boaleitura.infrastructure.database.extensions.merge
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toPageResponse
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toPageable
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toReading
@@ -23,6 +26,7 @@ import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class ReadingAdapter(
@@ -30,14 +34,15 @@ class ReadingAdapter(
     private val readingRepository: ReadingRepository
 ) : ReadingPort {
 
-    @Transactional
-    override fun createIfNotExists(request: ReadingRequest) {
-        readingRepository.findByBookIdAndDateRead(request.bookId, request.dateRead).orElseGet {
-            val book = bookRepository.findById(request.bookId)
-                .orElseThrow { AuthorNotFoundException(request.bookId) }
-            readingRepository.save(request.toReading(book))
-        }
-    }
+    @Transactional(readOnly = true)
+    override fun existsByBookIdAndDateRead(bookId: Long, dateRead: LocalDate): Boolean =
+        readingRepository.existsByBookIdAndDateRead(bookId, dateRead)
+
+    @Transactional(readOnly = true)
+    override fun findByBookIdAndDateRead(bookId: Long, dateRead: LocalDate): ReadingResponse? =
+        readingRepository.findByBookIdAndDateRead(bookId, dateRead)
+            .map { it.toResponse() }
+            .getOrNull()
 
     @Transactional(readOnly = true)
     override fun find(
@@ -47,10 +52,12 @@ class ReadingAdapter(
         pageRequest: PageRequest
     ): PageResponse<ReadingSummaryResponse> {
         val specifications = Specification.allOf<ReadingEntity>(
-            specLikeWithOrFields(keyword, "book.title",
+            specLikeWithOrFields(
+                keyword, "book.title",
                 "book.originalTitle",
                 "book.author.name",
-                "book.saga.name"),
+                "book.saga.name"
+            ),
             specGreaterOrEqualsThan("dateRead", dateFrom),
             specLessOrEqualsThan("dateRead", dateTo),
         )
@@ -64,5 +71,34 @@ class ReadingAdapter(
     override fun findById(id: Long): ReadingResponse {
         val reading = readingRepository.findById(id).orElseThrow { GenreNotFoundException(id) }
         return reading.toResponse()
+    }
+
+    @Transactional
+    override fun save(request: ReadingRequest, id: Long?): ReadingResponse {
+        val book = bookRepository.findById(request.bookId)
+            .orElseThrow { throw BookNotFoundException(request.bookId) }
+        if (id == null) {
+            return readingRepository.save(request.toReading(book)).toResponse()
+        }
+        val reading = readingRepository.findById(id)
+            .orElseThrow { throw ReadingNotFoundException(id) }
+
+        return readingRepository.save(reading.merge(request)).toResponse()
+    }
+
+    override fun delete(id: Long) {
+        if (!readingRepository.existsById(id)) {
+            throw ReadingNotFoundException(id)
+        }
+        readingRepository.deleteById(id)
+    }
+
+    @Transactional
+    override fun createIfNotExists(request: ReadingRequest) {
+        readingRepository.findByBookIdAndDateRead(request.bookId, request.dateRead).orElseGet {
+            val book = bookRepository.findById(request.bookId)
+                .orElseThrow { AuthorNotFoundException(request.bookId) }
+            readingRepository.save(request.toReading(book))
+        }
     }
 }

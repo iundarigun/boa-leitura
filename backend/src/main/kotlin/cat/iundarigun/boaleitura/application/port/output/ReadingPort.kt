@@ -17,4 +17,8 @@ interface ReadingPort {
     ): PageResponse<ReadingSummaryResponse>
 
     fun findById(id: Long): ReadingResponse
+    fun existsByBookIdAndDateRead(bookId: Long, dateRead: LocalDate): Boolean
+    fun findByBookIdAndDateRead(bookId: Long, dateRead: LocalDate): ReadingResponse?
+    fun save(request: ReadingRequest, id: Long? = null): ReadingResponse
+    fun delete(id: Long)
 }

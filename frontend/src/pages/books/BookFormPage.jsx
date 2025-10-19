@@ -60,7 +60,8 @@ export default function BookFormPage() {
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
       <Card className="w-full max-w-3xl mx-auto p-8">
         <CardHeader>
-          <CardTitle className="text-2xl">{isEdit ? "✏️ Edit Book" : "➕ New Book"}</CardTitle>
+          <CardTitle className="text-2xl">
+            {isEdit ? "✏️ Edit Book" : "➕ New Book"}</CardTitle>
         </CardHeader>
         <CardContent>
           <BookForm

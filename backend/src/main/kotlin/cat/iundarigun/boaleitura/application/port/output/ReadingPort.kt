@@ -4,6 +4,7 @@ import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.request.ReadingRequest
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.domain.response.ReadingResponse
+import cat.iundarigun.boaleitura.domain.response.ReadingSummaryResponse
 import java.time.LocalDate
 
 interface ReadingPort {
@@ -13,5 +14,7 @@ interface ReadingPort {
         dateFrom: LocalDate?,
         dateTo: LocalDate?,
         pageRequest: PageRequest
-    ): PageResponse<ReadingResponse>
+    ): PageResponse<ReadingSummaryResponse>
+
+    fun findById(id: Long): ReadingResponse
 }

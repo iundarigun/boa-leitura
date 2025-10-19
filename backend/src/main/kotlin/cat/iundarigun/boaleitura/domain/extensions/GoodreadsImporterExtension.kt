@@ -1,7 +1,9 @@
 package cat.iundarigun.boaleitura.domain.extensions
 
-import cat.iundarigun.boaleitura.domain.enums.TagEnum
+import cat.iundarigun.boaleitura.domain.enums.FormatEnum
 import cat.iundarigun.boaleitura.domain.enums.LanguageEnum
+import cat.iundarigun.boaleitura.domain.enums.PlatformEnum
+import cat.iundarigun.boaleitura.domain.enums.TagEnum
 import cat.iundarigun.boaleitura.domain.request.BookGoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.GoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.ReadingRequest
@@ -26,6 +28,32 @@ fun GoodreadsImporterRequest.toReadingRequest(bookId: Long): ReadingRequest =
         bookId = bookId,
         myRating = this.myRating,
         dateRead = this.dateRead ?: throw GoodreadsImporterException("Date not found"),
-        format = TagEnum.findValue(this.bookshelves),
+        format = this.toFormat(),
+        platform = this.toPlatform(),
         language = LanguageEnum.findValue(this.bookshelves)?.value
     )
+
+private fun GoodreadsImporterRequest.toFormat(): FormatEnum? {
+    val format = TagEnum.findValue(this.bookshelves)
+    return format?.let {
+        when (format) {
+            TagEnum.FISIC -> FormatEnum.PRINTED
+            TagEnum.AUDIOBOOK -> FormatEnum.AUDIOBOOK
+            else -> FormatEnum.EBOOK
+        }
+    }
+}
+
+private fun GoodreadsImporterRequest.toPlatform(): PlatformEnum? {
+    val format = TagEnum.findValue(this.bookshelves)
+    return format?.let {
+        val language = LanguageEnum.findValue(this.bookshelves)?.value
+        when (format) {
+            TagEnum.AUDIOBOOK -> PlatformEnum.AUDIBLE
+            TagEnum.KINDLE -> PlatformEnum.KINDLE
+            TagEnum.UNLIMITED -> PlatformEnum.UNLIMITED
+            TagEnum.BIBLIO -> if (language == "pt") PlatformEnum.BIBLION else PlatformEnum.EBIBLIO
+            else -> PlatformEnum.OWN
+        }
+    }
+}

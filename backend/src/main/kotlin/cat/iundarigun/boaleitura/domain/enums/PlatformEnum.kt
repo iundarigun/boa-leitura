@@ -8,6 +8,8 @@ enum class PlatformEnum {
     BIBLION,
     UNLIMITED,
     BIBLIO,
-    EBOOK,
-    AUDIBLE
+    AUDIBLE,
+    VIVLIO,
+    BOOK_BEAT,
+    PLAY_BOOKS
 }

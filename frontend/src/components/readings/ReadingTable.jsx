@@ -87,7 +87,7 @@ export default function ReadingTable({ readings, loading, sortField, sortDir, on
                   </td>
                   <td className="p-3">{reading.book.author}</td>
                   <td className="p-3 cursor-pointer" 
-                      onClick={() => handleSagaView(reading.book.saga.id)}>
+                      onClick={() => reading.book.saga && handleSagaView(reading.book.saga.id)}>
                         {reading.book.saga?.name || "-"}</td>
                   <td className="p-3">{reading.book.genre || "-"}</td>
                   <td className="p-3"><StarRating value={reading.myRating} /></td>

@@ -17,7 +17,7 @@ import { useDialog } from "../../context/DialogContext";
 
 const API_URL = "/books";
 
-export default function BookDetailsDialog({ open, onClose, bookId, onEdit, onDelete, onNewReading }) {
+export default function BookDetailsDialog({ open, onClose, bookId, onDelete }) {
   const { showError } = useDialog();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -42,6 +42,16 @@ export default function BookDetailsDialog({ open, onClose, bookId, onEdit, onDel
   }, [bookId, showError]);
 
   if (!open || !bookId) return null;
+
+  const handleEdit = (book) => {
+    window.location.href = `/books/${book.id}/edit`;
+  };
+  
+  const handleNewReading = (book) => {
+    window.location.href = `/readings/new/${book.id}`;
+  };
+
+
 
   if (loading) {
     return (
@@ -154,19 +164,17 @@ export default function BookDetailsDialog({ open, onClose, bookId, onEdit, onDel
         </div>
 
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
-          {onNewReading &&
           <AlertDialogCancel asChild>
-            <Button variant="outline" onClick={() => onNewReading(book)}>
+            <Button variant="outline" onClick={() => handleNewReading(book)}>
               New reading
             </Button>
           </AlertDialogCancel>
-          }
-          {onEdit && <AlertDialogCancel asChild>
-            <Button variant="outline" onClick={() => onEdit(book)}>
+          <AlertDialogCancel asChild>
+            <Button variant="outline" onClick={() => handleEdit(book)}>
               Edit
             </Button>
           </AlertDialogCancel>
-          }
+          
           {onDelete && <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="destructive">Delete</Button>

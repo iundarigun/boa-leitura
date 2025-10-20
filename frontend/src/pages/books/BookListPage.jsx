@@ -83,14 +83,6 @@ export default function BooksListPage() {
     setBookDetailsOpen(true);
   };
 
-  const handleEdit = (book) => {
-    window.location.href = `/books/${book.id}/edit`;
-  };
-
-  const handleNewReading = (book) => {
-    window.location.href = `/readings/new/${book.id}`;
-  };
-
   const handleDelete = async (book) => {
     const res = await apiCall(() => api.delete(`${API_URL}/${book.id}`));
     if (res.error) {
@@ -154,9 +146,7 @@ export default function BooksListPage() {
           open={bookDetailsOpen}
           onClose={setBookDetailsOpen}
           bookId={selectedBook}
-          onEdit={handleEdit}
           onDelete={handleDelete}
-          onNewReading={handleNewReading}
         />
       </Card>
     </div>

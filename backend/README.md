@@ -35,17 +35,23 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 
 ---
 
-## TODO List
+# TODO List
+
+[ ] Organize README
+[ ] Pull request template
+[ ] Add github actions to build on PR and on merge
+
+## Backend
 
 ### Generic
 [X] Add Kotlin checkstyle
 [ ] Update Spring boot version
-[ ] Add github actions to build on PR and on merge
 [X] Move to Hexagonal
 [x] ArchUnit tests
 [ ] Verify error message
 [X] Use specifications for all finds
-[ ] Pull request template
+[ ] Dockerize app
+
 
 ### Authors
 [X] Add integration tests
@@ -79,10 +85,12 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Add format and platform
 [X] Add crud
 [X] Change rating to double
+[ ] Integration Tests
 
 ### Import
 [X] Review import mechanism
 [X] Adapt current importation
+[ ] Create an import page
 
 ### Best of
 [ ] Add mechanism to choose the best x year
@@ -91,3 +99,12 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [ ] Year statistics: Number of books by year
 [ ] Entering in the year, other statistics
    [ ] Group by books, authors, languages, sagas
+
+## Frontend
+
+### Generic
+[ ] Reorganize Frontend (pages, components)
+[ ] Dockerize app
+
+### Menu
+[ ] Reorganize menu, add util menu

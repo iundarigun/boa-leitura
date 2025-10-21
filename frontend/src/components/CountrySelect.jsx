@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/command";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { COUNTRIES } from "../../lib/countries";
+import { COUNTRIES } from "../lib/countries";
 
 
 export default function CountrySelect({ value, onChange }) {

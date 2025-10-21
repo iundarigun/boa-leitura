@@ -9,28 +9,36 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import CountrySelect from "./CountrySelect";
+import CountrySelect from "@/components/CountrySelect";
+import {AUTHOR_GENDER} from "@/lib/gender.js";
 
-export default function AuthorForm({ onSave, editingAuthor, onCancel, loading }) {
+export default function AuthorForm({ onSubmit, editingAuthor, onCancel, loading }) {
   const [name, setName] = useState(null);
-  const [gender, setGender] = useState("MALE");
+  const [gender, setGender] = useState("");
   const [nationality, setNationality] = useState(null);
   
   useEffect(() => {
     if (editingAuthor) {
       setName(editingAuthor.name);
-      setGender(editingAuthor.gender || "MALE");
+      setGender(editingAuthor.gender || "");
       setNationality(editingAuthor.nationality || null);
     }
   }, [editingAuthor]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name && !name.trim()) return;
-    
-    onSave({
+    if (!name || !name.trim()) {
+      onSubmit(null, { validationError: "Name is required." });
+      return;
+    }
+    if (!gender || !gender.trim()) {
+      onSubmit(null, { validationError: "Gender is required." });
+      return;
+    }
+
+    onSubmit({
       name: name.trim(),
-      gender,
+      gender: gender || null,
       nationality: nationality || null,
     });
   };
@@ -53,9 +61,11 @@ export default function AuthorForm({ onSave, editingAuthor, onCancel, loading })
             <SelectValue placeholder="Select gender" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="MALE">Male</SelectItem>
-            <SelectItem value="FEMALE">Female</SelectItem>
-            <SelectItem value="COUPLE">Multiple authors</SelectItem>
+            {AUTHOR_GENDER.map((lang) => (
+              <SelectItem key={lang.code} value={lang.code}>
+                {lang.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>

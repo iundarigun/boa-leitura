@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Layout from "./components/Layout";
-import AuthorsListPage from "./pages/authors/AuthorsListPage";
-import AuthorFormPage from "./pages/authors/AuthorFormPage";
+import AuthorsListPage from "./features/authors/pages/AuthorsListPage";
+import AuthorFormPage from "./features/authors/pages/AuthorFormPage";
 import GenresListPage from "./pages/genres/GenresListPage";
 import GenreFormPage from "./pages/genres/GenreFormPage";
 import SagasListPage from "./pages/sagas/SagasListPage";

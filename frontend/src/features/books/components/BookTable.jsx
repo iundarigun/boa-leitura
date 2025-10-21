@@ -1,16 +1,11 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import SagaDetailsDialog from "../../features/sagas/components/SagaDetailsDialog";
+import SagaDetailsDialog from "../../sagas/components/SagaDetailsDialog";
+import SortableColumns from "@/components/SortableColumn.jsx";
 
 export default function BookTable({ books, loading, sortField, sortDir, onSort, onView }) {
   const [sagaDetailsOpen, setSagaDetailsOpen] = useState(false);
   const [selectedSaga, setSelectedSaga] = useState(null);
 
-  const SortIcon = ({ field }) => {
-    if (sortField !== field) return null;
-    return sortDir === "asc" ? "▲" : "▼";
-  };
-  
   const handleSagaView = (sagaId) => {
     setSelectedSaga(sagaId);
     setSagaDetailsOpen(true);
@@ -23,21 +18,41 @@ export default function BookTable({ books, loading, sortField, sortDir, onSort, 
           <thead className="bg-gray-100">
             <tr>
               <th className="p-3 w-16">Cover</th>
-              <th className="p-3 cursor-pointer" onClick={() => onSort("TITLE")}>
-                Title <SortIcon field="TITLE" />
-              </th>
-              <th className="p-3 cursor-pointer" onClick={() => onSort("AUTHOR")}>
-                Author <SortIcon field="AUTHOR" />
-              </th>
-              <th className="p-3 cursor-pointer" onClick={() => onSort("SAGA")}>
-                Saga <SortIcon field="SAGA" />
-              </th>
-              <th className="p-3 cursor-pointer" onClick={() => onSort("GENRE")}>
-                Genre <SortIcon field="GENRE" />
-              </th>
-              <th className="p-3 cursor-pointer" onClick={() => onSort("CREATED_AT")}>
-                Added <SortIcon field="CREATED_AT" />
-              </th>
+              <SortableColumns
+                onSort={onSort}
+                sortField={sortField}
+                sortDir={sortDir}
+                label="Title"
+                orderFieldName="TITLE"
+              />
+              <SortableColumns
+                onSort={onSort}
+                sortField={sortField}
+                sortDir={sortDir}
+                label="Author"
+                orderFieldName="AUTHOR"
+              />
+              <SortableColumns
+                onSort={onSort}
+                sortField={sortField}
+                sortDir={sortDir}
+                label="Saga"
+                orderFieldName="SAGA"
+              />
+              <SortableColumns
+                onSort={onSort}
+                sortField={sortField}
+                sortDir={sortDir}
+                label="Genre"
+                orderFieldName="GENRE"
+              />
+              <SortableColumns
+                onSort={onSort}
+                sortField={sortField}
+                sortDir={sortDir}
+                label="Added"
+                orderFieldName="CREATED_AT"
+              />
               <th className="p-3 text-center">Read</th>
             </tr>
           </thead>
@@ -62,7 +77,7 @@ export default function BookTable({ books, loading, sortField, sortDir, onSort, 
                       <div className="w-12 h-16 bg-gray-200 rounded" />
                     )}
                   </td>
-                  <td className="p-3 cursor-pointer" onClick={() => onView(book)}>
+                  <td className="p-3 cursor-pointer" onClick={() => onView(book.id)}>
                     {book.title}
                   </td>
                   <td className="p-3">{book.author}</td>

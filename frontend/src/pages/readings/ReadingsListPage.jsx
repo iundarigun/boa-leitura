@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/select";
 import Pagination from "../../components/Pagination";
 import ReadingTable from "../../components/readings/ReadingTable";
-import BookDetailsDialog from "../../components/books/BookDetailsDialog";
 import { useDialog } from "../../context/DialogContext";
 import api, { apiCall } from "../../lib/api";
 import DatePicker from "../../components/DatePicker";

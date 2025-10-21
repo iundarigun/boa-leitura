@@ -79,7 +79,7 @@ class BookInformationAdapter(
         author: String?,
         isbnList: List<String> = emptyList()
     ): List<BookInformation> {
-        logger.info("SearchByTitleFallback for author: $title, author: $author")
+        logger.info("searchByUsingGoogleApi for author: $title, author: $author")
         val searchByTitle = googleApiClient.searchByTitle(title)
             .also { logger.info("googleApi find ${it.items.size} items") }
         return searchByTitle.items

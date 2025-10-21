@@ -20,7 +20,8 @@ export default function TableActionButtons({ entity, onDetails, onEdit, onDelete
           Edit
         </Button>}
         {onSelect && <Button size="sm" onClick={() => onSelect(entity)}>Select</Button> }
-        {onDelete && <AlertDialog>
+        {onDelete &&
+          <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="destructive" size="sm">Delete</Button>
           </AlertDialogTrigger>
@@ -42,7 +43,8 @@ export default function TableActionButtons({ entity, onDetails, onEdit, onDelete
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
-        </AlertDialog>}
+        </AlertDialog>
+      }
       </div>
     </>
   );

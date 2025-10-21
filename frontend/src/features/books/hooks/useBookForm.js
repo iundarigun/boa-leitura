@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDialog } from "@/context/DialogContext";
-import {
-  getAuthorById,
-  createAuthor,
-  updateAuthor,
-} from "@/lib/api/authors";
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {useDialog} from "@/context/DialogContext.jsx";
+import {createBook, getBookById, updateBook} from "@/lib/api/books.js";
 
-export default function useAuthorForm() {
+export default function useBookForm() {
   const { id } = useParams();
   const isEdit = Boolean(id);
   const navigate = useNavigate();
@@ -18,14 +14,14 @@ export default function useAuthorForm() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (isEdit) fetchAuthor();
+    if (isEdit) fetchBook();
   }, [id]);
 
-  const fetchAuthor = async () => {
+  const fetchBook = async () => {
     setLoading(true);
-    const { data, error } = await getAuthorById(id);
+    const { data, error } = await getBookById(id);
     if (data) setInitialData(data);
-    if (error) showError("Could not load the author.");
+    if (error) showError(error);
     setLoading(false);
   };
 
@@ -36,18 +32,18 @@ export default function useAuthorForm() {
     }
 
     setSaving(true);
-    const { error } = isEdit ? await updateAuthor(id, payload) : await createAuthor(payload);
+    const { error } = isEdit ? await updateBook(id, payload) : await createBook(payload);
 
     if (!error) {
-      showSuccess(`Author ${isEdit ? "updated" : "created"} successfully.`);
-      navigate("/authors");
+      showSuccess(`Book ${isEdit ? "updated" : "created"} successfully.`);
+      navigate("/books");
     } else {
       showError(error);
     }
     setSaving(false);
   };
 
-  const handleCancel = () => navigate("/authors");
+  const handleCancel = () => navigate("/books");
 
   return {
     isEdit,

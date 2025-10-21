@@ -25,7 +25,7 @@ export default function AuthorFormPage() {
             <p className="text-center text-gray-500">Loading author...</p>
           ) : (
           <AuthorForm
-            onSave={handleSubmit}
+            onSubmit={handleSubmit}
             editingAuthor={initialData}
             onCancel={handleCancel}
             loading={saving}

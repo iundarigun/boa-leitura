@@ -7,8 +7,8 @@ import GenresListPage from "./features/genres/pages/GenresListPage";
 import GenreFormPage from "./features/genres/pages/GenreFormPage";
 import SagasListPage from "./features/sagas/pages/SagasListPage";
 import SagaFormPage from "./features/sagas/pages/SagaFormPage";
-import BooksListPage from "./pages/books/BookListPage";
-import BookFormPage from "./pages/books/BookFormPage";
+import BooksListPage from "./features/books/pages/BookListPage";
+import BookFormPage from "./features/books/pages/BookFormPage";
 import ReadingsListPage from "./pages/readings/ReadingsListPage";
 import ReadingFormPage from "./pages/readings/ReadingFormPage";
 

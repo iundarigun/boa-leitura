@@ -6,9 +6,9 @@ export async function getAuthors(params = {}) {
   const query = new URLSearchParams();
 
   if (params.page) query.append("page", params.page);
-  if (params.order) query.append("order", params.order);
-  if (params.directionAsc !== undefined) {
-    query.append("directionAsc", params.directionAsc);
+  if (params.sortField) query.append("order", params.sortField);
+  if (params.sortDir !== undefined) {
+    query.append("directionAsc", params.sortDir === 'asc');
   }
   if (params.name) query.append("name", params.name);
 

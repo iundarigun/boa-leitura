@@ -9,18 +9,22 @@ export default function useAuthors() {
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
   const [searchApplied, setSearchApplied] = useState("");
+  const [sortField, setSortField] = useState("NAME");
+  const [sortDir, setSortDir] = useState("asc");
 
   const { showError, showSuccess } = useDialog();
 
   useEffect(() => {
     fetchAuthors();
-  }, [page, searchApplied]);
+  }, [page, sortField, sortDir, searchApplied]);
 
   const fetchAuthors = async () => {
     setLoading(true);
     const {data, error} = await getAuthors({
       page: page,
-      name: searchApplied
+      name: searchApplied,
+      sortField: sortField,
+      sortDir: sortDir
     });
     if (error) {
       showError(error);
@@ -48,6 +52,15 @@ export default function useAuthors() {
     setSearchApplied(search);
   };
 
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortField(field);
+      setSortDir("asc");
+    }
+  };
+
   return {
     authors,
     loading,
@@ -56,7 +69,10 @@ export default function useAuthors() {
     totalPages,
     search,
     setSearch,
+    sortField,
+    sortDir,
     handleSearch,
     handleDelete,
+    handleSort
   }
 }

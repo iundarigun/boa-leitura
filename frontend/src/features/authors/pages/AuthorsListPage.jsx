@@ -16,8 +16,11 @@ export default function AuthorsListPage() {
     totalPages,
     search,
     setSearch,
+    sortField,
+    sortDir,
     handleSearch,
     handleDelete,
+    handleSort
   } = useAuthors();
 
   const navigate = useNavigate();
@@ -53,6 +56,9 @@ export default function AuthorsListPage() {
               authors={authors}
               onEdit={(author) => navigate(`/authors/${author.id}/edit`)}
               onDelete={handleDelete}
+              onSort={handleSort}
+              sortField={sortField}
+              sortDir={sortDir}
             />
           )}
         </CardContent>

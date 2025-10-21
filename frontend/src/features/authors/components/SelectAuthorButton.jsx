@@ -21,7 +21,10 @@ export default function SelectAuthorButton({selectedAuthor, onSelect}) {
     authors,
     search,
     setSearch,
-    handleSearch
+    sortField,
+    sortDir,
+    handleSearch,
+    handleSort,
   } = useAuthors();
 
   const handleOpen = async () => {
@@ -73,7 +76,9 @@ export default function SelectAuthorButton({selectedAuthor, onSelect}) {
                 <AuthorTable
                   authors={authors}
                   onSelect={handleSelect}
-                  selectable
+                  onSort={handleSort}
+                  sortField={sortField}
+                  sortDir={sortDir}
                 />
               )}
             </div>

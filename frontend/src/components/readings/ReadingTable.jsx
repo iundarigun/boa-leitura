@@ -12,7 +12,7 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 
-import { getLanguageDisplay } from "../../lib/languages";
+import { getLanguageDisplay } from "@/lib/languages.js";
 import BookDetailsDialog from "../books/BookDetailsDialog";
 import SagaDetailsDialog from "../sagas/SagaDetailsDialog";
 import { useDialog } from "../../context/DialogContext";

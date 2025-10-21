@@ -14,6 +14,10 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import api, { apiCall } from "../../lib/api";
 import { useDialog } from "../../context/DialogContext";
+import { Card } from "../ui/card";
+import { getLanguageDisplay } from "../../lib/languages";
+import { getReadingFormatDisplay } from "../../lib/format";
+import { getReadingPlatformsDisplay } from "../../lib/platform";
 
 const API_URL = "/books";
 
@@ -162,6 +166,31 @@ export default function BookDetailsDialog({ open, onClose, bookId, onDelete }) {
             </p>
           </div>
         </div>
+        {book.readings && book.readings.length > 0 && 
+           <div className="border rounded-lg space-y-2 text-sm">
+            <table className="w-full text-left border-collapse">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="p-3 ">Language</th>
+                  <th className="p-3 ">Format</th>
+                  <th className="p-3 ">Platform</th>
+                  <th className="p-3 ">Date read</th>
+                  <th className="p-3 "></th>
+                </tr>
+              </thead>
+            {book.readings.map((reading,idx) =>(
+              <tr key={reading.id} className="border-t hover:bg-gray-50 ">
+                <td className="p-3">{getLanguageDisplay(reading.language)}</td>
+                <td className="p-3">{getReadingFormatDisplay(reading.format)}</td>
+                <td className="p-3">{getReadingPlatformsDisplay(reading.platform)}</td>
+                <td className="p-3">{reading.dateRead}</td>
+                <td className="p-3 text-center"><a href={`/readings/${reading.id}/edit`}
+                  className="cursor-pointer">✍️</a></td>
+              </tr>
+            ))}
+            </table>
+          </div>
+        }
 
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
           <AlertDialogCancel asChild>

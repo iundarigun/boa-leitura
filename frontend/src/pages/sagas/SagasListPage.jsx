@@ -42,11 +42,11 @@ export default function SagasListPage() {
     setLoading(false);
   };
 
-  const handleDelete = async (id, name) => {
-    const res = await apiCall(() => api.delete(`${API_URL}/${id}`));
+  const handleDelete = async (saga) => {
+    const res = await apiCall(() => api.delete(`${API_URL}/${saga.id}`));
     if (!res.error) {
       fetchSagas();
-      showSuccess(`Saga "${name}" deleted successfully.`);
+      showSuccess(`Saga "${saga.name}" deleted successfully.`);
     } else {
       showError(res.error);
     }

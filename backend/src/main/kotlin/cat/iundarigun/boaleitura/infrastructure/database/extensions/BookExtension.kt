@@ -37,7 +37,8 @@ fun BookEntity.toResponse() =
         isbn = this.isbn,
         urlImage = this.urlImage,
         urlImageSmall = this.urlImageSmall,
-        read = this.readings.isNotEmpty()
+        read = this.readings.isNotEmpty(),
+        readings = this.readings.map { it.toReadingBookResponse() }
     )
 
 fun BookEntity.toOriginalEditionModel(): BookOriginalEditionModel? {

@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
+import jakarta.persistence.OrderBy
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
@@ -36,6 +37,7 @@ data class BookEntity(
     @ManyToOne
     var author: AuthorEntity,
 
+    @OrderBy("dateRead desc")
     @OneToMany(mappedBy = "book")
     var readings: List<ReadingEntity> = emptyList(),
 

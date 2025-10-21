@@ -63,6 +63,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Search images by title
 [X] Add language in the searchBy isbn/title
 [X] Popup selection by title
+[ ] Search by keyword
 
 ### Sagas
 [X] Crud Sagas
@@ -75,20 +76,18 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [ ] Add TBR list
 
 ### Reading
-[ ] Add format and platform
-[ ] Add crud
-[ ] Change rating to double
+[X] Add format and platform
+[X] Add crud
+[X] Change rating to double
 
 ### Import
 [X] Review import mechanism
 [X] Adapt current importation
-- Pending books:
-    - 2025-10-17T10:46:46.776+02:00 ERROR 46904 --- [boa-leitura] [roundjob-worker] i.b.a.p.i.g.i.GoodreadsImportUseCaseImpl : BOOK IMPORTER - Can't not verify the book BookGoodreadsImporterRequest(goodreadsId=181344829, title=Bride (Bride, #1), numberOfPages=410, publisherYear=2024, isbn=null, language=en, authorId=null)
-    - 2025-10-17T10:46:46.860+02:00 ERROR 46904 --- [boa-leitura] [roundjob-worker] i.b.a.p.i.g.i.GoodreadsImportUseCaseImpl : BOOK IMPORTER - Can't not verify the book BookGoodreadsImporterRequest(goodreadsId=81375802, title=El imperio del vampiro (El imperio del vampiro, #1), numberOfPages=983, publisherYear=2023, isbn=null, language=es, authorId=null)
-    - 2025-10-17T10:46:46.866+02:00 ERROR 46904 --- [boa-leitura] [roundjob-worker] i.b.a.p.i.g.i.GoodreadsImportUseCaseImpl : BOOK IMPORTER - Can't not verify the book BookGoodreadsImporterRequest(goodreadsId=80398323, title=El Secreto del Dragón: (El Sendero del Guardabosques, Libro 17) (Spanish Edition), numberOfPages=436, publisherYear=2023, isbn=null, language=es, authorId=null)
-
 
 ### Best of
 [ ] Add mechanism to choose the best x year
 
 ### Statistics
+[ ] Year statistics: Number of books by year
+[ ] Entering in the year, other statistics
+   [ ] Group by books, authors, languages, sagas

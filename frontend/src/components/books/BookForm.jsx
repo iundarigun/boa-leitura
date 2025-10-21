@@ -17,7 +17,7 @@ import { useDialog } from "@/context/DialogContext";
 import api, { apiCall } from "../../lib/api";
 import SelectGenreButton from "../../features/genres/components/SelectGenreButton";
 import SelectAuthorButton from "../../features/authors/components/SelectAuthorButton";
-import SelectSagaButton from "../sagas/SelectSagaButton";
+import SelectSagaButton from "../../features/sagas/components/SelectSagaButton";
 import LanguageSelect from "../LanguageSelect";
 
 export default function BookForm({ initialData = null, onSubmit, onCancel, loading = false }) {

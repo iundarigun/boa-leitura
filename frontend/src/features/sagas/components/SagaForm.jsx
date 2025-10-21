@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import SagaDetails from "@/components/sagas/SagaDetails";
+import { SagaDetails } from "./SagaDetailsDialog";
 
-export default function SagaForm({ onSave, editingSaga, onCancel, loading }) {
+export default function SagaForm({ onSubmit, editingSaga, onCancel, loading }) {
   const [name, setName] = useState(null);
   const [totalMainTitles, setTotalMainTitles] = useState(0);
   const [totalComplementaryTitles, setTotalComplementaryTitles] = useState(0);
@@ -22,9 +22,20 @@ export default function SagaForm({ onSave, editingSaga, onCancel, loading }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name && !name.trim()) return;
-    
-    onSave({
+    if (!name || !name.trim()) {
+      onSubmit(null, { validationError: "Saga name is required."});
+      return;
+    }
+    if (totalMainTitles == null || totalMainTitles < 0) {
+      onSubmit(null, { validationError: "Main titles must be positive."});
+      return;
+    }
+    if (totalComplementaryTitles == null || totalComplementaryTitles < 0) {
+      onSubmit(null, { validationError: "Other titles must be positive."});
+      return;
+    }
+
+    onSubmit({
       name,
       totalMainTitles,
       totalComplementaryTitles,

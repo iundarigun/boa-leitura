@@ -11,40 +11,24 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useDialog } from "@/context/DialogContext";
-import api, { apiCall } from "../../lib/api";
+import useSagas from "@/features/sagas/hooks/useSagas.js";
 
 export default function SelectSagaButton({ selectedSaga, onSelect }) {
   const [open, setOpen] = useState(false);
-  const [sagas, setSagas] = useState({ content: [] });
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
-  
-  const { showError } = useDialog();
-  
-  const fetchSagas = async (query = "") => {
-    setLoading(true);
-    const res = await apiCall(() => api.get(`/sagas?page=1&name=${query}`));
-    if (res.data) {
-      setSagas(res.data.content);
-    } else {
-      showError(res.error);
-    }
-    setLoading(false);
-  };
-
-  const handleOpen = async () => {
-    await fetchSagas("");
-    setOpen(true);
-  };
+  const {
+    loading,
+    sagas,
+    search,
+    setSearch,
+    sortField,
+    sortDir,
+    handleSearch,
+    handleSort,
+  } = useSagas();
 
   const handleSelect = (saga) => {
     onSelect(saga);
     setOpen(false);
-  };
-
-  const handleSearch = async () => {
-    await fetchSagas(search);
   };
 
   return (
@@ -57,7 +41,7 @@ export default function SelectSagaButton({ selectedSaga, onSelect }) {
           placeholder="Select Saga"
         />
       </div>
-      <Button type="button" onClick={handleOpen}>
+      <Button type="button" onClick={() => setOpen(true)}>
         Select Saga
       </Button>
 
@@ -87,7 +71,9 @@ export default function SelectSagaButton({ selectedSaga, onSelect }) {
                 <SagaTable
                   sagas={sagas}
                   onSelect={handleSelect}
-                  selectable
+                  onSort={handleSort}
+                  sortField={sortField}
+                  sortDir={sortDir}
                 />
               )}
             </div>

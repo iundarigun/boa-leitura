@@ -7,11 +7,15 @@ import {
   AlertDialogTrigger
 } from "@/components/ui/alert-dialog.jsx";
 
-export default function TableActionButtons({ entity, onEdit, onDelete, onSelect, warningProperty}) {
+export default function TableActionButtons({ entity, onDetails, onEdit, onDelete, onSelect, warningProperty}) {
 
   return (
     <>
       <div className="flex justify-center gap-2">
+        {onDetails &&!onSelect && <Button size="sm" variant="outline" onClick={onDetails}>
+          Details
+        </Button>
+        }
         {onEdit && <Button variant="outline" size="sm" onClick={() => onEdit(entity)}>
           Edit
         </Button>}

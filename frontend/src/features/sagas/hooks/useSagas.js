@@ -1,49 +1,50 @@
 import {useEffect, useState} from "react";
 import {useDialog} from "@/context/DialogContext.jsx";
-import {deleteAuthor, getAuthors} from "@/lib/api/authors.js";
+import {deleteSaga, getSagas} from "@/lib/api/saga.js";
 
-export default function useAuthors() {
-  const [authors, setAuthors] = useState({ content: [] });
-  const [loading, setLoading] = useState(false);
+export default function useSagas() {
+  const [sagas, setSagas] = useState({ content: [] });
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [searchApplied, setSearchApplied] = useState("");
   const [sortField, setSortField] = useState("NAME");
   const [sortDir, setSortDir] = useState("asc");
 
+
   const { showError, showSuccess } = useDialog();
 
   useEffect(() => {
-    fetchAuthors();
+    fetchSagas();
   }, [page, sortField, sortDir, searchApplied]);
 
-  const fetchAuthors = async () => {
+  const fetchSagas = async () => {
     setLoading(true);
-    const {data, error} = await getAuthors({
+    const {data, error} = await getSagas({
       page: page,
-      name: searchApplied,
+      name: search,
       sortField: sortField,
       sortDir: sortDir
-    });
+    })
     if (error) {
       showError(error);
     }
     if(data) {
-      setAuthors(data);
+      setSagas(data);
       setPage(data.page);
       setTotalPages(data.totalPages);
     }
     setLoading(false);
   };
 
-  const handleDelete = async (author) => {
-    const {error } = await deleteAuthor(author.id);
+  const handleDelete = async (saga) => {
+    const {error} = await deleteSaga(saga.id)
     if (error) {
       showError(error);
-    }else {
-      fetchAuthors();
-      showSuccess(`Author "${author.name}" deleted successfully.`);
+    } else {
+      fetchSagas();
+      showSuccess(`Saga "${saga.name}" deleted successfully.`);
     }
   };
 
@@ -62,7 +63,7 @@ export default function useAuthors() {
   };
 
   return {
-    authors,
+    sagas,
     loading,
     page,
     setPage,

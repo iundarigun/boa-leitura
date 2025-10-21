@@ -6,22 +6,18 @@ function GenreItem({ genre, onEdit, onDelete, onSelect, level = 0 }) {
     <Card className="p-4 mb-2">
       <div key={genre.id} style={{ paddingLeft: `${level * 16}px` }}>
         <div className="flex items-center justify-between p-2 border rounded mb-1">
-          <span
-            className={`cursor-pointer ${onSelect ? "hover:underline" : ""}`}
-            onClick={() => onSelect && onSelect(genre)}
-          >
+          <span className={`cursor-pointer`}>
             {genre.name}
           </span>
-          {!onSelect && (
-            <div className="flex gap-2">
+          <div className="flex gap-2">
               <TableActionButtons
                 entity={genre}
                 onEdit={onEdit}
                 onDelete={onDelete}
+                onSelect={onSelect}
                 warningProperty="name"
                 />
-            </div>
-          )}
+          </div>
         </div>
       </div>
 

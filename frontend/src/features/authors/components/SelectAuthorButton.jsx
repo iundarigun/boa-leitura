@@ -27,10 +27,6 @@ export default function SelectAuthorButton({selectedAuthor, onSelect}) {
     handleSort,
   } = useAuthors();
 
-  const handleOpen = async () => {
-    setOpen(true);
-  };
-
   const handleSelect = (author) => {
     onSelect(author);
     setOpen(false);
@@ -46,7 +42,7 @@ export default function SelectAuthorButton({selectedAuthor, onSelect}) {
           placeholder="Select Author"
         />
       </div>
-      <Button type="button" onClick={handleOpen}>
+      <Button type="button" onClick={() => setOpen(true)}>
         Select Author
       </Button>
 

@@ -1,61 +1,31 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import SagaTable from "../../components/sagas/SagaTable";
-import Pagination from "../../components/Pagination";
-import SagaDetails from "../../components/sagas/SagaDetails";
-import { useDialog } from "../../context/DialogContext";
-import api, { apiCall } from "../../lib/api";
+import SagaTable from "../components/SagaTable";
+import Pagination from "@/components/Pagination";
+import useSagas from "@/features/sagas/hooks/useSagas.js";
 
 const API_URL = "/sagas";
 
 export default function SagasListPage() {
-  const [sagas, setSagas] = useState({ content: [] });
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
-  const [searchApplied, setSearchApplied] = useState("");
+  const {
+    sagas,
+    loading,
+    page,
+    setPage,
+    totalPages,
+    search,
+    setSearch,
+    sortField,
+    sortDir,
+    handleSearch,
+    handleDelete,
+    handleSort
+  } = useSagas();
 
   const navigate = useNavigate();
-  const { showError, showSuccess, showDialog } = useDialog();
-
-  useEffect(() => {
-    fetchSagas();
-  }, [page, searchApplied]);
-
-  const fetchSagas = async () => {
-    setLoading(true);
-    const res = await apiCall(() =>
-      api.get(`${API_URL}?page=${page}&name=${encodeURIComponent(searchApplied)}`)
-    );
-    if (!res.error) {
-      setSagas(res.data);
-      setPage(res.data.page);
-      setTotalPages(res.data.totalPages);
-    } else {
-      showError(res.error);
-    }
-    setLoading(false);
-  };
-
-  const handleDelete = async (saga) => {
-    const res = await apiCall(() => api.delete(`${API_URL}/${saga.id}`));
-    if (!res.error) {
-      fetchSagas();
-      showSuccess(`Saga "${saga.name}" deleted successfully.`);
-    } else {
-      showError(res.error);
-    }
-  };
-
-  const handleSearch = () => {
-    setPage(1);
-    setSearchApplied(search);
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
@@ -89,14 +59,16 @@ export default function SagasListPage() {
             <p className="text-center text-gray-500">Loading sagas...</p>
           ) : (
             <SagaTable
-              sagas={sagas.content}
+              sagas={sagas}
               onEdit={(saga) => navigate(`/sagas/${saga.id}/edit`)}
               onDelete={handleDelete}
+              onSort={handleSort}
+              sortField={sortField}
+              sortDir={sortDir}
             />
           )}
         </CardContent>
 
-        {/* 📖 Paginação base */}
         <Pagination page={page} setPage={setPage} totalPages={totalPages} />
       </Card>
     </div>

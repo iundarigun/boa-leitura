@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import SagaDetailsDialog from "../sagas/SagaDetailsDialog";
+import SagaDetailsDialog from "../../features/sagas/components/SagaDetailsDialog";
 
 export default function BookTable({ books, loading, sortField, sortDir, onSort, onView }) {
   const [sagaDetailsOpen, setSagaDetailsOpen] = useState(false);

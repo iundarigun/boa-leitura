@@ -14,7 +14,7 @@ import {
 
 import { getLanguageDisplay } from "@/lib/languages.js";
 import BookDetailsDialog from "../books/BookDetailsDialog";
-import SagaDetailsDialog from "../sagas/SagaDetailsDialog";
+import SagaDetailsDialog from "../../features/sagas/components/SagaDetailsDialog";
 import { useDialog } from "../../context/DialogContext";
 import StarRating from "../StarRating";
 

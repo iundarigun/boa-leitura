@@ -15,7 +15,7 @@ import {
 import ImagePreviewButton from "@/components/ImagePreview";
 import { useDialog } from "@/context/DialogContext";
 import api, { apiCall } from "../../lib/api";
-import SelectGenreButton from "../genres/SelectGenreButton";
+import SelectGenreButton from "../../features/genres/components/SelectGenreButton";
 import SelectAuthorButton from "../../features/authors/components/SelectAuthorButton";
 import SelectSagaButton from "../sagas/SelectSagaButton";
 import LanguageSelect from "../LanguageSelect";

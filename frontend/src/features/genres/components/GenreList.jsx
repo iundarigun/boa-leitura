@@ -1,16 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import TableActionButtons from "@/components/TableActionButtons.jsx";
 
 function GenreItem({ genre, onEdit, onDelete, onSelect, level = 0 }) {
   return (
@@ -25,33 +14,12 @@ function GenreItem({ genre, onEdit, onDelete, onSelect, level = 0 }) {
           </span>
           {!onSelect && (
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => onEdit(genre)}>
-                Edit
-              </Button>
-
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="destructive">Delete</Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Confirm delete</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Are you sure you want delete <b>{genre.name}</b>?  
-                      This action can not be undone.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      className="bg-red-600 hover:bg-red-700"
-                      onClick={() => onDelete(genre.id, genre.name)}
-                    >
-                      Delete
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+              <TableActionButtons
+                entity={genre}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                warningProperty="name"
+                />
             </div>
           )}
         </div>

@@ -32,17 +32,3 @@ export async function createAuthor(payload) {
   return await apiCall(() => api.post(`${API_URL}`, payload));
 }
 
-
-// export async function fetchAuthor(params = {}) {
-//
-//   if (id) {
-//     setLoading(true);
-//     const res = await apiCall(() => api.get(`${API_URL}/${id}`));
-//     if (res.data) {
-//       setEditingAuthor(res.data);
-//     } else {
-//       showError("Not possible to load the author.");
-//     }
-//     setLoading(false);
-//   }
-// }

@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import GenreList from "./GenreList"; 
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
@@ -13,28 +12,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useDialog } from "@/context/DialogContext";
-import api, { apiCall } from "../../lib/api";
+import useGenres from "@/features/genres/hooks/useGenres.js";
 
 export default function SelectGenreButton({ selectedGenre, onSelect }) {
   const [open, setOpen] = useState(false);
-  const [allGenres, setAllGenres] = useState([])
-  
-  const { showError } = useDialog();
+
+  const {
+    allGenres
+  } = useGenres();
 
   const handleSelect = (genre) => {
     onSelect(genre);
     setOpen(false);
-  };
-
-  const clickButton = async () => {
-    const res = await apiCall(() => api.get(`/genres`));
-    if (res.data) {
-      setAllGenres(res.data);
-    } else {
-      showError(res.error);
-    }
-    setOpen(true);
   };
 
   return (
@@ -44,7 +33,7 @@ export default function SelectGenreButton({ selectedGenre, onSelect }) {
         <Input value={selectedGenre ? selectedGenre.name : "Select Genre"} 
                disabled={true} placeholder="Select the genre" />
       </div>
-      <Button type="button" onClick={clickButton}>
+      <Button type="button" onClick={() => setOpen(true)}>
         Select Genre
       </Button>
 

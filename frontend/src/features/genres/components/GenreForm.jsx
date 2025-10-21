@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import GenreList from "./GenreList";
 
-export default function GenreForm({ onSave, editingGenre, onCancel, allGenres, loading }) {
+export default function GenreForm({ onSubmit, editingGenre, onCancel, allGenres, loading }) {
   const [name, setName] = useState(null);
   const [parent, setParent] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -27,7 +27,11 @@ export default function GenreForm({ onSave, editingGenre, onCancel, allGenres, l
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave({ 
+    if (!name || !name.trim()) {
+      onSubmit(null, { validationError: "Name is required." });
+      return;
+    }
+    onSubmit({
       name,
       parentGenreId: parent ? parent.id : null,
      });

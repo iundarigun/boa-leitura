@@ -25,8 +25,6 @@ export default function BookFormPage() {
     setLoading(true);
     const { data, error } = await apiCall(() => api.get(`${API_URL}/${id}`));
     if (data) {
-      // map API shape to the form's initialData expected structure
-      // keep originalEdition etc.
       setInitialData(data);
     }
     if (error) showError("Could not load the book.");
@@ -60,7 +58,8 @@ export default function BookFormPage() {
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
       <Card className="w-full max-w-3xl mx-auto p-8">
         <CardHeader>
-          <CardTitle className="text-2xl">{isEdit ? "✏️ Edit Book" : "➕ New Book"}</CardTitle>
+          <CardTitle className="text-2xl">
+            {isEdit ? "✏️ Edit Book" : "➕ New Book"}</CardTitle>
         </CardHeader>
         <CardContent>
           <BookForm

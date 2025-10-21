@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -11,9 +12,66 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import api, { apiCall } from "../../lib/api";
+import { useDialog } from "../../context/DialogContext";
+import { Card } from "../ui/card";
+import { getLanguageDisplay } from "../../lib/languages";
+import { getReadingFormatDisplay } from "../../lib/format";
+import { getReadingPlatformsDisplay } from "../../lib/platform";
 
-export default function BookDetailsDialog({ open, onClose, book, onEdit, onDelete }) {
-  if (!book) return null;
+const API_URL = "/books";
+
+export default function BookDetailsDialog({ open, onClose, bookId, onDelete }) {
+  const { showError } = useDialog();
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!bookId) return;
+
+    const fetchBook = async () => {
+      setLoading(true);
+      const res = await apiCall(() => api.get(`${API_URL}/${bookId}`));
+      setLoading(false);
+
+      if (res.error) {
+        showError(res.error);
+        return;
+      }
+
+      setBook(res.data);
+    };
+
+    fetchBook();
+  }, [bookId, showError]);
+
+  if (!open || !bookId) return null;
+
+  const handleEdit = (book) => {
+    window.location.href = `/books/${book.id}/edit`;
+  };
+  
+  const handleNewReading = (book) => {
+    window.location.href = `/readings/new/${book.id}`;
+  };
+
+
+
+  if (loading) {
+    return (
+      <div className="p-4 text-center text-gray-500">
+        Loading book details...
+      </div>
+    );
+  }
+
+  if (!book) {
+    return (
+      <div className="p-4 text-center text-gray-500">
+        No book data available.
+      </div>
+    );
+  }
 
   const {
     title,
@@ -108,14 +166,45 @@ export default function BookDetailsDialog({ open, onClose, book, onEdit, onDelet
             </p>
           </div>
         </div>
+        {book.readings && book.readings.length > 0 && 
+           <div className="border rounded-lg space-y-2 text-sm">
+            <table className="w-full text-left border-collapse">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="p-3 ">Language</th>
+                  <th className="p-3 ">Format</th>
+                  <th className="p-3 ">Platform</th>
+                  <th className="p-3 ">Date read</th>
+                  <th className="p-3 "></th>
+                </tr>
+              </thead>
+            {book.readings.map((reading,idx) =>(
+              <tr key={reading.id} className="border-t hover:bg-gray-50 ">
+                <td className="p-3">{getLanguageDisplay(reading.language)}</td>
+                <td className="p-3">{getReadingFormatDisplay(reading.format)}</td>
+                <td className="p-3">{getReadingPlatformsDisplay(reading.platform)}</td>
+                <td className="p-3">{reading.dateRead}</td>
+                <td className="p-3 text-center"><a href={`/readings/${reading.id}/edit`}
+                  className="cursor-pointer">✍️</a></td>
+              </tr>
+            ))}
+            </table>
+          </div>
+        }
 
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
           <AlertDialogCancel asChild>
-            <Button variant="outline" onClick={() => onEdit(book)}>
+            <Button variant="outline" onClick={() => handleNewReading(book)}>
+              New reading
+            </Button>
+          </AlertDialogCancel>
+          <AlertDialogCancel asChild>
+            <Button variant="outline" onClick={() => handleEdit(book)}>
               Edit
             </Button>
           </AlertDialogCancel>
-          <AlertDialog>
+          
+          {onDelete && <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="destructive">Delete</Button>
             </AlertDialogTrigger>
@@ -138,6 +227,7 @@ export default function BookDetailsDialog({ open, onClose, book, onEdit, onDelet
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
+          }
           <AlertDialogCancel>Close</AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>

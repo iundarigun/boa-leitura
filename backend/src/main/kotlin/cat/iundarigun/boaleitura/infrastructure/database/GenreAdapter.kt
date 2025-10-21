@@ -7,6 +7,7 @@ import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.response.GenreResponse
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.exception.GenreNotFoundException
+import cat.iundarigun.boaleitura.exception.ReadingNotFoundException
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.merge
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toEntity
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toPageResponse
@@ -57,8 +58,8 @@ class GenreAdapter(
 
     @Transactional(readOnly = true)
     override fun findById(id: Long): GenreResponse {
-        val author = genreRepository.findById(id).orElseThrow { GenreNotFoundException(id) }
-        return author.toResponse()
+        val genre = genreRepository.findById(id).orElseThrow { ReadingNotFoundException(id) }
+        return genre.toResponse()
     }
 
     @Transactional(readOnly = true)

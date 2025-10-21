@@ -1,0 +1,3 @@
+ALTER TABLE reading
+    ADD COLUMN platform VARCHAR(100),
+    ALTER COLUMN my_rating TYPE DECIMAL;

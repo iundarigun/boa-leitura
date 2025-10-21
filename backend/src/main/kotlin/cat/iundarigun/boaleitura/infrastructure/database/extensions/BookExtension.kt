@@ -11,16 +11,16 @@ import cat.iundarigun.boaleitura.domain.response.BookResponse
 import cat.iundarigun.boaleitura.domain.response.BookSummaryResponse
 import cat.iundarigun.boaleitura.domain.response.SagaBookResponse
 
-fun BookEntity.toSummaryResponse() =
+fun BookEntity.toSummaryResponse(read: Boolean? = null) =
     BookSummaryResponse(
         id = this.id,
         title = this.title,
         author = this.author.name,
         genre = this.genre?.name,
-        saga = this.saga?.name,
+        saga = this.saga?.toResponse(),
         urlImageSmall = this.urlImageSmall,
         createdAt = this.createdAt,
-        read = this.readings.isNotEmpty()
+        read = read ?: this.readings.isNotEmpty()
     )
 
 fun BookEntity.toResponse() =
@@ -37,7 +37,8 @@ fun BookEntity.toResponse() =
         isbn = this.isbn,
         urlImage = this.urlImage,
         urlImageSmall = this.urlImageSmall,
-        read = this.readings.isNotEmpty()
+        read = this.readings.isNotEmpty(),
+        readings = this.readings.map { it.toReadingBookResponse() }
     )
 
 fun BookEntity.toOriginalEditionModel(): BookOriginalEditionModel? {

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -10,34 +11,41 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import SagaDetailsDialog from "./SagaDetailsDialog";
 
 export default function SagaTable({
   sagas = [],
   onSelect,
   onEdit,
-  onView,
   onDelete,
   selectable = false,
 }) {
+  const [sagaDetailsOpen, setSagaDetailsOpen] = useState(false);
+  const [selectedSaga, setSelectedSaga] = useState(null);
+
+  const handleSagaView = (sagaId) => {
+    setSelectedSaga(sagaId);
+    setSagaDetailsOpen(true);
+  };
+  
   if (!sagas || sagas.length === 0) {
     return <p className="text-gray-500 text-center py-4">No sagas found.</p>;
   }
 
   return (
+    <>
     <div className="overflow-x-auto">
       <table className="w-full border-collapse border border-gray-200">
         <thead className="bg-gray-100 text-left">
           <tr>
             <th className="p-3 border border-gray-200">Name</th>
             <th className="p-3 border border-gray-200 text-center">Main Titles</th>
-            { !selectable ? (
+            { !selectable && (
               <>
               <th className="p-3 border border-gray-200 text-center">Other Titles</th>
               <th className="p-3 border border-gray-200 text-center">Concluded</th>
               <th className="p-3 border border-gray-200 text-center">Actions</th>
               </>
-            ) : (
-              <></>
             )}
           </tr>
         </thead>
@@ -52,21 +60,18 @@ export default function SagaTable({
                 <td className="p-3 border border-gray-200 text-center"> {saga.concluded ? "✅" : "❌"}</td>
                 <td className="p-3 border border-gray-200 text-center">
                   <div className="flex justify-center gap-2">
-                    {onView && (
+                    {onEdit && (
+                      <>
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => onView(saga)}
+                        onClick={() => handleSagaView(saga.id)}
                       >
                         Details
                       </Button>
-                    )}
-                    {onEdit && (
                       <Button size="sm" variant="outline" onClick={() => onEdit(saga)}>
                         Edit
                       </Button>
-                    )}
-                    {onEdit && (
                       <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="destructive" size="sm">Delete</Button>
@@ -90,6 +95,7 @@ export default function SagaTable({
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
+                    </>
                     )}
                   </div>
                 </td>
@@ -105,5 +111,11 @@ export default function SagaTable({
         </tbody>
       </table>
     </div>
+    <SagaDetailsDialog
+        open={sagaDetailsOpen}
+        onClose={setSagaDetailsOpen}
+        sagaId={selectedSaga}
+      />
+    </>
   );
 }

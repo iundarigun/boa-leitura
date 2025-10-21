@@ -42,23 +42,14 @@ export default function SagasListPage() {
     setLoading(false);
   };
 
-  const handleDelete = async (id, name) => {
-    const res = await apiCall(() => api.delete(`${API_URL}/${id}`));
+  const handleDelete = async (saga) => {
+    const res = await apiCall(() => api.delete(`${API_URL}/${saga.id}`));
     if (!res.error) {
       fetchSagas();
-      showSuccess(`Saga "${name}" deleted successfully.`);
+      showSuccess(`Saga "${saga.name}" deleted successfully.`);
     } else {
       showError(res.error);
     }
-  };
-
-  const handleView = async (saga) => {
-    const res = await apiCall(() => api.get(`${API_URL}/${saga.id}`));
-    if (res.error) {
-      showError(res.error);
-      return;
-    }
-    showDialog("Details", <SagaDetails saga={res.data} />);
   };
 
   const handleSearch = () => {
@@ -99,7 +90,6 @@ export default function SagasListPage() {
           ) : (
             <SagaTable
               sagas={sagas.content}
-              onView={handleView}
               onEdit={(saga) => navigate(`/sagas/${saga.id}/edit`)}
               onDelete={handleDelete}
             />

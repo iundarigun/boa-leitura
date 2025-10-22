@@ -125,8 +125,8 @@ export default function BookDetailsDialog({open, onClose, bookId, onDelete}) {
             </p>
             <p>
               <strong>Original Edition:</strong>{" "}
-              {originalEdition?.title
-                ? `${originalEdition.title} (${originalEdition.language})`
+              {(originalEdition?.title || originalEdition?.language)
+                ? `${originalEdition.title || "-"} (${getLanguageDisplay(originalEdition.language) || "-"})`
                 : "-"}
             </p>
             <p>

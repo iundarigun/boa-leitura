@@ -42,6 +42,12 @@ export default function Layout() {
             >
               <Link to="/readings">Readings</Link>
             </Button>
+            <Button
+              variant={location.pathname.startsWith("/statistics") ? "default" : "outline"}
+              asChild
+            >
+              <Link to="/statistics/summary">Statistics</Link>
+            </Button>
           </nav>
         </div>
       </header>

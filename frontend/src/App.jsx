@@ -11,6 +11,7 @@ import BooksListPage from "@/features/books/pages/BookListPage";
 import BookFormPage from "@/features/books/pages/BookFormPage";
 import ReadingsListPage from "@/features/reading/pages/ReadingsListPage";
 import ReadingFormPage from "@/features/reading/pages/ReadingFormPage";
+import StatisticsSummaryPage from "@/features/statistics/pages/StatisticsSummaryPage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/readings" element={<ReadingsListPage />} />
           <Route path="/readings/:id/edit" element={<ReadingFormPage />} />
           <Route path="/readings/new/:bookId" element={<ReadingFormPage />} />
+          <Route path="/statistics/summary" element={<StatisticsSummaryPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

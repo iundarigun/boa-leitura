@@ -5,7 +5,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { LANGUAGES } from "../lib/languages";
+import { LANGUAGES } from "@/lib/languages";
 
 export default function LanguageSelect({ language, setLanguage }) {
 

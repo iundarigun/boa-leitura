@@ -6,7 +6,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogDescription,
-  AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import { CheckCircle, XCircle, Info } from "lucide-react";
 

@@ -10,7 +10,7 @@ import java.time.LocalDate
 interface ReadingPort {
     fun createIfNotExists(request: ReadingRequest)
     fun find(
-        keyword: String?,
+        keyword: String? = null,
         dateFrom: LocalDate?,
         dateTo: LocalDate?,
         pageRequest: PageRequest

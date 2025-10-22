@@ -8,6 +8,7 @@ data class BookSummaryResponse(
     val author: String,
     val genre: String? = null,
     val saga: SagaResponse? = null,
+    val urlImage: String? = null,
     val urlImageSmall: String? = null,
     val createdAt: LocalDateTime,
     val read: Boolean = false,

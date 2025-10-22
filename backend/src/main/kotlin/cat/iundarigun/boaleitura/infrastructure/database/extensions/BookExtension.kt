@@ -18,6 +18,7 @@ fun BookEntity.toSummaryResponse(read: Boolean? = null) =
         author = this.author.name,
         genre = this.genre?.name,
         saga = this.saga?.toResponse(),
+        urlImage = this.urlImage,
         urlImageSmall = this.urlImageSmall,
         createdAt = this.createdAt,
         read = read ?: this.readings.isNotEmpty()

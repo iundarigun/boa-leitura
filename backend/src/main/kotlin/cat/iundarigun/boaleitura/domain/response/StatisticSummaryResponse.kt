@@ -19,5 +19,5 @@ data class StatisticRatingResponse(
 data class StatisticBookResponse(
     val id: Long,
     val title: String,
-    val urlImageSmall: String? = null,
+    val urlImage: String? = null,
 )

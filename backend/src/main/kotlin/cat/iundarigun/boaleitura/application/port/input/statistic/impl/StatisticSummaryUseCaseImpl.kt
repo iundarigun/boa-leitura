@@ -16,6 +16,7 @@ class StatisticSummaryUseCaseImpl(
     private val readingPort: ReadingPort,
     private val statisticPort: StatisticPort
 ) : StatisticSummaryUseCase {
+
     override fun execute(year: Int): StatisticSummaryResponse {
         val dateFrom = LocalDate.of(year, Month.JANUARY, 1)
         val dateTo = dateFrom.plusYears(1).minusDays(1)

@@ -1,6 +1,7 @@
 package cat.iundarigun.boaleitura.infrastructure.database
 
 import cat.iundarigun.boaleitura.application.port.output.StatisticPort
+import cat.iundarigun.boaleitura.domain.model.StatisticLanguage
 import cat.iundarigun.boaleitura.domain.model.StatisticSummary
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
@@ -43,5 +44,32 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                 rs.getDouble("worseRating"),
             )
         }.single()
+    }
+
+    override fun languageStatistics(dateFrom: LocalDate, dateTo: LocalDate): List<StatisticLanguage> {
+        val sql = """
+            SELECT 
+                CASE WHEN b.original_language = r.language THEN true ELSE false END as readInOriginalLanguage,
+                r.language as language,
+                count(*) as count
+            FROM book b
+            INNER JOIN reading r ON 
+                b.id = r.book_id
+            WHERE r.date_read >= :dateFrom AND 
+                  r.date_read <= :dateTo
+            GROUP BY readInOriginalLanguage, r.language """
+
+        val parameterSource = MapSqlParameterSource().apply {
+            addValue("dateFrom", dateFrom)
+            addValue("dateTo", dateTo)
+        }
+
+        return jdbcTemplate.query(sql, parameterSource) { rs, _ ->
+            StatisticLanguage(
+                rs.getBoolean("readInOriginalLanguage"),
+                rs.getString("language"),
+                rs.getInt("count")
+            )
+        }.toList()
     }
 }

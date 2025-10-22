@@ -7,4 +7,8 @@ export async function getSummary(year) {
   return {data, error};
 }
 
+export async function getLanguage(year) {
+  const { data, error } = await apiCall(() => api.get(`${API_URL}/language/${year}`));
+  return {data, error};
+}
 

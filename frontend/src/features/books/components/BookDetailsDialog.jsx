@@ -164,11 +164,9 @@ export default function BookDetailsDialog({ open, onClose, bookId, onDelete }) {
         }
 
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
-          <AlertDialogCancel asChild>
-            <Button variant="outline" onClick={() => handleNewReading(book)}>
-              New reading
-            </Button>
-          </AlertDialogCancel>
+          <Button variant="outline" size="sm"  onClick={() => handleNewReading(book)}>
+            New reading
+          </Button>
           <TableActionButtons
             entity={book}
             onEdit={handleEdit}

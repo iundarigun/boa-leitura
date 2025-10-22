@@ -103,7 +103,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 ## Frontend
 
 ### Generic
-[ ] Reorganize Frontend (pages, components)
+[X] Reorganize Frontend (pages, components)
 [ ] Dockerize app
 
 ### Menu

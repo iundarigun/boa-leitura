@@ -72,6 +72,7 @@ export default function useBooks() {
     } else {
       fetchBooks();
       showSuccess(`Book "${book.title}" deleted.`);
+      setBookDetailsOpen(false);
     }
   };
 

@@ -1,43 +1,44 @@
 import {useEffect, useState} from "react";
 import {useDialog} from "@/context/DialogContext.jsx";
-import {deleteBook, getBooks} from "@/lib/api/books.js";
+import {deleteReading, getReadings} from "@/lib/api/readings.js";
 
-export default function useBooks() {
-  const [books, setBooks] = useState({"content": []});
+export default function useReadings() {
+  const [readings, setReadings] = useState({"content": []});
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
-  const [filterRead, setFilterRead] = useState("both");
-  const [sortField, setSortField] = useState("CREATED_AT");
+
+  const [filterKeyword, setFilterKeyword] = useState("");
+  const [filterDateFrom, setFilterDateFrom] = useState(null);
+  const [filterDateTo, setFilterDateTo] = useState(null);
+  const [sortField, setSortField] = useState("DATE_READ");
   const [sortDir, setSortDir] = useState("desc");
   const [searchApplied, setSearchApplied] = useState("");
-  const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
-  const [selectedBook, setSelectedBook] = useState(null);
 
   const { showError, showSuccess } = useDialog();
 
-
   useEffect(() => {
-    fetchBooks();
+    fetchReadings();
   }, [page, sortField, sortDir, searchApplied]);
 
-  const fetchBooks = async () => {
+
+  const fetchReadings = async () => {
     setLoading(true);
     setSearchApplied("");
-
-    const {data, error} = await getBooks({
+    const {data, error} = await getReadings({
       page: page,
-      title: search,
-      filterRead: filterRead,
+      filterKeyword: filterKeyword,
+      filterDateTo: filterDateTo,
+      filterDateFrom: filterDateFrom,
       sortField: sortField,
       sortDir: sortDir
-    });
-    if(error) {
+    })
+
+    if (error) {
       showError(error);
     }
     if (data) {
-      setBooks(data.content);
+      setReadings(data.content);
       setPage(data.page);
       setTotalPages(data.totalPages);
     }
@@ -58,41 +59,37 @@ export default function useBooks() {
     }
   };
 
-  const handleView = async (bookId) => {
-    setSelectedBook(bookId);
-    setBookDetailsOpen(true);
+  const handleEdit = (reading) => {
+    window.location.href = `/readings/${reading.id}/edit`;
   };
 
-
-  const handleDelete = async (book) => {
-    const {error} = await deleteBook(book.id);
+  const handleDelete = async (reading) => {
+    const {error} = await deleteReading(reading.id);
     if (error) {
       showError(error);
-    } else {
-      fetchBooks();
-      showSuccess(`Book "${book.title}" deleted.`);
-      setBookDetailsOpen(false);
+      return;
     }
+    showSuccess(`Reading of "${reading.book.title}" on ${reading.dateRead} deleted.`);
+    fetchReadings();
   };
 
   return {
-    books,
+    readings,
     loading,
     page,
     setPage,
     totalPages,
-    filterRead,
-    setFilterRead,
-    search,
-    setSearch,
+    filterKeyword,
+    setFilterKeyword,
+    filterDateTo,
+    setFilterDateTo,
+    filterDateFrom,
+    setFilterDateFrom,
     sortField,
     sortDir,
-    bookDetailsOpen,
-    setBookDetailsOpen,
-    selectedBook,
     handleSearch,
     handleDelete,
     handleSort,
-    handleView
+    handleEdit
   }
 }

@@ -154,7 +154,7 @@ export default function BookDetailsDialog({ open, onClose, bookId, onDelete }) {
                    <td className="p-3">{getReadingPlatformsDisplay(reading.platform)}</td>
                    <td className="p-3">{reading.dateRead}</td>
                    <td className="p-3 text-center">
-                     <a href={`/readings/${reading.id}/edit`} className="cursor-pointer">✍️</a>
+                     <a href={`/readings/${reading.id}/edit`} className="cursor-pointer">✏️</a>
                    </td>
                  </tr>
                ))}

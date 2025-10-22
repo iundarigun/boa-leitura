@@ -1,22 +1,22 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import {useState} from "react";
+import {Button} from "@/components/ui/button";
 import {
   AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 
-import { getLanguageDisplay } from "@/lib/languages.js";
-import BookDetailsDialog from "../../features/books/components/BookDetailsDialog";
-import SagaDetailsDialog from "../../features/sagas/components/SagaDetailsDialog";
-import { useDialog } from "../../context/DialogContext";
-import StarRating from "../StarRating";
+import {getLanguageDisplay} from "@/lib/languages.js";
+import BookDetailsDialog from "@/features/books/components/BookDetailsDialog";
+import SagaDetailsDialog from "@/features/sagas/components/SagaDetailsDialog";
+import StarRating from "@/components/StarRating";
+import SortableColumns from "@/components/SortableColumn.jsx";
 
 export default function ReadingTable({ readings, loading, onEdit, onDelete, sortField, sortDir, onSort }) {
   const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
@@ -24,13 +24,6 @@ export default function ReadingTable({ readings, loading, onEdit, onDelete, sort
   const [sagaDetailsOpen, setSagaDetailsOpen] = useState(false);
   const [selectedSaga, setSelectedSaga] = useState(null);
   
-  const { showError, showSuccess } = useDialog();
-
-  const SortIcon = ({ field }) => {
-    if (sortField !== field) return null;
-    return sortDir === "asc" ? "▲" : "▼";
-  };
-
   const handleBookView = (bookId) => {
     setSelectedBook(bookId);
     setBookDetailsOpen(true);
@@ -48,27 +41,51 @@ export default function ReadingTable({ readings, loading, onEdit, onDelete, sort
           <thead className="bg-gray-100">
             <tr>
               <th className="p-3 w-16">Cover</th>
-              <th className="p-3 cursor-pointer" onClick={() => onSort("TITLE")}>
-                Title <SortIcon field="TITLE" />
-              </th>
-              <th className="p-3 cursor-pointer" onClick={() => onSort("AUTHOR")}>
-                Author <SortIcon field="AUTHOR" />
-              </th>
-              <th className="p-3 cursor-pointer" onClick={() => onSort("SAGA")}>
-                Saga <SortIcon field="SAGA" />
-              </th>
-              <th className="p-3 cursor-pointer" onClick={() => onSort("GENRE")}>
-                Genre <SortIcon field="GENRE" />
-              </th>
-              <th className="p-3 cursor-pointer" onClick={() => onSort("MY_RATING")}>
-                My Rating <SortIcon field="MY_RATING" />
-              </th>
+              <SortableColumns
+                onSort={onSort}
+                sortField={sortField}
+                sortDir={sortDir}
+                label="Title"
+                orderFieldName="TITLE"
+              />
+              <SortableColumns
+                onSort={onSort}
+                sortField={sortField}
+                sortDir={sortDir}
+                label="Author"
+                orderFieldName="AUTHOR"
+              />
+              <SortableColumns
+                onSort={onSort}
+                sortField={sortField}
+                sortDir={sortDir}
+                label="Saga"
+                orderFieldName="SAGA"
+              />
+              <SortableColumns
+                onSort={onSort}
+                sortField={sortField}
+                sortDir={sortDir}
+                label="Genre"
+                orderFieldName="GENRE"
+              />
+              <SortableColumns
+                onSort={onSort}
+                sortField={sortField}
+                sortDir={sortDir}
+                label="My rating"
+                orderFieldName="MY_RATING"
+              />
               <th className="p-3 cursor-pointer">
                 Reading language 
               </th>
-              <th className="p-3 cursor-pointer" onClick={() => onSort("DATE_READ")}>
-                Date Read <SortIcon field="DATE_READ" />
-              </th>
+              <SortableColumns
+                onSort={onSort}
+                sortField={sortField}
+                sortDir={sortDir}
+                label="Date Read"
+                orderFieldName="DATE_READ"
+              />
               <th></th>
             </tr>
           </thead>

@@ -1,22 +1,14 @@
-import { useEffect, useState } from "react";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import {useEffect, useState} from "react";
+import {Label} from "@/components/ui/label";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
+import {Button} from "@/components/ui/button";
 
-import { format as dateFormat } from "date-fns";
-
-import { useDialog } from "@/context/DialogContext";
-import LanguageSelect from "../LanguageSelect";
-import DatePicker from "../DatePicker";
-import StarRatingInput from "../StarRatingInput";
-import { READING_PLATFORMS } from "../../lib/platform";
-import { READING_FORMATS } from "../../lib/format";
+import {format as dateFormat} from "date-fns";
+import LanguageSelect from "@/components/LanguageSelect";
+import DatePicker from "@/components/DatePicker";
+import StarRatingInput from "@/components/StarRatingInput";
+import {READING_PLATFORMS} from "@/lib/platform";
+import {READING_FORMATS} from "@/lib/format";
 
 export default function ReadingForm({ editingReading = null, onSubmit, onCancel, loading = false }) {
   const [myRating, setMyRating] = useState("");
@@ -26,8 +18,6 @@ export default function ReadingForm({ editingReading = null, onSubmit, onCancel,
   const [dateRead, setDateRead] = useState(null);
   const [bookId, setBookId] = useState(null);
   const [book, setBook] = useState(null);
-
-  const { showError, showSuccess } = useDialog();
 
   useEffect(() => {
     if (editingReading) {
@@ -43,6 +33,21 @@ export default function ReadingForm({ editingReading = null, onSubmit, onCancel,
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!dateRead) {
+      onSubmit && onSubmit(null, { validationError: "Date read is required" });
+      return;
+    }
+
+    if (!language || !language.trim()) {
+      onSubmit && onSubmit(null, { validationError: "Language is required" });
+      return;
+    }
+
+    if (!myRating) {
+      onSubmit && onSubmit(null, { validationError: "Rating is required" });
+      return;
+    }
 
     const payload = {
       bookId: bookId,

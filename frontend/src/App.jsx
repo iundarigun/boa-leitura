@@ -9,8 +9,8 @@ import SagasListPage from "./features/sagas/pages/SagasListPage";
 import SagaFormPage from "./features/sagas/pages/SagaFormPage";
 import BooksListPage from "./features/books/pages/BookListPage";
 import BookFormPage from "./features/books/pages/BookFormPage";
-import ReadingsListPage from "./pages/readings/ReadingsListPage";
-import ReadingFormPage from "./pages/readings/ReadingFormPage";
+import ReadingsListPage from "./features/reading/pages/ReadingsListPage";
+import ReadingFormPage from "./features/reading/pages/ReadingFormPage";
 
 function App() {
   return (

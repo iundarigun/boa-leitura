@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDialog} from "@/context/DialogContext.jsx";
 import {getSummary} from "@/lib/api/statistics.js";
 
@@ -8,6 +8,10 @@ export default function useStatisticsSummary(currentYear) {
   const [loading, setLoading] = useState(false);
 
   const { showError } = useDialog();
+
+  useEffect(() => {
+    fetchStatistics();
+  }, []);
 
   const fetchStatistics = async () => {
     setLoading(true);

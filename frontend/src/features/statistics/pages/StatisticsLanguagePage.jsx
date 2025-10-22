@@ -1,15 +1,8 @@
-import PieChartCard from "@/components/PieChartCard";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import {Card, CardHeader, CardTitle} from "@/components/ui/card";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
+import {Button} from "@/components/ui/button";
 import useStatisticsLanguage from "@/features/statistics/hooks/useStatisticsLanguage.js";
-import {getLanguageDisplay} from "@/lib/languages.js";
+import StatisticsLanguageList from "@/features/statistics/components/StatisticsLanguageList.jsx";
 
 export default function StatsLanguagePage() {
   const currentYear = new Date().getFullYear();
@@ -53,47 +46,8 @@ export default function StatsLanguagePage() {
         {!stats ? (
           <p className="text-center text-gray-500 mt-6">Select a year</p>
         ) : (
-          <div className="mt-6 grid gap-6 grid-cols-1 md:grid-cols-2">
-            <PieChartCard
-              title="Total by Language"
-              data={Object.entries(stats.totalByLanguage).map(([k, v]) => ({
-                name: k.toUpperCase(),
-                value: v,
-                label: getLanguageDisplay(k)
-              }))}
-            />
-
-            <PieChartCard
-              title="Original vs Translated"
-              data={Object.entries(stats.originalPerTranslated).map(
-                ([k, v]) => ({
-                  name: k,
-                  value: v,
-                  label: k
-                })
-              )}
-            />
-
-            <PieChartCard
-              title="Translated books by language"
-              data={Object.entries(stats.totalByTranslated).map(
-                ([k, v]) => ({
-                  name: k.toUpperCase(),
-                  value: v,
-                  label: getLanguageDisplay(k)
-                })
-              )}
-            />
-
-            <PieChartCard
-              title="Original books by language"
-              data={Object.entries(stats.totalByOriginal).map(([k, v]) => ({
-                name: k.toUpperCase(),
-                value: v,
-                label: getLanguageDisplay(k)
-              }))}
-            />
-          </div>
+          <StatisticsLanguageList
+            stats={stats}/>
         )}
       </Card>
     </div>

@@ -30,26 +30,26 @@ export default function StatisticsSummaryPage() {
       <Card className="w-full max-w-5xl mx-auto p-8 space-y-6">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-2xl">📊 Reading Summary</CardTitle>
+
+          <div className="flex gap-3 items-center">
+            <Select value={year} onValueChange={setYear}>
+              <SelectTrigger className="w-40">
+                <SelectValue placeholder="Select year" />
+              </SelectTrigger>
+              <SelectContent>
+                {years.map((y) => (
+                  <SelectItem key={y} value={y}>
+                    {y}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Button onClick={fetchStatistics} disabled={loading}>
+              {loading ? "Loading..." : "Load"}
+            </Button>
+          </div>
         </CardHeader>
-
-        <div className="flex gap-3 items-center">
-          <Select value={year} onValueChange={setYear}>
-            <SelectTrigger className="w-40">
-              <SelectValue placeholder="Select year" />
-            </SelectTrigger>
-            <SelectContent>
-              {years.map((y) => (
-                <SelectItem key={y} value={y}>
-                  {y}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          <Button onClick={fetchStatistics} disabled={loading}>
-            {loading ? "Loading..." : "Load"}
-          </Button>
-        </div>
 
         {stats && (
           <CardContent className="space-y-8">

@@ -1,13 +1,11 @@
-import { useNavigate } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import SagaTable from "../components/SagaTable";
+import {useNavigate} from "react-router-dom";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label";
+import {Button} from "@/components/ui/button";
 import Pagination from "@/components/Pagination";
+import SagaTable from "@/features/sagas/components/SagaTable";
 import useSagas from "@/features/sagas/hooks/useSagas.js";
-
-const API_URL = "/sagas";
 
 export default function SagasListPage() {
   const {
@@ -35,7 +33,6 @@ export default function SagasListPage() {
           <Button onClick={() => navigate("/sagas/new")}>+ New saga</Button>
         </CardHeader>
 
-        {/* 🔍 Pesquisa */}
         <div className="flex items-center gap-2 mb-4">
           <Label htmlFor="search" className="text-sm font-medium">
             Name
@@ -51,7 +48,6 @@ export default function SagasListPage() {
           <Button onClick={handleSearch}>Search</Button>
         </div>
 
-        {/* 📖 Paginação topo */}
         <Pagination page={page} setPage={setPage} totalPages={totalPages} />
 
         <CardContent>

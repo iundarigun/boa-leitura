@@ -1,6 +1,6 @@
-import {Card, CardHeader, CardTitle, CardContent} from "@/components/ui/card";
-import GenreForm from "../components/GenreForm";
-import useGenreForm from "../hooks/useGenreForm.js";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import GenreForm from "@/features/genres/components/GenreForm";
+import useGenreForm from "@/features/genres/hooks/useGenreForm.js";
 
 export default function GenreFormPage() {
   const {

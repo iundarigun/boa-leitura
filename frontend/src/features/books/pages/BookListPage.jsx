@@ -1,17 +1,11 @@
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
+import {useNavigate} from "react-router-dom";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {Card, CardHeader, CardTitle} from "@/components/ui/card";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
 import Pagination from "@/components/Pagination";
-import BookTable from "../components/BookTable";
-import BookDetailsDialog from "../components/BookDetailsDialog";
+import BookTable from "@/features/books/components/BookTable";
+import BookDetailsDialog from "@/features/books/components/BookDetailsDialog";
 import useBooks from "@/features/books/hooks/useBooks.js";
 
 
@@ -47,31 +41,31 @@ export default function BooksListPage() {
           <Button onClick={() => navigate("/books/new")}>+ New Book</Button>
         </CardHeader>
         <div className="flex flex-wrap gap-3 items-center">
-        <Input
-          placeholder="Search by title..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          className="w-64"
-        />
-        <Select value={filterRead} onValueChange={setFilterRead}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="both">Both</SelectItem>
-            <SelectItem value="read">Read</SelectItem>
-            <SelectItem value="non-read">Non-read</SelectItem>
-          </SelectContent>
-        </Select>
-        <Button onClick={handleSearch}>Search</Button>
+          <Input
+            placeholder="Search by title..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            className="w-64"
+          />
+          <Select value={filterRead} onValueChange={setFilterRead}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Filter by status"/>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="both">Both</SelectItem>
+              <SelectItem value="read">Read</SelectItem>
+              <SelectItem value="non-read">Non-read</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button onClick={handleSearch}>Search</Button>
         </div>
 
         <Pagination
           page={page}
           setPage={setPage}
           totalPages={totalPages}
-          />
+        />
 
         <BookTable
           books={books}
@@ -86,8 +80,8 @@ export default function BooksListPage() {
           page={page}
           setPage={setPage}
           totalPages={totalPages}
-          />
-        
+        />
+
         <BookDetailsDialog
           open={bookDetailsOpen}
           onClose={setBookDetailsOpen}

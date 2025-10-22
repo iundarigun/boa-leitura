@@ -34,23 +34,23 @@ export default function ReadingsListPage() {
           <CardTitle className="text-3xl">📖 Readings</CardTitle>
         </CardHeader>
         <div className="flex flex-wrap gap-3 items-center">
-        <Input
-          placeholder="Search by keyword..."
-          value={filterKeyword}
-          onChange={(e) => setFilterKeyword(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          className="w-64"
-        />
-        <p>From:</p><DatePicker date={filterDateFrom} setDate={setFilterDateFrom} />
-        <p>To:</p><DatePicker date={filterDateTo} setDate={setFilterDateTo} />
-        <Button onClick={handleSearch}>Search</Button>
+          <Input
+            placeholder="Search by keyword..."
+            value={filterKeyword}
+            onChange={(e) => setFilterKeyword(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            className="w-64"
+          />
+          <p>From:</p><DatePicker date={filterDateFrom} setDate={setFilterDateFrom}/>
+          <p>To:</p><DatePicker date={filterDateTo} setDate={setFilterDateTo}/>
+          <Button onClick={handleSearch}>Search</Button>
         </div>
 
         <Pagination
           page={page}
           setPage={setPage}
           totalPages={totalPages}
-          />
+        />
 
         <ReadingTable
           readings={readings}
@@ -66,7 +66,7 @@ export default function ReadingsListPage() {
           page={page}
           setPage={setPage}
           totalPages={totalPages}
-          />
+        />
       </Card>
     </div>
   );

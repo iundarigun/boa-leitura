@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import SagaTable from "./SagaTable";
+import {useState} from "react";
+import {Button} from "@/components/ui/button";
+import {Label} from "@/components/ui/label";
+import {Input} from "@/components/ui/input";
+import SagaTable from "@/features/sagas/components/SagaTable";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import useSagas from "@/features/sagas/hooks/useSagas.js";
 
-export default function SelectSagaButton({ selectedSaga, onSelect }) {
+export default function SelectSagaButton({selectedSaga, onSelect}) {
   const [open, setOpen] = useState(false);
   const {
     loading,

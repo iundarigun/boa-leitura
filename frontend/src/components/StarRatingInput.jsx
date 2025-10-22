@@ -32,7 +32,6 @@ export default function StarRatingInput({ value = 0, max = 5, size = 24, onChang
         onClick={() => handleClick(half ? index - 0.5 : index)}
         style={{ width: size, height: size }}
       >
-        {/* Fundo (estrela vazia) */}
         <Star
           size={size}
           stroke="gray"

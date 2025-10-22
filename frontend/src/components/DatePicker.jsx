@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -29,7 +28,7 @@ export default function DatePicker({ label, date, setDate }) {
             onSelect={setDate}
             initialFocus
           />
-          <div class="border text-center overflow-hidden shadow-sm cursor-pointer" onClick={() => setDate("")}>
+          <div className="border text-center overflow-hidden shadow-sm cursor-pointer" onClick={() => setDate("")}>
             clear
           </div>
         </PopoverContent>

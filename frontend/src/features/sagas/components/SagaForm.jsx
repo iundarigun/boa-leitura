@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SagaDetails } from "./SagaDetailsDialog";
+import { SagaDetails } from "@/features/sagas/components/SagaDetailsDialog";
 
 export default function SagaForm({ onSubmit, editingSaga, onCancel, loading }) {
   const [name, setName] = useState(null);

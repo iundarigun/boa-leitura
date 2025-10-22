@@ -2,7 +2,6 @@ import {useState} from "react";
 import {Button} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
-import AuthorTable from "./AuthorTable";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -11,6 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import AuthorTable from "@/features/authors/components/AuthorTable";
 import useAuthors from "@/features/authors/hooks/useAuthors.js";
 
 export default function SelectAuthorButton({selectedAuthor, onSelect}) {

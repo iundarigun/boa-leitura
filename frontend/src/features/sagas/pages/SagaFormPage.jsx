@@ -1,5 +1,5 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import SagaForm from "../components/SagaForm";
+import SagaForm from "@/features/sagas/components/SagaForm";
 import useSagaForm from "@/features/sagas/hooks/useSagaForm.js";
 
 export default function SagaFormPage() {
@@ -24,12 +24,12 @@ export default function SagaFormPage() {
           {loading ? (
             <p className="text-center text-gray-500">Loading saga...</p>
           ) : (
-          <SagaForm
-            onSubmit={handleSubmit}
-            editingSaga={initialData}
-            onCancel={handleCancel}
-            loading={saving}
-          />
+            <SagaForm
+              onSubmit={handleSubmit}
+              editingSaga={initialData}
+              onCancel={handleCancel}
+              loading={saving}
+            />
           )}
         </CardContent>
       </Card>

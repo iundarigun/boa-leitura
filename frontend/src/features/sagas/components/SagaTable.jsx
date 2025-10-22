@@ -1,5 +1,5 @@
 import {useState} from "react";
-import SagaDetailsDialog from "./SagaDetailsDialog";
+import SagaDetailsDialog from "@/features/sagas/components/SagaDetailsDialog";
 import SortableColumns from "@/components/SortableColumn.jsx";
 import TableActionButtons from "@/components/TableActionButtons.jsx";
 

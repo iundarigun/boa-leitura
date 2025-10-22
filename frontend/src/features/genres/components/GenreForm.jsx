@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import {useEffect, useState} from "react";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,9 +11,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import GenreList from "./GenreList";
+import GenreList from "@/features/genres/components/GenreList";
 
-export default function GenreForm({ onSubmit, editingGenre, onCancel, allGenres, loading }) {
+export default function GenreForm({onSubmit, editingGenre, onCancel, allGenres, loading}) {
   const [name, setName] = useState(null);
   const [parent, setParent] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -28,13 +28,13 @@ export default function GenreForm({ onSubmit, editingGenre, onCancel, allGenres,
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !name.trim()) {
-      onSubmit(null, { validationError: "Name is required." });
+      onSubmit(null, {validationError: "Name is required."});
       return;
     }
     onSubmit({
       name,
       parentGenreId: parent ? parent.id : null,
-     });
+    });
   };
 
   return (
@@ -65,13 +65,13 @@ export default function GenreForm({ onSubmit, editingGenre, onCancel, allGenres,
                 <AlertDialogTitle>Select Parent Genre</AlertDialogTitle>
               </AlertDialogHeader>
               <div className="space-y-2 max-h-64 overflow-y-auto">
-              <GenreList
-                genres={allGenres}
-                onSelect={(g) => {
-                  setParent(g);
-                  setDialogOpen(false);
-                }}
-              />
+                <GenreList
+                  genres={allGenres}
+                  onSelect={(g) => {
+                    setParent(g);
+                    setDialogOpen(false);
+                  }}
+                />
               </div>
               <div className="pt-2">
                 <AlertDialogFooter>
@@ -93,7 +93,7 @@ export default function GenreForm({ onSubmit, editingGenre, onCancel, allGenres,
       </div>
       <div className="flex gap-2">
         <Button type="submit" disabled={loading}>
-          {loading ? "Saving..." : (editingGenre ? "Save" : "Add") }
+          {loading ? "Saving..." : (editingGenre ? "Save" : "Add")}
         </Button>
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancel

@@ -1,16 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Layout from "./components/Layout";
-import AuthorsListPage from "./features/authors/pages/AuthorsListPage";
-import AuthorFormPage from "./features/authors/pages/AuthorFormPage";
-import GenresListPage from "./features/genres/pages/GenresListPage";
-import GenreFormPage from "./features/genres/pages/GenreFormPage";
-import SagasListPage from "./features/sagas/pages/SagasListPage";
-import SagaFormPage from "./features/sagas/pages/SagaFormPage";
-import BooksListPage from "./features/books/pages/BookListPage";
-import BookFormPage from "./features/books/pages/BookFormPage";
-import ReadingsListPage from "./features/reading/pages/ReadingsListPage";
-import ReadingFormPage from "./features/reading/pages/ReadingFormPage";
+import Layout from "@/components/Layout";
+import AuthorsListPage from "@/features/authors/pages/AuthorsListPage";
+import AuthorFormPage from "@/features/authors/pages/AuthorFormPage";
+import GenresListPage from "@/features/genres/pages/GenresListPage";
+import GenreFormPage from "@/features/genres/pages/GenreFormPage";
+import SagasListPage from "@/features/sagas/pages/SagasListPage";
+import SagaFormPage from "@/features/sagas/pages/SagaFormPage";
+import BooksListPage from "@/features/books/pages/BookListPage";
+import BookFormPage from "@/features/books/pages/BookFormPage";
+import ReadingsListPage from "@/features/reading/pages/ReadingsListPage";
+import ReadingFormPage from "@/features/reading/pages/ReadingFormPage";
 
 function App() {
   return (

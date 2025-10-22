@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import GenreList from "../components/GenreList";
+import {useNavigate} from "react-router-dom";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
 import Pagination from "@/components/Pagination";
+import GenreList from "@/features/genres/components/GenreList";
 import useGenres from "@/features/genres/hooks/useGenres.js";
 
 
@@ -28,7 +28,7 @@ export default function GenresListPage() {
           page={page}
           setPage={setPage}
           totalPages={totalPages}
-          />
+        />
         <CardContent>
           {loading ? (
             <p className="text-center text-gray-500">Loading genres...</p>
@@ -44,8 +44,8 @@ export default function GenresListPage() {
           page={page}
           setPage={setPage}
           totalPages={totalPages}
-          />
-      </Card>      
+        />
+      </Card>
     </div>
   );
 }

@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import AuthorTable from "../components/AuthorTable";
+import {useNavigate} from "react-router-dom";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label";
+import {Button} from "@/components/ui/button";
+import AuthorTable from "@/features/authors/components/AuthorTable";
 import Pagination from "@/components/Pagination";
 import useAuthors from "@/features/authors/hooks/useAuthors.js";
 
@@ -46,7 +46,7 @@ export default function AuthorsListPage() {
           <Button onClick={handleSearch}>Search</Button>
         </div>
 
-        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+        <Pagination page={page} setPage={setPage} totalPages={totalPages}/>
 
         <CardContent>
           {loading ? (
@@ -63,7 +63,7 @@ export default function AuthorsListPage() {
           )}
         </CardContent>
 
-        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+        <Pagination page={page} setPage={setPage} totalPages={totalPages}/>
       </Card>
     </div>
   );

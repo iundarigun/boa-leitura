@@ -1,16 +1,16 @@
 import {
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogFooter,
-  AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 
 import useSagaDetails from "@/features/sagas/hooks/useSagaDetails.js";
 import {Card} from "@/components/ui/card.jsx";
 
-export function SagaDetails({ saga }) {
+export function SagaDetails({saga}) {
   if (!saga) return null;
 
   return (
@@ -36,12 +36,12 @@ export function SagaDetails({ saga }) {
   );
 }
 
-export default function SagasDetailsDialog({ open, onClose, sagaId }) {
+export default function SagasDetailsDialog({open, onClose, sagaId}) {
   const {
     saga,
     loading
   } = useSagaDetails(sagaId);
-  
+
   if (!open || !sagaId) return null;
 
   if (loading) {
@@ -67,7 +67,7 @@ export default function SagasDetailsDialog({ open, onClose, sagaId }) {
           <AlertDialogTitle>{saga.name}</AlertDialogTitle>
         </AlertDialogHeader>
 
-        <SagaDetails saga={saga} />
+        <SagaDetails saga={saga}/>
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
           <AlertDialogCancel>Close</AlertDialogCancel>
         </AlertDialogFooter>

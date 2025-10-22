@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Card } from "@/components/ui/card";
+import {useEffect, useState} from "react";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
+import {Label} from "@/components/ui/label";
+import {Checkbox} from "@/components/ui/checkbox";
+import {Card} from "@/components/ui/card";
 import {
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogFooter,
-  AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import ImagePreviewButton from "@/components/ImagePreview";
 import SelectGenreButton from "@/features/genres/components/SelectGenreButton";
@@ -19,7 +19,7 @@ import SelectSagaButton from "@/features/sagas/components/SelectSagaButton";
 import LanguageSelect from "@/components/LanguageSelect";
 import useBookInformation from "@/features/books/hooks/useBookInformation.js";
 
-export default function BookForm({ editingBook, onSubmit, onCancel, loading = false }) {
+export default function BookForm({editingBook, onSubmit, onCancel, loading = false}) {
   const [title, setTitle] = useState("");
   const [language, setLanguage] = useState("");
   const [numberOfPages, setNumberOfPages] = useState("");
@@ -66,7 +66,7 @@ export default function BookForm({ editingBook, onSubmit, onCancel, loading = fa
 
 
   const handleByIsbn = async () => {
-    const { data } = await fetchByISBN(isbn);
+    const {data} = await fetchByISBN(isbn);
     if (data && data.length > 0) {
       const book = data[0];
       setTitle(book.title || "");
@@ -102,7 +102,7 @@ export default function BookForm({ editingBook, onSubmit, onCancel, loading = fa
     e.preventDefault();
 
     if (!title.trim()) {
-      onSubmit && onSubmit(null, { validationError: "Title is required" });
+      onSubmit && onSubmit(null, {validationError: "Title is required"});
       return;
     }
 
@@ -122,7 +122,7 @@ export default function BookForm({ editingBook, onSubmit, onCancel, loading = fa
       authorId: author?.id || null,
       saga: saga?.id ? {
         id: saga?.id,
-        order: sagaOrder  === "" ? null : Number(sagaOrder),
+        order: sagaOrder === "" ? null : Number(sagaOrder),
         mainTitle: sagaMainTitle || null,
       } : null,
     };

@@ -1,10 +1,23 @@
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 export default function Layout() {
   const location = useLocation();
   const [openStats, setOpenStats] = useState(false);
+  const statsRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (statsRef.current && !statsRef.current.contains(e.target)) {
+        setOpenStats(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleNavClick = () => setOpenStats(false);
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -43,29 +56,31 @@ export default function Layout() {
             >
               <Link to="/readings">Readings</Link>
             </Button>
-            <div className="relative">
+            <div className="relative" ref={statsRef}>
               <Button
                 variant={location.pathname.startsWith("/statistics") ? "default" : "outline"}
-                onClick={() => setOpenStats(!openStats)}
+                onClick={() => setOpenStats((o) => !o)}
               >
                 Statistics ▾
               </Button>
+
               {openStats && (
                 <div className="absolute top-full mt-1 right-0 bg-white border rounded shadow-md z-50 w-48">
                   <Link
                     to="/statistics/summary"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                    onClick={() => setOpenStats(false)}
+                    className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={handleNavClick}
                   >
                     Summary
                   </Link>
                   <Link
                     to="/statistics/language"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                    onClick={() => setOpenStats(false)}
+                    className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={handleNavClick}
                   >
                     Language
                   </Link>
+                  {/** Adicione mais opções aqui */}
                 </div>
               )}
             </div>
@@ -74,7 +89,7 @@ export default function Layout() {
       </header>
 
       <main className="flex-1 p-6">
-        <Outlet />
+        <Outlet/>
       </main>
     </div>
   );

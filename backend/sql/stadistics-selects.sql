@@ -48,26 +48,37 @@ group by r.language;
 /***************************/
 /***************************/
 /* FEMALE / MALE */
-select date_part('year', date_read), a.gender, count(*)
-from book b
-         inner join author a on a.id = b.author_id
-         inner join reading r on b.id = r.book_id
-where date_part('year', date_read) >= 2023
-group by date_part('year', date_read), a.gender
-order by 1;
-
-/* Total */
-select a.name, count(*)
+select a.gender, count(*)
 from book b
          inner join author a on a.id = b.author_id
          inner join reading r on b.id = r.book_id
 where date_part('year', date_read) = 2025
-group by a.name
-order by 2 desc limit 5;
+group by a.gender
+order by 1;
+
+/* Total */
+select name,
+       case when id not in (select a1.id
+                            from author a1
+                                     inner join book b1 on b1.author_id = a1.id
+                                     inner join public.reading r1 on b1.id = r1.book_id
+                            where date_part('year', date_read) < 2025)
+                then true else false end as newAuthor,
+       count
+from (
+         select a.id,
+                a.name,
+                count(*) as count
+         from reading r
+                  inner join book b on b.id = r.book_id
+                  inner join author a on a.id = b.author_id
+         where date_part('year', date_read) = 2025
+         group by a.name, a.id) tmp
+order by count desc ;
 
 
 /*New authors*/
-select count (distinct a.name)
+select a.name,count(*)
 from book b
      inner join author a on a.id = b.author_id
      inner join reading r on b.id = r.book_id
@@ -76,7 +87,8 @@ where date_part('year', date_read) = 2025
        from author a1
         inner join book b1 on b1.author_id = a1.id
         inner join public.reading r1 on b1.id = r1.book_id
-       where date_part('year', date_read) < 2025);
+       where date_part('year', date_read) < 2025)
+group by a.name;
 
 
 /***************************/

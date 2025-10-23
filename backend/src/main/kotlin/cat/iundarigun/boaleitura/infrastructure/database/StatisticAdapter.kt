@@ -1,6 +1,8 @@
 package cat.iundarigun.boaleitura.infrastructure.database
 
 import cat.iundarigun.boaleitura.application.port.output.StatisticPort
+import cat.iundarigun.boaleitura.domain.model.StatisticAuthor
+import cat.iundarigun.boaleitura.domain.model.StatisticAuthorCount
 import cat.iundarigun.boaleitura.domain.model.StatisticLanguage
 import cat.iundarigun.boaleitura.domain.model.StatisticSummary
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
@@ -29,11 +31,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
             WHERE current_reading.date_read >= :dateFrom AND 
                   current_reading.date_read <= :dateTo """
 
-        val parameterSource = MapSqlParameterSource().apply {
-            addValue("dateFrom", dateFrom)
-            addValue("dateTo", dateTo)
-        }
-        return jdbcTemplate.query(sql, parameterSource) { rs, _ ->
+        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
             StatisticSummary(
                 rs.getInt("amountOfTotalReading"),
                 rs.getInt("amountOfRereading"),
@@ -59,12 +57,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                   r.date_read <= :dateTo
             GROUP BY readInOriginalLanguage, r.language """
 
-        val parameterSource = MapSqlParameterSource().apply {
-            addValue("dateFrom", dateFrom)
-            addValue("dateTo", dateTo)
-        }
-
-        return jdbcTemplate.query(sql, parameterSource) { rs, _ ->
+        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
             StatisticLanguage(
                 rs.getBoolean("readInOriginalLanguage"),
                 rs.getString("language"),
@@ -72,4 +65,64 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
             )
         }.toList()
     }
+
+    override fun authorStatistics(dateFrom: LocalDate, dateTo: LocalDate): StatisticAuthor {
+        return StatisticAuthor(
+            authorGender = retrieveAuthorGender(dateFrom, dateTo),
+            authorCounts = retrieveAuthorCount(dateFrom, dateTo)
+        )
+    }
+
+    private fun retrieveAuthorGender(dateFrom: LocalDate, dateTo: LocalDate): Map<String, Int> {
+        val sql = """
+            SELECT a.gender as gender, count(*) as count FROM reading r
+            INNER JOIN book b ON 
+                b.id = r.book_id
+            INNER JOIN author a ON 
+                a.id = b.author_id
+            WHERE r.date_read >= :dateFrom AND 
+                  r.date_read <= :dateTo
+            GROUP BY a.gender
+            """
+        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
+            rs.getString("gender") to rs.getInt("count")
+        }.toMap()
+    }
+
+    private fun retrieveAuthorCount(dateFrom: LocalDate, dateTo: LocalDate): List<StatisticAuthorCount> {
+        val sql = """
+           SELECT tmp.name as name,
+                  CASE WHEN tmp.id NOT IN 
+                        (SELECT a1.id FROM reading r1
+                         INNER JOIN book b1 ON
+                            b1.id = r1.book_id
+                         INNER JOIN author a1 ON
+                            b1.author_id = a1.id
+                        WHERE r1.date_read < :dateFrom) THEN true 
+                     ELSE false end as newAuthor,
+                  tmp.count as count
+           FROM (SELECT a.id, a.name, count(*) as count
+                 FROM reading r
+                 INNER JOIN book b ON 
+                    b.id = r.book_id
+                 INNER JOIN author a ON 
+                    a.id = b.author_id
+                 WHERE r.date_read >= :dateFrom AND 
+                       r.date_read <= :dateTo
+           GROUP BY a.name, a.id) tmp
+           ORDER BY count DESC"""
+        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
+            StatisticAuthorCount(
+                rs.getString("name"),
+                rs.getBoolean("newAuthor"),
+                rs.getInt("count")
+            )
+        }.toList()
+    }
+
+    private fun parameterSource(dateFrom: LocalDate, dateTo: LocalDate): MapSqlParameterSource =
+        MapSqlParameterSource().apply {
+            addValue("dateFrom", dateFrom)
+            addValue("dateTo", dateTo)
+        }
 }

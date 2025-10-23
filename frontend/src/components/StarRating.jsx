@@ -13,5 +13,5 @@ export default function StarRating({ value, max = 5, size = 20 }) {
       }
     }
   }
-  return <div className="flex items-center gap-1">{stars}</div>;
+  return <span className="inline-flex items-center gap-1">{stars}</span>;
 }

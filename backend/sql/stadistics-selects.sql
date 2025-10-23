@@ -67,7 +67,7 @@ order by 2 desc limit 5;
 
 
 /*New authors*/
-select count(distinct a.name)
+select count (distinct a.name)
 from book b
      inner join author a on a.id = b.author_id
      inner join reading r on b.id = r.book_id

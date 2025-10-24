@@ -13,6 +13,7 @@ import ReadingsListPage from "@/features/reading/pages/ReadingsListPage";
 import ReadingFormPage from "@/features/reading/pages/ReadingFormPage";
 import StatisticsSummaryPage from "@/features/statistics/pages/StatisticsSummaryPage";
 import StatisticsLanguagePage from "@/features/statistics/pages/StatisticsLanguagePage";
+import StatisticsAuthorPage from "@/features/statistics/pages/StatisticsAuthorPage.jsx";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/readings/new/:bookId" element={<ReadingFormPage />} />
           <Route path="/statistics/summary" element={<StatisticsSummaryPage />} />
           <Route path="/statistics/language" element={<StatisticsLanguagePage />} />
+          <Route path="/statistics/author" element={<StatisticsAuthorPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

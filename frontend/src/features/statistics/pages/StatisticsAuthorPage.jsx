@@ -1,16 +1,10 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
-import useStatisticsSummary from "@/features/statistics/hooks/useStatisticsSummary.js";
-import StatisticsSummaryList from "@/features/statistics/components/StatisticsSummaryList.jsx";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
+import useStatisticsAuthor from "@/features/statistics/hooks/useStatisticsAuthor.js";
+import StatisticsAuthorList from "@/features/statistics/components/StatisticsAuthorList.jsx";
 
-export default function StatisticsSummaryPage() {
+export default function StatisticsAuthorPage() {
   const currentYear = new Date().getFullYear();
   const {
     year,
@@ -18,7 +12,7 @@ export default function StatisticsSummaryPage() {
     loading,
     stats,
     fetchStatistics
-  } = useStatisticsSummary(currentYear);
+  } = useStatisticsAuthor(currentYear);
 
   const years = Array.from({ length: currentYear - 1999 }, (_, i) =>
     (currentYear - i).toString()
@@ -28,7 +22,7 @@ export default function StatisticsSummaryPage() {
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
       <Card className="w-full max-w-5xl mx-auto p-8 space-y-6">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-2xl">📊 Reading Summary</CardTitle>
+          <CardTitle className="text-2xl">✍️ Author Statistics</CardTitle>
 
           <div className="flex gap-3 items-center">
             <Select value={year} onValueChange={setYear}>
@@ -52,7 +46,7 @@ export default function StatisticsSummaryPage() {
 
         {stats && (
           <CardContent className="space-y-8">
-            <StatisticsSummaryList
+            <StatisticsAuthorList
               stats={stats}/>
           </CardContent>
         )}

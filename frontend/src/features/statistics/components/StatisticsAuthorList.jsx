@@ -47,7 +47,7 @@ export default function StatisticsAuthorList({stats}) {
       <div className="space-y-6 mt-4">
         <p className="text-lg font-medium">
           Number of new authors this year:{" "}
-          <span className="font-bold text-primary">{stats.newAuthors.size}</span>
+          <span className="font-bold text-primary">{Object.entries(stats.newAuthors).length}</span>
         </p>
 
         <div className="border rounded-lg p-4 shadow-sm bg-white">

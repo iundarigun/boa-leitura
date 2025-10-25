@@ -97,18 +97,30 @@ group by a.name;
 /***************************/
 /***************************/
 select r.format, count(*)
-from book b
+from reading r
+         inner join book b on b.id = r.book_id
          inner join author a on a.id = b.author_id
-         inner join reading r on b.id = r.book_id
 where date_part('year', date_read) = 2025
 group by r.format;
 
-select r.platform, count(*)
-from book b
+select case when r.platform in ('BIBLIO', 'EBIBLIO', 'BIBLION') then 'public services'
+            when r.platform in ('UNLIMITED', 'AUDIBLE', 'BOOK_BEAT') then 'subscriptions'
+       else 'others' end as originType,
+       count(*)
+from reading r
+         inner join book b on b.id = r.book_id
          inner join author a on a.id = b.author_id
-         inner join reading r on b.id = r.book_id
+where date_part('year', date_read) = 2025
+group by originType;
+
+select r.platform, count(*)
+from reading r
+         inner join book b on b.id = r.book_id
+         inner join author a on a.id = b.author_id
 where date_part('year', date_read) = 2025
 group by r.platform;
+
+
 
 /***************************/
 /***************************/
@@ -120,17 +132,12 @@ select CASE
    WHEN b.number_of_pages >= 150 and b.number_of_pages <= 350 THEN 'entre 150 i 350 pàgines'
    WHEN b.number_of_pages > 350 and b.number_of_pages <= 500 THEN 'entre 350 i 500 pàgines'
    ELSE 'més de 500 pàgines'
-   END,
+   END as pages,
        count(*)
 from book b
          inner join reading r on b.id = r.book_id
 where date_part('year', date_read) = 2025
-group by CASE
-             WHEN b.number_of_pages < 150 THEN 'menys de 150 pàgines'
-             WHEN b.number_of_pages >= 150 and b.number_of_pages <= 350 THEN 'entre 150 i 350 pàgines'
-             WHEN b.number_of_pages > 350 and b.number_of_pages <= 500 THEN 'entre 350 i 500 pàgines'
-             ELSE 'més de 500 pàgines'
-             END;
+group by pages;
 
 /***************************/
 /***************************/

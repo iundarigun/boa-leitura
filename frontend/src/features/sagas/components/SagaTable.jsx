@@ -2,6 +2,7 @@ import {useState} from "react";
 import SagaDetailsDialog from "@/features/sagas/components/SagaDetailsDialog";
 import SortableColumns from "@/components/SortableColumn.jsx";
 import TableActionButtons from "@/components/TableActionButtons.jsx";
+import {getSagaStatusDisplay} from "@/lib/sagaStatus.js";
 
 export default function SagaTable(
   {
@@ -34,6 +35,14 @@ export default function SagaTable(
               label="Name"
               orderFieldName="NAME"
             />
+
+            <SortableColumns
+              onSort={onSort}
+              sortField={sortField}
+              sortDir={sortDir}
+              label="Status"
+              orderFieldName="STATUS"
+            />
             <th className="p-3 border border-gray-200 text-center">Main Titles</th>
             {!onSelect && (
               <>
@@ -48,6 +57,7 @@ export default function SagaTable(
           {sagas.content.map((saga) => (
               <tr key={saga.id} className="hover:bg-gray-50">
                 <td className="p-3 border border-gray-200">{saga.name}</td>
+                <td className="p-3 border border-gray-200 text-center">{getSagaStatusDisplay(saga.sagaStatus)}</td>
                 <td className="p-3 border border-gray-200 text-center">{saga.totalMainTitles ?? "-"}</td>
                 {!onSelect && (
                   <>

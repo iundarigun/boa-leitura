@@ -13,7 +13,7 @@ interface SagaRepository : JpaRepository<SagaEntity, Long>, JpaSpecificationExec
     @EntityGraph(attributePaths = ["statuses"])
     fun findByName(name: String): SagaEntity?
     fun existsByName(name: String): Boolean
-    @EntityGraph(attributePaths = ["books", "statuses"])
+    @EntityGraph(attributePaths = ["books"])
     fun findByIdOrderByBooksSagaOrder(id: Long): SagaEntity?
     @EntityGraph(attributePaths = ["statuses"])
     override fun findAll(@Nullable specification: Specification<SagaEntity>?, pageable: Pageable): Page<SagaEntity>

@@ -1,5 +1,6 @@
 package cat.iundarigun.boaleitura.application.port.output
 
+import cat.iundarigun.boaleitura.domain.enums.SagaStatusEnum
 import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.request.SagaRequest
 import cat.iundarigun.boaleitura.domain.response.PageResponse
@@ -15,4 +16,5 @@ interface SagaPort {
 
     fun save(request: SagaRequest, id: Long? = null): SagaResponse
     fun delete(id: Long)
+    fun updateSagaStatus(id: Long, status: SagaStatusEnum): SagaResponse
 }

@@ -1,11 +1,13 @@
 package cat.iundarigun.boaleitura.infrastructure.database
 
 import cat.iundarigun.boaleitura.application.port.output.SagaPort
+import cat.iundarigun.boaleitura.domain.enums.SagaStatusEnum
 import cat.iundarigun.boaleitura.domain.request.PageRequest
 import cat.iundarigun.boaleitura.domain.request.SagaRequest
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.domain.response.SagaResponse
 import cat.iundarigun.boaleitura.exception.SagaNotFoundException
+import cat.iundarigun.boaleitura.infrastructure.database.entity.SagaStatusEntity
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.merge
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toEntity
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toPageResponse
@@ -13,6 +15,7 @@ import cat.iundarigun.boaleitura.infrastructure.database.extensions.toPageable
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.SagaRepository
+import cat.iundarigun.boaleitura.infrastructure.database.repository.SagaStatusRepository
 import cat.iundarigun.boaleitura.infrastructure.database.utils.specLike
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -21,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional
 class SagaAdapter(
     private val sagaRepository: SagaRepository,
     private val bookRepository: BookRepository,
+    private val sagaStatusRepository: SagaStatusRepository
 ) : SagaPort {
 
     @Transactional(readOnly = true)
@@ -66,5 +70,20 @@ class SagaAdapter(
             throw SagaNotFoundException(id)
         }
         sagaRepository.deleteById(id)
+    }
+
+    @Transactional
+    override fun updateSagaStatus(id: Long, status: SagaStatusEnum): SagaResponse {
+        val saga = sagaRepository.findById(id)
+            .orElseThrow { SagaNotFoundException(id) }
+
+        val sagaStatus = sagaStatusRepository.findBySagaId(id)
+            ?.apply { this.status = status }
+            ?: SagaStatusEntity(
+                saga = saga,
+                status = status
+            )
+        sagaStatusRepository.save(sagaStatus)
+        return saga.toResponse()
     }
 }

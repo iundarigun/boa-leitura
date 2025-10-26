@@ -43,9 +43,9 @@ class BookAdapter(
 ) : BookPort {
 
     @Transactional(readOnly = true)
-    override fun find(title: String?, read: Boolean?, pageRequest: PageRequest): PageResponse<BookSummaryResponse> {
+    override fun find(keyword: String?, read: Boolean?, pageRequest: PageRequest): PageResponse<BookSummaryResponse> {
         val specification = Specification.allOf<BookEntity>(
-            specLikeWithOrFields(title, "title", "originalTitle"),
+            specLikeWithOrFields(keyword, "title", "originalTitle", "saga.name", "author.name", "genre.name"),
             specExistsOrNot(read, "readings")
         )
 

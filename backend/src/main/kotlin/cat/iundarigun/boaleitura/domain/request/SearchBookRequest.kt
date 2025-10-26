@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.Positive
 
 data class SearchBookRequest(
-    val title: String? = null,
+    val keyword: String? = null,
     val read: Boolean? = null,
     @field:Positive
     val page: Int = 1,

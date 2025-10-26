@@ -10,5 +10,5 @@ import org.springframework.stereotype.Component
 @Component
 class FindBooksUseCaseImpl(private val bookPort: BookPort) : FindBooksUseCase {
     override fun execute(request: SearchBookRequest): PageResponse<BookSummaryResponse> =
-        bookPort.find(request.title, request.read, request.toPageRequest())
+        bookPort.find(request.keyword, request.read, request.toPageRequest())
 }

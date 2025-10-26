@@ -11,7 +11,7 @@ export async function getReadings(params = {}) {
   if (params.sortDir !== undefined) {
     query.append("directionAsc", params.sortDir === 'asc');
   }
-  if (params.keyword) query.append("keyword", params.keyword);
+  if (params.filterKeyword) query.append("keyword", params.filterKeyword);
   if (params.filterDateFrom) query.append("dateFrom", format(params.filterDateFrom, "yyyy-MM-dd"));
   if (params.filterDateTo) query.append("dateTo", format(params.filterDateTo, "yyyy-MM-dd"));
 

@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import {PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer} from "recharts";
 
 const COLORS = ["#2563eb", "#059669", "#f59e0b", "#dc2626", "#9333ea"];
 
@@ -12,12 +12,11 @@ export default function PieChartCard({ title, data }) {
   }));
 
   return (
-    <Card className="w-full md:w-[95%] p-4">
+    <Card className="w-full md:w-[95%] p-4 overflow-visible">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-
-      <CardContent className="flex justify-center">
+      <ResponsiveContainer width="100%" height={300}>
         <PieChart width={400} height={250}>
           <Pie
             data={formattedData}
@@ -40,7 +39,7 @@ export default function PieChartCard({ title, data }) {
           />
           <Legend />
         </PieChart>
-      </CardContent>
+      </ResponsiveContainer>
     </Card>
   );
 }

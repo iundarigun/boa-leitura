@@ -87,6 +87,13 @@ export default function Layout() {
                   >
                     Authors
                   </Link>
+                  <Link
+                    to="/statistics/mood"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={handleNavClick}
+                  >
+                    Mood
+                  </Link>
                 </div>
               )}
             </div>

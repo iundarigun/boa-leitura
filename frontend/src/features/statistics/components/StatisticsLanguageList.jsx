@@ -7,7 +7,7 @@ export default function StatisticsLanguageList({stats}) {
       <PieChartCard
         title="Total by Language"
         data={Object.entries(stats.totalByLanguage).map(([k, v]) => ({
-          name: k.toUpperCase(),
+          name: k,
           value: v,
           label: getLanguageDisplay(k)
         }))}

@@ -16,3 +16,8 @@ export async function getAuthor(year) {
   const { data, error } = await apiCall(() => api.get(`${API_URL}/author/${year}`));
   return {data, error};
 }
+
+export async function getMood(year) {
+  const { data, error } = await apiCall(() => api.get(`${API_URL}/mood/${year}`));
+  return {data, error};
+}

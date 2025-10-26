@@ -1,5 +1,6 @@
 import {useState} from "react";
 import BookDetailsDialog from "@/features/books/components/BookDetailsDialog";
+import StarRating from "@/components/StarRating.jsx";
 
 export default function StatisticsSummaryList({stats}){
   const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
@@ -45,9 +46,9 @@ export default function StatisticsSummaryList({stats}){
 
       <div>
         <h3 className="text-xl font-semibold mb-2">
-          ⭐ Best books (rating {stats.bestBooks.rating})
+          ✨ Best books <StarRating value={stats.bestBooks.rating}/>
         </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-3">
           {stats.bestBooks.bookList.map((book) => (
             <div
               key={book.id}
@@ -67,7 +68,7 @@ export default function StatisticsSummaryList({stats}){
 
       <div>
         <h3 className="text-xl font-semibold mb-2">
-          💀 Worse books (rating {stats.worseBooks.rating})
+          💀 Worse books <StarRating value={stats.worseBooks.rating}/>
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3">
           {stats.worseBooks.bookList.map((book) => (

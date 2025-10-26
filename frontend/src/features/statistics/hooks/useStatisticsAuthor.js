@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import {useDialog} from "@/context/DialogContext.jsx";
-import {getSummary} from "@/lib/api/statistics.js";
+import {getAuthor} from "@/lib/api/statistics.js";
 
-export default function useStatisticsSummary(currentYear) {
+export default function useStatisticsAuthor(currentYear) {
   const [year, setYear] = useState(currentYear.toString());
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ export default function useStatisticsSummary(currentYear) {
 
   const fetchStatistics = async () => {
     setLoading(true);
-    const { data, error } = await getSummary(year);
+    const { data, error } = await getAuthor(year);
 
     if (error) {
       showError(error);

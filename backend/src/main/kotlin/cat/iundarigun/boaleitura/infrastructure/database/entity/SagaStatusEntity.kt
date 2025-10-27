@@ -33,4 +33,4 @@ data class SagaStatusEntity(
 
     @Version
     var version: Int = 0
-)
+): UserIdBaseEntity()

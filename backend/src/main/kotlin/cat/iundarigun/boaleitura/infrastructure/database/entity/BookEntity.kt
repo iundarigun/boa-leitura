@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.OrderBy
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.Filter
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
@@ -37,6 +38,7 @@ data class BookEntity(
     @ManyToOne
     var author: AuthorEntity,
 
+    @Filter(name = "userIdFilter", condition = "user_id = :userId")
     @OrderBy("dateRead desc")
     @OneToMany(mappedBy = "book")
     var readings: List<ReadingEntity> = emptyList(),

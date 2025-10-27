@@ -7,6 +7,7 @@ import cat.iundarigun.boaleitura.domain.model.StatisticFormatAndOrigin
 import cat.iundarigun.boaleitura.domain.model.StatisticLanguage
 import cat.iundarigun.boaleitura.domain.model.StatisticMood
 import cat.iundarigun.boaleitura.domain.model.StatisticSummary
+import cat.iundarigun.boaleitura.domain.security.UserContext
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Service
@@ -26,12 +27,14 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                    MIN(current_reading.my_rating) as worseRating,
                    SUM((SELECT 1 FROM reading past_reading
                          WHERE past_reading.date_read < current_reading.date_read AND 
-                               past_reading.book_id = current_reading.book_id)) as amountOfRereading
+                               past_reading.book_id = current_reading.book_id     AND 
+                               past_reading.user_id = current_reading.user_id  )) as amountOfRereading
             FROM reading current_reading
             INNER JOIN book ON
                 current_reading.book_id = book.id 
             WHERE current_reading.date_read >= :dateFrom AND 
-                  current_reading.date_read <= :dateTo """
+                  current_reading.date_read <= :dateTo AND
+                  current_reading.user_id = :userId """
 
         return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
             StatisticSummary(
@@ -56,7 +59,8 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
             INNER JOIN reading r ON 
                 b.id = r.book_id
             WHERE r.date_read >= :dateFrom AND 
-                  r.date_read <= :dateTo
+                  r.date_read <= :dateTo   AND
+                  r.user_id    = :userId 
             GROUP BY readInOriginalLanguage, r.language """
 
         return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
@@ -90,7 +94,8 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
             INNER JOIN author a ON 
                 a.id = b.author_id
             WHERE r.date_read >= :dateFrom AND 
-                  r.date_read <= :dateTo
+                  r.date_read <= :dateTo   AND
+                  r.user_id    = :userId 
             GROUP BY a.gender
             """
         return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
@@ -107,7 +112,8 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                             b1.id = r1.book_id
                          INNER JOIN author a1 ON
                             b1.author_id = a1.id
-                        WHERE r1.date_read < :dateFrom) THEN true 
+                        WHERE r1.date_read < :dateFrom AND 
+                              r1.user_id   = :userId ) THEN true 
                      ELSE false end as newAuthor,
                   tmp.count as count
            FROM (SELECT a.id, a.name, count(*) as count
@@ -117,7 +123,8 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                  INNER JOIN author a ON 
                     a.id = b.author_id
                  WHERE r.date_read >= :dateFrom AND 
-                       r.date_read <= :dateTo
+                       r.date_read <= :dateTo   AND
+                       r.user_id    = :userId 
            GROUP BY a.name, a.id) tmp
            ORDER BY count DESC"""
         return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
@@ -144,7 +151,8 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
             INNER JOIN author a ON 
                 a.id = b.author_id
             WHERE r.date_read >= :dateFrom AND 
-                  r.date_read <= :dateTo
+                  r.date_read <= :dateTo   AND
+                  r.user_id    = :userId
             GROUP BY format, origin """
 
         return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
@@ -169,7 +177,8 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
             INNER JOIN book b ON 
                 b.id = r.book_id
             WHERE r.date_read >= :dateFrom AND 
-                  r.date_read <= :dateTo
+                  r.date_read <= :dateTo   AND
+                  r.user_id    = :userId
             GROUP BY pages """
         return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
             rs.getString("pages") to rs.getInt("count")
@@ -180,6 +189,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
         MapSqlParameterSource().apply {
             addValue("dateFrom", dateFrom)
             addValue("dateTo", dateTo)
+            addValue("userId", UserContext.getApplicationUserId())
         }
 
     companion object {

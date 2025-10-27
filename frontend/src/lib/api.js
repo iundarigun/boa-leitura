@@ -4,6 +4,7 @@ const api = axios.create({
   baseURL: "http://localhost:1980",
   headers: {
     "Content-Type": "application/json",
+    "X-User-Id": "1",
   },
 });
 

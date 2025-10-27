@@ -6,9 +6,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
+import {Label} from "@/components/ui/label";
 import useSagaDetails from "@/features/sagas/hooks/useSagaDetails.js";
 import {Card} from "@/components/ui/card.jsx";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
+import {SAGA_STATUS} from "@/lib/sagaStatus.js";
+import {Button} from "@/components/ui/button.jsx";
 
 export function SagaDetails({saga}) {
   if (!saga) return null;
@@ -39,6 +42,9 @@ export function SagaDetails({saga}) {
 export default function SagasDetailsDialog({open, onClose, sagaId}) {
   const {
     saga,
+    status,
+    setStatus,
+    handleUpdateStatus,
     loading
   } = useSagaDetails(sagaId);
 
@@ -68,7 +74,30 @@ export default function SagasDetailsDialog({open, onClose, sagaId}) {
         </AlertDialogHeader>
 
         <SagaDetails saga={saga}/>
+
+        <div>
+          <Label>Status</Label>
+          <Select
+            key={status}
+            value={status}
+            onValueChange={setStatus}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+            <SelectContent>
+              {SAGA_STATUS.map((stat) => (
+                <SelectItem key={stat.code} value={stat.code}>
+                  {stat.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
+          <Button variant="outline" size="sm" onClick={() => handleUpdateStatus()}>
+            Update status
+          </Button>
           <AlertDialogCancel>Close</AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>

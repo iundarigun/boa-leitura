@@ -10,7 +10,7 @@ export async function getBooks(params = {}) {
   if (params.sortDir !== undefined) {
     query.append("directionAsc", params.sortDir === 'asc');
   }
-  if (params.title) query.append("title", params.title);
+  if (params.filterKeyword) query.append("keyword", params.filterKeyword);
   if (params.filterRead !== "both") query.append("read", params.filterRead === "read");
 
   const { data, error } = await apiCall(() => api.get(`${API_URL}?${query.toString()}`));

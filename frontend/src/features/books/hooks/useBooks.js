@@ -28,7 +28,7 @@ export default function useBooks() {
 
     const {data, error} = await getBooks({
       page: page,
-      title: search,
+      filterKeyword: search,
       filterRead: filterRead,
       sortField: sortField,
       sortDir: sortDir

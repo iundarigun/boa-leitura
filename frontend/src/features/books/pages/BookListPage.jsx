@@ -42,7 +42,7 @@ export default function BooksListPage() {
         </CardHeader>
         <div className="flex flex-wrap gap-3 items-center">
           <Input
-            placeholder="Search by title..."
+            placeholder="Search by keyword..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}

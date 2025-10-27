@@ -4,7 +4,9 @@ import cat.iundarigun.boaleitura.application.port.input.saga.CreateSagaUseCase
 import cat.iundarigun.boaleitura.application.port.input.saga.DeleteSagaUseCase
 import cat.iundarigun.boaleitura.application.port.input.saga.FindSagasUseCase
 import cat.iundarigun.boaleitura.application.port.input.saga.GetSagaByIdUseCase
+import cat.iundarigun.boaleitura.application.port.input.saga.UpdateSagaStatusUseCase
 import cat.iundarigun.boaleitura.application.port.input.saga.UpdateSagaUseCase
+import cat.iundarigun.boaleitura.domain.enums.SagaStatusEnum
 import cat.iundarigun.boaleitura.domain.request.SagaRequest
 import cat.iundarigun.boaleitura.domain.request.SearchSagaRequest
 import cat.iundarigun.boaleitura.domain.response.SagaResponse
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
+@Suppress("LongParameterList")
 @RestController
 @RequestMapping("/sagas")
 class SagaController(
@@ -30,7 +34,8 @@ class SagaController(
     private val createSagaUseCase: CreateSagaUseCase,
     private val updateSagaUseCase: UpdateSagaUseCase,
     private val getSagaByIdUseCase: GetSagaByIdUseCase,
-    private val deleteSagaUseCase: DeleteSagaUseCase
+    private val deleteSagaUseCase: DeleteSagaUseCase,
+    private val updateSagaStatusUseCase: UpdateSagaStatusUseCase,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -67,5 +72,12 @@ class SagaController(
     fun deleteById(@PathVariable id: Long) {
         logger.info("deleteById, id=$id")
         deleteSagaUseCase.execute(id)
+    }
+
+    @PatchMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun updateSagaStatus(@PathVariable id: Long, @Valid @RequestBody request: SagaStatusEnum): SagaResponse {
+        logger.info("updateSagaStatus, id=$id, request=$request")
+        return updateSagaStatusUseCase.execute(id, request)
     }
 }

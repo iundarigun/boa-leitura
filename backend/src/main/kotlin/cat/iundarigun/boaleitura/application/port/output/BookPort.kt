@@ -9,7 +9,7 @@ import cat.iundarigun.boaleitura.domain.response.PageResponse
 
 @Suppress("TooManyFunctions")
 interface BookPort {
-    fun find(title: String?, read: Boolean?, pageRequest: PageRequest): PageResponse<BookSummaryResponse>
+    fun find(keyword: String?, read: Boolean?, pageRequest: PageRequest): PageResponse<BookSummaryResponse>
     fun findById(id: Long): BookResponse
     fun existsByIsbn(isbn: String): Boolean
     fun findByIsbn(isbn: String): BookResponse?

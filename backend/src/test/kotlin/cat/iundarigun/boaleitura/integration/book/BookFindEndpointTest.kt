@@ -183,7 +183,7 @@ class BookFindEndpointTest(
             createRandomBooks[8].title
         )
         val response = RestAssured.given()
-            .queryParam("title", "xpto")
+            .queryParam("keyword", "xpto")
             .`when`()
             .get("/books")
             .then()

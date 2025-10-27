@@ -27,6 +27,10 @@ export async function updateSaga(id, payload) {
   return await apiCall(() => api.put(`${API_URL}/${id}`, payload));
 }
 
+export async function updateStatusSaga(id, payload) {
+  return await apiCall(() => api.patch(`${API_URL}/${id}`, payload));
+}
+
 export async function createSaga(payload) {
   return await apiCall(() => api.post(`${API_URL}`, payload));
 }

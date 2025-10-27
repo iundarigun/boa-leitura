@@ -26,6 +26,7 @@ fun SagaEntity.toResponse(processBooks: Boolean = false): SagaResponse {
     return SagaResponse(
         id = this.id,
         name = this.name,
+        sagaStatus = this.statuses.firstOrNull()?.status,
         totalMainTitles = this.totalMainTitles,
         totalComplementaryTitles = this.totalComplementaryTitles,
         concluded = this.concluded,

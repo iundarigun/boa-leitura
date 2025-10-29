@@ -19,6 +19,7 @@ class AuthorPostEndpointTest(private val authorRepository: AuthorRepository) : T
         val count = authorRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -39,6 +40,7 @@ class AuthorPostEndpointTest(private val authorRepository: AuthorRepository) : T
         val count = authorRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""{"gender": "MALE", "nationality": "BRAZIL"}""")
             .`when`()
@@ -57,6 +59,7 @@ class AuthorPostEndpointTest(private val authorRepository: AuthorRepository) : T
         val count = authorRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""{"name": "Author name", "gender": "BAD GENDER"}""")
             .`when`()
@@ -76,6 +79,7 @@ class AuthorPostEndpointTest(private val authorRepository: AuthorRepository) : T
         val count = authorRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()

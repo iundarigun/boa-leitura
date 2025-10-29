@@ -22,6 +22,7 @@ class GenrePostEndpointTest(private val genreRepository: GenreRepository) : Test
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -43,6 +44,7 @@ class GenrePostEndpointTest(private val genreRepository: GenreRepository) : Test
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -67,6 +69,7 @@ class GenrePostEndpointTest(private val genreRepository: GenreRepository) : Test
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -88,6 +91,7 @@ class GenrePostEndpointTest(private val genreRepository: GenreRepository) : Test
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -106,6 +110,7 @@ class GenrePostEndpointTest(private val genreRepository: GenreRepository) : Test
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""{"parentGenreId": 10}""")
             .`when`()
@@ -124,6 +129,7 @@ class GenrePostEndpointTest(private val genreRepository: GenreRepository) : Test
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""{"name": "Genre name", "parentGenreId": "BAD GENDER"}""")
             .`when`()
@@ -143,6 +149,7 @@ class GenrePostEndpointTest(private val genreRepository: GenreRepository) : Test
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()

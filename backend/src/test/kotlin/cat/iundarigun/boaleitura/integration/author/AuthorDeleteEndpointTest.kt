@@ -22,6 +22,7 @@ class AuthorDeleteEndpointTest(
         val count = authorRepository.count()
 
         RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", author.id)
             .`when`()
@@ -40,6 +41,7 @@ class AuthorDeleteEndpointTest(
         val count = authorRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", author.id)
             .`when`()
@@ -58,6 +60,7 @@ class AuthorDeleteEndpointTest(
         val count = authorRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", FakerConfiguration.FAKER.number().numberBetween(1_000, 9_999))
             .`when`()
@@ -76,6 +79,7 @@ class AuthorDeleteEndpointTest(
         val count = authorRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", FakerConfiguration.FAKER.name().firstName())
             .`when`()

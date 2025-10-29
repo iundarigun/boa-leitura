@@ -13,7 +13,9 @@ import org.springframework.transaction.TransactionManager
 @Configuration
 class TransactionConfiguration {
     @Bean
-    fun transactionManager(transactionManagerCustomizer: ObjectProvider<TransactionManagerCustomizers>): TransactionManager {
+    fun transactionManager(
+        transactionManagerCustomizer: ObjectProvider<TransactionManagerCustomizers>
+    ): TransactionManager {
         val transactionManager: TransactionManager = object : JpaTransactionManager() {
             override fun createEntityManagerForTransaction(): EntityManager {
                 return super.createEntityManagerForTransaction().also {

@@ -46,6 +46,7 @@ class BookFindEndpointTest(
             .map { it.title }
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .`when`()
             .get("/books")
             .then()
@@ -70,6 +71,7 @@ class BookFindEndpointTest(
             .map { it.author.name }
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .queryParam("order", "AUTHOR")
             .`when`()
             .get("/books")
@@ -85,8 +87,8 @@ class BookFindEndpointTest(
             // using sortedWith to specify locale
             .sortedWith { a, b -> Collator.getInstance(Locale.US).compare(a, b) }
             .forEachIndexed { index, name ->
-            Assertions.assertEquals(name, response.content[index].author)
-        }
+                Assertions.assertEquals(name, response.content[index].author)
+            }
     }
 
     @Test
@@ -95,6 +97,7 @@ class BookFindEndpointTest(
             .map { it.saga?.name ?: "" }
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .queryParam("order", "SAGA")
             .queryParam("directionAsc", false)
             .`when`()
@@ -111,8 +114,8 @@ class BookFindEndpointTest(
             // using sortedWith to specify locale
             .sortedWith { a, b -> Collator.getInstance(Locale.US).compare(a, b) }
             .reversed().forEachIndexed { index, name ->
-            Assertions.assertEquals(name, response.content[index].saga?.name)
-        }
+                Assertions.assertEquals(name, response.content[index].saga?.name)
+            }
     }
 
     @Test
@@ -121,6 +124,7 @@ class BookFindEndpointTest(
             .map { it.genre?.name ?: "" }
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .queryParam("order", "GENRE")
             .queryParam("directionAsc", false)
             .`when`()
@@ -137,8 +141,8 @@ class BookFindEndpointTest(
             // using sortedWith to specify locale
             .sortedWith { a, b -> Collator.getInstance(Locale.US).compare(a, b) }
             .reversed().forEachIndexed { index, name ->
-            Assertions.assertEquals(name, response.content[index].genre)
-        }
+                Assertions.assertEquals(name, response.content[index].genre)
+            }
     }
 
     @Test
@@ -147,6 +151,7 @@ class BookFindEndpointTest(
             .map { it.createdAt }
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .queryParam("order", "CREATED_AT")
             .queryParam("directionAsc", false)
             .`when`()
@@ -183,6 +188,7 @@ class BookFindEndpointTest(
             createRandomBooks[8].title
         )
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .queryParam("keyword", "xpto")
             .`when`()
             .get("/books")
@@ -198,8 +204,8 @@ class BookFindEndpointTest(
             // using sortedWith to specify locale
             .sortedWith { a, b -> Collator.getInstance(Locale.US).compare(a, b) }
             .forEachIndexed { index, title ->
-            Assertions.assertEquals(title, response.content[index].title)
-        }
+                Assertions.assertEquals(title, response.content[index].title)
+            }
     }
 
     @Test
@@ -215,6 +221,7 @@ class BookFindEndpointTest(
             createRandomBooks[8].title
         )
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .queryParam("read", true)
             .`when`()
             .get("/books")
@@ -247,6 +254,7 @@ class BookFindEndpointTest(
             createRandomBooks[5].title
         )
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .queryParam("read", false)
             .`when`()
             .get("/books")
@@ -270,6 +278,7 @@ class BookFindEndpointTest(
     fun `get second page books size 4 order by name successfully`() {
         val randomBooks = createRandomBooks(10).map { it.id }
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .queryParam("page", "2")
             .queryParam("size", "4")
             .queryParam("order", "ID")
@@ -292,6 +301,7 @@ class BookFindEndpointTest(
     @ValueSource(strings = ["0", "-1"])
     fun `get books negative or zero page`(page: String) {
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .queryParam("page", page)
             .`when`()
             .get("/books")
@@ -307,6 +317,7 @@ class BookFindEndpointTest(
     @ValueSource(strings = ["0", "-1", "300", "1000"])
     fun `get books wrong page size`(pageSize: String) {
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .queryParam("size", pageSize)
             .`when`()
             .get("/books")
@@ -322,6 +333,7 @@ class BookFindEndpointTest(
     @ValueSource(strings = ["date", "bookName", "updateAt"])
     fun `get books wrong order value`(orderValue: String) {
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .queryParam("order", orderValue)
             .`when`()
             .get("/books")

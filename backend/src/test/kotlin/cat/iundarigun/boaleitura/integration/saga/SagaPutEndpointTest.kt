@@ -21,6 +21,7 @@ class SagaPutEndpointTest(private val sagaRepository: SagaRepository) : TestCont
         val request = SagaRequestFactory.build()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -51,6 +52,7 @@ class SagaPutEndpointTest(private val sagaRepository: SagaRepository) : TestCont
         val request = SagaRequestFactory.build().copy(name = other.name)
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -70,6 +72,7 @@ class SagaPutEndpointTest(private val sagaRepository: SagaRepository) : TestCont
         val request = SagaRequestFactory.build()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -89,6 +92,7 @@ class SagaPutEndpointTest(private val sagaRepository: SagaRepository) : TestCont
         val request = SagaRequestFactory.build()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -108,6 +112,7 @@ class SagaPutEndpointTest(private val sagaRepository: SagaRepository) : TestCont
         val saga = sagaRepository.save(SagaEntityFactory.build())
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""{"totalMainTitles": 5, "concluded": "true"}""")
             .given()
@@ -127,6 +132,7 @@ class SagaPutEndpointTest(private val sagaRepository: SagaRepository) : TestCont
         val saga = sagaRepository.save(SagaEntityFactory.build())
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""{"name": "Saga name", "totalMainTitles": "FIVE"}""")
             .given()
@@ -147,6 +153,7 @@ class SagaPutEndpointTest(private val sagaRepository: SagaRepository) : TestCont
         val request = SagaRequestFactory.build().copy(name = "SM")
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()

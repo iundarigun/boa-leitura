@@ -18,6 +18,7 @@ class GenreGetEndpointTest(private val genreRepository: GenreRepository) : TestC
         val genre = genreRepository.save(GenreEntityFactory.build())
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", genre.id)
             .`when`()
@@ -38,6 +39,7 @@ class GenreGetEndpointTest(private val genreRepository: GenreRepository) : TestC
         val genre = genreRepository.save(GenreEntityFactory.build(parent))
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", genre.id)
             .`when`()
@@ -57,6 +59,7 @@ class GenreGetEndpointTest(private val genreRepository: GenreRepository) : TestC
     @Test
     fun `get genre by id with id does not exist`() {
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", FakerConfiguration.FAKER.number().numberBetween(1_000, 9_999))
             .`when`()
@@ -72,6 +75,7 @@ class GenreGetEndpointTest(private val genreRepository: GenreRepository) : TestC
     @Test
     fun `get genre with id as string`() {
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", FakerConfiguration.FAKER.name().firstName())
             .`when`()

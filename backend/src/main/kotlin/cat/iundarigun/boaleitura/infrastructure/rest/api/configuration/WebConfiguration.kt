@@ -22,5 +22,6 @@ class WebConfiguration(private val userInterceptor: UserInterceptor) : WebMvcCon
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addWebRequestInterceptor(userInterceptor)
+            .excludePathPatterns("/swagger-ui/**", "/**/api-docs/**", "/auth/**")
     }
 }

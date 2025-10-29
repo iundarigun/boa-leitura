@@ -25,6 +25,7 @@ class BookDeleteEndpointTest(
         val count = bookRepository.count()
 
         RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", book.id)
             .`when`()
@@ -43,6 +44,7 @@ class BookDeleteEndpointTest(
         val count = bookRepository.count()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", book.id)
             .`when`()
@@ -63,6 +65,7 @@ class BookDeleteEndpointTest(
         val bookId = FakerConfiguration.FAKER.randomId()
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", bookId)
             .`when`()

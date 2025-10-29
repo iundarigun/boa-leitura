@@ -18,6 +18,7 @@ class AuthorGetEndpointTest(private val authorRepository: AuthorRepository) : Te
         val author = authorRepository.save(AuthorEntityFactory.build())
 
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", author.id)
             .`when`()
@@ -36,6 +37,7 @@ class AuthorGetEndpointTest(private val authorRepository: AuthorRepository) : Te
     @Test
     fun `get author by id with id does not exist`() {
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", FakerConfiguration.FAKER.number().numberBetween(1_000, 9_999))
             .`when`()
@@ -51,6 +53,7 @@ class AuthorGetEndpointTest(private val authorRepository: AuthorRepository) : Te
     @Test
     fun `get author with id as string`() {
         val response = RestAssured.given()
+            .header("X-User-Id", "1")
             .given()
             .pathParam("id", FakerConfiguration.FAKER.name().firstName())
             .`when`()

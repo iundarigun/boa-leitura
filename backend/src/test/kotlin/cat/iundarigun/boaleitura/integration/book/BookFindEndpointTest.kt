@@ -46,7 +46,8 @@ class BookFindEndpointTest(
             .map { it.title }
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .`when`()
             .get("/books")
             .then()
@@ -71,7 +72,8 @@ class BookFindEndpointTest(
             .map { it.author.name }
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("order", "AUTHOR")
             .`when`()
             .get("/books")
@@ -97,7 +99,8 @@ class BookFindEndpointTest(
             .map { it.saga?.name ?: "" }
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("order", "SAGA")
             .queryParam("directionAsc", false)
             .`when`()
@@ -124,7 +127,8 @@ class BookFindEndpointTest(
             .map { it.genre?.name ?: "" }
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("order", "GENRE")
             .queryParam("directionAsc", false)
             .`when`()
@@ -151,7 +155,8 @@ class BookFindEndpointTest(
             .map { it.createdAt }
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("order", "CREATED_AT")
             .queryParam("directionAsc", false)
             .`when`()
@@ -188,7 +193,8 @@ class BookFindEndpointTest(
             createRandomBooks[8].title
         )
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("keyword", "xpto")
             .`when`()
             .get("/books")
@@ -221,7 +227,8 @@ class BookFindEndpointTest(
             createRandomBooks[8].title
         )
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("read", true)
             .`when`()
             .get("/books")
@@ -254,7 +261,8 @@ class BookFindEndpointTest(
             createRandomBooks[5].title
         )
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("read", false)
             .`when`()
             .get("/books")
@@ -278,7 +286,8 @@ class BookFindEndpointTest(
     fun `get second page books size 4 order by name successfully`() {
         val randomBooks = createRandomBooks(10).map { it.id }
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("page", "2")
             .queryParam("size", "4")
             .queryParam("order", "ID")
@@ -301,7 +310,8 @@ class BookFindEndpointTest(
     @ValueSource(strings = ["0", "-1"])
     fun `get books negative or zero page`(page: String) {
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("page", page)
             .`when`()
             .get("/books")
@@ -317,7 +327,8 @@ class BookFindEndpointTest(
     @ValueSource(strings = ["0", "-1", "300", "1000"])
     fun `get books wrong page size`(pageSize: String) {
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("size", pageSize)
             .`when`()
             .get("/books")
@@ -333,7 +344,8 @@ class BookFindEndpointTest(
     @ValueSource(strings = ["date", "bookName", "updateAt"])
     fun `get books wrong order value`(orderValue: String) {
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("order", orderValue)
             .`when`()
             .get("/books")

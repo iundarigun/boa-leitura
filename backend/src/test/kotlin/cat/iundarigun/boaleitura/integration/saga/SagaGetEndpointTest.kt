@@ -22,7 +22,8 @@ class SagaGetEndpointTest(
         val saga = sagaRepository.save(SagaEntityFactory.build())
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", saga.id)
             .`when`()
@@ -54,7 +55,8 @@ class SagaGetEndpointTest(
         val book1Point5 = bookEntityFactory.buildAndSave(saga = saga, sagaOrder = 1.5, sagaMainTitle = false)
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", saga.id)
             .`when`()
@@ -86,7 +88,8 @@ class SagaGetEndpointTest(
     @Test
     fun `get saga by id with id does not exist`() {
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", FakerConfiguration.FAKER.number().numberBetween(1_000, 9_999))
             .`when`()
@@ -102,7 +105,8 @@ class SagaGetEndpointTest(
     @Test
     fun `get saga with id as string`() {
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", FakerConfiguration.FAKER.name().firstName())
             .`when`()

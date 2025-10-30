@@ -22,6 +22,6 @@ object ReadingEntityFactory {
             platform = FakerConfiguration.FAKER.options().option(PlatformEnum::class.java),
             language = FakerConfiguration.FAKER.languageCode().iso639()
         ).also {
-            it.userId = 1
+            it.userId = DataFactory.userId
         }
 }

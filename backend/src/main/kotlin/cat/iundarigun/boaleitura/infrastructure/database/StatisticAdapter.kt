@@ -7,7 +7,7 @@ import cat.iundarigun.boaleitura.domain.model.StatisticFormatAndOrigin
 import cat.iundarigun.boaleitura.domain.model.StatisticLanguage
 import cat.iundarigun.boaleitura.domain.model.StatisticMood
 import cat.iundarigun.boaleitura.domain.model.StatisticSummary
-import cat.iundarigun.boaleitura.domain.security.UserContext
+import cat.iundarigun.boaleitura.domain.security.loggedUser
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Service
@@ -189,7 +189,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
         MapSqlParameterSource().apply {
             addValue("dateFrom", dateFrom)
             addValue("dateTo", dateTo)
-            addValue("userId", UserContext.getApplicationUserId())
+            addValue("userId", loggedUser?.userId ?: 0L)
         }
 
     companion object {

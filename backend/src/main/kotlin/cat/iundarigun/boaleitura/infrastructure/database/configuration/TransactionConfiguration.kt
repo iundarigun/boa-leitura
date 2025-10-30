@@ -1,6 +1,6 @@
 package cat.iundarigun.boaleitura.infrastructure.database.configuration
 
-import cat.iundarigun.boaleitura.domain.security.UserContext
+import cat.iundarigun.boaleitura.domain.security.loggedUser
 import jakarta.persistence.EntityManager
 import org.hibernate.Session
 import org.springframework.beans.factory.ObjectProvider
@@ -21,7 +21,7 @@ class TransactionConfiguration {
                 return super.createEntityManagerForTransaction().also {
                     it.unwrap(Session::class.java)
                         .enableFilter("userIdFilter")
-                        .setParameter("userId", UserContext.getApplicationUserId() ?: 0L)
+                        .setParameter("userId", loggedUser?.userId ?: 0L)
                 }
             }
         }

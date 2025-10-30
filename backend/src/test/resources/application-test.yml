@@ -1,6 +1,10 @@
 spring:
   jpa:
     show-sql: true
+  security:
+    jwt:
+      key: mysupersecret-test-must-be-very-long-key
+      expiration-time-in-minutes: 30
 
 jobrunr:
   background-job-server:

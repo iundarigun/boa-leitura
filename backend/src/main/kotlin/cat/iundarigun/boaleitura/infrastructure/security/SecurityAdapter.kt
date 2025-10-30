@@ -35,12 +35,12 @@ class SecurityAdapter(
 
     override fun buildJwt(user: User): String {
         val claims = JwtClaimsSet.builder()
-            .subject(user.id?.toString() ?: throw UsernameOrPasswordNotMatchException())
+            .subject(user.username)
             .id(UUID.randomUUID().toString())
             .issuer(applicationName)
             .expiresAt(Instant.now().plus(jwtProperties.expirationTimeInMinutes, ChronoUnit.MINUTES))
             .issuedAt(Instant.now())
-            .claim("username", user.username)
+            .claim("userId", user.id ?: throw UsernameOrPasswordNotMatchException())
             .build()
 
         val header = JwsHeader.with(SecurityConfiguration.JWT_ALGORITHM).build()

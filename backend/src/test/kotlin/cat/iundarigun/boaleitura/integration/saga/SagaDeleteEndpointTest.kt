@@ -22,7 +22,8 @@ class SagaDeleteEndpointTest(
         val count = sagaRepository.count()
 
         RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", saga.id)
             .`when`()
@@ -41,7 +42,8 @@ class SagaDeleteEndpointTest(
         val count = sagaRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", saga.id)
             .`when`()
@@ -60,7 +62,8 @@ class SagaDeleteEndpointTest(
         val count = sagaRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", FakerConfiguration.FAKER.number().numberBetween(1_000, 9_999))
             .`when`()
@@ -79,7 +82,8 @@ class SagaDeleteEndpointTest(
         val count = sagaRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", FakerConfiguration.FAKER.name().firstName())
             .`when`()

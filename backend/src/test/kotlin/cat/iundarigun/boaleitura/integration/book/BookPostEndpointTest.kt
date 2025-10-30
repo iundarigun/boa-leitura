@@ -27,7 +27,8 @@ class BookPostEndpointTest(
         val count = bookRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -66,7 +67,8 @@ class BookPostEndpointTest(
         val count = bookRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -96,7 +98,8 @@ class BookPostEndpointTest(
         val count = bookRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -117,7 +120,8 @@ class BookPostEndpointTest(
         val count = bookRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -138,7 +142,8 @@ class BookPostEndpointTest(
         val count = bookRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -159,7 +164,8 @@ class BookPostEndpointTest(
         val count = bookRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -180,7 +186,8 @@ class BookPostEndpointTest(
         val count = bookRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -201,7 +208,8 @@ class BookPostEndpointTest(
         val count = bookRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -226,7 +234,8 @@ class BookPostEndpointTest(
         val count = bookRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -247,7 +256,8 @@ class BookPostEndpointTest(
         val count = bookRepository.count()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()

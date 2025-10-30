@@ -23,7 +23,8 @@ class BookGetEndpointTest(
         readingRepository.save(ReadingEntityFactory.build(book))
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", book.id)
             .`when`()
@@ -61,7 +62,8 @@ class BookGetEndpointTest(
         val book = bookEntityFactory.buildAndSave()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", book.id)
             .`when`()
@@ -90,7 +92,8 @@ class BookGetEndpointTest(
     @Test
     fun `get book by id with id does not exist`() {
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", FakerConfiguration.FAKER.number().numberBetween(1_000, 9_999))
             .`when`()
@@ -106,7 +109,8 @@ class BookGetEndpointTest(
     @Test
     fun `get book with id as string`() {
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", FakerConfiguration.FAKER.name().firstName())
             .`when`()

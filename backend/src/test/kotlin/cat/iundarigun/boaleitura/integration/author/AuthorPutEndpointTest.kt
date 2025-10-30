@@ -21,7 +21,8 @@ class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : Te
         val request = AuthorRequestFactory.build()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -48,7 +49,8 @@ class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : Te
         val request = AuthorRequestFactory.build()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -68,7 +70,8 @@ class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : Te
         val request = AuthorRequestFactory.build()
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -88,7 +91,8 @@ class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : Te
         val author = authorRepository.save(AuthorEntityFactory.build())
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""{"gender": "MALE", "nationality": "BRAZIL"}""")
             .given()
@@ -108,7 +112,8 @@ class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : Te
         val author = authorRepository.save(AuthorEntityFactory.build())
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""{"name": "Author name", "gender": "BAD GENDER"}""")
             .given()
@@ -129,7 +134,8 @@ class AuthorPutEndpointTest(private val authorRepository: AuthorRepository) : Te
         val request = AuthorRequestFactory.build().copy(name = "SM")
 
         val response = RestAssured.given()
-            .header("X-User-Id", "1")
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()

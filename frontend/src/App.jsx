@@ -15,6 +15,7 @@ import StatisticsSummaryPage from "@/features/statistics/pages/StatisticsSummary
 import StatisticsLanguagePage from "@/features/statistics/pages/StatisticsLanguagePage";
 import StatisticsAuthorPage from "@/features/statistics/pages/StatisticsAuthorPage.jsx";
 import StatisticsMoodPage from "@/features/statistics/pages/StatisticsMoodPage.jsx";
+import LoginPage from "@/features/auth/pages/LoginPage.jsx";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route path="/statistics/language" element={<StatisticsLanguagePage />} />
           <Route path="/statistics/author" element={<StatisticsAuthorPage />} />
           <Route path="/statistics/mood" element={<StatisticsMoodPage />} />
+          <Route path="/login" element={<LoginPage />}/>
         </Route>
       </Routes>
     </BrowserRouter>

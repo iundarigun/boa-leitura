@@ -23,7 +23,7 @@ export default function useLogin() {
       const {data, error} = await doLogin({ username, password });
 
       if (data) {
-        login(data);
+        login(data.accessToken);
         navigate("/");
       } else {
         showError(error);

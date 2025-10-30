@@ -217,10 +217,11 @@ class BookFindEndpointTest(
     @Test
     fun `get books filtering by read successfully`() {
         val createRandomBooks = createRandomBooks(20)
-        readingRepository.save(ReadingEntityFactory.build(createRandomBooks[2]))
-        readingRepository.save(ReadingEntityFactory.build(createRandomBooks[4]))
-        readingRepository.save(ReadingEntityFactory.build(createRandomBooks[8]))
-
+        executeInContext {
+            readingRepository.save(ReadingEntityFactory.build(createRandomBooks[2]))
+            readingRepository.save(ReadingEntityFactory.build(createRandomBooks[4]))
+            readingRepository.save(ReadingEntityFactory.build(createRandomBooks[8]))
+        }
         val titles = listOf(
             createRandomBooks[2].title,
             createRandomBooks[4].title,
@@ -251,10 +252,11 @@ class BookFindEndpointTest(
     @Test
     fun `get books filtering by non-read successfully`() {
         val createRandomBooks = createRandomBooks(6)
-        readingRepository.save(ReadingEntityFactory.build(createRandomBooks[0]))
-        readingRepository.save(ReadingEntityFactory.build(createRandomBooks[1]))
-        readingRepository.save(ReadingEntityFactory.build(createRandomBooks[2]))
-
+        executeInContext {
+            readingRepository.save(ReadingEntityFactory.build(createRandomBooks[0]))
+            readingRepository.save(ReadingEntityFactory.build(createRandomBooks[1]))
+            readingRepository.save(ReadingEntityFactory.build(createRandomBooks[2]))
+        }
         val titles = listOf(
             createRandomBooks[3].title,
             createRandomBooks[4].title,

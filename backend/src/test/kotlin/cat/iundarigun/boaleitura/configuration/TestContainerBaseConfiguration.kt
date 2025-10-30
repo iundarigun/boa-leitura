@@ -1,6 +1,7 @@
 package cat.iundarigun.boaleitura.configuration
 
 import cat.iundarigun.boaleitura.domain.request.LoginRequest
+import cat.iundarigun.boaleitura.domain.response.LoginResponse
 import cat.iundarigun.boaleitura.domain.security.UserToken
 import cat.iundarigun.boaleitura.factory.DataFactory
 import io.restassured.RestAssured
@@ -55,15 +56,27 @@ class TestContainerBaseConfiguration {
             .postForEntity(
                 "http://localhost:$port/auth/login",
                 LoginRequest("admin", "admin"),
-                String::class.java
-            ).body
+                LoginResponse::class.java
+            ).body?.accessToken
     }
 
     fun clearData() {
+        executeInContext { dataFactory.clean() }
+    }
+
+    fun <T> executeInContext(func: () -> T) {
+        addUserToContext()
+        func.invoke()
+        removeUserFromContext()
+    }
+
+    private fun addUserToContext() {
         val userTokenMock = Mockito.mock(UserToken::class.java)
         Mockito.`when`(userTokenMock.userId).thenReturn(DataFactory.userId)
         SecurityContextHolder.getContext().authentication = userTokenMock
-        dataFactory.clean()
+    }
+
+    private fun removeUserFromContext() {
         SecurityContextHolder.getContext().authentication = null
     }
 }

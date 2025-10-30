@@ -4,6 +4,7 @@ import cat.iundarigun.boaleitura.application.port.input.auth.LoginUserUseCase
 import cat.iundarigun.boaleitura.application.port.output.SecurityPort
 import cat.iundarigun.boaleitura.application.port.output.UserPort
 import cat.iundarigun.boaleitura.domain.request.LoginRequest
+import cat.iundarigun.boaleitura.domain.response.LoginResponse
 import cat.iundarigun.boaleitura.exception.UsernameOrPasswordNotMatchException
 import org.springframework.stereotype.Component
 
@@ -13,7 +14,7 @@ class LoginUserUseCaseImpl(
     private val securityPort: SecurityPort
 ) : LoginUserUseCase {
 
-    override fun execute(request: LoginRequest): String {
+    override fun execute(request: LoginRequest): LoginResponse {
         val user = userPort.findByUsername(request.username)
         if (user == null ||
             !securityPort.matches(request.password, user.encryptedPassword)
@@ -21,6 +22,6 @@ class LoginUserUseCaseImpl(
             throw UsernameOrPasswordNotMatchException()
         }
 
-        return securityPort.buildJwt(user)
+        return securityPort.generateLoginToken(user)
     }
 }

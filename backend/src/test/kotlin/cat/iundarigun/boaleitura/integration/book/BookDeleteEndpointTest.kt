@@ -40,7 +40,9 @@ class BookDeleteEndpointTest(
     @Test
     fun `delete book by id with reads`() {
         val book = bookEntityFactory.buildAllAndSave()
-        readingRepository.save(ReadingEntityFactory.build(book))
+        executeInContext {
+            readingRepository.save(ReadingEntityFactory.build(book))
+        }
 
         val count = bookRepository.count()
 

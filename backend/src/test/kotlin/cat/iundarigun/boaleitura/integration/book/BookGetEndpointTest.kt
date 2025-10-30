@@ -20,8 +20,9 @@ class BookGetEndpointTest(
     @Test
     fun `get complete book by id successfully`() {
         val book = bookEntityFactory.buildAllAndSave()
-        readingRepository.save(ReadingEntityFactory.build(book))
-
+        executeInContext {
+            readingRepository.save(ReadingEntityFactory.build(book))
+        }
         val response = RestAssured.given()
             .auth()
             .oauth2(jwtToken)

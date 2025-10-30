@@ -27,7 +27,7 @@ export default function Layout() {
       <header className="bg-white border-b shadow-sm">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <h1 className="text-xl font-bold text-gray-700">📖 Boa Leitura</h1>
-          {token &&
+          {token ? (
             <nav className="flex gap-4">
               <Button
                 variant={location.pathname.startsWith("/authors") ? "default" : "outline"}
@@ -104,7 +104,11 @@ export default function Layout() {
                 Logout
               </Button>
             </nav>
-          }
+          ) : (
+            <Button  variant={location.pathname.startsWith("/login") ? "default" : "outline"}>
+              <Link to="/login">Login</Link>
+            </Button>
+          )}
         </div>
       </header>
 

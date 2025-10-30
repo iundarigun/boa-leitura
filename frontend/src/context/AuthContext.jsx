@@ -37,7 +37,10 @@ export function AuthProvider({ children }) {
   }, [navigate]);
 
   const login = (jwt) => setToken(jwt);
-  const logout = () => setToken(null);
+  const logout = () => {
+    setToken(null);
+    navigate("/login");
+  }
 
   return (
     <AuthContext.Provider value={{ token, login, logout }}>

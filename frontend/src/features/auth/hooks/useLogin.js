@@ -1,6 +1,6 @@
 import {doLogin} from "@/lib/api/auth.js";
 import {useDialog} from "@/context/DialogContext.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "@/context/AuthContext.jsx";
 
@@ -8,9 +8,13 @@ export default function useLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, token } = useAuth();
 
   const { showError } = useDialog();
+
+  useEffect(() => {
+    if (token) navigate("/");
+  }, [token, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();

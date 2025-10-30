@@ -22,6 +22,8 @@ class GenreDeleteEndpointTest(
         val count = genreRepository.count()
 
         RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", genre.id)
             .`when`()
@@ -40,6 +42,8 @@ class GenreDeleteEndpointTest(
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", genre.id)
             .`when`()
@@ -61,6 +65,8 @@ class GenreDeleteEndpointTest(
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", genre.id)
             .`when`()
@@ -79,6 +85,8 @@ class GenreDeleteEndpointTest(
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", FakerConfiguration.FAKER.number().numberBetween(1_000, 9_999))
             .`when`()
@@ -97,6 +105,8 @@ class GenreDeleteEndpointTest(
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", FakerConfiguration.FAKER.name().firstName())
             .`when`()

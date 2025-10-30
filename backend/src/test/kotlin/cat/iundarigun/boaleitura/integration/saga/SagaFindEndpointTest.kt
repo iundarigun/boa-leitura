@@ -26,6 +26,8 @@ class SagaFindEndpointTest(private val sagaRepository: SagaRepository) : TestCon
     @Test
     fun `get all sagas default successfully`() {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .`when`()
             .get("/sagas")
             .then()
@@ -44,6 +46,8 @@ class SagaFindEndpointTest(private val sagaRepository: SagaRepository) : TestCon
     @Test
     fun `get all sagas descendent successfully`() {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("directionAsc", false)
             .`when`()
             .get("/sagas")
@@ -63,6 +67,8 @@ class SagaFindEndpointTest(private val sagaRepository: SagaRepository) : TestCon
     @Test
     fun `get sagas filtering by name successfully`() {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("name", "xpto")
             .`when`()
             .get("/sagas")
@@ -84,6 +90,8 @@ class SagaFindEndpointTest(private val sagaRepository: SagaRepository) : TestCon
     @Test
     fun `get second page sagas size 4 order by name successfully`() {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("page", "2")
             .queryParam("size", "4")
             .`when`()
@@ -105,6 +113,8 @@ class SagaFindEndpointTest(private val sagaRepository: SagaRepository) : TestCon
     @ValueSource(strings = ["0", "-1"])
     fun `get sagas negative or zero page`(page: String) {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("page", page)
             .`when`()
             .get("/sagas")
@@ -120,6 +130,8 @@ class SagaFindEndpointTest(private val sagaRepository: SagaRepository) : TestCon
     @ValueSource(strings = ["0", "-1", "300", "1000"])
     fun `get sagas wrong page size`(pageSize: String) {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("size", pageSize)
             .`when`()
             .get("/sagas")

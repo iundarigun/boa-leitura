@@ -2,8 +2,6 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import ReadingForm from "@/features/reading/components/ReadingForm";
 import useReadingForm from "@/features/reading/hooks/useReadingForm.js";
 
-const API_URL = "/readings";
-
 export default function ReadingFormPage() {
   const {
     isEdit,

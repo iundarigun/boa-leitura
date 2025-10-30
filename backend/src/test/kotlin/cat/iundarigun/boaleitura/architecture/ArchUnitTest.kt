@@ -1,6 +1,7 @@
 package cat.iundarigun.boaleitura.architecture
 
 import cat.iundarigun.boaleitura.BoaLeituraApplication
+import cat.iundarigun.boaleitura.infrastructure.security.configuration.JwtProperties
 import com.tngtech.archunit.base.DescribedPredicate
 import com.tngtech.archunit.core.domain.JavaClass
 import com.tngtech.archunit.core.domain.properties.HasName
@@ -27,13 +28,16 @@ class ArchUnitTest {
             .layer("Application").definedBy("$basePackage.application..")
             .layer("Infrastructure").definedBy("$basePackage.infrastructure..")
             .layer("Database").definedBy("$basePackage.infrastructure.database..")
+            .layer("Security").definedBy("$basePackage.infrastructure.security..")
             .layer("RestClient").definedBy("$basePackage.infrastructure.rest.client..")
             .layer("RestApi").definedBy("$basePackage.infrastructure.rest.api..")
             .whereLayer("RestClient").mayNotBeAccessedByAnyLayer()
             .whereLayer("RestApi").mayNotBeAccessedByAnyLayer()
             .whereLayer("Database").mayNotBeAccessedByAnyLayer()
+            .whereLayer("Security").mayNotBeAccessedByAnyLayer()
             .whereLayer("Application").mayOnlyBeAccessedByLayers("Infrastructure")
             .whereLayer("Domain").mayOnlyBeAccessedByLayers("Application", "Infrastructure")
+            .ignoreDependency(BoaLeituraApplication::class.java, JwtProperties::class.java)
             .check(importedClasses)
     }
 

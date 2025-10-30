@@ -31,6 +31,8 @@ class GenreFindEndpointTest(private val genreRepository: GenreRepository) : Test
     @Test
     fun `get all genres default successfully`() {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .`when`()
             .get("/genres")
             .then()
@@ -52,6 +54,8 @@ class GenreFindEndpointTest(private val genreRepository: GenreRepository) : Test
     @Test
     fun `get all genres descendent successfully`() {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("directionAsc", false)
             .`when`()
             .get("/genres")
@@ -71,6 +75,8 @@ class GenreFindEndpointTest(private val genreRepository: GenreRepository) : Test
     @Test
     fun `get genres filtering by name successfully`() {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("name", "xpto")
             .`when`()
             .get("/genres")
@@ -84,7 +90,7 @@ class GenreFindEndpointTest(private val genreRepository: GenreRepository) : Test
         Assertions.assertEquals(4, response.content.size)
         names().filter {
             it.key.contains("xpto", true) ||
-            it.value.any { sub -> sub.contains("xpto", true) }
+                    it.value.any { sub -> sub.contains("xpto", true) }
         }.toSortedMap()
             .entries.forEachIndexed { index, entry ->
                 Assertions.assertEquals(entry.key, response.content[index].name)
@@ -97,6 +103,8 @@ class GenreFindEndpointTest(private val genreRepository: GenreRepository) : Test
     @Test
     fun `get second page genres size 4 order by name successfully`() {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("page", "2")
             .queryParam("size", "4")
             .queryParam("order", "ID")
@@ -123,6 +131,8 @@ class GenreFindEndpointTest(private val genreRepository: GenreRepository) : Test
     fun `get genres negative or zero page`(page: String) {
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("page", page)
             .`when`()
             .get("/genres")
@@ -138,6 +148,8 @@ class GenreFindEndpointTest(private val genreRepository: GenreRepository) : Test
     @ValueSource(strings = ["0", "-1", "300", "1000"])
     fun `get genres wrong page size`(pageSize: String) {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("size", pageSize)
             .`when`()
             .get("/genres")

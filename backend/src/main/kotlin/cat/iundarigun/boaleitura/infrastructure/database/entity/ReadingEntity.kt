@@ -44,4 +44,4 @@ data class ReadingEntity(
 
     @Version
     var version: Int = 0
-)
+) : UserIdBaseEntity()

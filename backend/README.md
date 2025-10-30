@@ -45,7 +45,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 
 ### Generic
 [X] Add Kotlin checkstyle
-[ ] Update Spring boot version
+[X] Update Spring boot version
 [X] Move to Hexagonal
 [x] ArchUnit tests
 [ ] Verify error message
@@ -69,7 +69,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Search images by title
 [X] Add language in the searchBy isbn/title
 [X] Popup selection by title
-[ ] Search by keyword
+[X] Search by keyword
 
 ### Sagas
 [X] Crud Sagas
@@ -96,9 +96,10 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [ ] Add mechanism to choose the best x year
 
 ### Statistics
-[ ] Year statistics: Number of books by year
+[X] Year statistics: Number of books by year
 [ ] Entering in the year, other statistics
-   [ ] Group by books, authors, languages, sagas
+   [X] Group by books, authors, languages
+   [ ] sagas
 
 ## Frontend
 
@@ -108,3 +109,6 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 
 ### Menu
 [ ] Reorganize menu, add util menu
+
+### Import
+[ ] Add page to import goodreads csv

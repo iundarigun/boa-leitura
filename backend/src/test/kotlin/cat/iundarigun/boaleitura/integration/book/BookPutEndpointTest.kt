@@ -26,6 +26,8 @@ class BookPutEndpointTest(
         val request = bookRequestFactory.build()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -75,6 +77,8 @@ class BookPutEndpointTest(
         val bookId = FakerConfiguration.FAKER.randomId()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -97,6 +101,8 @@ class BookPutEndpointTest(
         val request = bookRequestFactory.build(isbn = book2.isbn!!)
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()

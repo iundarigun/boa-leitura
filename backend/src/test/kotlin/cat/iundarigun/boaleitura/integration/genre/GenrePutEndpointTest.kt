@@ -23,6 +23,8 @@ class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestC
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -48,10 +50,13 @@ class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestC
         val genre = genreRepository.save(GenreEntityFactory.build(parent))
         val request = GenreRequest(
             name = FakerConfiguration.FAKER.lorem().characters(10, 100),
-            parentGenreId = parent.id)
+            parentGenreId = parent.id
+        )
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -82,6 +87,8 @@ class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestC
         val count = genreRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -110,6 +117,8 @@ class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestC
         val request = GenreRequest(name = existing.name)
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -133,6 +142,8 @@ class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestC
         )
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -157,6 +168,8 @@ class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestC
         )
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -176,6 +189,8 @@ class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestC
         val request = GenreRequestFactory.build()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -198,6 +213,8 @@ class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestC
         )
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .given()
@@ -217,6 +234,8 @@ class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestC
         val genre = genreRepository.save(GenreEntityFactory.build())
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""{"parentGenreId": 10}""")
             .given()
@@ -236,6 +255,8 @@ class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestC
         val genre = genreRepository.save(GenreEntityFactory.build())
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""{"name": "Genre name", "parentGenreId": "BAD GENDER"}""")
             .given()
@@ -256,6 +277,8 @@ class GenrePutEndpointTest(private val genreRepository: GenreRepository) : TestC
         val request = GenreRequest(name = "SM")
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .pathParam("id", genre.id)

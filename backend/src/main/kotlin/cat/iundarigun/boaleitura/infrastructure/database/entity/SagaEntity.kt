@@ -8,6 +8,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Version
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.Filter
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
@@ -28,6 +29,7 @@ data class SagaEntity(
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "saga")
     var books: List<BookEntity> = ArrayList(),
 
+    @Filter(name = "userIdFilter", condition = "user_id = :userId")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "saga")
     var statuses: List<SagaStatusEntity> = ArrayList(),
 

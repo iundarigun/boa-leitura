@@ -19,6 +19,8 @@ class SagaPostEndpointTest(private val sagaRepository: SagaRepository) : TestCon
         val count = sagaRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -40,6 +42,8 @@ class SagaPostEndpointTest(private val sagaRepository: SagaRepository) : TestCon
         val count = sagaRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""{"totalMainTitles": 5, "concluded": "true"}""")
             .`when`()
@@ -58,6 +62,8 @@ class SagaPostEndpointTest(private val sagaRepository: SagaRepository) : TestCon
         val count = sagaRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""{"name": "Saga name", "totalMainTitles": "FIVE"}""")
             .`when`()
@@ -77,6 +83,8 @@ class SagaPostEndpointTest(private val sagaRepository: SagaRepository) : TestCon
         val count = sagaRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()
@@ -96,6 +104,8 @@ class SagaPostEndpointTest(private val sagaRepository: SagaRepository) : TestCon
         val count = sagaRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
             .`when`()

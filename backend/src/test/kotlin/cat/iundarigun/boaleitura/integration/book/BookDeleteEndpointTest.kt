@@ -25,6 +25,8 @@ class BookDeleteEndpointTest(
         val count = bookRepository.count()
 
         RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", book.id)
             .`when`()
@@ -38,11 +40,15 @@ class BookDeleteEndpointTest(
     @Test
     fun `delete book by id with reads`() {
         val book = bookEntityFactory.buildAllAndSave()
-        readingRepository.save(ReadingEntityFactory.build(book))
+        executeInContext {
+            readingRepository.save(ReadingEntityFactory.build(book))
+        }
 
         val count = bookRepository.count()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", book.id)
             .`when`()
@@ -63,6 +69,8 @@ class BookDeleteEndpointTest(
         val bookId = FakerConfiguration.FAKER.randomId()
 
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .given()
             .pathParam("id", bookId)
             .`when`()

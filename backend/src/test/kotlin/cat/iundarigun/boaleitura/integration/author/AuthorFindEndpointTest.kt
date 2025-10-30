@@ -26,6 +26,8 @@ class AuthorFindEndpointTest(private val authorRepository: AuthorRepository) : T
     @Test
     fun `get all authors default successfully`() {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .`when`()
             .get("/authors")
             .then()
@@ -44,6 +46,8 @@ class AuthorFindEndpointTest(private val authorRepository: AuthorRepository) : T
     @Test
     fun `get all authors descendent successfully`() {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("directionAsc", false)
             .`when`()
             .get("/authors")
@@ -63,6 +67,8 @@ class AuthorFindEndpointTest(private val authorRepository: AuthorRepository) : T
     @Test
     fun `get authors filtering by name successfully`() {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("name", "xpto")
             .`when`()
             .get("/authors")
@@ -84,6 +90,8 @@ class AuthorFindEndpointTest(private val authorRepository: AuthorRepository) : T
     @Test
     fun `get second page authors size 4 order by name successfully`() {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("page", "2")
             .queryParam("size", "4")
             .queryParam("order", "ID")
@@ -106,6 +114,8 @@ class AuthorFindEndpointTest(private val authorRepository: AuthorRepository) : T
     @ValueSource(strings = ["0", "-1"])
     fun `get authors negative or zero page`(page: String) {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("page", page)
             .`when`()
             .get("/authors")
@@ -121,6 +131,8 @@ class AuthorFindEndpointTest(private val authorRepository: AuthorRepository) : T
     @ValueSource(strings = ["0", "-1", "300", "1000"])
     fun `get authors wrong page size`(pageSize: String) {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("size", pageSize)
             .`when`()
             .get("/authors")
@@ -136,6 +148,8 @@ class AuthorFindEndpointTest(private val authorRepository: AuthorRepository) : T
     @ValueSource(strings = ["date", "authorName", "updateAt"])
     fun `get authors wrong order value`(orderValue: String) {
         val response = RestAssured.given()
+            .auth()
+            .oauth2(jwtToken)
             .queryParam("order", orderValue)
             .`when`()
             .get("/authors")

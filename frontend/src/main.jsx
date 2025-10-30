@@ -1,13 +1,19 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import {StrictMode} from 'react'
+import {createRoot} from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-import { DialogProvider } from "@/context/DialogContext";
+import {DialogProvider} from "@/context/DialogContext";
+import {AuthProvider} from "@/context/AuthContext.jsx";
+import {BrowserRouter} from "react-router-dom";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <DialogProvider>
-      <App />
-    </DialogProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <DialogProvider>
+          <App/>
+        </DialogProvider>
+      </AuthProvider>
+    </BrowserRouter>
   </StrictMode>,
 )

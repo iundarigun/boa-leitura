@@ -45,7 +45,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 
 ### Generic
 [X] Add Kotlin checkstyle
-[ ] Update Spring boot version
+[X] Update Spring boot version
 [X] Move to Hexagonal
 [x] ArchUnit tests
 [ ] Verify error message

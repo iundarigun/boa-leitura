@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 
 import Layout from "@/components/Layout";
 import AuthorsListPage from "@/features/authors/pages/AuthorsListPage";
@@ -16,35 +16,34 @@ import StatisticsLanguagePage from "@/features/statistics/pages/StatisticsLangua
 import StatisticsAuthorPage from "@/features/statistics/pages/StatisticsAuthorPage.jsx";
 import StatisticsMoodPage from "@/features/statistics/pages/StatisticsMoodPage.jsx";
 import LoginPage from "@/features/auth/pages/LoginPage.jsx";
+import PrivateRoute from "@/components/PrivateRoute.jsx";
 
 function App() {
   return (
-    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/authors" element={<AuthorsListPage />} />
-          <Route path="/authors/new" element={<AuthorFormPage />} />
-          <Route path="/authors/:id/edit" element={<AuthorFormPage />} />
-          <Route path="/genres" element={<GenresListPage />} />
-          <Route path="/genres/new" element={<GenreFormPage />} />
-          <Route path="/genres/:id/edit" element={<GenreFormPage />} />
-          <Route path="/sagas" element={<SagasListPage />} />
-          <Route path="/sagas/new" element={<SagaFormPage />} />
-          <Route path="/sagas/:id/edit" element={<SagaFormPage />} />
-          <Route path="/books" element={<BooksListPage />} />
-          <Route path="/books/new" element={<BookFormPage />} />
-          <Route path="/books/:id/edit" element={<BookFormPage />} />
-          <Route path="/readings" element={<ReadingsListPage />} />
-          <Route path="/readings/:id/edit" element={<ReadingFormPage />} />
-          <Route path="/readings/new/:bookId" element={<ReadingFormPage />} />
-          <Route path="/statistics/summary" element={<StatisticsSummaryPage />} />
-          <Route path="/statistics/language" element={<StatisticsLanguagePage />} />
-          <Route path="/statistics/author" element={<StatisticsAuthorPage />} />
-          <Route path="/statistics/mood" element={<StatisticsMoodPage />} />
+          <Route path="/authors" element={<PrivateRoute><AuthorsListPage /></PrivateRoute>} />
+          <Route path="/authors/new" element={<PrivateRoute><AuthorFormPage /></PrivateRoute>} />
+          <Route path="/authors/:id/edit" element={<PrivateRoute><AuthorFormPage /></PrivateRoute>} />
+          <Route path="/genres" element={<PrivateRoute><GenresListPage /></PrivateRoute>} />
+          <Route path="/genres/new" element={<PrivateRoute><GenreFormPage /></PrivateRoute>} />
+          <Route path="/genres/:id/edit" element={<PrivateRoute><GenreFormPage /></PrivateRoute>} />
+          <Route path="/sagas" element={<PrivateRoute><SagasListPage /></PrivateRoute>} />
+          <Route path="/sagas/new" element={<PrivateRoute><SagaFormPage /></PrivateRoute>} />
+          <Route path="/sagas/:id/edit" element={<PrivateRoute><SagaFormPage /></PrivateRoute>} />
+          <Route path="/books" element={<PrivateRoute><BooksListPage /></PrivateRoute>} />
+          <Route path="/books/new" element={<PrivateRoute><BookFormPage /></PrivateRoute>} />
+          <Route path="/books/:id/edit" element={<PrivateRoute><BookFormPage /></PrivateRoute>} />
+          <Route path="/readings" element={<PrivateRoute><ReadingsListPage /></PrivateRoute>} />
+          <Route path="/readings/:id/edit" element={<PrivateRoute><ReadingFormPage /></PrivateRoute>} />
+          <Route path="/readings/new/:bookId" element={<PrivateRoute><ReadingFormPage /></PrivateRoute>} />
+          <Route path="/statistics/summary" element={<PrivateRoute><StatisticsSummaryPage /></PrivateRoute>} />
+          <Route path="/statistics/language" element={<PrivateRoute><StatisticsLanguagePage /></PrivateRoute>} />
+          <Route path="/statistics/author" element={<PrivateRoute><StatisticsAuthorPage /></PrivateRoute>} />
+          <Route path="/statistics/mood" element={<PrivateRoute><StatisticsMoodPage /></PrivateRoute>} />
           <Route path="/login" element={<LoginPage />}/>
         </Route>
       </Routes>
-    </BrowserRouter>
   );
 }
 

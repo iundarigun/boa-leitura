@@ -3,10 +3,24 @@ import axios from "axios";
 const api = axios.create({
   baseURL: "http://localhost:1980",
   headers: {
-    "Content-Type": "application/json",
-    "X-User-Id": "1",
+    "Content-Type": "application/json"
   },
 });
+
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("jwt");
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      delete config.headers.Authorization;
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 export async function apiCall(apiFunc) {
 try {

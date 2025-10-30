@@ -11,10 +11,8 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (token) {
       localStorage.setItem("jwt", token);
-      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     } else {
       localStorage.removeItem("jwt");
-      delete api.defaults.headers.common["Authorization"];
     }
   }, [token]);
 

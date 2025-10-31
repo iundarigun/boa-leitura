@@ -64,10 +64,11 @@ class TestContainerBaseConfiguration {
         executeInContext { dataFactory.clean() }
     }
 
-    fun <T> executeInContext(func: () -> T) {
+    fun <T> executeInContext(func: () -> T): T {
         addUserToContext()
-        func.invoke()
+        val result = func.invoke()
         removeUserFromContext()
+        return result
     }
 
     private fun addUserToContext() {

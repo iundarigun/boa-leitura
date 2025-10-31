@@ -59,6 +59,14 @@ fun <T> specExistsOrNot(exists: Boolean?, fieldListName: String, countFieldName:
         } ?: criteriaBuilder.and()
     }
 
+fun <T> specIs(condition: Boolean?, fieldName: String) =
+    Specification<T> { root, _, criteriaBuilder ->
+        condition?.let {
+            criteriaBuilder.and(
+                criteriaBuilder.equal(root.get<Boolean>(fieldName), condition))
+        } ?: criteriaBuilder.and()
+    }
+
 fun <T> specIsNull(fieldName: String) =
     Specification<T> { root, _, criteriaBuilder ->
         criteriaBuilder.and(criteriaBuilder.isNull(root.get<Any>(fieldName)))

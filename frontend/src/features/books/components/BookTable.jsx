@@ -88,7 +88,7 @@ export default function BookTable({books, loading, sortField, sortDir, onSort, o
                 <td className="p-3">
                   {new Date(book.createdAt).toLocaleDateString()}
                 </td>
-                <td className="p-3 text-center">{book.read ? "✅" : "❌"}</td>
+                <td className="p-3 text-center">{book.read ? "✅" : (book.inTbr ? "📚": "❌")}</td>
               </tr>
             ))
           ) : (

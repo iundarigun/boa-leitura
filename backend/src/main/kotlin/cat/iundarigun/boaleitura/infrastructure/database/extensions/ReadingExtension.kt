@@ -10,7 +10,7 @@ import cat.iundarigun.boaleitura.infrastructure.database.entity.ReadingEntity
 fun ReadingEntity.toSummaryResponse(): ReadingSummaryResponse =
     ReadingSummaryResponse(
         id = this.id,
-        book = this.book.toSummaryResponse(true),
+        book = this.book.toSummaryResponse(true, false),
         myRating = this.myRating,
         language = this.language,
         dateRead = this.dateRead

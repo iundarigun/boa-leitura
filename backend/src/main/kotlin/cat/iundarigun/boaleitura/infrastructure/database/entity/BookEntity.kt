@@ -43,6 +43,10 @@ data class BookEntity(
     @OneToMany(mappedBy = "book")
     var readings: List<ReadingEntity> = emptyList(),
 
+    @Filter(name = "userIdFilter", condition = "user_id = :userId")
+    @OneToMany(mappedBy = "book")
+    var toBeReads: List<ToBeReadEntity> = emptyList(),
+
     @ManyToOne
     var saga: SagaEntity? = null,
 

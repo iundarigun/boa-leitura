@@ -11,7 +11,7 @@ fun ToBeReadEntity.toResponse(): ToBeReadResponse =
         position = this.position,
         bought = this.bought,
         done = this.done,
-        book = this.book.toSummaryResponse(false),
+        book = this.book.toSummaryResponse(read = false, inTbr = false),
         tags = this.tags,
         platforms = this.platforms,
         notes = this.notes,

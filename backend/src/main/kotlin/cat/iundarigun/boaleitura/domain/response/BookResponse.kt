@@ -19,6 +19,7 @@ data class BookResponse(
     val urlImage: String? = null,
     val urlImageSmall: String? = null,
     val read: Boolean,
+    val inTbr: Boolean,
     val readings: List<ReadingBookResponse> = emptyList(),
 )
 

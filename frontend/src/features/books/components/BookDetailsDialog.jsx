@@ -20,6 +20,7 @@ export default function BookDetailsDialog({open, onClose, bookId, onDelete}) {
     book,
     loading,
     handleNewReading,
+    handleAddToBeRead,
     handleEdit,
   } = useBookDetails(bookId);
 
@@ -130,7 +131,7 @@ export default function BookDetailsDialog({open, onClose, bookId, onDelete}) {
                 : "-"}
             </p>
             <p>
-              <strong>Status:</strong> {read ? "✅ Read" : "❌ Not read"}
+              <strong>Status:</strong> {read ? "✅ Read" : (book.inTbr ? "📚 In the TBR" : "❌ Not read")}
             </p>
           </div>
         </div>
@@ -167,6 +168,11 @@ export default function BookDetailsDialog({open, onClose, bookId, onDelete}) {
           <Button variant="outline" size="sm" onClick={() => handleNewReading(book)}>
             New reading
           </Button>
+          {!read && !book.inTbr &&
+            <Button variant="outline" size="sm" onClick={() => handleAddToBeRead(book)}>
+              Add to TBR
+            </Button>
+          }
           <TableActionButtons
             entity={book}
             onEdit={handleEdit}

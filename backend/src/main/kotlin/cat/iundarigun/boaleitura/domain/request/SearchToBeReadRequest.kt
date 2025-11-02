@@ -19,6 +19,7 @@ data class SearchToBeReadRequest(
     ) {
     enum class OrderToBeReadField(val fieldName: String) {
         POSITION("position"),
+        TITLE("book.title"),
         CREATED_AT("createdAt")
     }
 

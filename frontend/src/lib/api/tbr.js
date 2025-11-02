@@ -10,7 +10,13 @@ export async function getToBeRead(params = {}) {
   if (params.sortDir !== undefined) {
     query.append("directionAsc", params.sortDir === 'asc');
   }
-  if (params.name) query.append("name", params.name);
+  if (params.filterKeyword) query.append("keyword", params.filterKeyword);
+  if (params.filterBought !== undefined) {
+    query.append("bought", params.filterBought);
+  }
+  if (params.filterDone !== undefined) {
+    query.append("done", params.filterDone);
+  }
 
   const { data, error } = await apiCall(() => api.get(`${API_URL}?${query.toString()}`));
   return {data, error};
@@ -18,5 +24,9 @@ export async function getToBeRead(params = {}) {
 
 export async function addToBeRead(payload) {
   return await apiCall(() => api.post(`${API_URL}`, payload));
+}
+
+export async function deleteToBeRead(id) {
+  return await apiCall(() => api.delete(`${API_URL}/${id}`));
 }
 

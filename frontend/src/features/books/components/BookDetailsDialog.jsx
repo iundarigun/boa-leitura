@@ -15,7 +15,7 @@ import {getReadingPlatformsDisplay} from "@/lib/platform";
 import useBookDetails from "@/features/books/hooks/useBookDetails.js";
 import TableActionButtons from "@/components/TableActionButtons.jsx";
 
-export default function BookDetailsDialog({open, onClose, bookId, onDelete}) {
+export default function BookDetailsDialog({open, onClose, bookId, onDelete, onRefresh}) {
   const {
     book,
     loading,
@@ -169,7 +169,10 @@ export default function BookDetailsDialog({open, onClose, bookId, onDelete}) {
             New reading
           </Button>
           {!read && !book.inTbr &&
-            <Button variant="outline" size="sm" onClick={() => handleAddToBeRead(book)}>
+            <Button variant="outline" size="sm" onClick={() => {
+              handleAddToBeRead(book);
+              if (onRefresh) onRefresh();
+            }}>
               Add to TBR
             </Button>
           }

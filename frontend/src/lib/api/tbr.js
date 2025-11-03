@@ -36,9 +36,9 @@ export async function reorderToBeRead(id, payload) {
 }
 
 export async function markAsDoneToBeRead(id) {
-  return await apiCall(() => api.patch(`${API_URL}/${id}/done`));
+  return await apiCall(() => api.patch(`${API_URL}/${id}`, {done: true}));
 }
 
 export async function markAsBoughtToBeRead(id) {
-  return await apiCall(() => api.patch(`${API_URL}/${id}/bought`));
+  return await apiCall(() => api.patch(`${API_URL}/${id}`, {bought: true}));
 }

@@ -21,7 +21,8 @@ export default function ToBeReadsListPage() {
     handleSort,
     handleEdit,
     handleDragEnd,
-    handleMarkAsDone
+    handleMarkAsDone,
+    handleMarkAsBought
   } = useToBeReads();
 
   return (
@@ -57,6 +58,7 @@ export default function ToBeReadsListPage() {
           onSort={handleSort}
           onDragEnd={handleDragEnd}
           onMarkAsDone={handleMarkAsDone}
+          onMarkAsBought={handleMarkAsBought}
         />
 
         <Pagination

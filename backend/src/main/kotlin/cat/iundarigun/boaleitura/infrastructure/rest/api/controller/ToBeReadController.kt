@@ -2,6 +2,7 @@ package cat.iundarigun.boaleitura.infrastructure.rest.api.controller
 
 import cat.iundarigun.boaleitura.application.port.input.tbr.AddToBeReadUseCase
 import cat.iundarigun.boaleitura.application.port.input.tbr.FindToBeReadUseCase
+import cat.iundarigun.boaleitura.application.port.input.tbr.PatchToBeReadUseCase
 import cat.iundarigun.boaleitura.application.port.input.tbr.ReorderToBeReadUseCase
 import cat.iundarigun.boaleitura.domain.request.SearchToBeReadRequest
 import cat.iundarigun.boaleitura.domain.request.ToBeReadReorderRequest
@@ -26,6 +27,7 @@ class ToBeReadController(
     private val findToBeReadUseCase: FindToBeReadUseCase,
     private val addToBeReadUseCase: AddToBeReadUseCase,
     private val reorderToBeReadUseCase: ReorderToBeReadUseCase,
+    private val patchToBeReadUseCase: PatchToBeReadUseCase,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -47,5 +49,11 @@ class ToBeReadController(
     fun reorderToBeRead(@PathVariable id: Long, @RequestBody request: ToBeReadReorderRequest) {
         logger.info("reorderToBeRead, id=$id, request=$request")
         return reorderToBeReadUseCase.execute(id, request)
+    }
+
+    @PatchMapping("{id}")
+    fun patchToBeRead(@PathVariable id: Long, @RequestBody request: Map<String, Any>) {
+        logger.info("patchToBeRead, id=$id, request=$request")
+        return patchToBeReadUseCase.execute(id, request)
     }
 }

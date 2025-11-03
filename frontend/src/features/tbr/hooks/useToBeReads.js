@@ -90,21 +90,26 @@ export default function useToBeReads() {
 
   const handleMarkAsDone = async (tbr) => {
     setToBeReads((prev) => prev.filter((item) => item.id !== tbr.id));
-    const {error} = markAsDoneToBeRead(tbr.id)
+    const {error} = await markAsDoneToBeRead(tbr.id)
     if (error) {
       showError(error);
       return;
     }
-    showSuccess("Book mark as done");
+    showSuccess("Book marked as done");
   }
 
   const handleMarkAsBought = async (tbr) => {
-    const {error} = markAsBoughtToBeRead(tbr.id)
+    const {error} = await markAsBoughtToBeRead(tbr.id)
     if (error) {
       showError(error);
       return;
     }
-    showSuccess("Book mark as bought");
+    setToBeReads((prev) =>
+      prev.map((item) =>
+        item.id === tbr.id ? { ...item, bought: true } : item
+      )
+    );
+    showSuccess("Book marked as bought");
   }
 
 

@@ -83,6 +83,16 @@ class ToBeReadAdapter(
         toBeReadRepository.saveAll(list)
     }
 
+    @Transactional
+    override fun update(id: Long, request: Map<String, Any>) {
+        val tbr = toBeReadRepository.findById(id)
+            .orElseThrow { throw ToBeReadNotFoundException(id) }
+        tbr.bought = request.getOrDefault("bought", tbr.bought) as Boolean
+        tbr.done = request.getOrDefault("done", tbr.done) as Boolean
+
+        toBeReadRepository.save(tbr)
+    }
+
     private fun List<ToBeReadEntity>.shiftUp(): List<ToBeReadEntity> =
         listOf(last()) + dropLast(1)
 

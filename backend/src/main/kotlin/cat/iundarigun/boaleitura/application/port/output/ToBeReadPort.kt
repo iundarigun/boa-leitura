@@ -16,4 +16,5 @@ interface ToBeReadPort {
     fun existsByBook(bookId: Long): Boolean
     fun save(request: ToBeReadRequest): ToBeReadResponse
     fun reorder(id: Long, request: ToBeReadReorderRequest)
+    fun update(id: Long, request: Map<String, Any>)
 }

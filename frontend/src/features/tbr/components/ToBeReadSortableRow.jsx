@@ -144,7 +144,7 @@ export default function ToBeReadSortableRow({tbr, index, onEdit, onDelete, handl
       />
       <CustomAlertDialog
         confirm={confirmMarkAsBought}
-        setConfirm={confirmMarkAsBought}
+        setConfirm={setConfirmMarkAsBought}
         title="Mark as Bought"
         text={<>Are you sure you want to mark as bought <b>{tbr.book?.title}</b>?</>}
         action={() => handleMarkAsBought(tbr)}

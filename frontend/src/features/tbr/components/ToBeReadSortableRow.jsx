@@ -14,7 +14,7 @@ import CustomTooltip from "@/components/CustomTooltip.jsx";
 import {useState} from "react";
 import CustomAlertDialog from "@/components/CustomAlertDialog.jsx";
 
-export default function ToBeReadSortableRow({tbr, index, onEdit, onDelete, handleBookView, handleSagaView, handleMarkAsDone, handleMarkAsBought}) {
+export default function ToBeReadSortableRow({tbr, index, isDragDisabled, onEdit, onDelete, handleBookView, handleSagaView, handleMarkAsDone, handleMarkAsBought}) {
   const {
     attributes,
     listeners,
@@ -24,6 +24,7 @@ export default function ToBeReadSortableRow({tbr, index, onEdit, onDelete, handl
     isDragging
   } = useSortable({
     id: tbr.id,
+    disabled: isDragDisabled
   });
 
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -39,10 +40,11 @@ export default function ToBeReadSortableRow({tbr, index, onEdit, onDelete, handl
   return (
     <tr ref={setNodeRef} style={style} className="border-t hover:bg-gray-50">
       <td
-        className="p-3 font-medium cursor-grab select-none"
-        {...attributes}
-        {...listeners}
-        title="Arraste para mudar a posição"
+        className={`p-3 font-medium select-none ${
+          isDragDisabled ? "cursor-default opacity-70" : "cursor-grab"
+        }`}
+        {...(!isDragDisabled ? { ...attributes, ...listeners } : {})}
+        title="Drag to change position"
       >
         {index + 1}
       </td>

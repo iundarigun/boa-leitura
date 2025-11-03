@@ -83,6 +83,7 @@ export default function ToBeReadTable({
                       key={tbr.id}
                       tbr={tbr}
                       index={index}
+                      isDragDisabled={sortField !== "POSITION" || sortDir !== "asc"}
                       onEdit={onEdit}
                       onDelete={onDelete}
                       handleBookView={handleBookView}

@@ -31,7 +31,7 @@ export default function useBookDetails(bookId) {
       showError(error);
       return;
     }
-    await fetchBook();
+    setBook({...book, inTbr: true})
     showSuccess("Add to TBR sucessfully!");
   }
 

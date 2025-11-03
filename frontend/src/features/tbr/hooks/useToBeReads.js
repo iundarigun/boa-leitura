@@ -3,7 +3,7 @@ import {useDialog} from "@/context/DialogContext.jsx";
 import {deleteToBeRead, getToBeRead} from "@/lib/api/tbr.js";
 
 export default function useToBeReads() {
-  const [toBeReads, setToBeReads] = useState({"content": []});
+  const [toBeReads, setToBeReads] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);

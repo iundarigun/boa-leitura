@@ -7,7 +7,7 @@ import {
   AlertDialogTrigger
 } from "@/components/ui/alert-dialog.jsx";
 
-export default function TableActionButtons({ entity, onDetails, onEdit, onDelete, onSelect, warningProperty}) {
+export default function TableActionButtons({ entity, onDetails, onEdit, onDelete, onSelect, warningProperty, deleteMessage}) {
 
   return (
     <>
@@ -29,7 +29,9 @@ export default function TableActionButtons({ entity, onDetails, onEdit, onDelete
             <AlertDialogHeader>
               <AlertDialogTitle>Confirm delete</AlertDialogTitle>
               <AlertDialogDescription>
-                Are you sure you want to delete <b>{entity[warningProperty]}</b>?
+                {deleteMessage ? (deleteMessage(entity))
+                  :<>Are you sure you want to delete<b>{entity[warningProperty]}</b>?</>
+                }
                 This action cannot be undone.
               </AlertDialogDescription>
             </AlertDialogHeader>

@@ -30,4 +30,5 @@ interface ToBeReadRepository : JpaRepository<ToBeReadEntity, Long>, JpaSpecifica
         ORDER BY tbr.position ASC
         """)
     fun findByBetweenPositions(min: Long, max: Long): List<ToBeReadEntity>
+    fun findByBookId(bookId: Long): ToBeReadEntity?
 }

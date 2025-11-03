@@ -18,6 +18,7 @@ import StatisticsMoodPage from "@/features/statistics/pages/StatisticsMoodPage.j
 import LoginPage from "@/features/auth/pages/LoginPage.jsx";
 import PrivateRoute from "@/components/PrivateRoute.jsx";
 import ToBeReadsListPage from "@/features/tbr/pages/ToBeReadsListPage.jsx";
+import ToBeReadFormPage from "@/features/tbr/pages/ToBeReadFormPage.jsx";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/readings/:id/edit" element={<PrivateRoute><ReadingFormPage /></PrivateRoute>} />
           <Route path="/readings/new/:bookId" element={<PrivateRoute><ReadingFormPage /></PrivateRoute>} />
           <Route path="/tbr" element={<PrivateRoute><ToBeReadsListPage /></PrivateRoute>} />
+          <Route path="/tbr/:id/edit" element={<PrivateRoute><ToBeReadFormPage /></PrivateRoute>} />
           <Route path="/statistics/summary" element={<PrivateRoute><StatisticsSummaryPage /></PrivateRoute>} />
           <Route path="/statistics/language" element={<PrivateRoute><StatisticsLanguagePage /></PrivateRoute>} />
           <Route path="/statistics/author" element={<PrivateRoute><StatisticsAuthorPage /></PrivateRoute>} />

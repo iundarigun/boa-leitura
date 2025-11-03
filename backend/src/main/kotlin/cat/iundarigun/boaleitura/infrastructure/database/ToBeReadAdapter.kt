@@ -9,6 +9,7 @@ import cat.iundarigun.boaleitura.domain.response.ToBeReadResponse
 import cat.iundarigun.boaleitura.exception.BookNotFoundException
 import cat.iundarigun.boaleitura.exception.ToBeReadNotFoundException
 import cat.iundarigun.boaleitura.infrastructure.database.entity.ToBeReadEntity
+import cat.iundarigun.boaleitura.infrastructure.database.extensions.merge
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toEntity
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toPageResponse
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toPageable
@@ -55,13 +56,38 @@ class ToBeReadAdapter(
     override fun existsByBook(bookId: Long): Boolean =
         toBeReadRepository.existsByBookId(bookId)
 
+    @Transactional(readOnly = true)
+    override fun findByBook(bookId: Long): ToBeReadResponse? =
+        toBeReadRepository.findByBookId(bookId)?.toResponse()
+
+    @Transactional(readOnly = true)
+    override fun findById(id: Long): ToBeReadResponse {
+        val tbr = toBeReadRepository.findById(id)
+            .orElseThrow { ToBeReadNotFoundException(id) }
+
+        return tbr.toResponse()
+    }
+
     @Transactional
-    override fun save(request: ToBeReadRequest): ToBeReadResponse {
+    override fun delete(id: Long) {
+        if (!toBeReadRepository.existsById(id)) {
+            throw ToBeReadNotFoundException(id)
+        }
+        toBeReadRepository.deleteById(id)
+    }
+
+    @Transactional
+    override fun save(request: ToBeReadRequest, id: Long?): ToBeReadResponse {
         val book = bookRepository.findById(request.bookId)
             .orElseThrow { throw BookNotFoundException(request.bookId) }
-        val position = request.position ?: ((toBeReadRepository.findMaxPosition() ?: 0) + 1)
+        if (id == null) {
+            val position = request.position ?: ((toBeReadRepository.findMaxPosition() ?: 0) + 1)
+            return toBeReadRepository.save(request.toEntity(book, position)).toResponse()
+        }
+        val tbr = toBeReadRepository.findById(id)
+            .orElseThrow { ToBeReadNotFoundException(id) }
 
-        return toBeReadRepository.save(request.toEntity(book, position)).toResponse()
+        return toBeReadRepository.save(tbr.merge(request, book)).toResponse()
     }
 
     @Transactional

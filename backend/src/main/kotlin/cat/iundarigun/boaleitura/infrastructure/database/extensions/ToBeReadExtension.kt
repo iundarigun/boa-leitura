@@ -27,3 +27,14 @@ fun ToBeReadRequest.toEntity(book: BookEntity, position: Long): ToBeReadEntity =
         tags = this.tags,
         notes = this.notes,
     )
+
+fun ToBeReadEntity.merge(request: ToBeReadRequest, book: BookEntity): ToBeReadEntity {
+    this.book = book
+    this.position = request.position ?: this.position
+    this.bought = request.bought
+    this.platforms = request.platforms
+    this.tags = request.tags
+    this.notes = request.notes
+
+    return this
+}

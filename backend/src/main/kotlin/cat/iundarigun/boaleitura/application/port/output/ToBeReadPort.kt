@@ -13,8 +13,12 @@ interface ToBeReadPort {
         done: Boolean? = false,
         pageRequest: PageRequest
     ): PageResponse<ToBeReadResponse>
+
     fun existsByBook(bookId: Long): Boolean
-    fun save(request: ToBeReadRequest): ToBeReadResponse
+    fun save(request: ToBeReadRequest, id: Long? = null): ToBeReadResponse
     fun reorder(id: Long, request: ToBeReadReorderRequest)
     fun update(id: Long, request: Map<String, Any>)
+    fun findByBook(bookId: Long): ToBeReadResponse?
+    fun findById(id: Long): ToBeReadResponse
+    fun delete(id: Long)
 }

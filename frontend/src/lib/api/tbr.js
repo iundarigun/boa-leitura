@@ -30,6 +30,13 @@ export async function deleteToBeRead(id) {
   return await apiCall(() => api.delete(`${API_URL}/${id}`));
 }
 
+export async function getToBeReadById(id) {
+  return await apiCall(() => api.get(`${API_URL}/${id}`));
+}
+
+export async function updateToBeRead(id, payload) {
+  return await apiCall(() => api.put(`${API_URL}/${id}`, payload));
+}
 
 export async function reorderToBeRead(id, payload) {
   return await apiCall(() => api.patch(`${API_URL}/${id}/reorder`, payload));

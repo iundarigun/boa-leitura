@@ -19,7 +19,8 @@ export default function ToBeReadsListPage() {
     handleSearch,
     handleDelete,
     handleSort,
-    handleEdit
+    handleEdit,
+    handleDragEnd
   } = useToBeReads();
 
   return (
@@ -53,6 +54,7 @@ export default function ToBeReadsListPage() {
           sortField={sortField}
           sortDir={sortDir}
           onSort={handleSort}
+          onDragEnd={handleDragEnd}
         />
 
         <Pagination

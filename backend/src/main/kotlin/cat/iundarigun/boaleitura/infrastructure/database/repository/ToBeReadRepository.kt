@@ -21,4 +21,13 @@ interface ToBeReadRepository : JpaRepository<ToBeReadEntity, Long>, JpaSpecifica
 
     @Query("SELECT max(position) from ToBeRead")
     fun findMaxPosition(): Long?
+
+    @Query("""
+        SELECT tbr from ToBeRead tbr
+        WHERE tbr.position >= :min AND 
+              tbr.position <= :max AND
+              tbr.done is not true
+        ORDER BY tbr.position ASC
+        """)
+    fun findByBetweenPositions(min: Long, max: Long): List<ToBeReadEntity>
 }

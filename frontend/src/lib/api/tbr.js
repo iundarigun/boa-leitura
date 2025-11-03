@@ -1,4 +1,4 @@
-import api, { apiCall } from "@/lib/api.js";
+import api, {apiCall} from "@/lib/api.js";
 
 const API_URL = "/tbr";
 
@@ -30,3 +30,7 @@ export async function deleteToBeRead(id) {
   return await apiCall(() => api.delete(`${API_URL}/${id}`));
 }
 
+
+export async function reorderToBeRead(id, payload) {
+  return await apiCall(() => api.patch(`${API_URL}/${id}/reorder`, payload));
+}

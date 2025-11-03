@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {useDialog} from "@/context/DialogContext.jsx";
-import {deleteToBeRead, getToBeRead} from "@/lib/api/tbr.js";
+import {deleteToBeRead, getToBeRead, reorderToBeRead} from "@/lib/api/tbr.js";
+import {arrayMove} from "@dnd-kit/sortable";
 
 export default function useToBeReads() {
   const [toBeReads, setToBeReads] = useState([]);
@@ -13,7 +14,7 @@ export default function useToBeReads() {
   const [sortDir, setSortDir] = useState("asc");
   const [searchApplied, setSearchApplied] = useState("");
 
-  const { showError, showSuccess } = useDialog();
+  const {showError, showSuccess} = useDialog();
 
   useEffect(() => {
     fetchToBeReads();
@@ -69,6 +70,25 @@ export default function useToBeReads() {
     fetchToBeReads();
   };
 
+  const handleDragEnd = async (event) => {
+    const {active, over} = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = toBeReads.findIndex((i) => i.id === active.id);
+    const newIndex = toBeReads.findIndex((i) => i.id === over.id);
+    const direction = oldIndex < newIndex ? "DOWN" : "UP";
+
+    const newItems = arrayMove(toBeReads, oldIndex, newIndex);
+    setToBeReads(newItems);
+
+    reorderToBeRead(active.id,
+      {
+        targetId: over.id,
+        direction,
+      });
+  };
+
+
   return {
     toBeReads,
     loading,
@@ -82,6 +102,7 @@ export default function useToBeReads() {
     handleSearch,
     handleDelete,
     handleSort,
-    handleEdit
+    handleEdit,
+    handleDragEnd
   }
 }

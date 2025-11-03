@@ -2,10 +2,12 @@ package cat.iundarigun.boaleitura.infrastructure.database
 
 import cat.iundarigun.boaleitura.application.port.output.ToBeReadPort
 import cat.iundarigun.boaleitura.domain.request.PageRequest
+import cat.iundarigun.boaleitura.domain.request.ToBeReadReorderRequest
 import cat.iundarigun.boaleitura.domain.request.ToBeReadRequest
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.domain.response.ToBeReadResponse
 import cat.iundarigun.boaleitura.exception.BookNotFoundException
+import cat.iundarigun.boaleitura.exception.ToBeReadNotFoundException
 import cat.iundarigun.boaleitura.infrastructure.database.entity.ToBeReadEntity
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toEntity
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toPageResponse
@@ -18,6 +20,8 @@ import cat.iundarigun.boaleitura.infrastructure.database.utils.specLikeWithOrFie
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import kotlin.math.max
+import kotlin.math.min
 
 @Service
 class ToBeReadAdapter(
@@ -59,4 +63,29 @@ class ToBeReadAdapter(
 
         return toBeReadRepository.save(request.toEntity(book, position)).toResponse()
     }
+
+    @Transactional
+    override fun reorder(id: Long, request: ToBeReadReorderRequest) {
+        val movedTbr = toBeReadRepository.findById(id)
+            .orElseThrow { throw ToBeReadNotFoundException(id) }
+        val targetTbr = toBeReadRepository.findById(request.targetId)
+            .orElseThrow { throw ToBeReadNotFoundException(request.targetId) }
+
+        val list = toBeReadRepository.findByBetweenPositions(
+            min(movedTbr.position, targetTbr.position), max(movedTbr.position, targetTbr.position)
+        )
+        val originalPositions = list.map { it.position }
+        when (request.direction) {
+            ToBeReadReorderRequest.ReorderDirectionEnum.UP -> list.shiftUp()
+            ToBeReadReorderRequest.ReorderDirectionEnum.DOWN -> list.shiftDown()
+        }.forEachIndexed { i, tbr -> tbr.position = originalPositions[i] }
+
+        toBeReadRepository.saveAll(list)
+    }
+
+    private fun List<ToBeReadEntity>.shiftUp(): List<ToBeReadEntity> =
+        listOf(last()) + dropLast(1)
+
+    private fun List<ToBeReadEntity>.shiftDown(): List<ToBeReadEntity> =
+        drop(1) + first()
 }

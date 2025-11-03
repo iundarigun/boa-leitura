@@ -15,7 +15,8 @@ export default function ToBeReadTable({
                                         sortField,
                                         sortDir,
                                         onSort,
-                                        onDragEnd
+                                        onDragEnd,
+                                        onMarkAsDone
                                       }) {
   const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -85,6 +86,7 @@ export default function ToBeReadTable({
                       onDelete={onDelete}
                       handleBookView={handleBookView}
                       handleSagaView={handleSagaView}
+                      handleMarkAsDone={onMarkAsDone}
                     />
                   ))
                 ) : (

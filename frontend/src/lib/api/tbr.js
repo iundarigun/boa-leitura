@@ -34,3 +34,7 @@ export async function deleteToBeRead(id) {
 export async function reorderToBeRead(id, payload) {
   return await apiCall(() => api.patch(`${API_URL}/${id}/reorder`, payload));
 }
+
+export async function markAsDoneToBeRead(id) {
+  return await apiCall(() => api.patch(`${API_URL}/${id}/done`));
+}

@@ -28,6 +28,10 @@ try {
     return { data: res.data, error: null };
   } catch (err) {
     let message = "Erro desconhecido.";
+    if (err.status === 401) {
+      localStorage.removeItem("jwt");
+      return;
+    }
     if (err.response?.data?.message) {
       message = err.response.data.message;
     } else if (err.message) {

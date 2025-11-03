@@ -15,9 +15,9 @@ interface BookPort {
     fun findByIsbn(isbn: String): BookResponse?
     fun save(request: BookRequest, id: Long? = null): BookResponse
     fun save(request: BookGoodreadsImporterRequest): BookResponse
-    fun readingCount(id: Long): Int
     fun delete(id: Long)
     fun findMissingImages(): List<BookResponse>
     fun updateUrlImages(id: Long, urlImage: String, urlImageSmall: String?)
     fun findByGoodreadsId(goodreadsId: Long): BookResponse?
+    fun hasDependencies(id: Long): Boolean
 }

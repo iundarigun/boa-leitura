@@ -9,12 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {BookOpen, Check, Eye, MoreVertical, Pencil, Trash2} from "lucide-react";
+import {BookOpen, Check, Eye, MoreVertical, Pencil, Trash2, BadgeEuro} from "lucide-react";
 import CustomTooltip from "@/components/CustomTooltip.jsx";
 import {useState} from "react";
 import CustomAlertDialog from "@/components/CustomAlertDialog.jsx";
 
-export default function ToBeReadSortableRow({tbr, index, onEdit, onDelete, handleBookView, handleSagaView, handleMarkAsDone}) {
+export default function ToBeReadSortableRow({tbr, index, onEdit, onDelete, handleBookView, handleSagaView, handleMarkAsDone, handleMarkAsBought}) {
   const {
     attributes,
     listeners,
@@ -28,6 +28,7 @@ export default function ToBeReadSortableRow({tbr, index, onEdit, onDelete, handl
 
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [confirmMarkAsDone, setConfirmMarkAsDone] = useState(false);
+  const [confirmMarkAsBought, setConfirmMarkAsBought] = useState(false);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -92,12 +93,19 @@ export default function ToBeReadSortableRow({tbr, index, onEdit, onDelete, handl
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => handleBookView(tbr.book.id)}>
               <Eye className="h-4 w-4 mr-2" />
-              View Details
+              View book details
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setConfirmMarkAsDone(true)}>
+            {!tbr.done &&<DropdownMenuItem onClick={() => setConfirmMarkAsDone(true)}>
               <Check className="h-4 w-4 mr-2" />
               Mark as done
             </DropdownMenuItem>
+            }
+            {!tbr.bought &&
+              <DropdownMenuItem onClick={() => setConfirmMarkAsBought(true)}>
+                <BadgeEuro className="h-4 w-4 mr-2" />
+                Mark as bought
+              </DropdownMenuItem>
+            }
             <DropdownMenuItem onClick={() => onEdit(tbr)}>
               <Pencil className="h-4 w-4 mr-2" />
               Edit
@@ -132,7 +140,14 @@ export default function ToBeReadSortableRow({tbr, index, onEdit, onDelete, handl
         setConfirm={setConfirmMarkAsDone}
         title="Mark as Done"
         text={<>Are you sure you want to mark as done <b>{tbr.book?.title}</b> from TBR?</>}
-        action={() => handleMarkAsDone(tbr.id)}
+        action={() => handleMarkAsDone(tbr)}
+      />
+      <CustomAlertDialog
+        confirm={confirmMarkAsBought}
+        setConfirm={confirmMarkAsBought}
+        title="Mark as Bought"
+        text={<>Are you sure you want to mark as bought <b>{tbr.book?.title}</b>?</>}
+        action={() => handleMarkAsBought(tbr)}
       />
     </tr>
   );

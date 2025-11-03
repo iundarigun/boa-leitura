@@ -22,7 +22,6 @@ import cat.iundarigun.boaleitura.infrastructure.database.extensions.toSummaryRes
 import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.GenreRepository
-import cat.iundarigun.boaleitura.infrastructure.database.repository.ReadingRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.SagaRepository
 import cat.iundarigun.boaleitura.infrastructure.database.utils.specExistsOrNot
 import cat.iundarigun.boaleitura.infrastructure.database.utils.specIsNull
@@ -39,7 +38,6 @@ class BookAdapter(
     private val authorRepository: AuthorRepository,
     private val sagaRepository: SagaRepository,
     private val genreRepository: GenreRepository,
-    private val readingRepository: ReadingRepository
 ) : BookPort {
 
     @Transactional(readOnly = true)
@@ -88,8 +86,8 @@ class BookAdapter(
     }
 
     @Transactional(readOnly = true)
-    override fun readingCount(id: Long): Int =
-        readingRepository.countByBookId(id)
+    override fun hasDependencies(id: Long): Boolean =
+        bookRepository.hasReadsOrTbr(id)
 
     @Transactional
     override fun delete(id: Long) {

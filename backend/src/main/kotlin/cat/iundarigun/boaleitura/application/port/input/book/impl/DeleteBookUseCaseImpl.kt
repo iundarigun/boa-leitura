@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 @Component
 class DeleteBookUseCaseImpl(private val bookPort: BookPort) : DeleteBookUseCase {
     override fun execute(id: Long) {
-        if (bookPort.readingCount(id) > 0) {
+        if (bookPort.hasDependencies(id)) {
             throw BookDeleteException(id)
         }
         bookPort.delete(id)

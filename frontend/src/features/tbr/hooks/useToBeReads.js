@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useDialog} from "@/context/DialogContext.jsx";
-import {deleteToBeRead, getToBeRead, markAsDoneToBeRead, reorderToBeRead} from "@/lib/api/tbr.js";
+import {deleteToBeRead, getToBeRead, markAsBoughtToBeRead, markAsDoneToBeRead, reorderToBeRead} from "@/lib/api/tbr.js";
 import {arrayMove} from "@dnd-kit/sortable";
 
 export default function useToBeReads() {
@@ -88,10 +88,25 @@ export default function useToBeReads() {
       });
   };
 
-  const handleMarkAsDone = async (id) => {
-    setToBeReads((prev) => prev.filter((item) => item.id !== id));
-    // markAsDoneToBeRead(tbr.id)
+  const handleMarkAsDone = async (tbr) => {
+    setToBeReads((prev) => prev.filter((item) => item.id !== tbr.id));
+    const {error} = markAsDoneToBeRead(tbr.id)
+    if (error) {
+      showError(error);
+      return;
+    }
+    showSuccess("Book mark as done");
   }
+
+  const handleMarkAsBought = async (tbr) => {
+    const {error} = markAsBoughtToBeRead(tbr.id)
+    if (error) {
+      showError(error);
+      return;
+    }
+    showSuccess("Book mark as bought");
+  }
+
 
   return {
     toBeReads,
@@ -108,6 +123,7 @@ export default function useToBeReads() {
     handleSort,
     handleEdit,
     handleDragEnd,
-    handleMarkAsDone
+    handleMarkAsDone,
+    handleMarkAsBought
   }
 }

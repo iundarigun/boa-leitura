@@ -1,14 +1,9 @@
 import {Button} from "@/components/ui/button.jsx";
-import {
-  AlertDialog, AlertDialogAction, AlertDialogCancel,
-  AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from "@/components/ui/alert-dialog.jsx";
+import {useState} from "react";
+import CustomAlertDialog from "@/components/CustomAlertDialog.jsx";
 
 export default function TableActionButtons({ entity, onDetails, onEdit, onDelete, onSelect, warningProperty, deleteMessage}) {
-
+  const [confirmDelete, setConfirmDelete] = useState(false);
   return (
     <>
       <div className="flex justify-center gap-2">
@@ -20,34 +15,18 @@ export default function TableActionButtons({ entity, onDetails, onEdit, onDelete
           Edit
         </Button>}
         {onSelect && <Button size="sm" onClick={() => onSelect(entity)}>Select</Button> }
-        {onDelete &&
-          <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive" size="sm">Delete</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Confirm delete</AlertDialogTitle>
-              <AlertDialogDescription>
-                {deleteMessage ? (deleteMessage(entity))
-                  :<>Are you sure you want to delete<b>{entity[warningProperty]}</b>?</>
-                }
-                This action cannot be undone.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction
-                className="bg-red-600 hover:bg-red-700"
-                onClick={() => onDelete(entity)}
-              >
-                Delete
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      }
+        {onDelete && <Button size="sm" variant="destructive"  onClick={() => setConfirmDelete(true)}>Delete</Button> }
       </div>
+      <CustomAlertDialog
+        confirm={confirmDelete}
+        setConfirm={setConfirmDelete}
+        title="Confirm delete"
+        text={<>{deleteMessage ? (deleteMessage(entity))
+          :<>Are you sure you want to delete<b>{entity[warningProperty]}</b>?</>
+        }
+        This action cannot be undone.</>}
+        action={() => onDelete(entity)}
+      />
     </>
   );
 

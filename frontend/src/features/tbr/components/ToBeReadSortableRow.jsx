@@ -105,8 +105,7 @@ export default function ToBeReadSortableRow({
       </td>
       <td className="p-3 text-center">
         <div className="flex justify-center items-center">
-          {tbr.bought ? <Check className="h-4 w-4 mr-2 "/> :
-          <X className="h-4 w-4 mr-2"/>}
+          {tbr.bought ? <Check className="h-4 w-4 mr-2 "/> : <X className="h-4 w-4 mr-2"/>}
         </div>
       </td>
       <td className="p-3">{new Date(tbr.addedAt).toLocaleDateString()}</td>

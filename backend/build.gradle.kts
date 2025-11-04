@@ -26,6 +26,7 @@ val springdocOpenapiStarterWebmvcUIVersion = "2.6.0"
 val detektVersion = "1.23.8"
 val jobrunrVersion = "8.1.0"
 val archUnitVersion = "1.4.1"
+val hypersistenceUtilHibernateVersion = "3.11.0"
 
 dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -40,6 +41,7 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("org.postgresql:postgresql")
+	implementation("io.hypersistence:hypersistence-utils-hibernate-63:$hypersistenceUtilHibernateVersion")
 
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.flywaydb:flyway-database-postgresql")

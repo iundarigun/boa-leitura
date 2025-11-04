@@ -28,7 +28,8 @@ export default function BooksListPage() {
     handleSearch,
     handleDelete,
     handleSort,
-    handleView
+    handleView,
+    fetchBooks,
   } = useBooks();
 
   const navigate = useNavigate();
@@ -87,6 +88,7 @@ export default function BooksListPage() {
           onClose={setBookDetailsOpen}
           bookId={selectedBook}
           onDelete={handleDelete}
+          onRefresh={fetchBooks}
         />
       </Card>
     </div>

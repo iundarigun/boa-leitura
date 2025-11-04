@@ -6,6 +6,7 @@ export const LANGUAGES = [
   { code: "fr", label: "Français" },
   { code: "ru", label: "Russian" },
   { code: "ja", label: "Japanese" },
+  { code: "nl", label: "Dutch"}
 ];
 
 export function getLanguageDisplay(code) {

@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
 import {useDialog} from "@/context/DialogContext.jsx";
 import {getBookById} from "@/lib/api/books.js";
+import {addToBeRead} from "@/lib/api/tbr.js";
 
 export default function useBookDetails(bookId) {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { showError } = useDialog();
+  const { showError, showSuccess } = useDialog();
 
   useEffect(() => {
     if (!bookId) return;
@@ -24,6 +25,16 @@ export default function useBookDetails(bookId) {
     setBook(data);
   };
 
+  const handleAddToBeRead = async (book) => {
+    const { error} = await addToBeRead({bookId: book.id});
+    if (error) {
+      showError(error);
+      return;
+    }
+    setBook({...book, inTbr: true})
+    showSuccess("Add to TBR sucessfully!");
+  }
+
   const handleEdit = (book) => {
     window.location.href = `/books/${book.id}/edit`;
   };
@@ -36,6 +47,7 @@ export default function useBookDetails(bookId) {
     book,
     loading,
     handleEdit,
-    handleNewReading
+    handleNewReading,
+    handleAddToBeRead
   };
 }

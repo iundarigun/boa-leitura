@@ -79,7 +79,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Add CRUD for genre
 
 ### TBR
-[ ] Add TBR list
+[X] Add TBR list
 
 ### Reading
 [X] Add format and platform

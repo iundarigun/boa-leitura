@@ -1,22 +1,11 @@
 import {useState} from "react";
-import {Button} from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 
 import {getLanguageDisplay} from "@/lib/languages.js";
 import BookDetailsDialog from "@/features/books/components/BookDetailsDialog";
 import SagaDetailsDialog from "@/features/sagas/components/SagaDetailsDialog";
 import StarRating from "@/components/StarRating";
 import SortableColumns from "@/components/SortableColumn.jsx";
+import TableActionButtons from "@/components/TableActionButtons.jsx";
 
 export default function ReadingTable({readings, loading, onEdit, onDelete, sortField, sortDir, onSort}) {
   const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
@@ -126,34 +115,13 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
                   {new Date(reading.dateRead).toLocaleDateString()}
                 </td>
                 <td className="p-3 text-center">
-                  <div className="flex justify-center gap-2">
-                    <Button variant="outline" size="sm" onClick={() => onEdit(reading)}>
-                      Edit
-                    </Button>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="destructive" size="sm">Delete</Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Confirm delete</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Are you sure you want to delete <b>{reading.book?.title} on {reading.dateRead}</b>?
-                            This action cannot be undone.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            className="bg-red-600 hover:bg-red-700"
-                            onClick={() => onDelete(reading)}
-                          >
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </div>
+                  <TableActionButtons
+                    entity={reading}
+                    onEdit={onEdit}
+                    onDelete={onDelete}
+                    warningProperty="name"
+                    deleteMessage={(entity) => <>Are you sure you want to delete <b>{entity.book?.title} on {entity.dateRead}</b>?</>}
+                  />
                 </td>
               </tr>
             ))

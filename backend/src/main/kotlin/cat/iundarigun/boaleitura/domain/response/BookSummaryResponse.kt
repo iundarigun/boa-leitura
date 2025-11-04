@@ -11,5 +11,6 @@ data class BookSummaryResponse(
     val urlImage: String? = null,
     val urlImageSmall: String? = null,
     val createdAt: LocalDateTime,
+    val inTbr: Boolean = false,
     val read: Boolean = false,
 )

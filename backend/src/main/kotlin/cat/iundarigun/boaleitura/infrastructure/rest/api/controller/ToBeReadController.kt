@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -66,7 +67,7 @@ class ToBeReadController(
         return addToBeReadUseCase.execute(request)
     }
 
-    @PostMapping("{id}")
+    @PutMapping("{id}")
     fun updateToBeRead(@PathVariable id: Long, @RequestBody request: ToBeReadRequest): ToBeReadResponse {
         logger.info("updateToBeRead, id=$id, request=$request")
         return updateToBeReadUseCase.execute(id, request)

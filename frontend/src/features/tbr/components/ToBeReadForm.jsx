@@ -10,6 +10,8 @@ import StarRatingInput from "@/components/StarRatingInput";
 import {READING_PLATFORMS} from "@/lib/platform";
 import {READING_FORMATS} from "@/lib/format";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
+import TagsInput from "@/components/TagsInput.jsx";
+import {Textarea} from "@/components/ui/textarea.jsx";
 
 export default function ToBeReadForm({ editingReading: editingToBeRead = null, onSubmit, onCancel, loading = false }) {
   const [bought, setBought] = useState(false);
@@ -32,21 +34,6 @@ export default function ToBeReadForm({ editingReading: editingToBeRead = null, o
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // if (!dateRead) {
-    //   onSubmit && onSubmit(null, { validationError: "Date read is required" });
-    //   return;
-    // }
-    //
-    // if (!language || !language.trim()) {
-    //   onSubmit && onSubmit(null, { validationError: "Language is required" });
-    //   return;
-    // }
-    //
-    // if (!myRating) {
-    //   onSubmit && onSubmit(null, { validationError: "Rating is required" });
-    //   return;
-    // }
 
     const payload = {
       bookId: book.id,
@@ -81,7 +68,7 @@ export default function ToBeReadForm({ editingReading: editingToBeRead = null, o
     <div className="flex-1">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="flex flex-col md:flex-row gap-2 items-end">
-          <div className="flex-1">
+          <div className="flex-1 items-center space-x-2">
             <Checkbox
               id="bought"
               checked={bought}
@@ -91,7 +78,7 @@ export default function ToBeReadForm({ editingReading: editingToBeRead = null, o
               Bought
             </label>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 items-center space-x-2">
             <Checkbox
               id="done"
               checked={done}
@@ -102,10 +89,15 @@ export default function ToBeReadForm({ editingReading: editingToBeRead = null, o
             </label>
           </div>
         </div>
-
+        <TagsInput value={tags} onChange={setTags} />
         <div>
-          <Label>Notes</Label>
-          {/*<StarRatingInput value={myRating} onChange={setMyRating} />*/}
+          <label className="block text-sm font-medium mb-1">Notes</label>
+          <Textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Write your notes here..."
+            className="min-h-[120px] resize-y"
+          />
         </div>
         <div className="flex gap-2 pt-2">
           <Button type="submit" disabled={loading}>

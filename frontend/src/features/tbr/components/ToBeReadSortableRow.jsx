@@ -14,7 +14,17 @@ import CustomTooltip from "@/components/CustomTooltip.jsx";
 import {useState} from "react";
 import CustomAlertDialog from "@/components/CustomAlertDialog.jsx";
 
-export default function ToBeReadSortableRow({tbr, index, isDragDisabled, onEdit, onDelete, handleBookView, handleSagaView, handleMarkAsDone, handleMarkAsBought}) {
+export default function ToBeReadSortableRow({
+                                              tbr,
+                                              index,
+                                              isDragDisabled,
+                                              onEdit,
+                                              onDelete,
+                                              handleBookView,
+                                              handleSagaView,
+                                              handleMarkAsDone,
+                                              handleMarkAsBought
+                                            }) {
   const {
     attributes,
     listeners,
@@ -37,13 +47,25 @@ export default function ToBeReadSortableRow({tbr, index, isDragDisabled, onEdit,
     opacity: isDragging ? 0.5 : 1,
   };
 
+  const tooltipContent = (tbr) => {
+    if (tbr.notes || (tbr.tags && tbr.tags.length > 0)) {
+      return (<>
+        {tbr.notes || '-' }
+        {tbr.tags && tbr.tags.length > 0 && <>
+          <br/><br/><label>tags: </label>{tbr.tags.join(", ")}
+        </>
+        }
+      </>);
+    }
+  }
+
   return (
     <tr ref={setNodeRef} style={style} className="border-t hover:bg-gray-50">
       <td
         className={`p-3 font-medium select-none ${
           isDragDisabled ? "cursor-default opacity-70" : "cursor-grab"
         }`}
-        {...(!isDragDisabled ? { ...attributes, ...listeners } : {})}
+        {...(!isDragDisabled ? {...attributes, ...listeners} : {})}
         title="Drag to change position"
       >
         {index + 1}
@@ -71,7 +93,7 @@ export default function ToBeReadSortableRow({tbr, index, isDragDisabled, onEdit,
               {tbr.book.title} ({tbr.book.author})
             </>
           }
-          tooltipContent={tbr.notes}
+          tooltipContent={tooltipContent(tbr)}
         />
       </td>
 
@@ -88,42 +110,42 @@ export default function ToBeReadSortableRow({tbr, index, isDragDisabled, onEdit,
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
-              <MoreVertical className="h-4 w-4" />
+              <MoreVertical className="h-4 w-4"/>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => handleBookView(tbr.book.id)}>
-              <Eye className="h-4 w-4 mr-2" />
+              <Eye className="h-4 w-4 mr-2"/>
               View book details
             </DropdownMenuItem>
-            {!tbr.done &&<DropdownMenuItem onClick={() => setConfirmMarkAsDone(true)}>
-              <Check className="h-4 w-4 mr-2" />
+            {!tbr.done && <DropdownMenuItem onClick={() => setConfirmMarkAsDone(true)}>
+              <Check className="h-4 w-4 mr-2"/>
               Mark as done
             </DropdownMenuItem>
             }
             {!tbr.bought &&
               <DropdownMenuItem onClick={() => setConfirmMarkAsBought(true)}>
-                <BadgeEuro className="h-4 w-4 mr-2" />
+                <BadgeEuro className="h-4 w-4 mr-2"/>
                 Mark as bought
               </DropdownMenuItem>
             }
             <DropdownMenuItem onClick={() => onEdit(tbr)}>
-              <Pencil className="h-4 w-4 mr-2" />
+              <Pencil className="h-4 w-4 mr-2"/>
               Edit
             </DropdownMenuItem>
             {tbr.book.saga && (
               <DropdownMenuItem onClick={() => handleSagaView(tbr.book.saga.id)}>
-                <BookOpen className="h-4 w-4 mr-2" />
+                <BookOpen className="h-4 w-4 mr-2"/>
                 View Saga
               </DropdownMenuItem>
             )}
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator/>
             <DropdownMenuItem
               className="text-red-600 focus:text-red-700"
               onClick={() => setConfirmDelete(true)}
             >
-              <Trash2 className="h-4 w-4 mr-2" />
+              <Trash2 className="h-4 w-4 mr-2"/>
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -136,7 +158,7 @@ export default function ToBeReadSortableRow({tbr, index, isDragDisabled, onEdit,
         text={<>Are you sure you want to delete <b>{tbr.book?.title}</b> from TBR?
           This action cannot be undone.</>}
         action={() => onDelete(tbr)}
-        />
+      />
       <CustomAlertDialog
         confirm={confirmMarkAsDone}
         setConfirm={setConfirmMarkAsDone}

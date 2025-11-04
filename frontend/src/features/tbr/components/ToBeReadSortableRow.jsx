@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {BookOpen, Check, Eye, MoreVertical, Pencil, Trash2, BadgeEuro} from "lucide-react";
+import {BookOpen, Check, Eye, MoreVertical, Pencil, Trash2, BadgeEuro, X} from "lucide-react";
 import CustomTooltip from "@/components/CustomTooltip.jsx";
 import {useState} from "react";
 import CustomAlertDialog from "@/components/CustomAlertDialog.jsx";
@@ -103,7 +103,12 @@ export default function ToBeReadSortableRow({
       >
         {tbr.book.saga?.name || "-"}
       </td>
-
+      <td className="p-3 text-center">
+        <div className="flex justify-center items-center">
+          {tbr.bought ? <Check className="h-4 w-4 mr-2 "/> :
+          <X className="h-4 w-4 mr-2"/>}
+        </div>
+      </td>
       <td className="p-3">{new Date(tbr.addedAt).toLocaleDateString()}</td>
 
       <td className="p-3 text-center">

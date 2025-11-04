@@ -59,6 +59,7 @@ export default function ToBeReadTable({
                     orderFieldName="TITLE"
                   />
                   <th className="p-3 w-16">Saga</th>
+                  <th className="p-3 w-16">Bought</th>
                   <SortableColumns
                     onSort={onSort}
                     sortField={sortField}

@@ -19,7 +19,6 @@ const API_URL = "/readings";
 
 function FlagImage({ code, alt, size = 40 }) {
   if (!code) return null;
-  // assume images em public/assets/languages/{code}.png
   const src = `/assets/languages/${code}.png`;
   return (
     <img
@@ -29,24 +28,36 @@ function FlagImage({ code, alt, size = 40 }) {
       height={size}
       className="object-cover rounded-sm"
       onError={(e) => {
-        // fallback se não existir
         e.currentTarget.style.display = "none";
       }}
     />
   );
 }
 
-function PlatformImage({ platform, alt, size = "160px" }) {
+function PlatformImage({ platform, format, alt, size = "160px" }) {
   if (!platform) return null;
-  const normalized = platform.toLowerCase();
-  const src = `/assets/platforms/${normalized}.png`;
+
+  let imageName = "";
+  switch (platform) {
+    case "OWN": {
+      if (format === "EBOOK") {
+        imageName = "ebook";
+      } else {
+        imageName = "printed-book"
+      }
+      break;
+    }
+    default: imageName = platform.toLowerCase();
+  }
+
+  const src = `/assets/platforms/${imageName}.png`;
   return (
     <img
       src={src}
       alt={alt || platform}
       width={size}
       height={size}
-      className="object-contain rounded-sm"
+      className="object-contain"
       onError={(e) => (e.currentTarget.style.display = "none")}
     />
   );
@@ -197,7 +208,7 @@ export default function ReadingDetailsDialog({
 
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
-      <AlertDialogContent className="max-w-2xl" >
+      <AlertDialogContent className="max-w-2xl">
         <AlertDialogHeader>
           <AlertDialogTitle>
             Export {title}
@@ -207,70 +218,74 @@ export default function ReadingDetailsDialog({
         {/* content area we will capture */}
         <div
           ref={contentRef}
-          className="relative bg-white shadow rounded-lg p-4"
+          className="relative bg-white shadow rounded-lg p-4 flex flex-col justify-between"
           style={{
             width: "383px",
             height: "675px",
           }}
         >
-          <div className="flex flex-col items-center">
-            <div className="w-full flex gap-6">
-              <div className="flex flex-col items-center w-40">
-                {sagaDisplay ? (
-                  <div className="text-sm text-gray-600 font-semibold mb-2 italic text-center">
-                    {sagaDisplay}
+          {/* --- Parte superior --- */}
+          <div>
+            <div className="flex flex-col items-center text-center mb-4">
+              <h1 className="text-2xl font-extrabold text-gray-800 tracking-wide uppercase">
+                Reading Finished
+              </h1>
+              <h2 className="text-lg text-gray-500 font-medium mt-1">
+                #{reading.positionInYear} · {reading.dateRead.substring(0, 4)}
+              </h2>
+            </div>
+            <div className="flex flex-col">
+              {sagaDisplay ? (
+                <div className="text-sm text-gray-500 mb-2 italic">
+                  {sagaDisplay}
+                </div>
+              ) : (
+                <div className="text-sm font-semibold mb-2 text-center">
+                  <br/>
+                </div>
+              )}
+
+              <div className="w-full flex gap-6">
+                <div className="flex flex-col items-center w-40">
+                  {bookInfo.urlImage ? (
+                    <img
+                      src={proxiedUrl(bookInfo.urlImage)}
+                      alt={title}
+                      className="w-40 h-56 object-cover rounded shadow"
+                    />
+                  ) : (
+                    <div className="w-40 h-56 bg-gray-200 rounded"/>
+                  )}
+                </div>
+
+                <div className="flex-1 flex flex-col justify-between">
+                  <div>
+                    <h2 className="text-xl font-bold">{title}</h2>
+                    <p className="text-sm text-gray-600 mt-1">{authorName}</p>
                   </div>
-                ): <div className="text-sm font-semibold mb-2 text-center"><br/></div> }
-              </div>
-            </div>
-            <div className="w-full flex gap-6">
-              <div className="flex flex-col items-center w-40">
-                {bookInfo.urlImage ? (
-                  <img
-                    src={proxiedUrl(bookInfo.urlImage)}
-                    alt={title}
-                    className="w-40 h-56 object-cover rounded shadow"
-                  />
-                ) : (
-                  <div className="w-40 h-56 bg-gray-200 rounded" />
-                )}
+                  {origTitle && origTitle !== title && (
+                    <div className="mt-6">
+                      <p className="text-sm text-gray-500">
+                        <strong>Original title:</strong><br/> {origTitle}
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <div className="flex-1 flex flex-col justify-between">
-                <div>
-                  <h2 className="text-xl font-bold">{title}</h2>
-                  <p className="text-sm text-gray-600 mt-1">{authorName}</p>
-                </div>
-                {origTitle && origTitle !== title &&
-                <div className="mt-6">
-                  <p className="text-sm text-gray-500">
-                    <strong>Original title:</strong>{" "}
-                    {origTitle || "-"}
-                  </p>
-                </div>
-                }
-              </div>
-            </div>
-
-            <div className="mt-6 flex flex-col items-center">
-              <div className="text-center">
+              <div className="mt-6 flex flex-col items-center">
                 <StarRating value={rating ?? 0} size={28}/>
               </div>
             </div>
-            <div className="w-full flex gap-6">
-              <div className="flex flex-col items-center w-40">
-                <div>
-                  <FlagImage code={readLanguage} alt={readLanguage} size="60px"/>
-                </div>
-              </div>
-              <div className="flex flex-col items-center w-40">
-                <div>
-                  <PlatformImage platform={platform} alt={platform} size="160px"/>
-                </div>
-              </div>
-            </div>
+          </div>
+
+          {/* --- Parte inferior --- */}
+          <div className="flex justify-around items-end mt-6">
+            <FlagImage code={readLanguage} alt={readLanguage} size="60px"/>
+            <PlatformImage platform={platform} alt={platform} size="160px"/>
           </div>
         </div>
+
 
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
           <Button variant="outline" size="sm" onClick={handleExportImage} disabled={exporting}>

@@ -70,22 +70,30 @@ class ReadingAdapter(
     @Transactional(readOnly = true)
     override fun findById(id: Long): ReadingResponse {
         val reading = readingRepository.findById(id).orElseThrow { GenreNotFoundException(id) }
-        return reading.toResponse()
+        return reading.toResponse(positionInYear(reading.id))
     }
 
     @Transactional
     override fun save(request: ReadingRequest, id: Long?): ReadingResponse {
         val book = bookRepository.findById(request.bookId)
             .orElseThrow { throw BookNotFoundException(request.bookId) }
-        if (id == null) {
-            return readingRepository.save(request.toReading(book)).toResponse()
-        }
-        val reading = readingRepository.findById(id)
-            .orElseThrow { throw ReadingNotFoundException(id) }
 
-        return readingRepository.save(reading.merge(request)).toResponse()
+        val reading = if (id == null) {
+            readingRepository.save(request.toReading(book))
+        } else {
+            readingRepository.findById(id)
+                .orElseThrow { throw ReadingNotFoundException(id) }
+                .let { readingRepository.save(it.merge(request)) }
+        }
+        return reading.toResponse(positionInYear(reading.id))
     }
 
+    fun positionInYear(id:Long): Int {
+        val readingsInTheYear = readingRepository.readingsInTheYear(id)
+        return readingsInTheYear.indexOf(id) + 1
+    }
+
+    @Transactional
     override fun delete(id: Long) {
         if (!readingRepository.existsById(id)) {
             throw ReadingNotFoundException(id)

@@ -16,7 +16,7 @@ fun ReadingEntity.toSummaryResponse(): ReadingSummaryResponse =
         dateRead = this.dateRead
     )
 
-fun ReadingEntity.toResponse(): ReadingResponse =
+fun ReadingEntity.toResponse(positionInYear: Int = 0): ReadingResponse =
     ReadingResponse(
         id = this.id,
         book = this.book.toResponse(),
@@ -24,7 +24,8 @@ fun ReadingEntity.toResponse(): ReadingResponse =
         language = this.language,
         dateRead = this.dateRead,
         format = this.format,
-        platform = this.platform
+        platform = this.platform,
+        positionInYear = positionInYear
     )
 
 fun ReadingEntity.toReadingBookResponse(): ReadingBookResponse =

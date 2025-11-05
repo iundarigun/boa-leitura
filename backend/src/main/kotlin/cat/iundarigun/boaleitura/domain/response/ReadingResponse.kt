@@ -12,4 +12,5 @@ data class ReadingResponse(
     val dateRead: LocalDate,
     val format: FormatEnum?,
     val platform: PlatformEnum?,
+    val positionInYear: Int,
 )

@@ -12,6 +12,7 @@ import html2canvas from "html2canvas-oklch";
 import api, { apiCall } from "@/lib/api";
 import { useDialog } from "@/context/DialogContext";
 import StarRating from "@/components/StarRating";
+import useReadingDetails from "@/features/reading/hooks/useReadingDetails.js";
 
 const API_URL = "/readings";
 
@@ -56,26 +57,14 @@ function PlatformImage({ platform, format, alt, size = "160px" }) {
 }
 
 export default function ReadingDetailsDialog({ open, onClose, readingId }) {
-  const { showError, showSuccess } = useDialog();
-  const [reading, setReading] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [exporting, setExporting] = useState(false);
-  const contentRef = useRef(null);
-
-  const proxiedUrl = (url) =>
-    `http://localhost:1980/proxy-image?url=${encodeURIComponent(url)}`;
-
-  useEffect(() => {
-    if (!open || !readingId) return;
-    const load = async () => {
-      setLoading(true);
-      const res = await apiCall(() => api.get(`${API_URL}/${readingId}`));
-      setLoading(false);
-      if (res.error) return showError(res.error);
-      setReading(res.data);
-    };
-    load();
-  }, [open, readingId, showError]);
+  const {
+    reading,
+    loading,
+    contentRef,
+    exporting,
+    proxiedUrl,
+    handleExportImage
+  } = useReadingDetails(readingId);
 
   if (!open || !readingId) return null;
 
@@ -103,72 +92,6 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
     reading.myRating ?? reading.book?.readings?.[0]?.myRating ?? null;
   const readLanguage = reading.language || bookInfo.language;
   const platform = reading.platform;
-
-  const handleExportImage = async () => {
-    if (!contentRef.current) return;
-    setExporting(true);
-    try {
-      const targetW = 1533;
-      const targetH = 2700;
-      const el = contentRef.current;
-      const rect = el.getBoundingClientRect();
-      const scale = Math.min(targetW / rect.width, targetH / rect.height);
-
-      const originalStyle = {
-        width: el.style.width,
-        height: el.style.height,
-        background: el.style.background,
-        className: el.className
-      };
-
-      el.style.width = `${Math.round(rect.width)}px`;
-      el.style.height = `${Math.round(rect.height)}px`;
-      el.style.background = "rgb(255,255,255)";
-      el.className = el.className.replace("rounded-lg", "")
-
-      const canvas = await html2canvas(el, {
-        scale,
-        useCORS: true,
-        allowTaint: true,
-        logging: false,
-        backgroundColor: null,
-      });
-
-      el.style.width = originalStyle.width;
-      el.style.height = originalStyle.height;
-      el.style.background = originalStyle.background;
-      el.className = originalStyle.className;
-
-      const finalCanvas = document.createElement("canvas");
-      finalCanvas.width = targetW;
-      finalCanvas.height = targetH;
-      const ctx = finalCanvas.getContext("2d");
-
-      ctx.fillStyle = "rgb(255,255,255)";
-      ctx.fillRect(0, 0, targetW, targetH);
-
-      const dx = Math.round((targetW - canvas.width) / 2);
-      const dy = Math.round((targetH - canvas.height) / 2);
-
-      ctx.drawImage(canvas, dx, dy);
-
-      const dataUrl = finalCanvas.toDataURL("image/png");
-      const a = document.createElement("a");
-      a.href = dataUrl;
-      a.download = `${(title || "reading").replace(/\s+/g, "_")}.png`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      showSuccess("Image exported");
-    } catch (err) {
-      console.error(err);
-      showError("Failed to export image. See console.");
-    } finally {
-      setExporting(false);
-      onClose(false);
-    }
-  };
 
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
@@ -339,7 +262,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
           <Button
             variant="outline"
             size="sm"
-            onClick={handleExportImage}
+            onClick={() => handleExportImage({onClose})}
             disabled={exporting}
           >
             {exporting ? "Exporting..." : "Export image (IG)"}

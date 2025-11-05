@@ -85,6 +85,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [X] Add format and platform
 [X] Add crud
 [X] Change rating to double
+[X] Instagram version
 [ ] Integration Tests
 
 ### Import

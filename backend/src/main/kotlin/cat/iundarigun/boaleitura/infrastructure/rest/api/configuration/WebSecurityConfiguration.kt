@@ -20,7 +20,7 @@ class WebSecurityConfiguration(private val jwtDecoder: JwtDecoder) {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         return http.csrf { it.disable() }
             .authorizeHttpRequests {
-                it.requestMatchers("/swagger-ui/**", "/*/api-docs/**", "/auth/**")
+                it.requestMatchers("/swagger-ui/**", "/*/api-docs/**", "/auth/**", "/proxy-image")
                     .permitAll()
                     .anyRequest().authenticated()
             }

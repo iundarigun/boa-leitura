@@ -5,17 +5,37 @@ import BookDetailsDialog from "@/features/books/components/BookDetailsDialog";
 import SagaDetailsDialog from "@/features/sagas/components/SagaDetailsDialog";
 import StarRating from "@/components/StarRating";
 import SortableColumns from "@/components/SortableColumn.jsx";
-import TableActionButtons from "@/components/TableActionButtons.jsx";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu.jsx";
+import {Button} from "@/components/ui/button.jsx";
+import {Eye, MoreVertical, Pencil, Trash2} from "lucide-react";
+import instagramImg from "@/assets/instagram.svg";
+import CustomAlertDialog from "@/components/CustomAlertDialog.jsx";
+import ReadingDetailsDialog from "@/features/reading/components/ReadingDetailsDialog.jsx";
 
 export default function ReadingTable({readings, loading, onEdit, onDelete, sortField, sortDir, onSort}) {
   const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
+  const [readingDetailsOpen, setReadingDetailsOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedReading, setSelectedReading] = useState(null);
   const [sagaDetailsOpen, setSagaDetailsOpen] = useState(false);
   const [selectedSaga, setSelectedSaga] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const handleBookView = (bookId) => {
     setSelectedBook(bookId);
     setBookDetailsOpen(true);
+  };
+
+  const handleReadingView = (readingId) => {
+    setSelectedReading(readingId);
+    setReadingDetailsOpen(true);
   };
 
   const handleSagaView = (sagaId) => {
@@ -115,14 +135,46 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
                   {new Date(reading.dateRead).toLocaleDateString()}
                 </td>
                 <td className="p-3 text-center">
-                  <TableActionButtons
-                    entity={reading}
-                    onEdit={onEdit}
-                    onDelete={onDelete}
-                    warningProperty="name"
-                    deleteMessage={(entity) => <>Are you sure you want to delete <b>{entity.book?.title} on {entity.dateRead}</b>?</>}
-                  />
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon">
+                        <MoreVertical className="h-4 w-4"/>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuItem onClick={() => handleBookView(reading?.book?.id)}>
+                        <Eye className="h-4 w-4 mr-2"/>
+                        View book details
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleReadingView(reading?.id)}>
+                        <img src={instagramImg} className="h-4 w-4 mr-2"/>
+                        Printed version
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onEdit(reading)}>
+                        <Pencil className="h-4 w-4 mr-2"/>
+                        Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator/>
+                      <DropdownMenuItem
+                        className="text-red-600 focus:text-red-700"
+                        onClick={() => setConfirmDelete(true)}
+                      >
+                        <Trash2 className="h-4 w-4 mr-2"/>
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+
                 </td>
+                <CustomAlertDialog
+                  confirm={confirmDelete}
+                  setConfirm={setConfirmDelete}
+                  title="Confirm delete"
+                  text={<>Are you sure you want to delete <b>{reading.book?.title} on {reading.dateRead}</b>?
+                    This action cannot be undone.</>}
+                  action={() => onDelete(reading)}
+                />
               </tr>
             ))
           ) : (
@@ -139,6 +191,11 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
         open={bookDetailsOpen}
         onClose={setBookDetailsOpen}
         bookId={selectedBook}
+      />
+      <ReadingDetailsDialog
+        open={readingDetailsOpen}
+        onClose={setReadingDetailsOpen}
+        readingId={selectedReading}
       />
       <SagaDetailsDialog
         open={sagaDetailsOpen}

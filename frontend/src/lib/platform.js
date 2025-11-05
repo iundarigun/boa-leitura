@@ -17,3 +17,18 @@ export function getReadingPlatformsDisplay(code) {
   const found = READING_PLATFORMS.find((c) => c.code === code);
   return found ? `${found.label}` : code;
 }
+
+export function getPlatformImage(platform, format) {
+  if (!platform) return null;
+
+  let imageName = "";
+  switch (platform) {
+    case "OWN":
+      imageName = format === "EBOOK" ? "ebook" : "printed-book";
+      break;
+    default:
+      imageName = platform.toLowerCase();
+  }
+
+  return `/assets/platforms/${imageName}.png`;
+}

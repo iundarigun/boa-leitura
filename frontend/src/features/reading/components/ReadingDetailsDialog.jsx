@@ -1,60 +1,16 @@
-import { useEffect, useRef, useState } from "react";
 import {
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogFooter,
-  AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import html2canvas from "html2canvas-oklch";
-import api, { apiCall } from "@/lib/api";
-import { useDialog } from "@/context/DialogContext";
+import {Button} from "@/components/ui/button";
 import StarRating from "@/components/StarRating";
 import useReadingDetails from "@/features/reading/hooks/useReadingDetails.js";
+import {getPlatformImage} from "@/lib/platform.js";
 
-const API_URL = "/readings";
-
-function FlagImage({ code, alt, size = 40 }) {
-  if (!code) return null;
-  const src = `/assets/languages/${code}.png`;
-  return (
-    <img
-      src={src}
-      alt={alt || code}
-      width={size}
-      height={size}
-      className="object-cover rounded-sm"
-      onError={(e) => (e.currentTarget.style.display = "none")}
-    />
-  );
-}
-
-function PlatformImage({ platform, format, alt, size = "160px" }) {
-  if (!platform) return null;
-
-  let imageName = "";
-  switch (platform) {
-    case "OWN":
-      imageName = format === "EBOOK" ? "ebook" : "printed-book";
-      break;
-    default:
-      imageName = platform.toLowerCase();
-  }
-
-  const src = `/assets/platforms/${imageName}.png`;
-  return (
-    <img
-      src={src}
-      alt={alt || platform}
-      width={size}
-      height={size}
-      className="object-contain"
-      onError={(e) => (e.currentTarget.style.display = "none")}
-    />
-  );
-}
 
 export default function ReadingDetailsDialog({ open, onClose, readingId }) {
   const {
@@ -91,7 +47,10 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
   const rating =
     reading.myRating ?? reading.book?.readings?.[0]?.myRating ?? null;
   const readLanguage = reading.language || bookInfo.language;
+  const languageImage = `/assets/languages/${readLanguage}.png`;
   const platform = reading.platform;
+  const platformImage = getPlatformImage(platform, reading.format);
+  const position = `#${reading.positionInYear} · ${reading.dateRead.substring(0, 4)}`
 
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
@@ -100,7 +59,6 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
           <AlertDialogTitle>Export {title}</AlertDialogTitle>
         </AlertDialogHeader>
 
-        {/* Content to export */}
         <div
           ref={contentRef}
           className="relative rounded-lg p-4 flex flex-col justify-between overflow-hidden"
@@ -117,7 +75,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
           />
 
           <div className="relative z-10 flex flex-col justify-between h-full">
-            {/* --- Parte superior --- */}
+            {/* --- Top section --- */}
             <div>
               <div className="flex flex-col items-center text-center mb-4" />
               <div className="flex flex-col items-center text-center mb-4">
@@ -142,7 +100,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                     textShadow: "1px 1px 3px rgba(0,0,0,0.3)",
                   }}
                 >
-                  #{reading.positionInYear} · {reading.dateRead.substring(0, 4)}
+                  {position}
                 </h2>
               </div>
 
@@ -246,14 +204,25 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
               </div>
             </div>
 
-            {/* --- Parte inferior --- */}
+            {/* --- Least section --- */}
             <div className="flex justify-around items-end mt-6 mb-8">
-              <FlagImage code={readLanguage} alt={readLanguage} size="60px" />
-              <PlatformImage
-                platform={platform}
-                alt={platform}
-                size="160px"
+              <img
+                src={languageImage}
+                alt={readLanguage}
+                width="60px"
+                height="60px"
+                className="object-cover rounded-sm"
+                onError={(e) => (e.currentTarget.style.display = "none")}
               />
+              <img
+                src={platformImage}
+                alt={platform}
+                width="160px"
+                height="160px"
+                className="object-contain"
+                onError={(e) => (e.currentTarget.style.display = "none")}
+              />
+
             </div>
           </div>
         </div>

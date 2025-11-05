@@ -218,77 +218,96 @@ export default function ReadingDetailsDialog({
         {/* content area we will capture */}
         <div
           ref={contentRef}
-          className="relative bg-white shadow rounded-lg p-4 flex flex-col justify-between"
+          className="relative bg-white/90 shadow rounded-lg p-4 flex flex-col justify-between overflow-hidden"
           style={{
             width: "383px",
             height: "675px",
+            backgroundImage: "url('/assets/backgrounds/library.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
           }}
         >
+          <div className="absolute inset-0 bg-white/65 backdrop-blur-[1px]"></div>
+          <div className="relative z-10 flex flex-col justify-between h-full">
           {/* --- Parte superior --- */}
-          <div>
-            <div className="flex flex-col items-center text-center mb-4">
-              <h1 className="text-2xl font-extrabold text-gray-800 tracking-wide uppercase">
-                Reading Finished
-              </h1>
-              <h2 className="text-lg text-gray-500 font-medium mt-1">
-                #{reading.positionInYear} · {reading.dateRead.substring(0, 4)}
-              </h2>
-            </div>
-            <div className="flex flex-col">
-              {sagaDisplay ? (
-                <div className="text-sm text-gray-500 mb-2 italic">
-                  {sagaDisplay}
-                </div>
-              ) : (
-                <div className="text-sm font-semibold mb-2 text-center">
-                  <br/>
-                </div>
-              )}
+            {/* --- Parte superior --- */}
+            <div>
+              <div className="flex flex-col items-center text-center mb-4"/>
+              <div className="flex flex-col items-center text-center mb-4">
+                <h1 className="text-3xl font-extrabold uppercase tracking-wider text-gray-900 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.4)]">
+                  Reading Finished
+                </h1>
+                <h2 className="text-lg font-semibold text-gray-800 mt-1 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.25)]">
+                  #{reading.positionInYear} · {reading.dateRead.substring(0, 4)}
+                </h2>
+              </div>
 
-              <div className="w-full flex gap-6">
-                <div className="flex flex-col items-center w-40">
-                  {bookInfo.urlImage ? (
-                    <img
-                      src={proxiedUrl(bookInfo.urlImage)}
-                      alt={title}
-                      className="w-40 h-56 object-cover rounded shadow"
-                    />
-                  ) : (
-                    <div className="w-40 h-56 bg-gray-200 rounded"/>
-                  )}
-                </div>
-
-                <div className="flex-1 flex flex-col justify-between">
-                  <div>
-                    <h2 className="text-xl font-bold">{title}</h2>
-                    <p className="text-sm text-gray-600 mt-1">{authorName}</p>
+              <div className="flex flex-col">
+                {sagaDisplay ? (
+                  <div className="text-sm italic text-gray-800 mb-3 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.2)]">
+                    {sagaDisplay}
                   </div>
-                  {origTitle && origTitle !== title && (
-                    <div className="mt-6">
-                      <p className="text-sm text-gray-500">
-                        <strong>Original title:</strong><br/> {origTitle}
+                ) : (
+                  <div className="text-sm font-semibold mb-2 text-center">
+                    <br/>
+                  </div>
+                )}
+
+                <div className="w-full flex gap-6">
+                  <div className="flex flex-col items-center w-40">
+                    {bookInfo.urlImage ? (
+                      <img
+                        src={proxiedUrl(bookInfo.urlImage)}
+                        alt={title}
+                        className="w-40 h-56 object-cover rounded shadow-lg"
+                      />
+                    ) : (
+                      <div className="w-40 h-56 bg-gray-200 rounded"/>
+                    )}
+                  </div>
+
+                  <div className="flex-1 flex flex-col justify-between">
+                    <div>
+                      <h2 className="text-xl font-bold text-gray-900 leading-snug drop-shadow-[1px_1px_2px_rgba(0,0,0,0.35)]">
+                        {title}
+                      </h2>
+                      <p className="text-base font-medium text-gray-800 mt-1 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.3)]">
+                        {authorName}
                       </p>
                     </div>
-                  )}
+
+                    {origTitle && origTitle !== title && (
+                      <div className="mt-6">
+                        <p className="text-sm text-gray-800 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.2)]">
+                          <strong className="font-semibold text-gray-900 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.3)]">
+                            Original title:
+                          </strong>
+                          <br/>
+                          {origTitle}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-6 flex flex-col items-center">
+                  <StarRating value={rating ?? 0} size={28}/>
                 </div>
               </div>
-
-              <div className="mt-6 flex flex-col items-center">
-                <StarRating value={rating ?? 0} size={28}/>
-              </div>
             </div>
-          </div>
 
-          {/* --- Parte inferior --- */}
-          <div className="flex justify-around items-end mt-6">
+
+            {/* --- Parte inferior --- */}
+          <div className="flex justify-around items-end mt-6 mb-8">
             <FlagImage code={readLanguage} alt={readLanguage} size="60px"/>
             <PlatformImage platform={platform} alt={platform} size="160px"/>
           </div>
         </div>
-
+        </div>
 
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
-          <Button variant="outline" size="sm" onClick={handleExportImage} disabled={exporting}>
+        <Button variant="outline" size="sm" onClick={handleExportImage} disabled={exporting}>
             {exporting ? "Exporting..." : "Export image (IG)"}
           </Button>
           <AlertDialogCancel>Close</AlertDialogCancel>

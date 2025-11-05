@@ -63,21 +63,7 @@ function PlatformImage({ platform, format, alt, size = "160px" }) {
   );
 }
 
-/**
- * ReadingDetailsDialog
- * Props:
- *  - open (bool)
- *  - onClose (fn)
- *  - readingId (number)
- *  - onEdit (fn) optional
- *  - onDelete (fn) optional
- *  - onRefresh (fn) optional
- */
-export default function ReadingDetailsDialog({
-                                               open,
-                                               onClose,
-                                               readingId,
-                                             }) {
+export default function ReadingDetailsDialog({open,onClose,readingId,}) {
   const { showError, showSuccess } = useDialog();
   const [reading, setReading] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -204,6 +190,7 @@ export default function ReadingDetailsDialog({
     } finally {
       setExporting(false);
     }
+    onClose(false);
   };
 
   return (
@@ -222,20 +209,25 @@ export default function ReadingDetailsDialog({
           style={{
             width: "383px",
             height: "675px",
-            backgroundImage: "url('/assets/backgrounds/library.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
+            // backgroundImage: "url('/assets/backgrounds/library.png')",
+            // backgroundSize: "cover",
+            // backgroundPosition: "center",
+            // backgroundRepeat: "no-repeat",
           }}
         >
-          <div className="absolute inset-0 bg-white/65 backdrop-blur-[1px]"></div>
+          <img
+            src="/assets/backgrounds/library.png"
+            alt="Background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
           <div className="relative z-10 flex flex-col justify-between h-full">
-          {/* --- Parte superior --- */}
+            {/* --- Parte superior --- */}
             {/* --- Parte superior --- */}
             <div>
               <div className="flex flex-col items-center text-center mb-4"/>
               <div className="flex flex-col items-center text-center mb-4">
-                <h1 className="text-3xl font-extrabold uppercase tracking-wider text-gray-900 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.4)]">
+                <h1
+                  className="text-3xl font-extrabold uppercase tracking-wider text-gray-900 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.4)]">
                   Reading Finished
                 </h1>
                 <h2 className="text-lg font-semibold text-gray-800 mt-1 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.25)]">
@@ -269,7 +261,8 @@ export default function ReadingDetailsDialog({
 
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
-                      <h2 className="text-xl font-bold text-gray-900 leading-snug drop-shadow-[1px_1px_2px_rgba(0,0,0,0.35)]">
+                      <h2
+                        className="text-xl font-bold text-gray-900 leading-snug drop-shadow-[1px_1px_2px_rgba(0,0,0,0.35)]">
                         {title}
                       </h2>
                       <p className="text-base font-medium text-gray-800 mt-1 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.3)]">
@@ -279,8 +272,8 @@ export default function ReadingDetailsDialog({
 
                     {origTitle && origTitle !== title && (
                       <div className="mt-6">
-                        <p className="text-sm text-gray-800 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.2)]">
-                          <strong className="font-semibold text-gray-900 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.3)]">
+                        <p className="text-sm text-gray-700 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.2)]">
+                          <strong className="font-semibold text-gray-700 drop-shadow-[1px_1px_2px_rgba(0,0,0,0.3)]">
                             Original title:
                           </strong>
                           <br/>
@@ -299,15 +292,15 @@ export default function ReadingDetailsDialog({
 
 
             {/* --- Parte inferior --- */}
-          <div className="flex justify-around items-end mt-6 mb-8">
-            <FlagImage code={readLanguage} alt={readLanguage} size="60px"/>
-            <PlatformImage platform={platform} alt={platform} size="160px"/>
+            <div className="flex justify-around items-end mt-6 mb-8">
+              <FlagImage code={readLanguage} alt={readLanguage} size="60px"/>
+              <PlatformImage platform={platform} alt={platform} size="160px"/>
+            </div>
           </div>
-        </div>
         </div>
 
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
-        <Button variant="outline" size="sm" onClick={handleExportImage} disabled={exporting}>
+          <Button variant="outline" size="sm" onClick={handleExportImage} disabled={exporting}>
             {exporting ? "Exporting..." : "Export image (IG)"}
           </Button>
           <AlertDialogCancel>Close</AlertDialogCancel>

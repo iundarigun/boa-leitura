@@ -54,7 +54,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
 
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
-      <AlertDialogContent className="max-w-2xl">
+      <AlertDialogContent className="max-w-2xl justify-center items-center">
         <AlertDialogHeader>
           <AlertDialogTitle>Export {title}</AlertDialogTitle>
         </AlertDialogHeader>
@@ -218,8 +218,8 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                 src={platformImage}
                 alt={platform}
                 width="160px"
-                height="160px"
-                className="object-contain"
+                // height="160px"
+                className="object-contain  max-h-15"
                 onError={(e) => (e.currentTarget.style.display = "none")}
               />
 
@@ -234,7 +234,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
             onClick={() => handleExportImage({onClose})}
             disabled={exporting}
           >
-            {exporting ? "Exporting..." : "Export image (IG)"}
+            {exporting ? "Exporting..." : "Export image"}
           </Button>
           <AlertDialogCancel>Close</AlertDialogCancel>
         </AlertDialogFooter>

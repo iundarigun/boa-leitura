@@ -1,8 +1,8 @@
 import {useDialog} from "@/context/DialogContext.jsx";
 import {useEffect, useRef, useState} from "react";
-import api, {apiCall} from "@/lib/api.js";
 import {getReadingById} from "@/lib/api/readings.js";
 import {exportImage} from "@/lib/exportImage.js";
+import api from "@/lib/api.js";
 
 export default function useReadingDetails(readingId) {
   const { showError, showSuccess } = useDialog();
@@ -11,7 +11,7 @@ export default function useReadingDetails(readingId) {
   const contentRef = useRef(null);
   const [exporting, setExporting] = useState(false);
 
-  const proxiedUrl = (url) => `http://localhost:1980/proxy-image?url=${encodeURIComponent(url)}`
+  const proxiedUrl = (url) => `${api.defaults.baseURL}/proxy-image?url=${encodeURIComponent(url)}`
 
   useEffect(() => {
     if (!open || !readingId) return;
@@ -49,5 +49,4 @@ export default function useReadingDetails(readingId) {
     proxiedUrl,
     handleExportImage
   }
-
 }

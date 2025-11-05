@@ -18,8 +18,10 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
     loading,
     contentRef,
     exporting,
+    backgroundImage,
     proxiedUrl,
-    handleExportImage
+    handleExportImage,
+    handleRefreshBackground
   } = useReadingDetails(readingId);
 
   if (!open || !readingId) return null;
@@ -50,7 +52,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
   const languageImage = `/assets/languages/${readLanguage}.png`;
   const platform = reading.platform;
   const platformImage = getPlatformImage(platform, reading.format);
-  const position = `#${reading.positionInYear} · ${reading.dateRead.substring(0, 4)}`
+  const position = `#${reading.positionInYear} · ${reading.dateRead.substring(0, 4)}`;
 
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
@@ -69,7 +71,8 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
           }}
         >
           <img
-            src="/assets/backgrounds/library.png"
+            id="bg-image"
+            src={backgroundImage}
             alt="Background"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -228,6 +231,14 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
         </div>
 
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleRefreshBackground()}
+            alt="Refresh background"
+          >
+            Refresh
+          </Button>
           <Button
             variant="outline"
             size="sm"

@@ -15,7 +15,7 @@ class ProxyImageController {
     val restTemplate = RestTemplate()
 
     @GetMapping
-    fun getImage(@RequestParam url:String): ResponseEntity<ByteArray> {
+    fun getImage(@RequestParam url: String): ResponseEntity<ByteArray> {
         return runCatching {
             val imageInBytes = restTemplate.getForObject(url, ByteArray::class.java)
 

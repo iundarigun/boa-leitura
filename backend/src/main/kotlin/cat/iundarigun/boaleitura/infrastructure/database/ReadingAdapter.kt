@@ -88,7 +88,7 @@ class ReadingAdapter(
         return reading.toResponse(positionInYear(reading.id))
     }
 
-    fun positionInYear(id:Long): Int {
+    fun positionInYear(id: Long): Int {
         val readingsInTheYear = readingRepository.readingsInTheYear(id)
         return readingsInTheYear.indexOf(id) + 1
     }

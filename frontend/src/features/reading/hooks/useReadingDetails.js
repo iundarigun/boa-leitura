@@ -10,12 +10,14 @@ export default function useReadingDetails(readingId) {
   const [loading, setLoading] = useState(false);
   const contentRef = useRef(null);
   const [exporting, setExporting] = useState(false);
+  const [backgroundImage, setBackgroundImage] = useState("");
 
   const proxiedUrl = (url) => `${api.defaults.baseURL}/proxy-image?url=${encodeURIComponent(url)}`
 
   useEffect(() => {
     if (!open || !readingId) return;
     fetchReading();
+    handleRefreshBackground();
   }, [open, readingId, showError]);
 
   const fetchReading = async () => {
@@ -41,12 +43,20 @@ export default function useReadingDetails(readingId) {
     }
   }
 
+  const getRandomInt = (max) => Math.floor(Math.random() * max);
+
+  const handleRefreshBackground = () => {
+    setBackgroundImage(`/assets/backgrounds/instagram-bg-${getRandomInt(9) + 1}.png`);
+  }
+
   return {
     reading,
     loading,
     contentRef,
     exporting,
+    backgroundImage,
     proxiedUrl,
-    handleExportImage
+    handleExportImage,
+    handleRefreshBackground
   }
 }

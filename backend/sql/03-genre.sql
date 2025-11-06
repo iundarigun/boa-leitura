@@ -13,3 +13,6 @@ INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, ver
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (13, 'Magic realism', 5, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (14, 'Adventure', 5, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (15, 'Space opera', 11, '2025-10-07 17:24:53.149673', '2025-10-07 17:52:03.560790', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (20, 'Young Adult', 1, '2025-10-19 19:20:15.936712', '2025-10-19 19:20:15.936742', 0);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (21, 'Cozy Fantasy', 1, '2025-10-20 19:47:58.051820', '2025-10-20 19:47:58.051841', 0);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (22, 'Cozy crime', 4, '2025-10-20 19:53:35.525904', '2025-10-20 19:53:35.525928', 0);

@@ -20,6 +20,7 @@ import PrivateRoute from "@/components/PrivateRoute.jsx";
 import ToBeReadsListPage from "@/features/tbr/pages/ToBeReadsListPage.jsx";
 import ToBeReadFormPage from "@/features/tbr/pages/ToBeReadFormPage.jsx";
 import RegisterPage from "@/features/auth/pages/RegisterPage.jsx";
+import ImportGoodreadsPage from "@/features/user/pages/ImportGoodreadsPage.jsx";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <Route path="/statistics/language" element={<PrivateRoute><StatisticsLanguagePage /></PrivateRoute>} />
           <Route path="/statistics/author" element={<PrivateRoute><StatisticsAuthorPage /></PrivateRoute>} />
           <Route path="/statistics/mood" element={<PrivateRoute><StatisticsMoodPage /></PrivateRoute>} />
+          <Route path="/user/import" element={<PrivateRoute><ImportGoodreadsPage/></PrivateRoute>} />
           <Route path="/login" element={<LoginPage />}/>
           <Route path="/register" element={<RegisterPage />}/>
         </Route>

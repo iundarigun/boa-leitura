@@ -35,20 +35,20 @@ class UserAdapter(private val userRepository: UserRepository) : UserPort {
                 "english" to "en"
             ),
             formatTags = mapOf(
-                "FISIC" to "PRINTED",
-                "AUDIOBOOK" to "AUDIOBOOK",
-                "KINDLE" to "EBOOK",
-                "BIBLIO" to "EBOOK",
-                "UNLIMITED" to "EBOOK",
-                "SPARROW" to "EBOOK",
+                "fisic" to "PRINTED",
+                "audiobook" to "AUDIOBOOK",
+                "kindle" to "EBOOK",
+                "biblio" to "EBOOK",
+                "unlimited" to "EBOOK",
+                "sparrow" to "EBOOK",
             ),
             platformTags = mapOf(
-                "FISIC" to "OWN",
-                "AUDIOBOOK" to "AUDIBLE",
-                "KINDLE" to "KINDLE",
-                "BIBLIO" to "EBIBLIO",
-                "UNLIMITED" to "UNLIMITED",
-                "SPARROW" to "OWN",
+                "fisic" to "OWN",
+                "audiobook" to "AUDIBLE",
+                "kindle" to "KINDLE",
+                "biblio" to "EBIBLIO",
+                "unlimited" to "UNLIMITED",
+                "sparrow" to "OWN",
             ),
         )
     }

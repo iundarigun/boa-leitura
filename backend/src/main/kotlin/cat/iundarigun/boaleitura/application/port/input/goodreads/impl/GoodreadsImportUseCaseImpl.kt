@@ -18,6 +18,7 @@ import com.opencsv.CSVReader
 import org.jobrunr.scheduling.JobScheduler
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Component
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -44,15 +45,15 @@ class GoodreadsImportUseCaseImpl(
         val userPreferences = userPort.getUserPreferences(user.userId)
         goodreadsList.filter { it.dateRead != null }.forEach {
             jobScheduler.enqueue {
-                importRecord(it, user, userPreferences)
+                importRecord(it, user.token, userPreferences)
             }
         }
 
         return goodreadsList
     }
 
-    fun importRecord(record: GoodreadsImporterRequest, loggedUser: UserToken, userPreferences: UserPreferences) {
-        SecurityContextHolder.getContext().authentication = loggedUser
+    fun importRecord(record: GoodreadsImporterRequest, token: Jwt, userPreferences: UserPreferences) {
+        SecurityContextHolder.getContext().authentication = UserToken(token)
         val book = retrieveBook(record, userPreferences)
 
         if (book != null) {

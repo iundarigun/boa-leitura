@@ -3,6 +3,8 @@ package cat.iundarigun.boaleitura.infrastructure.database
 import cat.iundarigun.boaleitura.application.port.output.UserPort
 import cat.iundarigun.boaleitura.domain.model.User
 import cat.iundarigun.boaleitura.domain.model.UserPreferences
+import cat.iundarigun.boaleitura.exception.UserNotFoundException
+import cat.iundarigun.boaleitura.infrastructure.database.extensions.merge
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toEntity
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toUser
 import cat.iundarigun.boaleitura.infrastructure.database.repository.UserRepository
@@ -21,7 +23,12 @@ class UserAdapter(private val userRepository: UserRepository) : UserPort {
 
     @Transactional
     override fun save(user: User) {
-        userRepository.save(user.toEntity())
+        if (user.id == null) {
+            userRepository.save(user.toEntity())
+        } else {
+            val entity = userRepository.findById(user.id).orElseThrow { UserNotFoundException() }
+            userRepository.save(entity.merge(user))
+        }
     }
 
     @Transactional(readOnly = true)

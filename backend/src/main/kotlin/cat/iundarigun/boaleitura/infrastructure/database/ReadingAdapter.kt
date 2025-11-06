@@ -6,7 +6,6 @@ import cat.iundarigun.boaleitura.domain.request.ReadingRequest
 import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.domain.response.ReadingResponse
 import cat.iundarigun.boaleitura.domain.response.ReadingSummaryResponse
-import cat.iundarigun.boaleitura.exception.AuthorNotFoundException
 import cat.iundarigun.boaleitura.exception.BookNotFoundException
 import cat.iundarigun.boaleitura.exception.GenreNotFoundException
 import cat.iundarigun.boaleitura.exception.ReadingNotFoundException
@@ -99,14 +98,5 @@ class ReadingAdapter(
             throw ReadingNotFoundException(id)
         }
         readingRepository.deleteById(id)
-    }
-
-    @Transactional
-    override fun createIfNotExists(request: ReadingRequest) {
-        readingRepository.findByBookIdAndDateRead(request.bookId, request.dateRead).orElseGet {
-            val book = bookRepository.findById(request.bookId)
-                .orElseThrow { AuthorNotFoundException(request.bookId) }
-            readingRepository.save(request.toReading(book))
-        }
     }
 }

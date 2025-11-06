@@ -2,10 +2,15 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Loader2, Upload} from "lucide-react";
 import useImports from "@/features/user/hooks/useImports.js";
+import {Checkbox} from "@/components/ui/checkbox.jsx";
 
 export default function ImportGoodreadsPage() {
   const {
     file,
+    read,
+    setRead,
+    tbr,
+    setTbr,
     loading,
     handleSubmit,
     handleFileChange
@@ -20,7 +25,27 @@ export default function ImportGoodreadsPage() {
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="flex flex-col items-center space-y-4">
+        <CardContent className="flex flex-col space-y-4">
+          <div className="flex-1 space-x-2">
+            <Checkbox
+              id="read"
+              checked={read}
+              onCheckedChange={(checked) => setRead(!!checked)}
+            />
+            <label htmlFor="read" className="text-sm font-medium">
+              Reads
+            </label>
+          </div>
+          <div className="flex-1 space-x-2">
+            <Checkbox
+              id="tbr"
+              checked={tbr}
+              onCheckedChange={(checked) => setTbr(!!checked)}
+            />
+            <label htmlFor="tbr" className="text-sm font-medium">
+              TBR
+            </label>
+          </div>
           <input
             type="file"
             accept=".csv"

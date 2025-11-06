@@ -3,6 +3,7 @@ package cat.iundarigun.boaleitura.infrastructure.rest.api.controller
 import cat.iundarigun.boaleitura.application.port.input.goodreads.GoodreadsImportUseCase
 import cat.iundarigun.boaleitura.domain.request.GoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.GoodreadsRequest
+import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE
@@ -19,7 +20,7 @@ class ImportController(private val goodreadsImportUseCase: GoodreadsImportUseCas
 
     @PostMapping("/goodreads", consumes = [MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.ACCEPTED)
-    fun uploadFile(request: GoodreadsRequest): List<GoodreadsImporterRequest> {
+    fun uploadFile(@Valid request: GoodreadsRequest): List<GoodreadsImporterRequest> {
         logger.info("uploadFile, filename=${request.file.originalFilename}, read=${request.read}, tbr=${request.tbr}")
         return goodreadsImportUseCase.execute(request)
     }

@@ -39,15 +39,16 @@ class GoodreadsImportUseCaseImpl(
         val records = CSVReader(InputStreamReader(request.file.inputStream)).readAll()
         logger.info("Found ${records.size} records")
 
-        val goodreadsList = records.subList(1, records.size).map { it ->
+        val goodreadsList = records.drop(1).map { it ->
             it.toGoodreadImporterRequest()
-        }
-        val user = loggedUser ?: throw UserNotFoundException()
-        val userPreferences = userPort.getUserPreferences(user.userId)
-        goodreadsList.filter {
+        }.filter {
             (it.dateRead != null && request.read) ||
                     (it.dateRead == null && request.tbr)
-        }.forEach {
+        }
+
+        val user = loggedUser ?: throw UserNotFoundException()
+        val userPreferences = userPort.getUserPreferences(user.userId)
+        goodreadsList.forEach {
             jobScheduler.enqueue {
                 importRecord(it, user.token, userPreferences)
             }

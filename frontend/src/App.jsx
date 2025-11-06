@@ -19,6 +19,7 @@ import LoginPage from "@/features/auth/pages/LoginPage.jsx";
 import PrivateRoute from "@/components/PrivateRoute.jsx";
 import ToBeReadsListPage from "@/features/tbr/pages/ToBeReadsListPage.jsx";
 import ToBeReadFormPage from "@/features/tbr/pages/ToBeReadFormPage.jsx";
+import RegisterPage from "@/features/auth/pages/RegisterPage.jsx";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <Route path="/statistics/author" element={<PrivateRoute><StatisticsAuthorPage /></PrivateRoute>} />
           <Route path="/statistics/mood" element={<PrivateRoute><StatisticsMoodPage /></PrivateRoute>} />
           <Route path="/login" element={<LoginPage />}/>
+          <Route path="/register" element={<RegisterPage />}/>
         </Route>
       </Routes>
   );

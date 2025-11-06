@@ -1,26 +1,26 @@
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import useLogin from "@/features/auth/hooks/useLogin.js";
-import {useNavigate} from "react-router-dom";
+import useRegister from "@/features/auth/hooks/useRegister.js";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const {
     username,
     setUsername,
     password,
     setPassword,
-    handleLogin
-  } = useLogin();
+    repeatPassword,
+    setRepeatPassword,
+    handleRegister
+  } = useRegister();
 
-  const navigate = useNavigate();
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <form
-        onSubmit={handleLogin}
+        onSubmit={handleRegister}
         className="bg-white p-8 rounded-xl shadow-md w-96 space-y-4"
       >
-        <h2 className="text-2xl font-bold text-center">Login</h2>
+        <h2 className="text-2xl font-bold text-center">Register</h2>
         <Input
           placeholder="Username"
           value={username}
@@ -34,11 +34,15 @@ export default function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <Input
+          type="password"
+          placeholder="Repeat password"
+          value={repeatPassword}
+          onChange={(e) => setRepeatPassword(e.target.value)}
+          required
+        />
         <div className="flex gap-4">
-          <Button className="w-1/2" type="submit">
-            Sign in
-          </Button>
-          <Button className="w-1/2" onClick={() => navigate("/register")}>
+          <Button className="w-full" type="submit">
             Register
           </Button>
         </div>

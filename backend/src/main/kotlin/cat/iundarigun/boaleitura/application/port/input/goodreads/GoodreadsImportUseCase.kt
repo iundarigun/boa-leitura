@@ -1,9 +1,9 @@
 package cat.iundarigun.boaleitura.application.port.input.goodreads
 
 import cat.iundarigun.boaleitura.domain.request.GoodreadsImporterRequest
-import java.io.InputStream
+import cat.iundarigun.boaleitura.domain.request.GoodreadsRequest
 
 interface GoodreadsImportUseCase {
 
-    fun execute(file: InputStream): List<GoodreadsImporterRequest>
+    fun execute(request: GoodreadsRequest): List<GoodreadsImporterRequest>
 }

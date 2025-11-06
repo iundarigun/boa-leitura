@@ -19,6 +19,8 @@ export default function useImports() {
 
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("read", true);
+    formData.append("tbr", false);
 
     setLoading(true);
     const {data, error} = await importGoodreads(formData);

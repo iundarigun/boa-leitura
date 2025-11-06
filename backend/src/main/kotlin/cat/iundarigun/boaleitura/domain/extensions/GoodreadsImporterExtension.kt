@@ -6,6 +6,7 @@ import cat.iundarigun.boaleitura.domain.model.UserPreferences
 import cat.iundarigun.boaleitura.domain.request.BookGoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.GoodreadsImporterRequest
 import cat.iundarigun.boaleitura.domain.request.ReadingRequest
+import cat.iundarigun.boaleitura.domain.request.ToBeReadRequest
 import cat.iundarigun.boaleitura.exception.GoodreadsImporterException
 import kotlin.enums.EnumEntries
 
@@ -36,6 +37,12 @@ fun GoodreadsImporterRequest.toReadingRequest(bookId: Long, userPreferences: Use
             )
         ),
         language = retrieveFromBookshelves(this.bookshelves, userPreferences.languageTags)
+    )
+
+fun GoodreadsImporterRequest.toBeReadRequest(bookId: Long): ToBeReadRequest =
+    ToBeReadRequest(
+        bookId = bookId,
+        tags = this.bookshelves
     )
 
 private fun retrieveFromBookshelves(bookshelves: List<String>, languageUserPreferences: Map<String, String>): String? =

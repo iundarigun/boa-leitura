@@ -8,7 +8,6 @@ import cat.iundarigun.boaleitura.domain.response.ReadingSummaryResponse
 import java.time.LocalDate
 
 interface ReadingPort {
-    fun createIfNotExists(request: ReadingRequest)
     fun find(
         keyword: String? = null,
         dateFrom: LocalDate?,

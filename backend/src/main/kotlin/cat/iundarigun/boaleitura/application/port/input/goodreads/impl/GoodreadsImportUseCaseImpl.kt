@@ -1,67 +1,91 @@
 package cat.iundarigun.boaleitura.application.port.input.goodreads.impl
 
+import cat.iundarigun.boaleitura.application.port.input.book.CreateBookFromGoodreadsUseCase
 import cat.iundarigun.boaleitura.application.port.input.goodreads.GoodreadsImportUseCase
-import cat.iundarigun.boaleitura.application.port.output.AuthorPort
-import cat.iundarigun.boaleitura.application.port.output.BookPort
-import cat.iundarigun.boaleitura.application.port.output.ReadingPort
-import cat.iundarigun.boaleitura.domain.extensions.toBookRequest
+import cat.iundarigun.boaleitura.application.port.input.reading.CreateReadingUseCase
+import cat.iundarigun.boaleitura.application.port.input.tbr.AddToBeReadUseCase
+import cat.iundarigun.boaleitura.application.port.output.UserPort
+import cat.iundarigun.boaleitura.domain.extensions.toBeReadRequest
 import cat.iundarigun.boaleitura.domain.extensions.toReadingRequest
+import cat.iundarigun.boaleitura.domain.model.UserPreferences
 import cat.iundarigun.boaleitura.domain.request.GoodreadsImporterRequest
+import cat.iundarigun.boaleitura.domain.request.GoodreadsRequest
 import cat.iundarigun.boaleitura.domain.request.toGoodreadImporterRequest
 import cat.iundarigun.boaleitura.domain.response.BookResponse
+import cat.iundarigun.boaleitura.domain.security.UserToken
+import cat.iundarigun.boaleitura.domain.security.loggedUser
+import cat.iundarigun.boaleitura.exception.BoaLeituraBusinessException
+import cat.iundarigun.boaleitura.exception.UserNotFoundException
 import com.opencsv.CSVReader
 import org.jobrunr.scheduling.JobScheduler
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Component
-import java.io.InputStream
 import java.io.InputStreamReader
 
 @Component
 class GoodreadsImportUseCaseImpl(
-    private val authorPort: AuthorPort,
-    private val bookPort: BookPort,
-    private val readingAdapter: ReadingPort,
-    private val jobScheduler: JobScheduler
+    private val jobScheduler: JobScheduler,
+    private val userPort: UserPort,
+    private val createReadingUseCase: CreateReadingUseCase,
+    private val addToBeReadUseCase: AddToBeReadUseCase,
+    private val createBookFromGoodreadsUseCase: CreateBookFromGoodreadsUseCase
 ) : GoodreadsImportUseCase {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    override fun execute(file: InputStream): List<GoodreadsImporterRequest> {
-        val records = CSVReader(InputStreamReader(file)).readAll()
+    override fun execute(request: GoodreadsRequest): List<GoodreadsImporterRequest> {
+        val records = CSVReader(InputStreamReader(request.file.inputStream)).readAll()
         logger.info("Found ${records.size} records")
 
-        val goodreadsList = records.subList(1, records.size).map { it ->
+        val goodreadsList = records.drop(1).map { it ->
             it.toGoodreadImporterRequest()
+        }.filter {
+            (it.dateRead != null && request.read) ||
+                    (it.dateRead == null && request.tbr)
         }
-        goodreadsList.filter { it.dateRead != null }.forEach {
+
+        val user = loggedUser ?: throw UserNotFoundException()
+        val userPreferences = userPort.getUserPreferences(user.userId)
+        goodreadsList.forEach {
             jobScheduler.enqueue {
-                importRecord(it)
+                importRecord(it, user.token, userPreferences)
             }
         }
+
         return goodreadsList
     }
 
-    fun importRecord(record: GoodreadsImporterRequest) {
-        val book = retrieveBook(record)
+    fun importRecord(record: GoodreadsImporterRequest, token: Jwt, userPreferences: UserPreferences) {
+        SecurityContextHolder.getContext().authentication = UserToken(token)
+        val book = retrieveBook(record, userPreferences)
 
         if (book != null) {
-            readingAdapter.createIfNotExists(record.toReadingRequest(book.id))
+            if (record.dateRead != null) {
+                runCatching {
+                    createReadingUseCase.execute(record.toReadingRequest(book.id, userPreferences))
+                }.onFailure {
+                    logger.warn("Can not add to the reading for book=${book.title}, reason=${it.message}")
+                }
+            } else {
+                runCatching {
+                    addToBeReadUseCase.execute(record.toBeReadRequest(book.id))
+                }.onFailure {
+                    logger.warn("Can not add to the TBR the book=${book.title}, reason=${it.message}")
+                }
+            }
         }
     }
 
-    private fun retrieveBook(record: GoodreadsImporterRequest): BookResponse? {
-        val request = record.toBookRequest()
-        bookPort.findByGoodreadsId(request.goodreadsId)?.let {
-            return it
-        }
-        if (!request.isbn.isNullOrBlank()) {
-            bookPort.findByIsbn(request.isbn)?.let {
-                return it
+    private fun retrieveBook(record: GoodreadsImporterRequest, userPreferences: UserPreferences): BookResponse? {
+        return runCatching {
+            createBookFromGoodreadsUseCase.execute(record, userPreferences)
+        }.onFailure {
+            if (it !is BoaLeituraBusinessException) {
+                throw it
             }
-            val author = authorPort.createIfNotExists(record.author)
-            return bookPort.save(request.copy(authorId = author.id))
-        }
-        logger.error("BOOK IMPORTER - Can't not verify the book $request")
-        return null
+            logger.warn("Cannot create book: ${it.message}")
+        }.getOrNull()
     }
 }

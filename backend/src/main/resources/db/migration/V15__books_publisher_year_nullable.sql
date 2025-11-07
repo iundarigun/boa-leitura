@@ -1,0 +1,2 @@
+ALTER TABLE book
+    ALTER COLUMN publisher_year DROP NOT NULL;

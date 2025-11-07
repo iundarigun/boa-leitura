@@ -13,7 +13,6 @@ INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (222, 'David Baldacci', null, null, '2025-11-03 17:51:18.905221', '2025-11-03 17:51:18.905231', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (226, 'Samanta Esperon', null, null, '2025-11-03 18:21:07.519572', '2025-11-03 18:21:07.519580', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (186, 'Octavia E. Butler', null, null, '2025-10-30 21:46:00.317824', '2025-10-30 21:46:00.317834', 0);
-INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (188, 'R. F. Kuang', null, null, '2025-11-01 21:19:58.394949', '2025-11-01 21:19:58.394962', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (190, 'Pittacus Lore', null, null, '2025-11-01 21:22:35.660728', '2025-11-01 21:22:35.660733', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (192, 'Stephen King', null, null, '2025-11-01 21:25:44.275760', '2025-11-01 21:25:44.275771', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (193, 'Martha Wells', null, null, '2025-11-01 21:26:19.024967', '2025-11-01 21:26:19.024974', 0);
@@ -67,7 +66,6 @@ INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (10, 'Kerri Maniscalco', 'FEMALE', null, '2025-01-01 14:18:26.518917', '2025-01-01 14:18:26.518928', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (3, 'Taylor Jenkins Reid', 'FEMALE', null, '2025-01-01 14:18:26.432457', '2025-01-01 14:18:26.432467', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (30, 'Madeline Miller', 'FEMALE', null, '2025-01-01 14:18:26.803632', '2025-01-01 14:18:26.803645', 0);
-INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (49, 'R.F. Kuang', 'FEMALE', null, '2025-01-01 14:18:27.361435', '2025-01-01 14:18:27.361637', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (19, 'Emily St. John Mandel', 'FEMALE', null, '2025-01-01 14:18:26.630784', '2025-01-01 14:18:26.630792', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (73, 'Jennifer Lynn Barnes', 'FEMALE', null, '2025-01-01 14:18:28.047561', '2025-01-01 14:18:28.047565', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (46, 'Sophia P. Amaral', 'FEMALE', null, '2025-01-01 14:18:27.234763', '2025-01-01 14:18:27.234776', 0);
@@ -119,6 +117,7 @@ INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (91, 'Affonso Solano', 'MALE', 'BR', '2025-01-01 14:18:28.590608', '2025-09-30 17:41:13.755347', 1);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (217, 'Dan Brown', null, null, '2025-11-03 17:47:49.508643', '2025-11-03 17:47:49.508667', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (223, 'Mai Corland', null, null, '2025-11-03 17:53:46.225000', '2025-11-03 17:53:46.225015', 0);
+INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (49, 'R. F. Kuang', 'FEMALE', null, '2025-01-01 14:18:27.361435', '2025-11-06 09:40:48.083431', 1);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (166, 'Yuval Noah Harari', 'MALE', 'IL', '2025-10-18 08:14:59.961107', '2025-10-18 08:14:59.961125', 0);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (125, 'Eduardo Kasse', 'MALE', null, '2025-10-17 10:46:46.891116', '2025-10-20 21:07:14.339595', 1);
 INSERT INTO public.author (id, name, gender, nationality, created_at, updated_at, version) VALUES (121, 'Samantha Shannon', 'FEMALE', null, '2025-10-17 10:46:46.863834', '2025-10-20 21:10:31.957196', 1);

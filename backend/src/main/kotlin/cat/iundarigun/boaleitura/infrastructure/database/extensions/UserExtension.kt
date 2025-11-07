@@ -15,3 +15,9 @@ fun UserEntity.toUser(): User =
         username = this.username,
         encryptedPassword = this.encryptedPassword
     )
+
+fun UserEntity.merge(user: User): UserEntity {
+    this.username = user.username
+    this.encryptedPassword = user.encryptedPassword
+    return this
+}

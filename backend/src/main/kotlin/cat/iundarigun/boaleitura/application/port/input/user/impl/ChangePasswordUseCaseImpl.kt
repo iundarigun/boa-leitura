@@ -6,6 +6,7 @@ import cat.iundarigun.boaleitura.application.port.output.UserPort
 import cat.iundarigun.boaleitura.domain.request.ChangePasswordRequest
 import cat.iundarigun.boaleitura.domain.security.loggedUser
 import cat.iundarigun.boaleitura.exception.UsernameOrPasswordNotMatchException
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 
 @Component
@@ -18,8 +19,8 @@ class ChangePasswordUseCaseImpl(
         val user = loggedUser?.name?.let {
             userPort.findByUsername(it)
         }
-        if (user == null || securityPort.matches(request.oldPassword, user.encryptedPassword)) {
-            throw UsernameOrPasswordNotMatchException()
+        if (user == null || !securityPort.matches(request.oldPassword, user.encryptedPassword)) {
+            throw UsernameOrPasswordNotMatchException(HttpStatus.BAD_REQUEST)
         }
         userPort.save(user.copy(encryptedPassword = securityPort.encryptPassword(request.password)))
     }

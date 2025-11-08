@@ -1,6 +1,7 @@
 package cat.iundarigun.boaleitura.infrastructure.database.extensions
 
 import cat.iundarigun.boaleitura.domain.model.User
+import cat.iundarigun.boaleitura.domain.model.UserPreferences
 import cat.iundarigun.boaleitura.infrastructure.database.entity.UserEntity
 
 fun User.toEntity(): UserEntity =
@@ -13,7 +14,15 @@ fun UserEntity.toUser(): User =
     User(
         id = this.id,
         username = this.username,
-        encryptedPassword = this.encryptedPassword
+        encryptedPassword = this.encryptedPassword,
+        userPreferences = this.toUserPreferences()
+    )
+
+fun UserEntity.toUserPreferences(): UserPreferences =
+    UserPreferences(
+        languageTags = this.languageTags,
+        formatTags = this.formatTags,
+        platformTags = this.platformTags,
     )
 
 fun UserEntity.merge(user: User): UserEntity {

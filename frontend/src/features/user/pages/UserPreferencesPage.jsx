@@ -32,6 +32,7 @@ export default function UserPreferencesPage() {
           <ChangePasswordForm
             saving={savingPassword}
             onSubmit={handleSubmitPassword}/>
+          <hr className="my-4 border-t border-gray-300"/>
           <GoodreadsPreferencesForm
             userPreferences={initialDataPreferences}
             saving={savingPreferences}

@@ -28,5 +28,8 @@ fun UserEntity.toUserPreferences(): UserPreferences =
 fun UserEntity.merge(user: User): UserEntity {
     this.username = user.username
     this.encryptedPassword = user.encryptedPassword
+    this.languageTags = user.userPreferences.languageTags
+    this.formatTags = user.userPreferences.formatTags
+    this.platformTags = user.userPreferences.platformTags
     return this
 }

@@ -3,13 +3,22 @@ import {User} from 'lucide-react';
 import {useAuth} from "@/context/AuthContext.jsx";
 import useChangePassword from "@/features/user/hooks/useChangePassword.js";
 import ChangePasswordForm from "@/features/user/components/ChangePasswordForm.jsx";
+import GoodreadsPreferencesForm from "@/features/user/components/GoodreadsPreferencesForm.jsx";
+import useGoodreadsPreferences from "@/features/user/hooks/useGoodreadsPreferences.js";
 
 export default function UserPreferencesPage() {
   const {user} = useAuth();
   const {
-    saving,
-    handleSubmit
+    saving: savingPassword,
+    handleSubmit: handleSubmitPassword
   } = useChangePassword();
+
+  const {
+    saving: savingPreferences,
+    initialData: initialDataPreferences,
+    handleSubmit: handleSubmitPreferences,
+    handleCancel: handleCancelPreferences,
+  } = useGoodreadsPreferences()
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
@@ -21,8 +30,13 @@ export default function UserPreferencesPage() {
         </CardHeader>
         <CardContent>
           <ChangePasswordForm
-            saving={saving}
-            onSubmit={handleSubmit}/>
+            saving={savingPassword}
+            onSubmit={handleSubmitPassword}/>
+          <GoodreadsPreferencesForm
+            userPreferences={initialDataPreferences}
+            saving={savingPreferences}
+            onSubmit={handleSubmitPreferences}
+            onCancel={handleCancelPreferences}/>
         </CardContent>
       </Card>
     </div>

@@ -6,11 +6,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import StarRating from "@/components/StarRating";
 import useReadingDetails from "@/features/reading/hooks/useReadingDetails.js";
-import {getPlatformImage} from "@/lib/platform.js";
-
+import { getPlatformImage } from "@/lib/platform.js";
 
 export default function ReadingDetailsDialog({ open, onClose, readingId }) {
   const {
@@ -21,20 +20,15 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
     backgroundImage,
     proxiedUrl,
     handleExportImage,
-    handleRefreshBackground
+    handleRefreshBackground,
+    theme,
   } = useReadingDetails(readingId);
 
   if (!open || !readingId) return null;
-
   if (loading)
-    return (
-      <div className="p-4 text-center text-gray-500">Loading reading...</div>
-    );
-
+    return <div className="p-4 text-center text-gray-500">Loading reading...</div>;
   if (!reading)
-    return (
-      <div className="p-4 text-center text-gray-500">No data available.</div>
-    );
+    return <div className="p-4 text-center text-gray-500">No data available.</div>;
 
   const { book } = reading;
   const bookInfo = book || {};
@@ -56,7 +50,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
 
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
-      <AlertDialogContent className="max-w-2xl justify-center items-center">
+      <AlertDialogContent className="max-w-2xl flex flex-col items-center">
         <AlertDialogHeader>
           <AlertDialogTitle>Export {title}</AlertDialogTitle>
         </AlertDialogHeader>
@@ -67,7 +61,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
           style={{
             width: "383px",
             height: "675px",
-            backgroundColor: "rgb(255,255,255)",
+            backgroundColor: theme.background,
           }}
         >
           <img
@@ -84,11 +78,11 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
               <div className="flex flex-col items-center text-center mb-4">
                 <h1
                   style={{
-                    color: "rgb(30,30,30)",
+                    color: theme.titleColor,
                     fontWeight: 800,
                     textTransform: "uppercase",
                     fontSize: "1.9rem",
-                    textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+                    textShadow: theme.softShadow,
                     letterSpacing: "0.05em",
                   }}
                 >
@@ -96,11 +90,11 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                 </h1>
                 <h2
                   style={{
-                    color: "rgb(60,60,60)",
+                    color: theme.subtitleColor,
                     fontWeight: 600,
                     fontSize: "1.1rem",
                     marginTop: "0.25rem",
-                    textShadow: "1px 1px 3px rgba(0,0,0,0.3)",
+                    textShadow: theme.textShadow,
                   }}
                 >
                   {position}
@@ -112,10 +106,10 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                   <div
                     style={{
                       fontStyle: "italic",
-                      color: "rgb(70,70,70)",
+                      color: theme.sagaColor,
                       fontSize: "0.9rem",
                       marginBottom: "0.75rem",
-                      textShadow: "1px 1px 2px rgba(0,0,0,0.25)",
+                      textShadow: theme.textShadow,
                     }}
                   >
                     {sagaDisplay}
@@ -155,9 +149,9 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                         style={{
                           fontSize: "1.25rem",
                           fontWeight: 700,
-                          color: "rgb(25,25,25)",
+                          color: theme.titleColor,
                           lineHeight: "1.3",
-                          textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
+                          textShadow: theme.textShadow,
                         }}
                       >
                         {title}
@@ -166,9 +160,9 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                         style={{
                           fontSize: "1rem",
                           fontWeight: 500,
-                          color: "rgb(45,45,45)",
+                          color: theme.authorColor,
                           marginTop: "0.25rem",
-                          textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
+                          textShadow: theme.textShadow,
                         }}
                       >
                         {authorName}
@@ -180,15 +174,15 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                         <p
                           style={{
                             fontSize: "0.9rem",
-                            color: "rgb(60,60,60)",
-                            textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
+                            color: theme.origTitleColor,
+                            textShadow: theme.textShadow,
                           }}
                         >
                           <strong
                             style={{
                               fontWeight: 600,
-                              color: "rgb(50,50,50)",
-                              textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
+                              color: theme.labelColor,
+                              textShadow: theme.textShadow,
                             }}
                           >
                             Original title:
@@ -207,7 +201,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
               </div>
             </div>
 
-            {/* --- Least section --- */}
+            {/* --- Bottom section --- */}
             <div className="flex justify-around items-end mt-6 mb-8">
               <img
                 src={languageImage}
@@ -221,11 +215,9 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                 src={platformImage}
                 alt={platform}
                 width="160px"
-                // height="160px"
-                className="object-contain  max-h-15"
+                className="object-contain max-h-15"
                 onError={(e) => (e.currentTarget.style.display = "none")}
               />
-
             </div>
           </div>
         </div>
@@ -235,14 +227,13 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
             variant="outline"
             size="sm"
             onClick={() => handleRefreshBackground()}
-            alt="Refresh background"
           >
             Refresh
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => handleExportImage({onClose})}
+            onClick={() => handleExportImage({ onClose })}
             disabled={exporting}
           >
             {exporting ? "Exporting..." : "Export image"}

@@ -18,7 +18,7 @@ export function getReadingPlatformsDisplay(code) {
   return found ? `${found.label}` : code;
 }
 
-export function getPlatformImage(platform, format) {
+export function getPlatformImage(platform, format, mode) {
   if (!platform) return null;
 
   let imageName = "";
@@ -30,5 +30,5 @@ export function getPlatformImage(platform, format) {
       imageName = platform.toLowerCase();
   }
 
-  return `/assets/platforms/${imageName}.png`;
+  return `/assets/platforms/${mode}/${imageName}.png`;
 }

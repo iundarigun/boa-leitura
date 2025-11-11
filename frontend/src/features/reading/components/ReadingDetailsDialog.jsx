@@ -6,11 +6,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 import StarRating from "@/components/StarRating";
 import useReadingDetails from "@/features/reading/hooks/useReadingDetails.js";
-import { getPlatformImage } from "@/lib/platform.js";
-import { Moon, Sun } from "lucide-react";
+import {getPlatformImage} from "@/lib/platform.js";
+import {Switch} from "@/components/ui/switch";
+import {Label} from "@/components/ui/label";
 
 export default function ReadingDetailsDialog({ open, onClose, readingId }) {
   const {
@@ -226,14 +227,16 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
         </div>
 
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={toggleMode}
-            title={`Switch to ${mode === "light" ? "Dark" : "Light"} mode`}
-          >
-            {mode === "light" ? <Moon size={16} /> : <Sun size={16} />}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="mode-switch" className="text-sm">
+              {mode === "light" ? "☀️ Light" : "🌙 Dark"}
+            </Label>
+            <Switch
+              id="mode-switch"
+              checked={mode === "dark"}
+              onCheckedChange={toggleMode}
+            />
+          </div>
           <Button
             variant="outline"
             size="sm"
@@ -244,7 +247,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => handleExportImage({ onClose })}
+            onClick={() => handleExportImage({onClose})}
             disabled={exporting}
           >
             {exporting ? "Exporting..." : "Export image"}

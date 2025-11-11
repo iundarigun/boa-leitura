@@ -46,7 +46,11 @@ export default function useReadingDetails(readingId) {
   const getRandomInt = (max) => Math.floor(Math.random() * max);
 
   const handleRefreshBackground = () => {
-    setBackgroundImage(`/assets/backgrounds/instagram-bg-${getRandomInt(9) + 1}.png`);
+    if (getRandomInt(2) === 0) {
+      setBackgroundImage(`/assets/backgrounds/light/instagram-bg-${getRandomInt(9) + 1}.png`);
+    } else {
+      setBackgroundImage(`/assets/backgrounds/dark/instagram-bg-${getRandomInt(6) + 1}.png`);
+    }
   }
 
   return {

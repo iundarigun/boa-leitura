@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import StarRating from "@/components/StarRating";
 import useReadingDetails from "@/features/reading/hooks/useReadingDetails.js";
 import { getPlatformImage } from "@/lib/platform.js";
+import { Moon, Sun } from "lucide-react";
 
 export default function ReadingDetailsDialog({ open, onClose, readingId }) {
   const {
@@ -22,6 +23,8 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
     handleExportImage,
     handleRefreshBackground,
     theme,
+    mode,
+    toggleMode,
   } = useReadingDetails(readingId);
 
   if (!open || !readingId) return null;
@@ -45,7 +48,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
   const readLanguage = reading.language || bookInfo.language;
   const languageImage = `/assets/languages/${readLanguage}.png`;
   const platform = reading.platform;
-  const platformImage = getPlatformImage(platform, reading.format);
+  const platformImage = getPlatformImage(platform, reading.format, mode);
   const position = `#${reading.positionInYear} · ${reading.dateRead.substring(0, 4)}`;
 
   return (
@@ -61,7 +64,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
           style={{
             width: "383px",
             height: "675px",
-            backgroundColor: theme.background,
+            backgroundColor: theme().background,
           }}
         >
           <img
@@ -78,11 +81,11 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
               <div className="flex flex-col items-center text-center mb-4">
                 <h1
                   style={{
-                    color: theme.titleColor,
+                    color: theme().titleColor,
                     fontWeight: 800,
                     textTransform: "uppercase",
                     fontSize: "1.9rem",
-                    textShadow: theme.softShadow,
+                    textShadow: theme().softShadow,
                     letterSpacing: "0.05em",
                   }}
                 >
@@ -90,11 +93,11 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                 </h1>
                 <h2
                   style={{
-                    color: theme.subtitleColor,
+                    color: theme().subtitleColor,
                     fontWeight: 600,
                     fontSize: "1.1rem",
                     marginTop: "0.25rem",
-                    textShadow: theme.textShadow,
+                    textShadow: theme().textShadow,
                   }}
                 >
                   {position}
@@ -106,10 +109,10 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                   <div
                     style={{
                       fontStyle: "italic",
-                      color: theme.sagaColor,
+                      color: theme().sagaColor,
                       fontSize: "0.9rem",
                       marginBottom: "0.75rem",
-                      textShadow: theme.textShadow,
+                      textShadow: theme().textShadow,
                     }}
                   >
                     {sagaDisplay}
@@ -149,9 +152,9 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                         style={{
                           fontSize: "1.25rem",
                           fontWeight: 700,
-                          color: theme.titleColor,
+                          color: theme().titleColor,
                           lineHeight: "1.3",
-                          textShadow: theme.textShadow,
+                          textShadow: theme().textShadow,
                         }}
                       >
                         {title}
@@ -160,9 +163,9 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                         style={{
                           fontSize: "1rem",
                           fontWeight: 500,
-                          color: theme.authorColor,
+                          color: theme().authorColor,
                           marginTop: "0.25rem",
-                          textShadow: theme.textShadow,
+                          textShadow: theme().textShadow,
                         }}
                       >
                         {authorName}
@@ -174,15 +177,15 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
                         <p
                           style={{
                             fontSize: "0.9rem",
-                            color: theme.origTitleColor,
-                            textShadow: theme.textShadow,
+                            color: theme().origTitleColor,
+                            textShadow: theme().textShadow,
                           }}
                         >
                           <strong
                             style={{
                               fontWeight: 600,
-                              color: theme.labelColor,
-                              textShadow: theme.textShadow,
+                              color: theme().labelColor,
+                              textShadow: theme().textShadow,
                             }}
                           >
                             Original title:
@@ -223,6 +226,14 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
         </div>
 
         <AlertDialogFooter className="flex justify-end gap-3 mt-6">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleMode}
+            title={`Switch to ${mode === "light" ? "Dark" : "Light"} mode`}
+          >
+            {mode === "light" ? <Moon size={16} /> : <Sun size={16} />}
+          </Button>
           <Button
             variant="outline"
             size="sm"

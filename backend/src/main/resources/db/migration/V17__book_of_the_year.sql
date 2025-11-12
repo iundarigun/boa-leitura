@@ -1,0 +1,28 @@
+CREATE TABLE best_of_the_year
+(
+    id               SERIAL PRIMARY KEY,
+    user_id          BIGINT                      NOT NULL,
+    year             INT                         NOT NULL,
+    january          BIGINT,
+    february         BIGINT,
+    march            BIGINT,
+    april            BIGINT,
+    may              BIGINT,
+    june             BIGINT,
+    july             BIGINT,
+    august           BIGINT,
+    september        BIGINT,
+    october          BIGINT,
+    november         BIGINT,
+    december         BIGINT,
+    quarter_one      BIGINT,
+    quarter_two      BIGINT,
+    quarter_three    BIGINT,
+    quarter_four     BIGINT,
+    first_half       BIGINT,
+    second_half      BIGINT,
+    best_of_the_year BIGINT,
+    created_at       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    version          INTEGER                     NOT NULL
+);

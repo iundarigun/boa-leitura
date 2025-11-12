@@ -1,0 +1,25 @@
+package cat.iundarigun.boaleitura.domain.request
+
+data class BestOfTheYearRequest(
+    val id: Long? = null,
+    val year: Int,
+    val january: Long? = null,
+    val february: Long? = null,
+    val march: Long? = null,
+    val april: Long? = null,
+    val may: Long? = null,
+    val june: Long? = null,
+    val july: Long? = null,
+    val august: Long? = null,
+    val september: Long? = null,
+    val october: Long? = null,
+    val november: Long? = null,
+    val december: Long? = null,
+    val quarterOne: Long? = null,
+    val quarterTwo: Long? = null,
+    val quarterThree: Long? = null,
+    val quarterFour: Long? = null,
+    val firstHalf: Long? = null,
+    val secondHalf: Long? = null,
+    val bestOfTheYear: Long? = null,
+)

@@ -6,7 +6,7 @@ import path from "path";
 export default defineConfig({
   plugins: [react(), tailwindcss(),],
   server: {
-    historyApiFallback: true, // garante que qualquer rota cai no index.html
+    historyApiFallback: true,
   },
   resolve: {
     alias: {

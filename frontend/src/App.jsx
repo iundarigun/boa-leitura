@@ -22,6 +22,7 @@ import ToBeReadFormPage from "@/features/tbr/pages/ToBeReadFormPage.jsx";
 import RegisterPage from "@/features/auth/pages/RegisterPage.jsx";
 import ImportGoodreadsPage from "@/features/user/pages/ImportGoodreadsPage.jsx";
 import UserPreferencesPage from "@/features/user/pages/UserPreferencesPage.jsx";
+import BestOfTheYearPage from "@/features/statistics/pages/BestOfTheYearPage.jsx";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
           <Route path="/statistics/language" element={<PrivateRoute><StatisticsLanguagePage /></PrivateRoute>} />
           <Route path="/statistics/author" element={<PrivateRoute><StatisticsAuthorPage /></PrivateRoute>} />
           <Route path="/statistics/mood" element={<PrivateRoute><StatisticsMoodPage /></PrivateRoute>} />
+          <Route path="/statistics/best-of-the-year" element={<PrivateRoute><BestOfTheYearPage /></PrivateRoute>} />
           <Route path="/user/import" element={<PrivateRoute><ImportGoodreadsPage/></PrivateRoute>} />
           <Route path="/user/preferences" element={<PrivateRoute><UserPreferencesPage/></PrivateRoute>} />
           <Route path="/login" element={<LoginPage />}/>

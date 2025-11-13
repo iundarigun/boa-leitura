@@ -109,6 +109,13 @@ export default function Layout() {
                     >
                       Mood
                     </Link>
+                    <Link
+                      to="/statistics/best-of-the-year"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100"
+                      onClick={handleNavClick}
+                    >
+                      Best of the Year
+                    </Link>
                   </div>
                 )}
               </div>

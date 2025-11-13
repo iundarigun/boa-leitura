@@ -10,13 +10,16 @@ import java.time.ZoneOffset
 import java.util.concurrent.TimeUnit
 
 object ReadingEntityFactory {
-    fun build(book: BookEntity): ReadingEntity =
+    fun build(
+        book: BookEntity,
+        dateRead: LocalDate = LocalDate.ofInstant(
+            FakerConfiguration.FAKER.timeAndDate().past(365 * 5, TimeUnit.DAYS),
+            ZoneOffset.UTC
+        )
+    ): ReadingEntity =
         ReadingEntity(
             myRating = FakerConfiguration.FAKER.number().randomDouble(1, 1, 5),
-            dateRead = LocalDate.ofInstant(
-                FakerConfiguration.FAKER.timeAndDate().past(365 * 5, TimeUnit.DAYS),
-                ZoneOffset.UTC
-            ),
+            dateRead = dateRead,
             book = book,
             format = FakerConfiguration.FAKER.options().option(FormatEnum::class.java),
             platform = FakerConfiguration.FAKER.options().option(PlatformEnum::class.java),

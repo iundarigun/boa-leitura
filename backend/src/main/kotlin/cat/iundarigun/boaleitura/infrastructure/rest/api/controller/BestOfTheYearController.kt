@@ -1,5 +1,6 @@
 package cat.iundarigun.boaleitura.infrastructure.rest.api.controller
 
+import cat.iundarigun.boaleitura.application.port.input.best.ChoosingBestOfTheYearUseCase
 import cat.iundarigun.boaleitura.application.port.input.best.FindBestOfTheYearUseCase
 import cat.iundarigun.boaleitura.domain.request.BestOfTheYearFieldRequest
 import cat.iundarigun.boaleitura.domain.response.BestOfTheYearResponse
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("bests")
 class BestOfTheYearController(
-    private val findBestOfTheYearUseCase: FindBestOfTheYearUseCase
+    private val findBestOfTheYearUseCase: FindBestOfTheYearUseCase,
+    private val choosingBestOfTheYearUseCase: ChoosingBestOfTheYearUseCase
 ) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -30,6 +32,7 @@ class BestOfTheYearController(
         @PathVariable("year") year: Int,
         @RequestBody request: BestOfTheYearFieldRequest
     ): BestOfTheYearResponse {
-        TODO()
+        logger.info("patchBestOfTheYear, year=$year, request=$request")
+        return choosingBestOfTheYearUseCase.execute(year, request)
     }
 }

@@ -24,7 +24,7 @@ const monthLabels = {
   december: "December"
 };
 
-export default function BestOfTheYearList({stats, year}) {
+export default function BestOfTheYearList({stats, year, onSelect}) {
   const [readingSelectDialogOpen, setReadingSelectDialogOpen] = useState(false);
   const [month, setMonth] = useState("01");
 
@@ -38,8 +38,13 @@ export default function BestOfTheYearList({stats, year}) {
     setReadingSelectDialogOpen(true);
   }
 
-  const handleSelect = () => {
-    // TODO
+  const handleSelect = (reading) => {
+    const field = months[month - 1].toUpperCase();
+    stats[month] = reading;
+    onSelect(year,{
+      readingId: reading.id,
+      field: field
+    })
   }
 
   return (

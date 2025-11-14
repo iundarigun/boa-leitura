@@ -11,10 +11,11 @@ export default function BestOfTheYearPage() {
     setYear,
     loading,
     stats,
-    fetchBestOfTheYear
+    fetchBestOfTheYear,
+    updateBestOfTheYear
   } = useBestOfTheYear(currentYear);
 
-  const years = Array.from({ length: currentYear - 1999 }, (_, i) =>
+  const years = Array.from({length: currentYear - 1999}, (_, i) =>
     (currentYear - i).toString()
   );
 
@@ -27,7 +28,7 @@ export default function BestOfTheYearPage() {
           <div className="flex gap-3 items-center">
             <Select value={year} onValueChange={setYear}>
               <SelectTrigger className="w-40">
-                <SelectValue placeholder="Select year" />
+                <SelectValue placeholder="Select year"/>
               </SelectTrigger>
               <SelectContent>
                 {years.map((y) => (
@@ -48,7 +49,8 @@ export default function BestOfTheYearPage() {
           <CardContent className="space-y-8">
             <BestOfTheYearList
               stats={stats}
-              year={year} />
+              year={year}
+              onSelect={updateBestOfTheYear}/>
           </CardContent>
         )}
       </Card>

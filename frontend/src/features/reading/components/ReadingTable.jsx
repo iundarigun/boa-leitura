@@ -149,37 +149,41 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
                   {new Date(reading.dateRead).toLocaleDateString()}
                 </td>
                 <td className="p-3 text-center">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreVertical className="h-4 w-4"/>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem onClick={() => handleBookView(reading?.book?.id)}>
-                        <Eye className="h-4 w-4 mr-2"/>
-                        View book details
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleReadingView(reading?.id)}>
-                        <img src={instagramImg} className="h-4 w-4 mr-2"/>
-                        Printed version
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onEdit(reading)}>
-                        <Pencil className="h-4 w-4 mr-2"/>
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator/>
-                      <DropdownMenuItem
-                        className="text-red-600 focus:text-red-700"
-                        onClick={() => setConfirmDelete(true)}
-                      >
-                        <Trash2 className="h-4 w-4 mr-2"/>
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-
+                  {onSelect ? (
+                      <Button size="sm" onClick={() => onSelect(reading)}>Select</Button>
+                    )
+                    : (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreVertical className="h-4 w-4"/>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem onClick={() => handleBookView(reading?.book?.id)}>
+                            <Eye className="h-4 w-4 mr-2"/>
+                            View book details
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleReadingView(reading?.id)}>
+                            <img src={instagramImg} className="h-4 w-4 mr-2"/>
+                            Printed version
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => onEdit(reading)}>
+                            <Pencil className="h-4 w-4 mr-2"/>
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator/>
+                          <DropdownMenuItem
+                            className="text-red-600 focus:text-red-700"
+                            onClick={() => setConfirmDelete(true)}
+                          >
+                            <Trash2 className="h-4 w-4 mr-2"/>
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
                 </td>
                 <CustomAlertDialog
                   confirm={confirmDelete}

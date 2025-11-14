@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useDialog} from "@/context/DialogContext.jsx";
-import {getBestOfTheYear} from "@/lib/api/bestOfTheYear.js";
+import {getBestOfTheYear, patchBestOfTheYear} from "@/lib/api/bestOfTheYear.js";
 
 export default function useBestOfTheYear(currentYear) {
   const [year, setYear] = useState(currentYear.toString());
@@ -25,11 +25,25 @@ export default function useBestOfTheYear(currentYear) {
     setLoading(false);
   };
 
+  const updateBestOfTheYear = async (year, payload) => {
+    setLoading(true);
+    const { data, error } = await patchBestOfTheYear(year, payload);
+
+    if (error) {
+      showError(error);
+    } else {
+      setStats(data);
+    }
+    setLoading(false);
+  };
+
+
   return {
     year,
     setYear,
     loading,
     stats,
-    fetchBestOfTheYear
+    fetchBestOfTheYear,
+    updateBestOfTheYear
   };
 }

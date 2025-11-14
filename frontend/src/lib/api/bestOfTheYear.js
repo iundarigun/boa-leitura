@@ -6,3 +6,8 @@ export async function getBestOfTheYear(year) {
   const { data, error } = await apiCall(() => api.get(`${API_URL}/${year}`));
   return {data, error};
 }
+
+export async function patchBestOfTheYear(year, payload) {
+  const { data, error } = await apiCall(() => api.patch(`${API_URL}/${year}`, payload));
+  return {data, error};
+}

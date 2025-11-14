@@ -13,28 +13,32 @@ export default function useSelectReadingDialog(year, month) {
   const filterDateFrom = `${year}-${month}-01`;
   const filterDateTo = `${year}-${month}-${new Date(year, Number(month), 0).getDate()}`;
 
-  const { showError, showSuccess } = useDialog();
+  const {showError} = useDialog();
 
   const fetchReadings = async () => {
     setLoading(true);
     const {data, error} = await getReadings({
-      page: page,
-      filterDateTo: filterDateTo,
-      filterDateFrom: filterDateFrom,
-      sortField: sortField,
-      sortDir: sortDir
-    })
+      page,
+      filterDateTo,
+      filterDateFrom,
+      sortField,
+      sortDir,
+    });
 
-    if (error) {
-      showError(error);
-    }
+    if (error) showError(error);
+
     if (data) {
       setReadings(data.content);
       setPage(data.page);
       setTotalPages(data.totalPages);
     }
+
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchReadings();
+  }, [year, month, sortField, sortDir, page]);
 
   const handleSort = (field) => {
     if (sortField === field) {

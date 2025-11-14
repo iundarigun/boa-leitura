@@ -47,7 +47,8 @@ export default function BestOfTheYearPage() {
         {stats && (
           <CardContent className="space-y-8">
             <BestOfTheYearList
-              stats={stats}/>
+              stats={stats}
+              year={year} />
           </CardContent>
         )}
       </Card>

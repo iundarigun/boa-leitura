@@ -1,5 +1,6 @@
 import PieChartCard from "@/components/PieChartCard.jsx";
 import {getGenderDisplay} from "@/lib/gender.js";
+import {getCountryDisplay} from "@/lib/countries.js";
 
 export default function StatisticsAuthorList({stats}) {
   return (
@@ -44,6 +45,15 @@ export default function StatisticsAuthorList({stats}) {
           </div>
         </div>
       </div>
+      <PieChartCard
+        title="Group readings by Author Nationality"
+        data={Object.entries(stats.authorPerNationality).map(([k, v]) => ({
+          name: k.toUpperCase(),
+          value: v,
+          label: getCountryDisplay(k)
+        }))}
+      />
+
       <div className="space-y-6 mt-4">
         <p className="text-lg font-medium">
           Number of new authors this year:{" "}

@@ -75,6 +75,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
     override fun authorStatistics(dateFrom: LocalDate, dateTo: LocalDate): StatisticAuthor {
         return StatisticAuthor(
             authorGender = retrieveAuthorGender(dateFrom, dateTo),
+            authorNationality = retrieveAuthorNationality(dateFrom, dateTo),
             authorCounts = retrieveAuthorCount(dateFrom, dateTo)
         )
     }
@@ -100,6 +101,24 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
             """
         return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
             rs.getString("gender") to rs.getInt("count")
+        }.toMap()
+    }
+
+    private fun retrieveAuthorNationality(dateFrom: LocalDate, dateTo: LocalDate): Map<String, Int> {
+        val sql = """
+            SELECT a.nationality as nationality, count(*) as count FROM reading r
+            INNER JOIN book b ON 
+                b.id = r.book_id
+            INNER JOIN author a ON 
+                a.id = b.author_id
+            WHERE r.date_read >= :dateFrom AND 
+                  r.date_read <= :dateTo   AND
+                  r.user_id    = :userId   AND
+                  a.nationality IS NOT NULL
+            GROUP BY a.nationality
+            """
+        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
+            rs.getString("nationality") to rs.getInt("count")
         }.toMap()
     }
 

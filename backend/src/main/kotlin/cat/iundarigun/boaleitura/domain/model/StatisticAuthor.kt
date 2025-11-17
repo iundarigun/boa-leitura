@@ -2,6 +2,7 @@ package cat.iundarigun.boaleitura.domain.model
 
 data class StatisticAuthor(
     val authorGender: Map<String, Int>,
+    val authorNationality: Map<String, Int>,
     val authorCounts: List<StatisticAuthorCount>
 )
 

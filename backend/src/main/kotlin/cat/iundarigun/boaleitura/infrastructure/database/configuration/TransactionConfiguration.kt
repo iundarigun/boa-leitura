@@ -7,11 +7,12 @@ import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.env.Environment
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.transaction.TransactionManager
 
 @Configuration
-class TransactionConfiguration {
+class TransactionConfiguration(private val env: Environment) {
     @Bean
     fun transactionManager(
         transactionManagerCustomizer: ObjectProvider<TransactionManagerCustomizers>
@@ -19,9 +20,11 @@ class TransactionConfiguration {
         val transactionManager: TransactionManager = object : JpaTransactionManager() {
             override fun createEntityManagerForTransaction(): EntityManager {
                 return super.createEntityManagerForTransaction().also {
-                    it.unwrap(Session::class.java)
-                        .enableFilter("userIdFilter")
-                        .setParameter("userId", loggedUser?.userId ?: 0L)
+                    if (!env.activeProfiles.contains("test") || loggedUser?.userId != null) {
+                        it.unwrap(Session::class.java)
+                            .enableFilter("userIdFilter")
+                            .setParameter("userId", loggedUser?.userId ?: 0L)
+                    }
                 }
             }
         }

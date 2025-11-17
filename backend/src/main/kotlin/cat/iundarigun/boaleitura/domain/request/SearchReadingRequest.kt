@@ -2,15 +2,12 @@ package cat.iundarigun.boaleitura.domain.request
 
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.PastOrPresent
 import jakarta.validation.constraints.Positive
 import java.time.LocalDate
 
 data class SearchReadingRequest(
     val keyword: String? = null,
-    @field:PastOrPresent
     val dateFrom: LocalDate? = null,
-    @field:PastOrPresent
     val dateTo: LocalDate? = null,
     @field:Positive
     val page: Int = 1,

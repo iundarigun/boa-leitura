@@ -34,7 +34,6 @@ class UserController(
         updateUserPreferencesUseCase.execute(request)
     }
 
-
     @GetMapping
     fun getUser(): UserResponse =
         getUserUseCase.execute()

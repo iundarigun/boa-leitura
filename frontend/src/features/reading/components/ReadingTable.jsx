@@ -19,7 +19,7 @@ import instagramImg from "@/assets/instagram.svg";
 import CustomAlertDialog from "@/components/CustomAlertDialog.jsx";
 import ReadingDetailsDialog from "@/features/reading/components/ReadingDetailsDialog.jsx";
 
-export default function ReadingTable({readings, loading, onEdit, onDelete, sortField, sortDir, onSort}) {
+export default function ReadingTable({readings, loading, onEdit, onDelete, sortField, sortDir, onSort, onSelect}) {
   const [bookDetailsOpen, setBookDetailsOpen] = useState(false);
   const [readingDetailsOpen, setReadingDetailsOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -29,8 +29,10 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const handleBookView = (bookId) => {
-    setSelectedBook(bookId);
-    setBookDetailsOpen(true);
+    if (!onSelect) {
+      setSelectedBook(bookId);
+      setBookDetailsOpen(true);
+    }
   };
 
   const handleReadingView = (readingId) => {
@@ -64,20 +66,24 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
               label="Author"
               orderFieldName="AUTHOR"
             />
-            <SortableColumns
-              onSort={onSort}
-              sortField={sortField}
-              sortDir={sortDir}
-              label="Saga"
-              orderFieldName="SAGA"
-            />
-            <SortableColumns
-              onSort={onSort}
-              sortField={sortField}
-              sortDir={sortDir}
-              label="Genre"
-              orderFieldName="GENRE"
-            />
+            {!onSelect &&
+              <>
+                <SortableColumns
+                  onSort={onSort}
+                  sortField={sortField}
+                  sortDir={sortDir}
+                  label="Saga"
+                  orderFieldName="SAGA"
+                />
+                <SortableColumns
+                  onSort={onSort}
+                  sortField={sortField}
+                  sortDir={sortDir}
+                  label="Genre"
+                  orderFieldName="GENRE"
+                />
+              </>
+            }
             <SortableColumns
               onSort={onSort}
               sortField={sortField}
@@ -85,9 +91,11 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
               label="My rating"
               orderFieldName="MY_RATING"
             />
-            <th className="p-3 cursor-pointer">
-              Reading language
-            </th>
+            {!onSelect &&
+              <th className="p-3 cursor-pointer">
+                Reading language
+              </th>
+            }
             <SortableColumns
               onSort={onSort}
               sortField={sortField}
@@ -120,52 +128,62 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
                     <div className="w-12 h-16 bg-gray-200 rounded"/>
                   )}
                 </td>
-                <td className="p-3 cursor-pointer"
+                <td className={!onSelect ? "p-3 cursor-pointer" : "p-3"}
                     onClick={() => handleBookView(reading.book.id)}>
                   {reading.book.title}
                 </td>
                 <td className="p-3">{reading.book.author}</td>
-                <td className="p-3 cursor-pointer"
-                    onClick={() => reading.book.saga && handleSagaView(reading.book.saga.id)}>
-                  {reading.book.saga?.name || "-"}</td>
-                <td className="p-3">{reading.book.genre || "-"}</td>
+                {!onSelect &&
+                  <>
+                    <td className="p-3 cursor-pointer"
+                        onClick={() => reading.book.saga && handleSagaView(reading.book.saga.id)}>
+                      {reading.book.saga?.name || "-"}</td>
+                    <td className="p-3">{reading.book.genre || "-"}</td>
+                  </>
+                }
                 <td className="p-3"><StarRating value={reading.myRating}/></td>
-                <td className="p-3">{getLanguageDisplay(reading.language) || "-"}</td>
+                {!onSelect &&
+                  <td className="p-3">{getLanguageDisplay(reading.language) || "-"}</td>
+                }
                 <td className="p-3">
                   {new Date(reading.dateRead).toLocaleDateString()}
                 </td>
                 <td className="p-3 text-center">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreVertical className="h-4 w-4"/>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem onClick={() => handleBookView(reading?.book?.id)}>
-                        <Eye className="h-4 w-4 mr-2"/>
-                        View book details
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleReadingView(reading?.id)}>
-                        <img src={instagramImg} className="h-4 w-4 mr-2"/>
-                        Printed version
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onEdit(reading)}>
-                        <Pencil className="h-4 w-4 mr-2"/>
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator/>
-                      <DropdownMenuItem
-                        className="text-red-600 focus:text-red-700"
-                        onClick={() => setConfirmDelete(true)}
-                      >
-                        <Trash2 className="h-4 w-4 mr-2"/>
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-
+                  {onSelect ? (
+                      <Button size="sm" onClick={() => onSelect(reading)}>Select</Button>
+                    )
+                    : (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreVertical className="h-4 w-4"/>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem onClick={() => handleBookView(reading?.book?.id)}>
+                            <Eye className="h-4 w-4 mr-2"/>
+                            View book details
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleReadingView(reading?.id)}>
+                            <img src={instagramImg} className="h-4 w-4 mr-2"/>
+                            Printed version
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => onEdit(reading)}>
+                            <Pencil className="h-4 w-4 mr-2"/>
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator/>
+                          <DropdownMenuItem
+                            className="text-red-600 focus:text-red-700"
+                            onClick={() => setConfirmDelete(true)}
+                          >
+                            <Trash2 className="h-4 w-4 mr-2"/>
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
                 </td>
                 <CustomAlertDialog
                   confirm={confirmDelete}

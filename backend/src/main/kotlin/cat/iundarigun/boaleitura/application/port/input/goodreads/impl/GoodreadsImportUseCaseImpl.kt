@@ -47,7 +47,8 @@ class GoodreadsImportUseCaseImpl(
         }
 
         val user = loggedUser ?: throw UserNotFoundException()
-        val userPreferences = userPort.getUserPreferences(user.userId)
+        val userPreferences = userPort.findByUsername(user.name)?.userPreferences
+            ?: throw UserNotFoundException()
         goodreadsList.forEach {
             jobScheduler.enqueue {
                 importRecord(it, user.token, userPreferences)

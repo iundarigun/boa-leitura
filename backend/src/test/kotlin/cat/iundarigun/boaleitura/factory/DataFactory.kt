@@ -2,10 +2,12 @@ package cat.iundarigun.boaleitura.factory
 
 import cat.iundarigun.boaleitura.infrastructure.database.entity.UserEntity
 import cat.iundarigun.boaleitura.infrastructure.database.repository.AuthorRepository
+import cat.iundarigun.boaleitura.infrastructure.database.repository.BestOfTheYearRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.GenreRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.ReadingRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.SagaRepository
+import cat.iundarigun.boaleitura.infrastructure.database.repository.ToBeReadRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Repository
@@ -17,6 +19,8 @@ class DataFactory(
     private val genreRepository: GenreRepository,
     private val authorRepository: AuthorRepository,
     private val bookRepository: BookRepository,
+    private val toBeReadRepository: ToBeReadRepository,
+    private val bestOfTheYearRepository: BestOfTheYearRepository,
     passwordEncoder: PasswordEncoder,
     userRepository: UserRepository
 ) {
@@ -26,6 +30,8 @@ class DataFactory(
     }
 
     fun clean() {
+        bestOfTheYearRepository.deleteAll()
+        toBeReadRepository.deleteAll()
         readingRepository.deleteAll()
         bookRepository.deleteAll()
         authorRepository.deleteAll()

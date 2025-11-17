@@ -7,7 +7,6 @@ import cat.iundarigun.boaleitura.domain.response.PageResponse
 import cat.iundarigun.boaleitura.domain.response.ReadingResponse
 import cat.iundarigun.boaleitura.domain.response.ReadingSummaryResponse
 import cat.iundarigun.boaleitura.exception.BookNotFoundException
-import cat.iundarigun.boaleitura.exception.GenreNotFoundException
 import cat.iundarigun.boaleitura.exception.ReadingNotFoundException
 import cat.iundarigun.boaleitura.infrastructure.database.entity.ReadingEntity
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.merge
@@ -68,7 +67,7 @@ class ReadingAdapter(
 
     @Transactional(readOnly = true)
     override fun findById(id: Long): ReadingResponse {
-        val reading = readingRepository.findById(id).orElseThrow { GenreNotFoundException(id) }
+        val reading = readingRepository.findById(id).orElseThrow { ReadingNotFoundException(id) }
         return reading.toResponse(positionInYear(reading.id))
     }
 

@@ -11,11 +11,14 @@ export async function getToBeRead(params = {}) {
     query.append("directionAsc", params.sortDir === 'asc');
   }
   if (params.filterKeyword) query.append("keyword", params.filterKeyword);
-  if (params.filterBought !== undefined) {
-    query.append("bought", params.filterBought);
+  if (params.filterBought !== "both") {
+    query.append("bought", params.filterBought === "bought");
   }
   if (params.filterDone !== undefined) {
     query.append("done", params.filterDone);
+  }
+  if (params.filterTags && Array.isArray(params.filterTags)) {
+    params.filterTags.forEach(tag => query.append("tags", tag));
   }
 
   const { data, error } = await apiCall(() => api.get(`${API_URL}?${query.toString()}`));

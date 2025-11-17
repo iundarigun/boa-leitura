@@ -1,12 +1,14 @@
-import { useState, useRef } from "react";
-import { X } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import {useState, useRef} from "react";
+import {X} from "lucide-react";
+import {Input} from "@/components/ui/input";
+import {cn} from "@/lib/utils";
 
 export default function TagsInputWithSuggestions({
                                                    value = [],
                                                    onChange,
                                                    suggestions = [],
+                                                   label,
+                                                   placeholder
                                                  }) {
   const [inputValue, setInputValue] = useState("");
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
@@ -58,7 +60,7 @@ export default function TagsInputWithSuggestions({
 
   return (
     <div className="relative">
-      <label className="block text-sm font-medium mb-1">Tags</label>
+      {label && <label className="block text-sm font-medium mb-1">{label}</label>}
       <div className="flex flex-wrap items-center gap-2 p-2 border rounded-md bg-white">
         {value.map((tag) => (
           <div
@@ -71,7 +73,7 @@ export default function TagsInputWithSuggestions({
               onClick={() => handleRemoveTag(tag)}
               className="hover:text-blue-900"
             >
-              <X className="w-3 h-3" />
+              <X className="w-3 h-3"/>
             </button>
           </div>
         ))}
@@ -80,6 +82,7 @@ export default function TagsInputWithSuggestions({
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
+          placeholder={placeholder}
           className="border-none shadow-none flex-1 min-w-[120px]"
           onFocus={() => {
             if (filteredSuggestions.length > 0) setShowSuggestions(true);

@@ -4,6 +4,10 @@ import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import Pagination from "@/components/Pagination";
 import useToBeReads from "@/features/tbr/hooks/useToBeReads.js";
 import ToBeReadTable from "@/features/tbr/components/ToBeReadTable.jsx";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
+import TagsInputWithSuggestions from "@/components/TagsInputWithSuggestions.jsx";
+import {READING_PLATFORMS} from "@/lib/platform.js";
+import {LANGUAGES} from "@/lib/languages.js";
 
 export default function ToBeReadsListPage() {
   const {
@@ -14,6 +18,10 @@ export default function ToBeReadsListPage() {
     totalPages,
     filterKeyword,
     setFilterKeyword,
+    filterBought,
+    setFilterBought,
+    filterTags,
+    setFilterTags,
     sortField,
     sortDir,
     handleSearch,
@@ -24,6 +32,9 @@ export default function ToBeReadsListPage() {
     handleMarkAsDone,
     handleMarkAsBought
   } = useToBeReads();
+
+  const tagSuggestions = READING_PLATFORMS.map((item) => item.label)
+    .concat(LANGUAGES.map((item) => item.label));
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
@@ -39,6 +50,22 @@ export default function ToBeReadsListPage() {
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             className="w-64"
           />
+          <Select value={filterBought} onValueChange={setFilterBought}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Filter by bought"/>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="both">Both</SelectItem>
+              <SelectItem value="bought">Bought</SelectItem>
+              <SelectItem value="non-bought">Non-bought</SelectItem>
+            </SelectContent>
+          </Select>
+            <TagsInputWithSuggestions
+              value={filterTags}
+              onChange={setFilterTags}
+              suggestions={tagSuggestions}
+              placeholder="Search by any tag..."
+            />
           <Button onClick={handleSearch}>Search</Button>
         </div>
 

@@ -11,6 +11,7 @@ interface ToBeReadPort {
         keyword: String? = null,
         bought: Boolean? = null,
         done: Boolean? = false,
+        anyTag: List<String> = emptyList(),
         pageRequest: PageRequest
     ): PageResponse<ToBeReadResponse>
 

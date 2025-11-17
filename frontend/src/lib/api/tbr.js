@@ -17,8 +17,8 @@ export async function getToBeRead(params = {}) {
   if (params.filterDone !== undefined) {
     query.append("done", params.filterDone);
   }
-  if (params.tags && Array.isArray(params.tags)) {
-    params.tags.forEach(tag => query.append("tags", tag));
+  if (params.filterTags && Array.isArray(params.filterTags)) {
+    params.filterTags.forEach(tag => query.append("tags", tag));
   }
 
   const { data, error } = await apiCall(() => api.get(`${API_URL}?${query.toString()}`));

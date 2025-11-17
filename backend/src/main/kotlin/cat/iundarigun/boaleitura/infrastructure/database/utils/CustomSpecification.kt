@@ -18,9 +18,13 @@ fun <T> specLike(value: String?, fieldName: String) = Specification<T> { root, _
 fun <T> specContainsAny(values: List<String>?, fieldName: String) = Specification<T> { root, _, criteriaBuilder ->
     if (!values.isNullOrEmpty()) {
         val arrayLiteral = "{" + values.joinToString(",") + "}"
+        /*
+        cb.function("sql", Boolean.class, cb.literal("? % ?"), a, b)
+         */
         criteriaBuilder.isTrue(criteriaBuilder.function(
-            "&&",
+            "sql",
             Boolean::class.java,
+            criteriaBuilder.literal("? && ?"),
             root.get<Any>(fieldName),
             criteriaBuilder.literal(arrayLiteral)
         ))

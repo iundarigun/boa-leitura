@@ -89,6 +89,7 @@ export default function ToBeReadForm({editingReading: editingToBeRead = null, on
               value={tags}
               onChange={setTags}
               suggestions={tagSuggestions}
+              label="Tags"
             />
           </div>
           <div>

@@ -11,6 +11,7 @@ export default function useToBeReads() {
 
   const [filterKeyword, setFilterKeyword] = useState("");
   const [filterBought, setFilterBought] = useState("both");
+  const [filterTags, setFilterTags] = useState([]);
   const [sortField, setSortField] = useState("POSITION");
   const [sortDir, setSortDir] = useState("asc");
   const [searchApplied, setSearchApplied] = useState("");
@@ -29,6 +30,7 @@ export default function useToBeReads() {
       page: page,
       filterKeyword: filterKeyword,
       filterBought: filterBought,
+      filterTags: filterTags,
       sortField: sortField,
       sortDir: sortDir
     })
@@ -125,6 +127,8 @@ export default function useToBeReads() {
     setFilterKeyword,
     filterBought,
     setFilterBought,
+    filterTags,
+    setFilterTags,
     sortField,
     sortDir,
     handleSearch,

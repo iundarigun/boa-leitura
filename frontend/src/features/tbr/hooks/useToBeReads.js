@@ -10,6 +10,7 @@ export default function useToBeReads() {
   const [loading, setLoading] = useState(false);
 
   const [filterKeyword, setFilterKeyword] = useState("");
+  const [filterBought, setFilterBought] = useState("both");
   const [sortField, setSortField] = useState("POSITION");
   const [sortDir, setSortDir] = useState("asc");
   const [searchApplied, setSearchApplied] = useState("");
@@ -27,6 +28,7 @@ export default function useToBeReads() {
     const {data, error} = await getToBeRead({
       page: page,
       filterKeyword: filterKeyword,
+      filterBought: filterBought,
       sortField: sortField,
       sortDir: sortDir
     })
@@ -121,6 +123,8 @@ export default function useToBeReads() {
     totalPages,
     filterKeyword,
     setFilterKeyword,
+    filterBought,
+    setFilterBought,
     sortField,
     sortDir,
     handleSearch,

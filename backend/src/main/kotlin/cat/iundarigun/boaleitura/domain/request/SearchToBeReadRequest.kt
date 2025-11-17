@@ -8,6 +8,7 @@ data class SearchToBeReadRequest(
     val keyword: String? = null,
     val bought: Boolean? = null,
     val done: Boolean? = false,
+    val tags: List<String> = emptyList(),
     @field:Positive
     val page: Int = 1,
     @field:Min(1)

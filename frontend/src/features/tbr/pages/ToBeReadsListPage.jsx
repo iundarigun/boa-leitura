@@ -4,6 +4,7 @@ import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import Pagination from "@/components/Pagination";
 import useToBeReads from "@/features/tbr/hooks/useToBeReads.js";
 import ToBeReadTable from "@/features/tbr/components/ToBeReadTable.jsx";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
 
 export default function ToBeReadsListPage() {
   const {
@@ -14,6 +15,8 @@ export default function ToBeReadsListPage() {
     totalPages,
     filterKeyword,
     setFilterKeyword,
+    filterBought,
+    setFilterBought,
     sortField,
     sortDir,
     handleSearch,
@@ -39,6 +42,16 @@ export default function ToBeReadsListPage() {
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             className="w-64"
           />
+          <Select value={filterBought} onValueChange={setFilterBought}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Filter by bought"/>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="both">Both</SelectItem>
+              <SelectItem value="bought">Bought</SelectItem>
+              <SelectItem value="non-bought">Non-bought</SelectItem>
+            </SelectContent>
+          </Select>
           <Button onClick={handleSearch}>Search</Button>
         </div>
 

@@ -16,6 +16,7 @@ import cat.iundarigun.boaleitura.infrastructure.database.extensions.toPageable
 import cat.iundarigun.boaleitura.infrastructure.database.extensions.toResponse
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.ToBeReadRepository
+import cat.iundarigun.boaleitura.infrastructure.database.utils.specContainsAny
 import cat.iundarigun.boaleitura.infrastructure.database.utils.specIs
 import cat.iundarigun.boaleitura.infrastructure.database.utils.specLikeWithOrFields
 import org.springframework.data.jpa.domain.Specification
@@ -34,6 +35,7 @@ class ToBeReadAdapter(
         keyword: String?,
         bought: Boolean?,
         done: Boolean?,
+        anyTag: List<String>,
         pageRequest: PageRequest
     ): PageResponse<ToBeReadResponse> {
         val specifications = Specification.allOf<ToBeReadEntity>(
@@ -44,7 +46,8 @@ class ToBeReadAdapter(
                 "book.saga.name"
             ),
             specIs(bought, "bought"),
-            specIs(done, "done")
+            specIs(done, "done"),
+            specContainsAny(anyTag, "tags")
         )
 
         return toBeReadRepository.findAll(specifications, pageRequest.toPageable())

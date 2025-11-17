@@ -15,6 +15,20 @@ fun <T> specLike(value: String?, fieldName: String) = Specification<T> { root, _
     }
 }
 
+fun <T> specContainsAny(values: List<String>?, fieldName: String) = Specification<T> { root, _, criteriaBuilder ->
+    if (!values.isNullOrEmpty()) {
+        val arrayLiteral = "{" + values.joinToString(",") + "}"
+        criteriaBuilder.isTrue(criteriaBuilder.function(
+            "&&",
+            Boolean::class.java,
+            root.get<Any>(fieldName),
+            criteriaBuilder.literal(arrayLiteral)
+        ))
+    } else {
+        criteriaBuilder.and()
+    }
+}
+
 @Suppress("SpreadOperator")
 fun <T> specLikeWithOrFields(value: String?, vararg fieldNames: String): Specification<T> =
     Specification<T> { root, _, criteriaBuilder ->
@@ -63,7 +77,8 @@ fun <T> specIs(condition: Boolean?, fieldName: String) =
     Specification<T> { root, _, criteriaBuilder ->
         condition?.let {
             criteriaBuilder.and(
-                criteriaBuilder.equal(root.get<Boolean>(fieldName), condition))
+                criteriaBuilder.equal(root.get<Boolean>(fieldName), condition)
+            )
         } ?: criteriaBuilder.and()
     }
 

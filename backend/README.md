@@ -94,7 +94,8 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [ ] Create an import page
 
 ### Best of
-[ ] Add mechanism to choose the best x year
+[X] Add mechanism to choose the best x year
+[ ] Part 2 allowing to choose the best of Quarter/half/year
 
 ### Statistics
 [X] Year statistics: Number of books by year

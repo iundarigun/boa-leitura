@@ -39,10 +39,12 @@ class StatisticSummaryUseCaseImpl(
                 response.bestRating,
                 readings.filter { it.myRating == response.bestRating }
                     .map { StatisticBookResponse(it.book.id, it.book.title, it.book.urlImage) }
+                    .toSet()
             ),
             worseBooks = StatisticRatingResponse(response.worseRange,
                 readings.filter { it.myRating == response.worseRange }
                     .map { StatisticBookResponse(it.book.id, it.book.title, it.book.urlImage) }
+                    .toSet()
             )
         )
     }

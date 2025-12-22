@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss(),],
   server: {
     historyApiFallback: true,
+    host: true
   },
   resolve: {
     alias: {

@@ -100,7 +100,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
             GROUP BY a.gender
             """
         return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
-            rs.getString("gender") to rs.getInt("count")
+            (rs.getString("gender") ?: "ND") to rs.getInt("count")
         }.toMap()
     }
 
@@ -113,12 +113,11 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                 a.id = b.author_id
             WHERE r.date_read >= :dateFrom AND 
                   r.date_read <= :dateTo   AND
-                  r.user_id    = :userId   AND
-                  a.nationality IS NOT NULL
+                  r.user_id    = :userId
             GROUP BY a.nationality
             """
         return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
-            rs.getString("nationality") to rs.getInt("count")
+            (rs.getString("nationality") ?: "ND") to rs.getInt("count")
         }.toMap()
     }
 

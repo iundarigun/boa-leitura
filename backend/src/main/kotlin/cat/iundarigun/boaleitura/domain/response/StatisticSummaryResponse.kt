@@ -13,7 +13,7 @@ data class StatisticSummaryResponse(
 
 data class StatisticRatingResponse(
     val rating: Double,
-    val bookList: List<StatisticBookResponse> = emptyList(),
+    val bookList: Set<StatisticBookResponse> = emptySet(),
 )
 
 data class StatisticBookResponse(

@@ -4,6 +4,8 @@
 select name from saga where
     total_main_titles = (select count(*) from book where saga_id = saga.id and saga_main_title is true);
 
+
+
 /**
   Sagues principals + complementaries finalitzades
  */
@@ -30,26 +32,36 @@ select name, status from saga
 /**
   Sagues iniciades el 2025
  */
-select s.name from book
-  inner join public.reading r on book.id = r.book_id
-  inner join public.saga s on s.id = book.saga_id
-where
-    saga_id is not null and
-    saga_order = 1 and
-    date_part('year', date_read) = 2025;
+SELECT s.name, ss.status FROM reading r
+INNER JOIN book b ON
+    r.book_id = b.id
+INNER JOIN public.saga s on
+    s.id = b.saga_id
+LEFT JOIN saga_status ss on
+    s.id = ss.saga_id AND ss.user_id = 1
+WHERE
+    saga_order = 1 AND
+    r.user_id = 1 AND
+    b.saga_main_title IS TRUE          AND
+    date_part('year', r.date_read) = 2025 AND
+    0 = (select count(*) from reading r1 WHERE r1.book_id = r.book_id AND date_part('year', r1.date_read) < 2025)
 
+union
 
 /**
   Sagues finalitzades el 2025
  */
-select s.name from book
-  inner join public.reading r on book.id = r.book_id
-  inner join public.saga s on s.id = book.saga_id
-where
-    saga_id is not null and
-    saga_main_title is true and
-    cast(saga_order as integer) = s.total_main_titles and
-    date_part('year', date_read) = 2025;
+SELECT s.name, ss.status FROM reading r
+INNER JOIN book b ON
+    r.book_id = b.id
+INNER JOIN public.saga s on s.id = b.saga_id
+LEFT JOIN saga_status ss on
+    s.id = ss.saga_id AND ss.user_id = 1
+WHERE
+    r.user_id = 1                      AND
+    b.saga_order = s.total_main_titles AND
+    b.saga_main_title IS TRUE          AND
+    date_part('year', r.date_read) = 2025;
 
 /**
   Sagues principals iniciades finalitzades el 2025

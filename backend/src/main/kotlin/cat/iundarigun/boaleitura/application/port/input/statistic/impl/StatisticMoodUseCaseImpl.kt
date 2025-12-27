@@ -24,6 +24,7 @@ class StatisticMoodUseCaseImpl(private val statisticPort: StatisticPort) : Stati
             totalByPageNumber = moodStatistics.totalByPageNumber,
             totalByFormat = totalByFormat,
             totalByOrigin = totalByOrigin,
+            totalByGenre = moodStatistics.totalByGenre
         )
     }
 }

@@ -83,7 +83,8 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
     override fun moodStatistics(dateFrom: LocalDate, dateTo: LocalDate): StatisticMood {
         return StatisticMood(
             totalByPageNumber = retrieveByBookSize(dateFrom, dateTo),
-            formatAndOrigin = retrieveFormatAndOrigin(dateFrom, dateTo)
+            formatAndOrigin = retrieveFormatAndOrigin(dateFrom, dateTo),
+            totalByGenre = retrieveByGenre(dateFrom, dateTo)
         )
     }
 
@@ -200,6 +201,33 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
             GROUP BY pages """
         return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
             rs.getString("pages") to rs.getInt("count")
+        }.toMap()
+    }
+
+    private fun retrieveByGenre(dateFrom: LocalDate, dateTo: LocalDate): Map<String, Int> {
+        val sql = """WITH RECURSIVE genre_hierarchy AS (
+                        SELECT g.id, g.parent_genre_id, g.name, g.id AS start_id
+                        FROM genre g
+                        UNION ALL
+                        SELECT g.id, g.parent_genre_id, g.name, gh.start_id
+                        FROM genre g
+                                 JOIN genre_hierarchy gh ON
+                            g.id = gh.parent_genre_id
+                        )
+                    SELECT count(*) AS count, gh_root.name AS genre
+                    FROM reading r
+                    INNER JOIN book b ON
+                        b.id = r.book_id
+                    LEFT JOIN genre_hierarchy gh_root ON
+                        b.genre_id = gh_root.start_id
+                    WHERE gh_root.parent_genre_id IS NULL AND
+                          b.genre_id IS NOT NULL          AND
+                          r.date_read >= :dateFrom        AND 
+                          r.date_read <= :dateTo          AND
+                          r.user_id    = :userId
+                   GROUP BY gh_root.name"""
+        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
+            rs.getString("genre") to rs.getInt("count")
         }.toMap()
     }
 

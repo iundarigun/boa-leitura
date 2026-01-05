@@ -5,7 +5,9 @@ import useStatisticsAuthor from "@/features/statistics/hooks/useStatisticsAuthor
 import StatisticsAuthorList from "@/features/statistics/components/StatisticsAuthorList.jsx";
 
 export default function StatisticsAuthorPage() {
-  const currentYear = new Date().getFullYear();
+  const date = new Date();
+  date.setDate(date.getDate() - 30);
+  const currentYear = date.getFullYear();
   const {
     year,
     setYear,

@@ -72,6 +72,7 @@ export default function BestOfTheYearList({stats, year, onSelect}) {
                 <div
                   key={month}
                   className="flex-1 bg-white rounded-lg shadow p-2 flex flex-col items-center"
+                  onClick={() => onOpenReadingDialog((rowIndex * 3)  + monthIndex + 1)}
                 >
                   <img
                     src={book.urlImage || book.urlImageSmall}

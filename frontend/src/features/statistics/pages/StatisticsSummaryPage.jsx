@@ -11,7 +11,9 @@ import useStatisticsSummary from "@/features/statistics/hooks/useStatisticsSumma
 import StatisticsSummaryList from "@/features/statistics/components/StatisticsSummaryList.jsx";
 
 export default function StatisticsSummaryPage() {
-  const currentYear = new Date().getFullYear();
+  const date = new Date();
+  date.setDate(date.getDate() - 30);
+  const currentYear = date.getFullYear();
   const {
     year,
     setYear,

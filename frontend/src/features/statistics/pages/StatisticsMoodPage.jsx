@@ -5,7 +5,9 @@ import useStatisticsMood from "@/features/statistics/hooks/useStatisticsMood.js"
 import StatisticsMoodList from "@/features/statistics/components/StatisticsMoodList.jsx";
 
 export default function StatsMoodPage() {
-  const currentYear = new Date().getFullYear();
+  const date = new Date();
+  date.setDate(date.getDate() - 30);
+  const currentYear = date.getFullYear();
   const {
     year,
     setYear,

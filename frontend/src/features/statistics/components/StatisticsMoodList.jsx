@@ -25,10 +25,20 @@ export default function StatisticsMoodList({stats}) {
           )}
         />
       </div>
-      <div className="mt-6 grid gap-6 grid-cols-1">
+      <div className="mt-6 grid gap-6 grid-cols-2">
         <PieChartCard
           title="Group by book size"
           data={Object.entries(stats.totalByPageNumber).map(
+            ([k, v]) => ({
+              name: k,
+              value: v,
+              label: k
+            })
+          )}
+        />
+        <PieChartCard
+          title="Group by genre"
+          data={Object.entries(stats.totalByGenre).map(
             ([k, v]) => ({
               name: k,
               value: v,

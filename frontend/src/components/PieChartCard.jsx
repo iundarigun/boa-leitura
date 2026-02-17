@@ -16,8 +16,8 @@ export default function PieChartCard({ title, data }) {
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <ResponsiveContainer width="100%" height={300}>
-        <PieChart width={400} height={250}>
+      <ResponsiveContainer width="100%" height={350}>
+        <PieChart width={400} height={300}>
           <Pie
             data={formattedData}
             dataKey="value"

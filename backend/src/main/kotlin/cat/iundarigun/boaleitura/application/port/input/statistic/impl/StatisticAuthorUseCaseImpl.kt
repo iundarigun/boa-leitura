@@ -19,6 +19,7 @@ class StatisticAuthorUseCaseImpl(private val statisticPort: StatisticPort) : Sta
 
         return StatisticAuthorResponse(
             authorPerGender = statistics.authorGender,
+            authorPerNationality = statistics.authorNationality,
             totalDistinctAuthors = statistics.authorCounts.size,
             topAuthors = statistics.authorCounts.subList(0, min(TOP_AUTHORS, statistics.authorCounts.size - 1))
                 .associate { it.name to it.count },

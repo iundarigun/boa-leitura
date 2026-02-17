@@ -5,7 +5,9 @@ import useBestOfTheYear from "@/features/statistics/hooks/useBestOfTheYear.js";
 import BestOfTheYearList from "@/features/statistics/components/BestOfTheYearList.jsx";
 
 export default function BestOfTheYearPage() {
-  const currentYear = new Date().getFullYear();
+  const date = new Date();
+  date.setDate(date.getDate() - 30);
+  const currentYear = date.getFullYear();
   const {
     year,
     setYear,

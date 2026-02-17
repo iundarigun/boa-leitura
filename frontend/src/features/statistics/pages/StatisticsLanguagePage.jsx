@@ -5,7 +5,9 @@ import useStatisticsLanguage from "@/features/statistics/hooks/useStatisticsLang
 import StatisticsLanguageList from "@/features/statistics/components/StatisticsLanguageList.jsx";
 
 export default function StatsLanguagePage() {
-  const currentYear = new Date().getFullYear();
+  const date = new Date();
+  date.setDate(date.getDate() - 30);
+  const currentYear = date.getFullYear();
   const {
     year,
     setYear,

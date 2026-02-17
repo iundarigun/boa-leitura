@@ -41,7 +41,7 @@ export default function ReadingDetailsDialog({ open, onClose, readingId }) {
   const sagaDisplay =
     sagaName && sagaOrder ? `${sagaName} #${sagaOrder}` : sagaName || null;
 
-  const title = bookInfo.title || "";
+  const title = (reading.language === bookInfo?.originalEdition?.language && reading.language !== bookInfo?.language) ? bookInfo?.originalEdition?.title : bookInfo.title || "";
   const authorName = bookInfo.author?.name || "";
   const origTitle = bookInfo.originalEdition?.title || "";
   const rating =

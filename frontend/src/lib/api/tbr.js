@@ -10,6 +10,11 @@ export async function getToBeRead(params = {}) {
   if (params.sortDir !== undefined) {
     query.append("directionAsc", params.sortDir === 'asc');
   }
+  if (params.size) {
+    query.append("size", params.size);
+  } else {
+    query.append("size", "250");
+  }
   if (params.filterKeyword) query.append("keyword", params.filterKeyword);
   if (params.filterBought !== "both") {
     query.append("bought", params.filterBought === "bought");

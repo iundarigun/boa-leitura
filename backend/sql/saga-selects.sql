@@ -29,6 +29,25 @@ select name, status from saga
             and status != 'dnf' and total_main_titles  = 1 +
                                     (select count(*) from book where saga_id = saga.id and saga_main_title is true);
 
+
+/**
+  Sagues llegides el 2025
+ */
+SELECT s.name, ss.status FROM reading r
+INNER JOIN book b ON
+    r.book_id = b.id
+INNER JOIN public.saga s on
+    s.id = b.saga_id
+LEFT JOIN saga_status ss on
+    s.id = ss.saga_id AND ss.user_id = 1
+WHERE
+--     saga_order = 1 AND
+    r.user_id = 1 AND
+    b.saga_main_title IS TRUE          AND
+    date_part('year', r.date_read) = 2025 AND
+    ss.status != 'READ_AS_STANDALONE'
+group by s.name, ss.status;
+
 /**
   Sagues iniciades el 2025
  */
@@ -40,10 +59,11 @@ INNER JOIN public.saga s on
 LEFT JOIN saga_status ss on
     s.id = ss.saga_id AND ss.user_id = 1
 WHERE
-    saga_order = 1 AND
+    b.saga_order = 1 AND
     r.user_id = 1 AND
     b.saga_main_title IS TRUE          AND
     date_part('year', r.date_read) = 2025 AND
+    ss.status != 'READ_AS_STANDALONE' AND
     0 = (select count(*) from reading r1 WHERE r1.book_id = r.book_id AND date_part('year', r1.date_read) < 2025)
 
 union

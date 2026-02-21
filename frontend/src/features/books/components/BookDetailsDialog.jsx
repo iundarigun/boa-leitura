@@ -133,6 +133,13 @@ export default function BookDetailsDialog({open, onClose, bookId, onDelete, onRe
             <p>
               <strong>Status:</strong> {read ? "✅ Read" : (book.inTbr ? "📚 In the TBR" : "❌ Not read")}
             </p>
+            <p>
+              <Link
+                to={`https://www.goodreads.com/search?q=${isbn}`}
+                className="text-blue-600 hover:underline"
+                target="_blank">See in goodreads
+              </Link>
+            </p>
           </div>
         </div>
         {book.readings && book.readings.length > 0 &&

@@ -12,9 +12,7 @@ import java.time.Month
 class StatisticLanguageUseCaseImpl(private val statisticPort: StatisticPort) : StatisticLanguageUseCase {
 
     override fun execute(request: StatisticsRequest): StatisticLanguageResponse {
-        val dateFrom = LocalDate.of(request.year, Month.JANUARY, 1)
-        val dateTo = dateFrom.plusYears(1).minusDays(1)
-        val languageStatistics = statisticPort.languageStatistics(dateFrom, dateTo)
+        val languageStatistics = statisticPort.languageStatistics(request.toStatisticsFilter())
 
         val totalByLanguage = languageStatistics.groupBy { it.language }
             .mapValues { (_, list) -> list.sumOf { it.count } }

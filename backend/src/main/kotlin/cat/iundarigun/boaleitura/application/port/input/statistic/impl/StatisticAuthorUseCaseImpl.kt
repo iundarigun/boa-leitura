@@ -13,10 +13,7 @@ import kotlin.math.min
 class StatisticAuthorUseCaseImpl(private val statisticPort: StatisticPort) : StatisticAuthorUseCase {
 
     override fun execute(request: StatisticsRequest): StatisticAuthorResponse {
-        val dateFrom = LocalDate.of(request.year, Month.JANUARY, 1)
-        val dateTo = dateFrom.plusYears(1).minusDays(1)
-
-        val statistics = statisticPort.authorStatistics(dateFrom, dateTo)
+        val statistics = statisticPort.authorStatistics(request.toStatisticsFilter())
 
         return StatisticAuthorResponse(
             authorPerGender = statistics.authorGender,

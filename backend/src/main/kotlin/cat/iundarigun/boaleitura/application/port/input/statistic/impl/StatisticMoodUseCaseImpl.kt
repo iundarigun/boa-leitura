@@ -12,9 +12,7 @@ import java.time.Month
 class StatisticMoodUseCaseImpl(private val statisticPort: StatisticPort) : StatisticMoodUseCase {
 
     override fun execute(request: StatisticsRequest): StatisticMoodResponse {
-        val dateFrom = LocalDate.of(request.year, Month.JANUARY, 1)
-        val dateTo = dateFrom.plusYears(1).minusDays(1)
-        val moodStatistics = statisticPort.moodStatistics(dateFrom, dateTo)
+        val moodStatistics = statisticPort.moodStatistics(request.toStatisticsFilter())
 
         val totalByFormat = moodStatistics.formatAndOrigin.groupBy { it.format }
             .mapValues { (_, list) -> list.sumOf { it.count } }

@@ -19,15 +19,14 @@ class StatisticSummaryUseCaseImpl(
 ) : StatisticSummaryUseCase {
 
     override fun execute(request: StatisticsRequest): StatisticSummaryResponse {
-        val dateFrom = LocalDate.of(request.year, Month.JANUARY, 1)
-        val dateTo = dateFrom.plusYears(1).minusDays(1)
+        val filter = request.toStatisticsFilter()
         val readings = readingPort.find(
-            dateFrom = dateFrom,
-            dateTo = dateTo,
+            dateFrom = filter.dateFrom,
+            dateTo = filter.dateTo,
             pageRequest = PageRequest(size = 1000, order = "dateRead", directionAsc = false)
         ).content
 
-        val response = statisticPort.summaryStatistics(dateFrom, dateTo)
+        val response = statisticPort.summaryStatistics(filter.copy(excludeRereading = true))
 
         return StatisticSummaryResponse(
             year = request.year,

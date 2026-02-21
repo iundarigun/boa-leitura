@@ -7,6 +7,7 @@ import cat.iundarigun.boaleitura.domain.model.StatisticFormatAndOrigin
 import cat.iundarigun.boaleitura.domain.model.StatisticLanguage
 import cat.iundarigun.boaleitura.domain.model.StatisticMood
 import cat.iundarigun.boaleitura.domain.model.StatisticSummary
+import cat.iundarigun.boaleitura.domain.model.StatisticsFilter
 import cat.iundarigun.boaleitura.domain.security.loggedUser
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
@@ -15,7 +16,8 @@ import java.time.LocalDate
 
 @Service
 class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : StatisticPort {
-    override fun summaryStatistics(dateFrom: LocalDate, dateTo: LocalDate): StatisticSummary {
+
+    override fun summaryStatistics(filter: StatisticsFilter): StatisticSummary {
         val sql = """
             SELECT COUNT(distinct current_reading.id) as amountOfTotalReading,
                    SUM(book.number_of_pages) as totalPages,
@@ -25,18 +27,19 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                    AVG(current_reading.my_rating) as averageRating,     
                    MAX(current_reading.my_rating) as bestRating,
                    MIN(current_reading.my_rating) as worseRating,
-                   SUM((SELECT 1 FROM reading past_reading
-                         WHERE past_reading.date_read < current_reading.date_read AND 
-                               past_reading.book_id = current_reading.book_id     AND 
-                               past_reading.user_id = current_reading.user_id  )) as amountOfRereading
+                   SUM((${rereadSubquery("current_reading")})) as amountOfRereading
             FROM reading current_reading
             INNER JOIN book ON
                 current_reading.book_id = book.id 
             WHERE current_reading.date_read >= :dateFrom AND 
                   current_reading.date_read <= :dateTo AND
-                  current_reading.user_id = :userId """
-
-        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
+                  current_reading.user_id = :userId 
+                  ${if (filter.excludeRereading) 
+                      "AND 0 = (${rereadSubquery("current_reading")})" 
+                    else 
+                      ""}
+                  """
+        return jdbcTemplate.query(sql, parameterSource(filter.dateFrom, filter.dateTo)) { rs, _ ->
             StatisticSummary(
                 rs.getInt("amountOfTotalReading"),
                 rs.getInt("amountOfRereading"),
@@ -49,7 +52,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
         }.single()
     }
 
-    override fun languageStatistics(dateFrom: LocalDate, dateTo: LocalDate): List<StatisticLanguage> {
+    override fun languageStatistics(filter: StatisticsFilter): List<StatisticLanguage> {
         val sql = """
             SELECT 
                 CASE WHEN b.original_language = r.language THEN true ELSE false END as readInOriginalLanguage,
@@ -63,7 +66,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                   r.user_id    = :userId 
             GROUP BY readInOriginalLanguage, r.language """
 
-        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
+        return jdbcTemplate.query(sql, parameterSource(filter.dateFrom, filter.dateTo)) { rs, _ ->
             StatisticLanguage(
                 rs.getBoolean("readInOriginalLanguage"),
                 rs.getString("language"),
@@ -72,23 +75,23 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
         }.toList()
     }
 
-    override fun authorStatistics(dateFrom: LocalDate, dateTo: LocalDate): StatisticAuthor {
+    override fun authorStatistics(filter: StatisticsFilter): StatisticAuthor {
         return StatisticAuthor(
-            authorGender = retrieveAuthorGender(dateFrom, dateTo),
-            authorNationality = retrieveAuthorNationality(dateFrom, dateTo),
-            authorCounts = retrieveAuthorCount(dateFrom, dateTo)
+            authorGender = retrieveAuthorGender(filter),
+            authorNationality = retrieveAuthorNationality(filter),
+            authorCounts = retrieveAuthorCount(filter)
         )
     }
 
-    override fun moodStatistics(dateFrom: LocalDate, dateTo: LocalDate): StatisticMood {
+    override fun moodStatistics(filter: StatisticsFilter): StatisticMood {
         return StatisticMood(
-            totalByPageNumber = retrieveByBookSize(dateFrom, dateTo),
-            formatAndOrigin = retrieveFormatAndOrigin(dateFrom, dateTo),
-            totalByGenre = retrieveByGenre(dateFrom, dateTo)
+            totalByPageNumber = retrieveByBookSize(filter),
+            formatAndOrigin = retrieveFormatAndOrigin(filter),
+            totalByGenre = retrieveByGenre(filter)
         )
     }
 
-    private fun retrieveAuthorGender(dateFrom: LocalDate, dateTo: LocalDate): Map<String, Int> {
+    private fun retrieveAuthorGender(filter: StatisticsFilter): Map<String, Int> {
         val sql = """
             SELECT a.gender as gender, count(*) as count FROM reading r
             INNER JOIN book b ON 
@@ -100,12 +103,12 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                   r.user_id    = :userId 
             GROUP BY a.gender
             """
-        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
+        return jdbcTemplate.query(sql, parameterSource(filter.dateFrom, filter.dateTo)) { rs, _ ->
             (rs.getString("gender") ?: "ND") to rs.getInt("count")
         }.toMap()
     }
 
-    private fun retrieveAuthorNationality(dateFrom: LocalDate, dateTo: LocalDate): Map<String, Int> {
+    private fun retrieveAuthorNationality(filter: StatisticsFilter): Map<String, Int> {
         val sql = """
             SELECT a.nationality as nationality, count(*) as count FROM reading r
             INNER JOIN book b ON 
@@ -117,12 +120,12 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                   r.user_id    = :userId
             GROUP BY a.nationality
             """
-        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
+        return jdbcTemplate.query(sql, parameterSource(filter.dateFrom, filter.dateTo)) { rs, _ ->
             (rs.getString("nationality") ?: "ND") to rs.getInt("count")
         }.toMap()
     }
 
-    private fun retrieveAuthorCount(dateFrom: LocalDate, dateTo: LocalDate): List<StatisticAuthorCount> {
+    private fun retrieveAuthorCount(filter: StatisticsFilter): List<StatisticAuthorCount> {
         val sql = """
            SELECT tmp.name as name,
                   CASE WHEN tmp.id NOT IN 
@@ -146,7 +149,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                        r.user_id    = :userId 
            GROUP BY a.name, a.id) tmp
            ORDER BY count DESC"""
-        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
+        return jdbcTemplate.query(sql, parameterSource(filter.dateFrom, filter.dateTo)) { rs, _ ->
             StatisticAuthorCount(
                 rs.getString("name"),
                 rs.getBoolean("newAuthor"),
@@ -155,7 +158,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
         }.toList()
     }
 
-    private fun retrieveFormatAndOrigin(dateFrom: LocalDate, dateTo: LocalDate): List<StatisticFormatAndOrigin> {
+    private fun retrieveFormatAndOrigin(filter: StatisticsFilter): List<StatisticFormatAndOrigin> {
         val sql = """
             SELECT r.format as format,
                    CASE
@@ -174,7 +177,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                   r.user_id    = :userId
             GROUP BY format, origin """
 
-        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
+        return jdbcTemplate.query(sql, parameterSource(filter.dateFrom, filter.dateTo)) { rs, _ ->
             StatisticFormatAndOrigin(
                 rs.getString("format"),
                 rs.getString("origin"),
@@ -183,7 +186,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
         }.toList()
     }
 
-    private fun retrieveByBookSize(dateFrom: LocalDate, dateTo: LocalDate): Map<String, Int> {
+    private fun retrieveByBookSize(filter: StatisticsFilter): Map<String, Int> {
         val sql = """
             SELECT CASE
                        WHEN b.number_of_pages < ${NUMBER_OF_PAGES[0]} THEN 'less than ${NUMBER_OF_PAGES[0]} pages'
@@ -199,12 +202,12 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                   r.date_read <= :dateTo   AND
                   r.user_id    = :userId
             GROUP BY pages """
-        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
+        return jdbcTemplate.query(sql, parameterSource(filter.dateFrom, filter.dateTo)) { rs, _ ->
             rs.getString("pages") to rs.getInt("count")
         }.toMap()
     }
 
-    private fun retrieveByGenre(dateFrom: LocalDate, dateTo: LocalDate): Map<String, Int> {
+    private fun retrieveByGenre(filter: StatisticsFilter): Map<String, Int> {
         val sql = """WITH RECURSIVE genre_hierarchy AS (
                         SELECT g.id, g.parent_genre_id, g.name, g.id AS start_id
                         FROM genre g
@@ -226,7 +229,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
                           r.date_read <= :dateTo          AND
                           r.user_id    = :userId
                    GROUP BY gh_root.name"""
-        return jdbcTemplate.query(sql, parameterSource(dateFrom, dateTo)) { rs, _ ->
+        return jdbcTemplate.query(sql, parameterSource(filter.dateFrom, filter.dateTo)) { rs, _ ->
             rs.getString("genre") to rs.getInt("count")
         }.toMap()
     }
@@ -240,5 +243,12 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
 
     companion object {
         val NUMBER_OF_PAGES = listOf(150, 350, 500)
+        private fun rereadSubquery(currentReadingAlias: String): String = """ 
+            SELECT count(1) FROM reading past_reading
+            WHERE past_reading.date_read < $currentReadingAlias.date_read AND
+                  past_reading.book_id = $currentReadingAlias.book_id     AND
+                  past_reading.user_id = $currentReadingAlias.user_id  """
+
+
     }
 }

@@ -4,6 +4,7 @@ import cat.iundarigun.boaleitura.application.port.input.statistic.StatisticSumma
 import cat.iundarigun.boaleitura.application.port.output.ReadingPort
 import cat.iundarigun.boaleitura.application.port.output.StatisticPort
 import cat.iundarigun.boaleitura.domain.request.PageRequest
+import cat.iundarigun.boaleitura.domain.request.StatisticsRequest
 import cat.iundarigun.boaleitura.domain.response.StatisticBookResponse
 import cat.iundarigun.boaleitura.domain.response.StatisticRatingResponse
 import cat.iundarigun.boaleitura.domain.response.StatisticSummaryResponse
@@ -17,8 +18,8 @@ class StatisticSummaryUseCaseImpl(
     private val statisticPort: StatisticPort
 ) : StatisticSummaryUseCase {
 
-    override fun execute(year: Int): StatisticSummaryResponse {
-        val dateFrom = LocalDate.of(year, Month.JANUARY, 1)
+    override fun execute(request: StatisticsRequest): StatisticSummaryResponse {
+        val dateFrom = LocalDate.of(request.year, Month.JANUARY, 1)
         val dateTo = dateFrom.plusYears(1).minusDays(1)
         val readings = readingPort.find(
             dateFrom = dateFrom,
@@ -29,7 +30,7 @@ class StatisticSummaryUseCaseImpl(
         val response = statisticPort.summaryStatistics(dateFrom, dateTo)
 
         return StatisticSummaryResponse(
-            year = year,
+            year = request.year,
             amountOfTotalReading = response.amountOfTotalReading,
             amountOfRereading = response.amountOfRereading,
             totalPages = response.totalPages,

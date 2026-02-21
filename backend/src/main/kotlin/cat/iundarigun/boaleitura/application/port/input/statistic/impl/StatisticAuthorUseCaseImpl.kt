@@ -2,6 +2,7 @@ package cat.iundarigun.boaleitura.application.port.input.statistic.impl
 
 import cat.iundarigun.boaleitura.application.port.input.statistic.StatisticAuthorUseCase
 import cat.iundarigun.boaleitura.application.port.output.StatisticPort
+import cat.iundarigun.boaleitura.domain.request.StatisticsRequest
 import cat.iundarigun.boaleitura.domain.response.StatisticAuthorResponse
 import org.springframework.stereotype.Component
 import java.time.LocalDate
@@ -11,8 +12,8 @@ import kotlin.math.min
 @Component
 class StatisticAuthorUseCaseImpl(private val statisticPort: StatisticPort) : StatisticAuthorUseCase {
 
-    override fun execute(year: Int): StatisticAuthorResponse {
-        val dateFrom = LocalDate.of(year, Month.JANUARY, 1)
+    override fun execute(request: StatisticsRequest): StatisticAuthorResponse {
+        val dateFrom = LocalDate.of(request.year, Month.JANUARY, 1)
         val dateTo = dateFrom.plusYears(1).minusDays(1)
 
         val statistics = statisticPort.authorStatistics(dateFrom, dateTo)

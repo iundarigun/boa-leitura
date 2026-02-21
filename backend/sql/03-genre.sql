@@ -1,12 +1,12 @@
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (1, 'Fantasy', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (2, 'Epic fantasy', 1, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
-INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (6, 'Grimdark', 1, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
-INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (5, 'Fiction', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (3, 'Historical fiction', 5, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (4, 'Thriller', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (5, 'Fiction', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (6, 'Grimdark', 1, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (7, 'Sport romance', 5, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (8, 'Romantasy', 1, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (9, 'Non-fiction', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
-INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (4, 'Thriller', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (10, 'Horror', 4, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (11, 'Sci-fi', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (12, 'Dystopia', null, '2025-09-29 18:31:29.000000', '2025-09-29 18:31:36.000000', 1);
@@ -16,3 +16,4 @@ INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, ver
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (20, 'Young Adult', 1, '2025-10-19 19:20:15.936712', '2025-10-19 19:20:15.936742', 0);
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (21, 'Cozy Fantasy', 1, '2025-10-20 19:47:58.051820', '2025-10-20 19:47:58.051841', 0);
 INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (22, 'Cozy crime', 4, '2025-10-20 19:53:35.525904', '2025-10-20 19:53:35.525928', 0);
+INSERT INTO public.genre (id, name, parent_genre_id, created_at, updated_at, version) VALUES (26, 'Dark Fantasy', 1, '2025-11-13 21:24:01.893256', '2025-11-13 21:24:01.893272', 0);

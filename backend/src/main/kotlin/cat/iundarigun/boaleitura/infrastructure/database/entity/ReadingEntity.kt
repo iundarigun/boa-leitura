@@ -36,6 +36,8 @@ data class ReadingEntity(
 
     var language: String? = null,
 
+    var rereading: Boolean? = null,
+
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),
 

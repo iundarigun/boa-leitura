@@ -96,7 +96,7 @@ fun <T> specIsNotNull(fieldName: String) =
         criteriaBuilder.and(criteriaBuilder.isNotNull(root.get<Any>(fieldName)))
     }
 
-fun <T, V : Comparable<V>> specGreaterOrEqualsThan(fieldName: String, value: V?) =
+fun <T, V : Comparable<V>> specGreaterOrEqualsThan(value: V?, fieldName: String) =
     Specification<T> { root, _, criteriaBuilder ->
         value?.let {
             criteriaBuilder.and(
@@ -105,7 +105,7 @@ fun <T, V : Comparable<V>> specGreaterOrEqualsThan(fieldName: String, value: V?)
         } ?: criteriaBuilder.and()
     }
 
-fun <T, V : Comparable<V>> specLessOrEqualsThan(fieldName: String, value: V?) =
+fun <T, V : Comparable<V>> specLessOrEqualsThan(value: V?, fieldName: String) =
     Specification<T> { root, _, criteriaBuilder ->
         value?.let {
             criteriaBuilder.and(

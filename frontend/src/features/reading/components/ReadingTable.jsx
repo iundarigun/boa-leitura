@@ -24,6 +24,7 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
   const [readingDetailsOpen, setReadingDetailsOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [selectedReading, setSelectedReading] = useState(null);
+  const [deletableReading, setDeletableReading] = useState(null);
   const [sagaDetailsOpen, setSagaDetailsOpen] = useState(false);
   const [selectedSaga, setSelectedSaga] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -44,6 +45,12 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
     setSelectedSaga(sagaId);
     setSagaDetailsOpen(true);
   };
+
+  const handleReadingDelete = (reading) => {
+    setDeletableReading(reading);
+    setConfirmDelete(true);
+  };
+
 
   return (
     <>
@@ -176,7 +183,7 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
                           <DropdownMenuSeparator/>
                           <DropdownMenuItem
                             className="text-red-600 focus:text-red-700"
-                            onClick={() => setConfirmDelete(true)}
+                            onClick={() => handleReadingDelete(reading)}
                           >
                             <Trash2 className="h-4 w-4 mr-2"/>
                             Delete
@@ -185,14 +192,6 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
                       </DropdownMenu>
                     )}
                 </td>
-                <CustomAlertDialog
-                  confirm={confirmDelete}
-                  setConfirm={setConfirmDelete}
-                  title="Confirm delete"
-                  text={<>Are you sure you want to delete <b>{reading.book?.title} on {reading.dateRead}</b>?
-                    This action cannot be undone.</>}
-                  action={() => onDelete(reading)}
-                />
               </tr>
             ))
           ) : (
@@ -219,6 +218,14 @@ export default function ReadingTable({readings, loading, onEdit, onDelete, sortF
         open={sagaDetailsOpen}
         onClose={setSagaDetailsOpen}
         sagaId={selectedSaga}
+      />
+      <CustomAlertDialog
+        confirm={confirmDelete}
+        setConfirm={setConfirmDelete}
+        title="Confirm delete"
+        text={<>Are you sure you want to delete <b>{deletableReading?.book?.title} on {deletableReading?.dateRead}</b>?
+          This action cannot be undone.</>}
+        action={() => onDelete(deletableReading)}
       />
     </>
   );

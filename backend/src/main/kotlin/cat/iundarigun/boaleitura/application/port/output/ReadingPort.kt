@@ -12,6 +12,7 @@ interface ReadingPort {
         keyword: String? = null,
         dateFrom: LocalDate?,
         dateTo: LocalDate?,
+        rereading: Boolean? = null,
         pageRequest: PageRequest
     ): PageResponse<ReadingSummaryResponse>
 

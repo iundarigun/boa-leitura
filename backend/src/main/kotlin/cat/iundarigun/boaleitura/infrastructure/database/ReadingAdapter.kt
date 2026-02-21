@@ -18,6 +18,7 @@ import cat.iundarigun.boaleitura.infrastructure.database.extensions.toSummaryRes
 import cat.iundarigun.boaleitura.infrastructure.database.repository.BookRepository
 import cat.iundarigun.boaleitura.infrastructure.database.repository.ReadingRepository
 import cat.iundarigun.boaleitura.infrastructure.database.utils.specGreaterOrEqualsThan
+import cat.iundarigun.boaleitura.infrastructure.database.utils.specIs
 import cat.iundarigun.boaleitura.infrastructure.database.utils.specLessOrEqualsThan
 import cat.iundarigun.boaleitura.infrastructure.database.utils.specLikeWithOrFields
 import org.springframework.data.jpa.domain.Specification
@@ -47,6 +48,7 @@ class ReadingAdapter(
         keyword: String?,
         dateFrom: LocalDate?,
         dateTo: LocalDate?,
+        rereading: Boolean?,
         pageRequest: PageRequest
     ): PageResponse<ReadingSummaryResponse> {
         val specifications = Specification.allOf<ReadingEntity>(
@@ -56,8 +58,9 @@ class ReadingAdapter(
                 "book.author.name",
                 "book.saga.name"
             ),
-            specGreaterOrEqualsThan("dateRead", dateFrom),
-            specLessOrEqualsThan("dateRead", dateTo),
+            specGreaterOrEqualsThan(dateFrom, "dateRead"),
+            specLessOrEqualsThan(dateTo, "dateRead"),
+            specIs(rereading, "rereading" )
         )
 
         return readingRepository.findAll(specifications, pageRequest.toPageable())
@@ -76,12 +79,13 @@ class ReadingAdapter(
         val book = bookRepository.findById(request.bookId)
             .orElseThrow { throw BookNotFoundException(request.bookId) }
 
+        val rereading = readingRepository.existsByIdIsNotAndBookIdAndDateReadLessThan(id,book.id, request.dateRead)
         val reading = if (id == null) {
-            readingRepository.save(request.toReading(book))
+            readingRepository.save(request.toReading(book, rereading))
         } else {
             readingRepository.findById(id)
                 .orElseThrow { throw ReadingNotFoundException(id) }
-                .let { readingRepository.save(it.merge(request)) }
+                .let { readingRepository.save(it.merge(request, rereading)) }
         }
         return reading.toResponse(positionInYear(reading.id))
     }

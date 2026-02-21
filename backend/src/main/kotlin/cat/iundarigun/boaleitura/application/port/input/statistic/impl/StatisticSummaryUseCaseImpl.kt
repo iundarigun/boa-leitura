@@ -4,13 +4,11 @@ import cat.iundarigun.boaleitura.application.port.input.statistic.StatisticSumma
 import cat.iundarigun.boaleitura.application.port.output.ReadingPort
 import cat.iundarigun.boaleitura.application.port.output.StatisticPort
 import cat.iundarigun.boaleitura.domain.request.PageRequest
-import cat.iundarigun.boaleitura.domain.request.StatisticsRequest
+import cat.iundarigun.boaleitura.domain.request.StatisticRequest
 import cat.iundarigun.boaleitura.domain.response.StatisticBookResponse
 import cat.iundarigun.boaleitura.domain.response.StatisticRatingResponse
 import cat.iundarigun.boaleitura.domain.response.StatisticSummaryResponse
 import org.springframework.stereotype.Component
-import java.time.LocalDate
-import java.time.Month
 
 @Component
 class StatisticSummaryUseCaseImpl(
@@ -18,7 +16,7 @@ class StatisticSummaryUseCaseImpl(
     private val statisticPort: StatisticPort
 ) : StatisticSummaryUseCase {
 
-    override fun execute(request: StatisticsRequest): StatisticSummaryResponse {
+    override fun execute(request: StatisticRequest): StatisticSummaryResponse {
         val filter = request.toStatisticsFilter()
         val readings = readingPort.find(
             dateFrom = filter.dateFrom,
@@ -26,7 +24,7 @@ class StatisticSummaryUseCaseImpl(
             pageRequest = PageRequest(size = 1000, order = "dateRead", directionAsc = false)
         ).content
 
-        val response = statisticPort.summaryStatistics(filter.copy(excludeRereading = true))
+        val response = statisticPort.summaryStatistics(filter)
 
         return StatisticSummaryResponse(
             year = request.year,

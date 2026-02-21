@@ -2,17 +2,15 @@ package cat.iundarigun.boaleitura.application.port.input.statistic.impl
 
 import cat.iundarigun.boaleitura.application.port.input.statistic.StatisticAuthorUseCase
 import cat.iundarigun.boaleitura.application.port.output.StatisticPort
-import cat.iundarigun.boaleitura.domain.request.StatisticsRequest
+import cat.iundarigun.boaleitura.domain.request.StatisticRequest
 import cat.iundarigun.boaleitura.domain.response.StatisticAuthorResponse
 import org.springframework.stereotype.Component
-import java.time.LocalDate
-import java.time.Month
 import kotlin.math.min
 
 @Component
 class StatisticAuthorUseCaseImpl(private val statisticPort: StatisticPort) : StatisticAuthorUseCase {
 
-    override fun execute(request: StatisticsRequest): StatisticAuthorResponse {
+    override fun execute(request: StatisticRequest): StatisticAuthorResponse {
         val statistics = statisticPort.authorStatistics(request.toStatisticsFilter())
 
         return StatisticAuthorResponse(

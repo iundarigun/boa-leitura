@@ -15,6 +15,8 @@ import java.util.*
 interface ReadingRepository : JpaRepository<ReadingEntity, Long>, JpaSpecificationExecutor<ReadingEntity> {
     fun findByBookIdAndDateRead(bookId: Long, dateRead: LocalDate): Optional<ReadingEntity>
 
+    fun existsByIdIsNotAndBookIdAndDateReadLessThan(id: Long?, bookId: Long, dateRead: LocalDate): Boolean
+
     @EntityGraph(attributePaths = ["book", "book.author", "book.saga", "book.genre"])
     override fun findAll(
         @Nullable specification: Specification<ReadingEntity>?,

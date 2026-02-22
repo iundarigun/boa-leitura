@@ -4,11 +4,11 @@ import cat.iundarigun.boaleitura.domain.model.StatisticAuthor
 import cat.iundarigun.boaleitura.domain.model.StatisticLanguage
 import cat.iundarigun.boaleitura.domain.model.StatisticMood
 import cat.iundarigun.boaleitura.domain.model.StatisticSummary
-import java.time.LocalDate
+import cat.iundarigun.boaleitura.domain.model.StatisticFilter
 
 interface StatisticPort {
-    fun summaryStatistics(dateFrom: LocalDate, dateTo: LocalDate): StatisticSummary
-    fun languageStatistics(dateFrom: LocalDate, dateTo: LocalDate): List<StatisticLanguage>
-    fun authorStatistics(dateFrom: LocalDate, dateTo: LocalDate): StatisticAuthor
-    fun moodStatistics(dateFrom: LocalDate, dateTo: LocalDate): StatisticMood
+    fun summaryStatistics(filter: StatisticFilter): StatisticSummary
+    fun languageStatistics(filter: StatisticFilter): List<StatisticLanguage>
+    fun authorStatistics(filter: StatisticFilter): StatisticAuthor
+    fun moodStatistics(filter: StatisticFilter): StatisticMood
 }

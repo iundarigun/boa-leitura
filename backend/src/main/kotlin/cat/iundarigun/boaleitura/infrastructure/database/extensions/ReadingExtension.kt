@@ -6,6 +6,7 @@ import cat.iundarigun.boaleitura.domain.response.ReadingResponse
 import cat.iundarigun.boaleitura.domain.response.ReadingSummaryResponse
 import cat.iundarigun.boaleitura.infrastructure.database.entity.BookEntity
 import cat.iundarigun.boaleitura.infrastructure.database.entity.ReadingEntity
+import org.springframework.data.convert.ConverterBuilder.reading
 
 fun ReadingEntity.toSummaryResponse(): ReadingSummaryResponse =
     ReadingSummaryResponse(
@@ -38,21 +39,23 @@ fun ReadingEntity.toReadingBookResponse(): ReadingBookResponse =
         platform = this.platform
     )
 
-fun ReadingRequest.toReading(book: BookEntity): ReadingEntity =
+fun ReadingRequest.toReading(book: BookEntity, rereading: Boolean): ReadingEntity =
     ReadingEntity(
         myRating = this.myRating,
         dateRead = this.dateRead,
         book = book,
         format = this.format,
         platform = this.platform,
-        language = this.language
+        language = this.language,
+        rereading = rereading,
     )
 
-fun ReadingEntity.merge(request: ReadingRequest): ReadingEntity {
+fun ReadingEntity.merge(request: ReadingRequest, rereading: Boolean): ReadingEntity {
     this.dateRead = request.dateRead
     this.myRating = request.myRating
     this.language = request.language
     this.format = request.format
     this.platform = request.platform
+    this.rereading = rereading
     return this
 }

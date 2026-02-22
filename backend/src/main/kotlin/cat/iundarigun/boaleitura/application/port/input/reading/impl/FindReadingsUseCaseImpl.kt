@@ -11,5 +11,5 @@ import org.springframework.stereotype.Component
 class FindReadingsUseCaseImpl(private val readingPort: ReadingPort) : FindReadingsUseCase {
 
     override fun execute(request: SearchReadingRequest): PageResponse<ReadingSummaryResponse> =
-        readingPort.find(request.keyword, request.dateFrom, request.dateTo, request.toPageRequest())
+        readingPort.find(request.keyword, request.dateFrom, request.dateTo, pageRequest = request.toPageRequest())
 }

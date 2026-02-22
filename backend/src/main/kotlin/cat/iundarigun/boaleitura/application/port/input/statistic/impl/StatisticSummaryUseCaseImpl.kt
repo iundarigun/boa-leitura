@@ -4,12 +4,11 @@ import cat.iundarigun.boaleitura.application.port.input.statistic.StatisticSumma
 import cat.iundarigun.boaleitura.application.port.output.ReadingPort
 import cat.iundarigun.boaleitura.application.port.output.StatisticPort
 import cat.iundarigun.boaleitura.domain.request.PageRequest
+import cat.iundarigun.boaleitura.domain.request.StatisticRequest
 import cat.iundarigun.boaleitura.domain.response.StatisticBookResponse
 import cat.iundarigun.boaleitura.domain.response.StatisticRatingResponse
 import cat.iundarigun.boaleitura.domain.response.StatisticSummaryResponse
 import org.springframework.stereotype.Component
-import java.time.LocalDate
-import java.time.Month
 
 @Component
 class StatisticSummaryUseCaseImpl(
@@ -17,19 +16,19 @@ class StatisticSummaryUseCaseImpl(
     private val statisticPort: StatisticPort
 ) : StatisticSummaryUseCase {
 
-    override fun execute(year: Int): StatisticSummaryResponse {
-        val dateFrom = LocalDate.of(year, Month.JANUARY, 1)
-        val dateTo = dateFrom.plusYears(1).minusDays(1)
+    override fun execute(request: StatisticRequest): StatisticSummaryResponse {
+        val filter = request.toStatisticsFilter()
         val readings = readingPort.find(
-            dateFrom = dateFrom,
-            dateTo = dateTo,
+            dateFrom = filter.dateFrom,
+            dateTo = filter.dateTo,
+            rereading = if (filter.excludeRereading) false else null,
             pageRequest = PageRequest(size = 1000, order = "dateRead", directionAsc = false)
         ).content
 
-        val response = statisticPort.summaryStatistics(dateFrom, dateTo)
+        val response = statisticPort.summaryStatistics(filter)
 
         return StatisticSummaryResponse(
-            year = year,
+            year = request.year,
             amountOfTotalReading = response.amountOfTotalReading,
             amountOfRereading = response.amountOfRereading,
             totalPages = response.totalPages,

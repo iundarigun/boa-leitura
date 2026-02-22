@@ -4,6 +4,7 @@ import {getAuthor} from "@/lib/api/statistics.js";
 
 export default function useStatisticsAuthor(currentYear) {
   const [year, setYear] = useState(currentYear.toString());
+  const [excludeRereading, setExcludeRereading] = useState(false);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +16,7 @@ export default function useStatisticsAuthor(currentYear) {
 
   const fetchStatistics = async () => {
     setLoading(true);
-    const { data, error } = await getAuthor(year);
+    const { data, error } = await getAuthor({year: year, excludeRereading: excludeRereading});
 
     if (error) {
       showError(error);
@@ -28,6 +29,8 @@ export default function useStatisticsAuthor(currentYear) {
   return {
     year,
     setYear,
+    excludeRereading,
+    setExcludeRereading,
     loading,
     stats,
     fetchStatistics

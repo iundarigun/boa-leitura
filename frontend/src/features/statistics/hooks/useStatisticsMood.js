@@ -4,6 +4,7 @@ import {useDialog} from "@/context/DialogContext.jsx";
 
 export default function useStatisticsMood(currentYear) {
   const [year, setYear] = useState(currentYear);
+  const [excludeRereading, setExcludeRereading] = useState(false);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +16,7 @@ export default function useStatisticsMood(currentYear) {
 
   const fetchStatistics = async () => {
     setLoading(true);
-    const {data, error} = await getMood(year);
+    const {data, error} = await getMood({year: year, excludeRereading: excludeRereading});
     if (error) {
       showError(error);
     }
@@ -28,6 +29,8 @@ export default function useStatisticsMood(currentYear) {
   return {
     year,
     setYear,
+    excludeRereading,
+    setExcludeRereading,
     loading,
     stats,
     fetchStatistics

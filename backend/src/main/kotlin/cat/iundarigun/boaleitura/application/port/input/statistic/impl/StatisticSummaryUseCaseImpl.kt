@@ -21,7 +21,7 @@ class StatisticSummaryUseCaseImpl(
         val readings = readingPort.find(
             dateFrom = filter.dateFrom,
             dateTo = filter.dateTo,
-            rereading = if (filter.excludeRereading) true else null,
+            rereading = if (filter.excludeRereading) false else null,
             pageRequest = PageRequest(size = 1000, order = "dateRead", directionAsc = false)
         ).content
 

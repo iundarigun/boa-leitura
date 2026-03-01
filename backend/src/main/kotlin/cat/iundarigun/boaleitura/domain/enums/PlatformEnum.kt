@@ -11,5 +11,6 @@ enum class PlatformEnum {
     AUDIBLE,
     VIVLIO,
     BOOK_BEAT,
-    PLAY_BOOKS
+    PLAY_BOOKS,
+    STORYTEL
 }

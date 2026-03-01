@@ -76,9 +76,9 @@ export default function useReadingDetails(readingId) {
 
   const handleRefreshBackground = () => {
     if (mode === "light") {
-      setBackgroundImage(`/assets/backgrounds/light/instagram-bg-${getRandomInt(9) + 1}.png`);
+      setBackgroundImage(`/assets/backgrounds/light/instagram-bg-${getRandomInt(14) + 1}.png`);
     } else {
-      setBackgroundImage(`/assets/backgrounds/dark/instagram-bg-${getRandomInt(6) + 1}.png`);
+      setBackgroundImage(`/assets/backgrounds/dark/instagram-bg-${getRandomInt(15) + 1}.png`);
     }
   };
 

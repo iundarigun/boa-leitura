@@ -22,4 +22,5 @@ interface ToBeReadPort {
     fun findByBook(bookId: Long): ToBeReadResponse?
     fun findById(id: Long): ToBeReadResponse
     fun delete(id: Long)
+    fun countByDone(done: Boolean): Int
 }

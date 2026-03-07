@@ -51,7 +51,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 [ ] Verify error message
 [X] Use specifications for all finds
 [ ] Dockerize app
-
+[ ] Review queries to avoid N+1
 
 ### Authors
 [X] Add integration tests
@@ -80,6 +80,8 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 
 ### TBR
 [X] Add TBR list
+[X] Allow to order by length page
+[X] Add param configuration to limit the TBR size
 
 ### Reading
 [X] Add format and platform
@@ -91,7 +93,7 @@ Every book, author and reading is imported just ones, even if the file is reimpo
 ### Import
 [X] Review import mechanism
 [X] Adapt current importation
-[ ] Create an import page
+[X] Create an import page
 
 ### Best of
 [X] Add mechanism to choose the best x year

@@ -23,6 +23,7 @@ fun UserEntity.toUserPreferences(): UserPreferences =
         languageTags = this.languageTags,
         formatTags = this.formatTags,
         platformTags = this.platformTags,
+        tbrLimit = this.tbrLimit,
     )
 
 fun UserEntity.merge(user: User): UserEntity {
@@ -31,5 +32,6 @@ fun UserEntity.merge(user: User): UserEntity {
     this.languageTags = user.userPreferences.languageTags
     this.formatTags = user.userPreferences.formatTags
     this.platformTags = user.userPreferences.platformTags
+    this.tbrLimit = user.userPreferences.tbrLimit
     return this
 }

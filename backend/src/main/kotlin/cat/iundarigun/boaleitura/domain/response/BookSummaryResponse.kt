@@ -6,6 +6,7 @@ data class BookSummaryResponse(
     val id: Long,
     val title: String,
     val author: String,
+    val numberOfPages: Int?,
     val genre: String? = null,
     val saga: SagaResponse? = null,
     val urlImage: String? = null,

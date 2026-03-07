@@ -36,6 +36,8 @@ data class UserEntity(
     @Column(columnDefinition = "jsonb")
     var platformTags: Map<String, String> = mapOf(),
 
+    var tbrLimit: Int? = null,
+
     @CreationTimestamp
     var createdAt: LocalDateTime = LocalDateTime.now(),
 

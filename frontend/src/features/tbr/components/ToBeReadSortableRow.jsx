@@ -96,7 +96,7 @@ export default function ToBeReadSortableRow({
           tooltipContent={tooltipContent(tbr)}
         />
       </td>
-
+      <td className="p-3">{tbr.book.numberOfPages}</td>
       <td
         className="p-3 cursor-pointer"
         onClick={() => tbr.book.saga && handleSagaView(tbr.book.saga.id)}

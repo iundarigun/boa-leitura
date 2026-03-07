@@ -58,6 +58,13 @@ export default function ToBeReadTable({
                     label="Title"
                     orderFieldName="TITLE"
                   />
+                  <SortableColumns
+                    onSort={onSort}
+                    sortField={sortField}
+                    sortDir={sortDir}
+                    label="pages"
+                    orderFieldName="PAGES"
+                  />
                   <th className="p-3 w-16">Saga</th>
                   <th className="p-3 w-16">Bought</th>
                   <SortableColumns

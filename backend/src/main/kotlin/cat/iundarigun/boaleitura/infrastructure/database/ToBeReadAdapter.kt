@@ -79,6 +79,10 @@ class ToBeReadAdapter(
         toBeReadRepository.deleteById(id)
     }
 
+    @Transactional(readOnly = true)
+    override fun countByDone(done: Boolean) =
+        toBeReadRepository.countByDone(done)
+
     @Transactional
     override fun save(request: ToBeReadRequest, id: Long?): ToBeReadResponse {
         val book = bookRepository.findById(request.bookId)

@@ -6,6 +6,7 @@ import {Plus, Trash2} from "lucide-react";
 import {READING_PLATFORMS} from "@/lib/platform.js";
 import {READING_FORMATS} from "@/lib/format.js";
 import {LANGUAGES} from "@/lib/languages.js";
+import {Label} from "@/components/ui/label.jsx";
 
 export default function GoodreadsPreferencesForm({
                                                    userPreferences,
@@ -16,6 +17,7 @@ export default function GoodreadsPreferencesForm({
   const [languages, setLanguages] = useState([]);
   const [formats, setFormats] = useState([]);
   const [platforms, setPlatforms] = useState([]);
+  const [tbrLimit, setTbrLimit] = useState(null);
 
   useEffect(() => {
     if (userPreferences) {
@@ -34,6 +36,7 @@ export default function GoodreadsPreferencesForm({
           ([shelf, value]) => ({ shelf, value })
         )
       );
+      setTbrLimit(userPreferences.tbrLimit);
     }
   }, [userPreferences]);
 
@@ -62,6 +65,7 @@ export default function GoodreadsPreferencesForm({
       languageTags: toMap(languages),
       formatTags: toMap(formats),
       platformTags: toMap(platforms),
+      tbrLimit: tbrLimit
     };
 
     onSubmit?.(result);
@@ -108,7 +112,20 @@ export default function GoodreadsPreferencesForm({
         onAdd={() => handleAdd(setPlatforms)}
         onRemove={(i) => handleRemove(setPlatforms, i)}
       />
-
+      <hr className="my-4 border-t border-gray-300"/>
+      <div className="flex flex-col items-center text-center mb-4"/>
+      <div className="flex flex-col mb-4">
+        <h1 className="text-lg font-semibold">TBR preferences</h1>
+      </div>
+        <div className="flex gap-2 pt-2">
+          <Label>Total books allowed in the TBR</Label>
+          <Input
+            type="number"
+            value={tbrLimit}
+            onChange={(e) => setTbrLimit(e.target.value)}
+            placeholder="Set TBR limit"
+          />
+        </div>
       <div className="flex gap-2 pt-2">
         <Button onClick={handleSave} disabled={saving}>
           {saving ? "Saving..." : "Save preferences"}
@@ -118,7 +135,8 @@ export default function GoodreadsPreferencesForm({
         </Button>
       </div>
     </div>
-  );
+
+);
 }
 
 function MappingSection({

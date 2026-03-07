@@ -1,0 +1,1 @@
+ALTER TABLE users ADD COLUMN tbr_limit INT;

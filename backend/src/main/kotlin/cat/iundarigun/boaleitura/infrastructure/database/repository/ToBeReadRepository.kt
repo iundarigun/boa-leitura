@@ -31,4 +31,5 @@ interface ToBeReadRepository : JpaRepository<ToBeReadEntity, Long>, JpaSpecifica
         """)
     fun findByBetweenPositions(min: Long, max: Long): List<ToBeReadEntity>
     fun findByBookId(bookId: Long): ToBeReadEntity?
+    fun countByDone(done: Boolean): Int
 }

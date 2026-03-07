@@ -21,7 +21,8 @@ data class SearchToBeReadRequest(
     enum class OrderToBeReadField(val fieldName: String) {
         POSITION("position"),
         TITLE("book.title"),
-        CREATED_AT("createdAt")
+        CREATED_AT("createdAt"),
+        PAGES("book.numberOfPages")
     }
 
     fun toPageRequest(): PageRequest =

@@ -10,7 +10,8 @@ export const READING_PLATFORMS = [
   { code: "VIVLIO", label: "Vivlio" },
   { code: "BOOKBEAT", label: "BookBeat" },
   { code: "PLAY_BOOKS", label: "Play books" },
-  { code: "STORYTEL", label: "Storytel"}
+  { code: "STORYTEL", label: "Storytel"},
+  { code: "SPOTIFY", label: "Spotify"}
 ];
 
 export function getReadingPlatformsDisplay(code) {

@@ -163,7 +163,7 @@ class StatisticAdapter(private val jdbcTemplate: NamedParameterJdbcTemplate) : S
             SELECT r.format as format,
                    CASE
                     WHEN r.platform IN ('BIBLIO', 'EBIBLIO', 'BIBLION') THEN 'public services'
-                    WHEN r.platform IN ('UNLIMITED', 'AUDIBLE', 'BOOK_BEAT') THEN 'subscriptions'
+                    WHEN r.platform IN ('UNLIMITED', 'AUDIBLE', 'BOOK_BEAT', 'STORYTEL', 'SPOTIFY') THEN 'subscriptions'
                     ELSE 'others'
                     END AS origin,
                    count(*) as count

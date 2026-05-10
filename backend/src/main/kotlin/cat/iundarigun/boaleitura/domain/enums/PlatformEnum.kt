@@ -12,5 +12,6 @@ enum class PlatformEnum {
     VIVLIO,
     BOOK_BEAT,
     PLAY_BOOKS,
-    STORYTEL
+    STORYTEL,
+    SPOTIFY
 }

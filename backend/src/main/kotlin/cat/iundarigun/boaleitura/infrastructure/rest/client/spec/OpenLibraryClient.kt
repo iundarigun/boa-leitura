@@ -5,6 +5,7 @@ import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.openlibrary.Sear
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Recover
 import org.springframework.retry.annotation.Retryable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.service.annotation.HttpExchange
@@ -50,11 +51,13 @@ interface OpenLibraryClient {
     )
     fun searchByTitle(@RequestParam("title") title: String): SearchResponse
 
+    @Recover
     fun defaultResultSearchByKey(): Map<String, BookResponse> {
         logger.warn("defaultResultSearchByKey")
         return mapOf()
     }
 
+    @Recover
     fun defaultResultSearchByTitle(): SearchResponse {
         logger.warn("defaultResultSearchByTitle")
         return SearchResponse()

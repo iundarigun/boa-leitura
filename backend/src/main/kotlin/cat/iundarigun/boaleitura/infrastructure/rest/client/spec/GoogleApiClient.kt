@@ -4,6 +4,7 @@ import cat.iundarigun.boaleitura.infrastructure.rest.client.dto.googleapi.Google
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Recover
 import org.springframework.retry.annotation.Retryable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.service.annotation.HttpExchange
@@ -27,14 +28,33 @@ interface GoogleApiClient {
     )
     fun searchBy(@RequestParam("q") text: String): GoogleApiResponse
 
+    @Retryable(
+        retryFor = [Exception::class],
+        maxAttempts = 3,
+        backoff = Backoff(
+            delayExpression = "200",
+            multiplierExpression = "2"
+        ),
+        recover = "defaultResult"
+    )
     fun searchByIsbn(isbn: String): GoogleApiResponse {
         return searchBy("isbn:$isbn")
     }
 
+    @Retryable(
+        retryFor = [Exception::class],
+        maxAttempts = 3,
+        backoff = Backoff(
+            delayExpression = "200",
+            multiplierExpression = "2"
+        ),
+        recover = "defaultResult",
+
+    )
     fun searchByTitle(title: String): GoogleApiResponse {
         return searchBy("intitle:$title")
     }
-
+    @Recover
     fun defaultResult(): GoogleApiResponse {
         logger.warn("recover result")
         return GoogleApiResponse()
